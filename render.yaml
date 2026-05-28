@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: bad360-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter          # upgrade to standard for always-on
+    region: frankfurt      # closer to Italian users
+    autoDeploy: true
+    healthCheckPath: /api/health
+
+    envVars:
+      # Required — set in Render dashboard
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_KEY
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false
+
+      # Auto-generated secrets
+      - key: APP_SECRET
+        generateValue: true
+
+      # Fixed production values
+      - key: APP_ENV
+        value: production
+      - key: DEBUG
+        value: "false"
+      - key: LOG_LEVEL
+        value: INFO
+      - key: AI_RATE_LIMIT_PER_HOUR
+        value: "60"
+      - key: AI_MAX_TOKENS
+        value: "2048"

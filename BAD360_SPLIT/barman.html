@@ -1,0 +1,2195 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barman A Domicilio Sardegna — Network</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box }
+html,body { height:100%; scroll-behavior:smooth; }
+body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--txt); -webkit-font-smoothing:antialiased; }
+button { border:none; cursor:pointer; font-family:inherit; }
+input, select, textarea { font-family:inherit; color:inherit; outline:none; }
+a { color:inherit; text-decoration:none; }
+img { max-width:100%; }
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:#2a1f0e; border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background:#3a2f1a; }
+
+/* ── BMP Root ── */
+.bmp-root { min-height:100vh; background:var(--bg); color:var(--txt); font-family:'DM Sans',sans-serif; }
+
+/* ── Navbar ── */
+.bmp-nav {
+  display:flex; align-items:center; gap:8px;
+  padding:14px 24px;
+  background:rgba(13,10,8,.95);
+  border-bottom:1px solid rgba(232,184,75,.1);
+  position:sticky; top:0; z-index:100;
+  backdrop-filter:blur(12px);
+  flex-wrap:wrap;
+}
+.bmp-navbtn {
+  padding:8px 16px; border-radius:8px;
+  font-size:13.5px; font-weight:600;
+  color:#8a7a6a; background:transparent;
+  border:none; cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  transition:all .15s;
+}
+.bmp-navbtn:hover { color:#f0e6c8; background:rgba(232,184,75,.06); }
+.bmp-navbtn.active { color:#E8B84B; background:rgba(232,184,75,.1); }
+
+/* ── Pages ── */
+.bmp-page { display:none; }
+.bmp-page.active { display:block; }
+
+/* ── Hero ── */
+.bmp-hero {
+  position:relative; min-height:80vh;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+  background:radial-gradient(ellipse 80% 60% at 50% 40%, rgba(232,184,75,.06) 0%, transparent 70%),
+             linear-gradient(180deg, #0d0a08 0%, #100c06 100%);
+}
+.bmp-hero-bg {
+  position:absolute; inset:0;
+  background:radial-gradient(circle at 20% 50%, rgba(232,184,75,.04) 0%, transparent 50%),
+             radial-gradient(circle at 80% 20%, rgba(255,180,50,.03) 0%, transparent 40%);
+  pointer-events:none;
+}
+.bmp-hero-grid {
+  position:absolute; inset:0;
+  background-image:linear-gradient(rgba(232,184,75,.03) 1px, transparent 1px),
+                   linear-gradient(90deg, rgba(232,184,75,.03) 1px, transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;
+}
+.bmp-hero-content {
+  position:relative; z-index:2;
+  text-align:center; padding:80px 24px 60px;
+  max-width:780px; margin:0 auto;
+}
+.bmp-hero-pill {
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(232,184,75,.08); border:1px solid rgba(232,184,75,.2);
+  border-radius:99px; padding:6px 16px;
+  font-size:12.5px; font-weight:600; color:#E8B84B;
+  margin-bottom:24px; letter-spacing:.03em;
+}
+.bmp-h1 {
+  font-family:'DM Sans',sans-serif;
+  font-size:clamp(2.2rem,6vw,4rem);
+  font-weight:700; color:#f0e6c8;
+  line-height:1.15; margin-bottom:20px;
+  letter-spacing:-.02em;
+}
+.bmp-h1 span { color:#E8B84B; }
+.bmp-hero-sub {
+  font-size:16px; color:#8a7a6a;
+  line-height:1.7; margin-bottom:36px;
+  max-width:560px; margin-left:auto; margin-right:auto;
+}
+
+/* ── Search box ── */
+.bmp-searchbox {
+  display:flex; gap:8px; flex-wrap:wrap; justify-content:center;
+  background:rgba(255,255,255,.04); border:1px solid rgba(232,184,75,.12);
+  border-radius:16px; padding:16px; margin-bottom:32px;
+  max-width:700px; margin-left:auto; margin-right:auto;
+}
+.bmp-searchfield {
+  display:flex; align-items:center; gap:8px;
+  background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.07);
+  border-radius:10px; padding:10px 14px; flex:1; min-width:150px;
+}
+.bmp-searchfield input {
+  background:none; border:none; outline:none;
+  color:var(--txt); font-size:13.5px; width:100%;
+}
+.bmp-searchfield input::placeholder { color:#5a4a3a; }
+
+/* ── Trust stats ── */
+.bmp-trust-stats {
+  display:flex; gap:32px; justify-content:center; flex-wrap:wrap;
+}
+.bmp-trust-num {
+  font-family:'DM Sans',sans-serif;
+  font-size:22px; font-weight:700; color:#E8B84B;
+}
+.bmp-trust-label { font-size:12px; color:#5a4a3a; margin-top:2px; }
+
+/* ── Featured ── */
+.bmp-featured { padding:48px 24px; max-width:1200px; margin:0 auto; }
+.bmp-featured-label {
+  font-size:11px; font-weight:700; color:#5a4a3a;
+  letter-spacing:.1em; text-transform:uppercase; margin-bottom:20px;
+}
+.bmp-featured-cards {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px;
+}
+
+/* ── Buttons ── */
+.bmp-btn-gold {
+  background:linear-gradient(135deg,#E8B84B,#c8941f);
+  border:none; border-radius:10px;
+  padding:11px 22px; color:#0a0a0a;
+  font-weight:800; font-size:14px;
+  cursor:pointer; white-space:nowrap;
+  font-family:'DM Sans',sans-serif;
+  transition:all .15s; flex-shrink:0;
+}
+.bmp-btn-gold:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(232,184,75,.3); }
+
+/* ── Barman grid / cards ── */
+.bmp-barmen-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px;
+}
+
+/* ── Search wrap ── */
+.bmp-search-wrap { max-width:1200px; margin:0 auto; padding:40px 24px; }
+.bmp-filters {
+  display:flex; gap:10px; flex-wrap:wrap; margin-bottom:24px; align-items:center;
+}
+.bmp-filters input, .bmp-filters select {
+  background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08);
+  border-radius:8px; padding:9px 14px; font-size:13px;
+  color:var(--txt); flex:1; min-width:140px;
+}
+.bmp-filter-toggle { font-size:13px; color:#8a7a6a; display:flex; align-items:center; gap:6px; cursor:pointer; }
+.bmp-filter-toggle input { width:auto; min-width:unset; flex:none; }
+
+/* ── KPI cards ── */
+.bmp-dash-kpi-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin-bottom:24px;
+}
+.bmp-kpi-card {
+  background:rgba(255,255,255,.03); border:1px solid rgba(232,184,75,.1);
+  border-radius:12px; padding:18px 20px; text-align:center;
+}
+.bmp-kpi-val { font-size:26px; font-weight:800; color:#E8B84B; font-family:'DM Sans',sans-serif; }
+.bmp-kpi-lbl { font-size:11.5px; color:#5a4a3a; margin-top:4px; }
+
+/* ── Bookings ── */
+.bmp-bookings-list { display:flex; flex-direction:column; gap:12px; }
+.bmp-dash-wrap { max-width:1200px; margin:0 auto; padding:40px 24px; }
+
+/* ── Profile ── */
+.bmp-profile-wrap { max-width:900px; margin:0 auto; padding:40px 24px; }
+
+/* ── Modal ── */
+.bmp-modal-overlay {
+  position:fixed; inset:0; z-index:9000;
+  background:rgba(0,0,0,.8); backdrop-filter:blur(8px);
+  display:flex; align-items:center; justify-content:center; padding:20px;
+}
+.bmp-modal {
+  background:#1a1208; border:1px solid rgba(232,184,75,.2);
+  border-radius:20px; max-width:560px; width:100%;
+  max-height:90vh; overflow-y:auto;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+  padding:28px;
+}
+
+/* ── Chat ── */
+.bmp-chat-wrap { max-width:800px; margin:0 auto; padding:24px; }
+
+/* ── Stars ── */
+.bmp-str-bar { display:flex; gap:3px; }
+
+/* ── Footer ── */
+.bmp-footer {
+  text-align:center; padding:40px 24px;
+  border-top:1px solid rgba(232,184,75,.08);
+  color:#3a2a1a; font-size:12.5px;
+  margin-top:40px;
+}
+
+/* ── Form fields ── */
+.bmp-field-label { font-size:11px; font-weight:600; color:#5a4a3a; letter-spacing:.06em; text-transform:uppercase; margin-bottom:5px; display:block; }
+.bmp-field-input {
+  width:100%; background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:8px; padding:9px 13px;
+  font-size:13.5px; color:var(--txt);
+  transition:border-color .15s;
+}
+.bmp-field-input:focus { border-color:rgba(232,184,75,.4); outline:none; }
+
+/* ── Tab content ── */
+.bmp-tab-content {
+  background:rgba(255,255,255,.02); border:1px solid rgba(232,184,75,.08);
+  border-radius:14px; padding:24px; min-height:200px;
+}
+/* ── Area riservata menu ── */
+.bmp-ar-menu-btn {
+  padding:8px 14px; border-radius:8px;
+  font-size:13px; font-weight:600; color:#8a7a6a;
+  background:transparent; border:none; cursor:pointer;
+  font-family:'DM Sans',sans-serif; transition:all .15s;
+  display:flex; align-items:center; gap:6px; width:100%; text-align:left;
+}
+.bmp-ar-menu-btn:hover { color:#f0e6c8; background:rgba(232,184,75,.06); }
+.bmp-ar-menu-btn.active { color:#E8B84B; background:rgba(232,184,75,.1); }
+
+/* ── Avatar ── */
+.bmp-avatar {
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-weight:700; color:#e8d5a3; position:relative; flex-shrink:0;
+  font-family:'DM Sans',sans-serif;
+}
+.bmp-badge-dot {
+  position:absolute; bottom:-2px; right:-2px;
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  border:2px solid #0d0a08; font-size:10px;
+}
+
+/* ── Badge pill ── */
+.bmp-badge-pill {
+  display:inline-flex; align-items:center; gap:4px;
+  padding:3px 10px; border-radius:99px; font-size:11.5px; font-weight:700;
+  border:1px solid; white-space:nowrap;
+}
+
+/* ── Availability ── */
+.bmp-avail-on {
+  font-size:12px; font-weight:600; color:#30c060;
+  background:rgba(30,160,80,.1); border:1px solid rgba(30,160,80,.2);
+  border-radius:99px; padding:3px 10px; white-space:nowrap;
+}
+.bmp-avail-off {
+  font-size:12px; font-weight:600; color:#5a4a3a;
+  background:rgba(90,74,58,.1); border:1px solid rgba(90,74,58,.2);
+  border-radius:99px; padding:3px 10px; white-space:nowrap;
+}
+
+/* ── Stars ── */
+.bmp-stars { color:#E8B84B; letter-spacing:1px; font-size:13px; }
+
+/* ── Tags ── */
+.bmp-tag {
+  display:inline-block; background:rgba(232,184,75,.07);
+  border:1px solid rgba(232,184,75,.18); border-radius:20px;
+  padding:4px 12px; font-size:12px; color:#8a7060; margin:3px 4px 3px 0;
+}
+.bmp-event-tag {
+  display:inline-block; background:rgba(18,184,160,.06);
+  border:1px solid rgba(18,184,160,.2); border-radius:20px;
+  padding:4px 12px; font-size:12px; color:#12b8a0; margin:3px 4px 3px 0;
+}
+
+/* ── Barman card ── */
+.bmp-barman-card {
+  background:rgba(255,255,255,.03); border:1px solid rgba(232,184,75,.1);
+  border-radius:16px; padding:20px; cursor:pointer;
+  transition:all .2s; position:relative; overflow:hidden;
+}
+.bmp-barman-card::before {
+  content:''; position:absolute; inset:0; border-radius:16px;
+  background:radial-gradient(ellipse at top left, rgba(232,184,75,.04), transparent 70%);
+  opacity:0; transition:opacity .2s; pointer-events:none;
+}
+.bmp-barman-card:hover { border-color:rgba(232,184,75,.25); transform:translateY(-2px); box-shadow:0 8px 30px rgba(0,0,0,.3); }
+.bmp-barman-card:hover::before { opacity:1; }
+
+/* ── Mini card (featured) ── */
+.bmp-mini-card {
+  display:flex; align-items:center; gap:14px;
+  background:rgba(255,255,255,.03); border:1px solid rgba(232,184,75,.1);
+  border-radius:14px; padding:14px 18px; cursor:pointer;
+  transition:all .18s;
+}
+.bmp-mini-card:hover { border-color:rgba(232,184,75,.25); background:rgba(232,184,75,.04); transform:translateY(-1px); }
+
+/* ── Reviews ── */
+.bmp-review-item {
+  padding:18px 0; border-bottom:1px solid rgba(232,184,75,.07);
+}
+.bmp-review-item:last-child { border-bottom:none; }
+
+/* ── Profile header ── */
+.bmp-profile-header {
+  display:flex; gap:24px; align-items:flex-start; flex-wrap:wrap;
+  background:rgba(255,255,255,.02); border:1px solid rgba(232,184,75,.1);
+  border-radius:18px; padding:28px; margin-bottom:28px;
+}
+.bmp-profile-stats {
+  display:flex; gap:16px; flex-wrap:wrap; margin-top:12px;
+}
+.bmp-stat-box {
+  background:rgba(232,184,75,.05); border:1px solid rgba(232,184,75,.12);
+  border-radius:10px; padding:10px 16px; text-align:center; min-width:70px;
+}
+.bmp-stat-val { font-size:18px; font-weight:700; color:#E8B84B; font-family:'DM Sans',sans-serif; }
+.bmp-stat-label { font-size:10.5px; color:#5a4a3a; margin-top:2px; }
+
+/* ── Tabs ── */
+.bmp-tab-bar {
+  display:flex; gap:4px; background:rgba(255,255,255,.03);
+  border:1px solid rgba(232,184,75,.1); border-radius:10px;
+  padding:4px; margin-bottom:24px; flex-wrap:wrap;
+}
+.bmp-tab-item {
+  flex:1; min-width:100px; padding:9px 14px; border:1px solid transparent;
+  border-radius:7px; font-size:13px; font-weight:600; color:#5a4a3a;
+  background:transparent; cursor:pointer; font-family:'DM Sans',sans-serif;
+  transition:all .15s; text-align:center;
+}
+.bmp-tab-item:hover { color:#f0e6c8; }
+.bmp-tab-item.active { background:rgba(232,184,75,.12); border-color:rgba(232,184,75,.25); color:#E8B84B; }
+
+/* ── Chat ── */
+.bmp-chat-header {
+  display:flex; align-items:center; gap:14px;
+  padding:16px 20px; border-bottom:1px solid rgba(232,184,75,.1);
+  background:rgba(255,255,255,.02); border-radius:14px 14px 0 0;
+}
+.bmp-messages {
+  flex:1; padding:20px; overflow-y:auto; display:flex; flex-direction:column; gap:12px;
+  min-height:320px; max-height:480px;
+  background:rgba(255,255,255,.01);
+}
+.bmp-msg-wrap {
+  display:flex; align-items:flex-end; gap:0;
+}
+.bmp-msg-wrap.user { justify-content:flex-end; }
+.bmp-msg-wrap.barman { justify-content:flex-start; }
+.bmp-msg {
+  max-width:70%; padding:10px 14px; font-size:13.5px; line-height:1.55;
+  word-break:break-word;
+}
+.bmp-msg.user {
+  background:linear-gradient(135deg,#E8B84B,#c8941f); color:#0a0a0a;
+  border-radius:14px 14px 0 14px; font-weight:500;
+}
+.bmp-msg.barman {
+  background:rgba(255,255,255,.06); color:#e0d0b0;
+  border:1px solid rgba(232,184,75,.1); border-radius:14px 14px 14px 0;
+}
+.bmp-msg-time { font-size:10.5px; color:#3a3020; margin-top:4px; }
+.bmp-chat-footer {
+  display:flex; gap:10px; padding:14px 18px;
+  border-top:1px solid rgba(232,184,75,.1); background:rgba(255,255,255,.02);
+  border-radius:0 0 14px 14px;
+}
+.bmp-chat-input {
+  flex:1; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08);
+  border-radius:10px; padding:10px 14px; font-size:13.5px; color:var(--txt);
+  transition:border-color .15s;
+}
+.bmp-chat-input:focus { border-color:rgba(232,184,75,.4); }
+.bmp-chat-input::placeholder { color:#5a4a3a; }
+.bmp-send-btn {
+  background:linear-gradient(135deg,#E8B84B,#c8941f); border:none;
+  border-radius:10px; width:42px; height:42px; font-size:18px; font-weight:700;
+  color:#0a0a0a; cursor:pointer; flex-shrink:0; transition:all .15s;
+  display:flex; align-items:center; justify-content:center;
+}
+.bmp-send-btn:hover { transform:scale(1.05); box-shadow:0 4px 12px rgba(232,184,75,.3); }
+
+/* ── Booking rows ── */
+.bmp-booking-row {
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  background:rgba(255,255,255,.02); border:1px solid rgba(232,184,75,.08);
+  border-radius:14px; padding:16px 20px; transition:border-color .15s;
+}
+.bmp-booking-row:hover { border-color:rgba(232,184,75,.2); }
+.bmp-status {
+  display:inline-block; border-radius:99px; padding:4px 12px;
+  font-size:12px; font-weight:700; border:1px solid; white-space:nowrap;
+}
+
+/* ── Modal steps ── */
+.bmp-modal-step-bar { display:flex; gap:6px; margin-bottom:24px; }
+.bmp-modal-step { flex:1; height:3px; border-radius:2px; transition:background .3s; }
+
+/* ── Back button ── */
+.bmp-btn-back {
+  background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1);
+  border-radius:10px; padding:11px 18px; color:#8a7a6a;
+  font-weight:600; font-size:14px; cursor:pointer; font-family:'DM Sans',sans-serif;
+  transition:all .15s;
+}
+.bmp-btn-back:hover { border-color:rgba(255,255,255,.2); color:#f0e6c8; }
+
+/* ── Inbox rows ── */
+.bmp-inbox-row {
+  display:flex; align-items:center; gap:12px; padding:14px 16px;
+  border-bottom:1px solid rgba(232,184,75,.06); cursor:pointer;
+  transition:background .15s;
+}
+.bmp-inbox-row:hover { background:rgba(232,184,75,.04); }
+.bmp-inbox-row.active { background:rgba(232,184,75,.07); }
+.bmp-inbox-row.unread { background:rgba(232,184,75,.03); }
+.bmp-inbox-name { font-size:13.5px; font-weight:700; color:#f0e6c8; }
+.bmp-inbox-row.unread .bmp-inbox-name { color:#E8B84B; }
+.bmp-inbox-time { font-size:11px; color:#3a3020; }
+.bmp-inbox-preview { font-size:12px; color:#5a4a3a; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:180px; }
+
+/* ── Toast ── */
+#toast {
+  position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px);
+  background:rgba(30,160,80,.15); border:1px solid rgba(30,160,80,.3);
+  color:#30c060; padding:11px 24px; border-radius:10px;
+  font-size:14px; font-weight:600; z-index:9999;
+  opacity:0; transition:all .3s; pointer-events:none; white-space:nowrap;
+  backdrop-filter:blur(12px);
+}
+#toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* ── Focus accessibility ── */
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline:2px solid rgba(232,184,75,.5); outline-offset:2px;
+}
+
+/* ── Responsive ── */
+@media (max-width:640px) {
+  .bmp-profile-header { padding:20px; }
+  .bmp-hero-content { padding:60px 16px 40px; }
+  .bmp-searchbox { padding:12px; gap:6px; }
+  .bmp-barman-card { padding:16px; }
+  .bmp-modal { padding:20px; }
+  .bmp-tab-item { font-size:12px; padding:8px 10px; min-width:80px; }
+  .bmp-messages { min-height:240px; max-height:320px; }
+}
+@media (max-width:900px) {
+  .bmp-inbox-row { padding:12px; }
+}
+
+/* ── RESPONSIVE ENHANCEMENTS ─── */
+@media(max-width:768px) { .bmp-nav{flex-wrap:wrap;gap:4px;padding:8px 12px} .bmp-navbtn{font-size:11px;padding:6px 10px} .bmp-barman-card{flex-direction:column} .bmp-hero h2{font-size:1.5rem!important} }
+@media(max-width:480px) { .bmp-nav{gap:2px;padding:6px 8px} .bmp-navbtn{font-size:10px;padding:5px 8px} .bmp-header{padding:14px 16px} }
+</style>
+
+<link rel="stylesheet" href="bad360-ds.css">
+</head>
+<body class="b360-module">
+<header class="b360-topbar" id="b360-topbar">
+<div class="b360-tb-l">
+<a href="index.html" class="b360-tb-back" title="Torna alla Suite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a>
+<a href="index.html" class="b360-tb-brand" tabindex="-1"><div class="b360-tb-logo">B360</div><span class="b360-tb-name">BAD<strong>360</strong>.ai</span></a>
+<span class="b360-tb-sep"></span>
+<span class="b360-tb-module" id="b360-page-label">Suite</span>
+</div>
+<div class="b360-tb-r">
+<span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.0</span>
+<button class="b360-tb-theme" id="b360-theme-btn" title="Cambia tema">&#9790;</button>
+</div>
+</header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"&#9790;":"&#9788;";b.addEventListener("click",function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"&#9790;":"&#9788;";try{localStorage.setItem("bad360_theme",nt)}catch(e){}});}var lbl=document.getElementById("b360-page-label");if(lbl){var title=document.title.replace("BAD360.ai — ","").replace("BAD.S — ","").replace("BAD360 — ","");if(title&&title!==document.title)lbl.textContent=title;}});})()</script>
+<div id="page-barman-wrapper">
+<div class="bmp-root">
+  <!-- Sub-nav -->
+  <div class="bmp-nav" id="bmp-nav">
+    <button class="bmp-navbtn active" data-bmppage="home" onclick="bmpNavigate('home')">🏠 Home</button>
+    <button class="bmp-navbtn" data-bmppage="search" onclick="bmpNavigate('search')">🔍 Barman</button>
+    <button class="bmp-navbtn" data-bmppage="dashboard" onclick="bmpNavigate('dashboard')">📋 Prenotazioni</button>
+    <button class="bmp-navbtn" data-bmppage="analytics" onclick="bmpNavigate('analytics')">📊 Analytics</button>
+    <button class="bmp-navbtn" data-bmppage="calendario" onclick="bmpNavigate('calendario')">📅 Calendario</button>
+    <button class="bmp-navbtn" data-bmppage="portfolio" onclick="bmpNavigate('portfolio')">🖼️ Portfolio</button>
+    <button class="bmp-navbtn" data-bmppage="dispute" onclick="bmpNavigate('dispute')">⚖️ Dispute</button>
+    <button class="bmp-navbtn" data-bmppage="onboarding" onclick="bmpNavigate('onboarding')">🚀 Onboarding</button>
+    <button class="bmp-navbtn" data-bmppage="contratti" onclick="bmpNavigate('contratti')">📄 Contratti</button>
+    <button class="bmp-navbtn" id="bmp-msg-navbtn" data-bmppage="area-riservata" onclick="bmpNavigate('area-riservata')" style="display:none">✉️ Messaggi <span id="bmp-unread-badge" style="display:none;background:#e03e50;color:#fff;border-radius:99px;padding:1px 6px;font-size:10px;margin-left:4px">3</span></button>
+    <div style="flex:1"></div>
+    <div id="bmp-auth-btns" style="display:flex;gap:6px;align-items:center;flex-shrink:0">
+      <button class="bmp-navbtn" onclick="bmpNavigate('login')" style="color:#8a7a6a">Accedi</button>
+      <button onclick="bmpNavigate('login','register')" style="background:linear-gradient(135deg,#E8B84B,#c8941f);border:none;border-radius:8px;padding:8px 16px;color:#0a0a0a;font-weight:800;font-size:13px;cursor:pointer;font-family:'DM Sans',Georgia,serif;white-space:nowrap">Registrati</button>
+    </div>
+    <div id="bmp-user-btns" style="display:none;align-items:center;gap:10px;flex-shrink:0">
+      <div style="display:flex;align-items:center;gap:8px;background:rgba(232,184,75,.06);border:1px solid rgba(232,184,75,.12);border-radius:8px;padding:6px 12px">
+        <div id="bmp-user-avatar-mini" style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#1a3a5c,#0d1e30);display:flex;align-items:center;justify-content:center;font-size:11px;color:#e8d5a3;font-weight:700;font-family:'DM Sans',sans-serif;border:1px solid rgba(232,184,75,.3)">TU</div>
+        <span id="bmp-user-name-mini" style="color:#f0e6c8;font-size:13px;font-weight:600"></span>
+      </div>
+      <button onclick="bmpNavigate('area-riservata')" style="background:rgba(232,184,75,.08);border:1px solid rgba(232,184,75,.15);border-radius:8px;padding:7px 14px;color:#E8B84B;font-size:13px;cursor:pointer;font-family:'DM Sans',Georgia,serif;font-weight:600">Area Riservata</button>
+      <button onclick="bmpLogout()" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:7px 12px;color:#5a4a3a;font-size:13px;cursor:pointer;font-family:'DM Sans',Georgia,serif">Esci</button>
+    </div>
+  </div>
+
+  <!-- Pages container -->
+  <div id="bmp-pages">
+    <!-- HOME PAGE -->
+    <div class="bmp-page active" id="bmppage-home">
+      <div class="bmp-hero">
+        <div class="bmp-hero-bg"></div>
+        <div class="bmp-hero-grid"></div>
+        <!-- Decorative circles -->
+        <div style="position:absolute;left:10%;top:20%;width:300px;height:300px;border-radius:50%;border:1px solid rgba(232,184,75,.04);transform:translate(-50%,-50%);z-index:1"></div>
+        <div style="position:absolute;left:85%;top:60%;width:200px;height:200px;border-radius:50%;border:1px solid rgba(232,184,75,.06);transform:translate(-50%,-50%);z-index:1"></div>
+        <div style="position:absolute;left:50%;top:80%;width:400px;height:400px;border-radius:50%;border:1px solid rgba(232,184,75,.03);transform:translate(-50%,-50%);z-index:1"></div>
+        <div class="bmp-hero-content">
+          <div class="bmp-hero-pill"><span>🍸</span> Il Marketplace dei Barman Professionisti</div>
+          <h1 class="bmp-h1">Il tuo evento,<br><span>il bar perfetto</span></h1>
+          <p class="bmp-hero-sub">Prenota barman professionisti per matrimoni, feste aziendali e ogni tipo di evento.<br>Cocktail di qualità, direttamente a domicilio.</p>
+          <!-- Search box -->
+          <div class="bmp-searchbox">
+            <div class="bmp-searchfield"><span style="font-size:16px;flex-shrink:0">📍</span><input type="text" id="hero-city" placeholder="Città (es. Milano)"></div>
+            <div class="bmp-searchfield"><span style="font-size:16px;flex-shrink:0">📅</span><input type="date" id="hero-date"></div>
+            <div class="bmp-searchfield"><span style="font-size:16px;flex-shrink:0">🎉</span><input type="text" id="hero-event" placeholder="Tipo evento"></div>
+            <button class="bmp-btn-gold" onclick="bmpNavigate('search',{city:document.getElementById('hero-city').value,date:document.getElementById('hero-date').value,eventType:document.getElementById('hero-event').value})">Cerca Barman →</button>
+          </div>
+          <!-- Trust stats -->
+          <div class="bmp-trust-stats">
+            <div><div class="bmp-trust-num">500+</div><div class="bmp-trust-label">Barman verificati</div></div>
+            <div><div class="bmp-trust-num">4.8★</div><div class="bmp-trust-label">Rating medio</div></div>
+            <div><div class="bmp-trust-num">10.000+</div><div class="bmp-trust-label">Eventi realizzati</div></div>
+            <div><div class="bmp-trust-num">100%</div><div class="bmp-trust-label">Pagamenti sicuri</div></div>
+          </div>
+        </div>
+      </div>
+      <!-- Featured -->
+      <div class="bmp-featured">
+        <div class="bmp-featured-label">I Top Barman di questo mese</div>
+        <div class="bmp-featured-cards" id="bmp-featured-cards"></div>
+      </div>
+    </div>
+
+    <!-- SEARCH PAGE -->
+    <div class="bmp-page" id="bmppage-search">
+      <div class="bmp-search-wrap">
+        <h2 style="font-family:'DM Sans',sans-serif;font-size:2rem;color:#f0e6c8;margin-bottom:8px">Trova il tuo Barman</h2>
+        <p id="bmp-result-count" style="color:#5a4a3a;margin-bottom:28px"></p>
+        <div class="bmp-filters">
+          <input type="text" id="bmp-search-q" placeholder="🔍  Cerca per città o nome..." oninput="bmpRenderSearch()">
+          <select id="bmp-badge-filter" onchange="bmpRenderSearch()">
+            <option value="">Tutti i livelli</option>
+            <option>Elite</option><option>Top Barman</option><option>Verified Pro</option>
+          </select>
+          <select id="bmp-sort" onchange="bmpRenderSearch()">
+            <option value="rating">Ordina: Rating</option>
+            <option value="reviews">Ordina: Recensioni</option>
+            <option value="price_asc">Prezzo: crescente</option>
+            <option value="price_desc">Prezzo: decrescente</option>
+          </select>
+          <label class="bmp-filter-toggle"><input type="checkbox" id="bmp-only-avail" onchange="bmpRenderSearch()"> Solo disponibili</label>
+        </div>
+        <div class="bmp-barmen-grid" id="bmp-barmen-grid"></div>
+      </div>
+    </div>
+
+    <!-- PROFILE PAGE -->
+    <div class="bmp-page" id="bmppage-profile">
+      <div class="bmp-profile-wrap" id="bmp-profile-content"></div>
+    </div>
+
+    <!-- CHAT PAGE -->
+    <div class="bmp-page" id="bmppage-chat">
+      <div class="bmp-chat-wrap" id="bmp-chat-content"></div>
+    </div>
+
+    <!-- DASHBOARD PAGE -->
+    <div class="bmp-page" id="bmppage-dashboard">
+      <div class="bmp-dash-wrap">
+        <h2 style="font-family:'DM Sans',sans-serif;font-size:2rem;color:#f0e6c8;margin-bottom:28px">Le mie prenotazioni</h2>
+        <div class="bmp-dash-kpi-grid">
+          <div class="bmp-kpi-card"><div class="bmp-kpi-val">3</div><div class="bmp-kpi-lbl">Prenotazioni totali</div></div>
+          <div class="bmp-kpi-card"><div class="bmp-kpi-val">€950</div><div class="bmp-kpi-lbl">Spesa totale</div></div>
+          <div class="bmp-kpi-card"><div class="bmp-kpi-val">1</div><div class="bmp-kpi-lbl">In corso</div></div>
+          <div class="bmp-kpi-card"><div class="bmp-kpi-val">4.8★</div><div class="bmp-kpi-lbl">Rating medio barman</div></div>
+        </div>
+        <div class="bmp-bookings-list" id="bmp-bookings-list"></div>
+      </div>
+    </div>
+
+    <!-- LOGIN / REGISTRAZIONE PAGE -->
+    <div class="bmp-page" id="bmppage-login">
+      <div style="min-height:80vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;position:relative;overflow:hidden">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,#1a0e00,#0a0a0a);z-index:0"></div>
+        <div style="position:relative;z-index:1;width:100%;max-width:460px">
+          <div style="text-align:center;margin-bottom:32px">
+            <div style="font-size:36px;margin-bottom:10px">🍸</div>
+            <div style="font-family:'DM Sans',sans-serif;font-size:24px;color:#E8B84B;font-weight:700">Barman A Domicilio</div>
+            <div style="color:#5a4a3a;font-size:13px;margin-top:6px">Il marketplace dei barman professionisti</div>
+          </div>
+          <div style="background:rgba(20,15,8,.92);border:1px solid rgba(232,184,75,.18);border-radius:20px;padding:36px;backdrop-filter:blur(20px);box-shadow:0 24px 60px rgba(0,0,0,.5)">
+            <div id="bmp-login-tabs" style="display:flex;background:rgba(255,255,255,.03);border:1px solid rgba(232,184,75,.1);border-radius:10px;padding:4px;margin-bottom:28px">
+              <button id="btn-tab-login" onclick="bmpSetAuthTab('login')" style="flex:1;background:rgba(232,184,75,.12);border:1px solid rgba(232,184,75,.25);border-radius:7px;padding:9px;color:#E8B84B;font-weight:700;font-size:13px;cursor:pointer;font-family:'DM Sans',Georgia,serif;transition:all .2s">Accedi</button>
+              <button id="btn-tab-register" onclick="bmpSetAuthTab('register')" style="flex:1;background:transparent;border:1px solid transparent;border-radius:7px;padding:9px;color:#5a4a3a;font-weight:700;font-size:13px;cursor:pointer;font-family:'DM Sans',Georgia,serif;transition:all .2s">Registrati</button>
+            </div>
+            <div id="bmp-login-form">
+              <div style="margin-bottom:16px">
+                <label class="bmp-field-label">Email</label>
+                <input type="email" id="bmp-login-email" class="bmp-field-input" placeholder="tua@email.com">
+              </div>
+              <div style="margin-bottom:8px">
+                <label class="bmp-field-label">Password</label>
+                <div style="position:relative">
+                  <input type="password" id="bmp-login-pwd" class="bmp-field-input" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" style="padding-right:44px">
+                  <button onclick="bmpTogglePwd('bmp-login-pwd',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:#5a4a3a;cursor:pointer;font-size:16px">👁</button>
+                </div>
+              </div>
+              <div style="text-align:right;margin-bottom:24px">
+                <span style="color:#E8B84B;font-size:12px;cursor:pointer" onclick="bmpShowForgot()">Password dimenticata?</span>
+              </div>
+              <div id="bmp-login-err" style="display:none;background:rgba(224,62,80,.08);border:1px solid rgba(224,62,80,.2);border-radius:8px;padding:10px 14px;color:#e03e50;font-size:13px;margin-bottom:16px"></div>
+              <button class="bmp-btn-gold" style="width:100%;padding:14px;font-size:15px" onclick="bmpDoLogin()">Accedi →</button>
+              <div style="text-align:center;margin-top:20px">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+                  <div style="flex:1;height:1px;background:rgba(232,184,75,.1)"></div>
+                  <span style="color:#3a3020;font-size:12px">oppure</span>
+                  <div style="flex:1;height:1px;background:rgba(232,184,75,.1)"></div>
+                </div>
+                <button onclick="bmpDoSocialLogin('Google')" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:11px;color:#f0e6c8;font-size:13px;cursor:pointer;font-family:'DM Sans',Georgia,serif;margin-bottom:8px">🔵 Continua con Google</button>
+                <button onclick="bmpDoSocialLogin('Facebook')" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:11px;color:#f0e6c8;font-size:13px;cursor:pointer;font-family:'DM Sans',Georgia,serif">🔷 Continua con Facebook</button>
+              </div>
+            </div>
+            <div id="bmp-register-form" style="display:none">
+              <div style="margin-bottom:20px">
+                <label class="bmp-field-label">Sei un...</label>
+                <div style="display:flex;gap:10px">
+                  <label id="role-client-lbl" onclick="bmpSetRole('client')" style="flex:1;background:rgba(232,184,75,.12);border:1px solid rgba(232,184,75,.3);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s">
+                    <div style="font-size:24px;margin-bottom:6px">👤</div>
+                    <div style="color:#E8B84B;font-weight:700;font-size:13px">Cliente</div>
+                    <div style="color:#5a4a3a;font-size:11px;margin-top:3px">Cerco un barman</div>
+                  </label>
+                  <label id="role-barman-lbl" onclick="bmpSetRole('barman')" style="flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(232,184,75,.1);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s">
+                    <div style="font-size:24px;margin-bottom:6px">🍸</div>
+                    <div style="color:#8a7a6a;font-weight:700;font-size:13px">Barman Pro</div>
+                    <div style="color:#5a4a3a;font-size:11px;margin-top:3px">Offro il mio servizio</div>
+                  </label>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+                <div><label class="bmp-field-label">Nome</label><input type="text" id="bmp-reg-nome" class="bmp-field-input" placeholder="Mario"></div>
+                <div><label class="bmp-field-label">Cognome</label><input type="text" id="bmp-reg-cognome" class="bmp-field-input" placeholder="Rossi"></div>
+              </div>
+              <div style="margin-bottom:14px">
+                <label class="bmp-field-label">Email</label>
+                <input type="email" id="bmp-reg-email" class="bmp-field-input" placeholder="mario@email.com">
+              </div>
+              <div style="margin-bottom:14px">
+                <label class="bmp-field-label">Telefono</label>
+                <input type="tel" id="bmp-reg-tel" class="bmp-field-input" placeholder="+39 333 000 0000">
+              </div>
+              <div id="bmp-barman-fields" style="display:none">
+                <div style="margin-bottom:14px"><label class="bmp-field-label">Città di operatività</label><input type="text" id="bmp-reg-city" class="bmp-field-input" placeholder="Es. Milano"></div>
+                <div style="margin-bottom:14px"><label class="bmp-field-label">Anni di esperienza</label><input type="number" id="bmp-reg-exp" class="bmp-field-input" placeholder="5"></div>
+              </div>
+              <div style="margin-bottom:14px">
+                <label class="bmp-field-label">Password</label>
+                <div style="position:relative">
+                  <input type="password" id="bmp-reg-pwd" class="bmp-field-input" placeholder="Min. 8 caratteri" oninput="bmpCheckPwdStrength(this.value)" style="padding-right:44px">
+                  <button onclick="bmpTogglePwd('bmp-reg-pwd',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:#5a4a3a;cursor:pointer;font-size:16px">👁</button>
+                </div>
+                <div id="bmp-pwd-strength" style="margin-top:8px;display:flex;gap:4px">
+                  <div class="bmp-str-bar" style="flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.08)"></div>
+                  <div class="bmp-str-bar" style="flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.08)"></div>
+                  <div class="bmp-str-bar" style="flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.08)"></div>
+                  <div class="bmp-str-bar" style="flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.08)"></div>
+                </div>
+              </div>
+              <div style="margin-bottom:20px"><label class="bmp-field-label">Conferma Password</label><input type="password" id="bmp-reg-pwd2" class="bmp-field-input" placeholder="Ripeti la password"></div>
+              <label style="display:flex;gap:10px;align-items:flex-start;color:#5a4a3a;font-size:12px;margin-bottom:20px;cursor:pointer;line-height:1.5">
+                <input type="checkbox" id="bmp-reg-terms" style="accent-color:#E8B84B;margin-top:2px;flex-shrink:0">
+                Accetto i <span style="color:#E8B84B;cursor:pointer">&nbsp;Termini di Servizio</span>&nbsp;e la&nbsp;<span style="color:#E8B84B;cursor:pointer">Privacy Policy</span>
+              </label>
+              <div id="bmp-reg-err" style="display:none;background:rgba(224,62,80,.08);border:1px solid rgba(224,62,80,.2);border-radius:8px;padding:10px 14px;color:#e03e50;font-size:13px;margin-bottom:16px"></div>
+              <button class="bmp-btn-gold" style="width:100%;padding:14px;font-size:15px" onclick="bmpDoRegister()">Crea account →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AREA RISERVATA PAGE -->
+    <div class="bmp-page" id="bmppage-area-riservata">
+      <div style="max-width:1100px;margin:0 auto;padding:30px 20px 60px">
+        <div style="display:flex;align-items:flex-start;gap:24px;flex-wrap:wrap">
+          <div style="width:240px;flex-shrink:0">
+            <div style="background:rgba(20,15,8,.9);border:1px solid rgba(232,184,75,.15);border-radius:16px;padding:24px;text-align:center;margin-bottom:14px">
+              <div id="bmp-ar-avatar" style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#1a3a5c,#0d1e30);display:flex;align-items:center;justify-content:center;font-size:24px;color:#e8d5a3;font-weight:700;font-family:'DM Sans',sans-serif;border:2px solid rgba(232,184,75,.4);margin:0 auto 16px"></div>
+              <div id="bmp-ar-name" style="font-family:'DM Sans',sans-serif;font-size:18px;color:#f0e6c8;font-weight:700;margin-bottom:4px"></div>
+              <div id="bmp-ar-role-badge" style="display:inline-block;border-radius:20px;padding:3px 12px;font-size:11px;font-weight:700;margin-bottom:12px"></div>
+              <div id="bmp-ar-email" style="color:#5a4a3a;font-size:12px;margin-bottom:16px"></div>
+              <div style="height:1px;background:rgba(232,184,75,.1);margin-bottom:16px"></div>
+              <div style="display:flex;justify-content:space-around">
+                <div style="text-align:center"><div style="color:#E8B84B;font-family:'DM Sans',sans-serif;font-weight:700;font-size:18px" id="bmp-ar-stat1">3</div><div style="color:#5a4a3a;font-size:11px">Prenotazioni</div></div>
+                <div style="text-align:center"><div style="color:#E8B84B;font-family:'DM Sans',sans-serif;font-weight:700;font-size:18px" id="bmp-ar-stat2">7</div><div style="color:#5a4a3a;font-size:11px">Messaggi</div></div>
+              </div>
+            </div>
+            <div style="background:rgba(20,15,8,.8);border:1px solid rgba(232,184,75,.12);border-radius:12px;overflow:hidden">
+              <button class="bmp-ar-menu-btn active" onclick="bmpSetArTab('messaggi',this)">✉️ Messaggi <span style="background:#e03e50;color:#fff;border-radius:99px;padding:1px 7px;font-size:10px;margin-left:auto">3</span></button>
+              <button class="bmp-ar-menu-btn" onclick="bmpSetArTab('prenotazioni',this)">📋 Prenotazioni</button>
+              <button class="bmp-ar-menu-btn" onclick="bmpSetArTab('profilo',this)">👤 Il mio Profilo</button>
+              <button class="bmp-ar-menu-btn" onclick="bmpSetArTab('notifiche',this)">🔔 Notifiche</button>
+              <button class="bmp-ar-menu-btn" onclick="bmpSetArTab('sicurezza',this)">🔒 Sicurezza</button>
+            </div>
+          </div>
+          <div style="flex:1;min-width:0" id="bmp-ar-content"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- ═══ ANALYTICS PAGE ═══ -->
+    <div class="bmp-page" id="bmppage-analytics">
+      <div style="max-width:1000px;margin:0 auto;padding:40px 24px 80px" id="analytics-content"></div>
+    </div>
+
+    <!-- ═══ CALENDARIO PAGE ═══ -->
+    <div class="bmp-page" id="bmppage-calendario">
+      <div style="max-width:900px;margin:0 auto;padding:40px 24px 80px" id="calendario-content"></div>
+    </div>
+
+    <!-- ═══ PORTFOLIO PAGE ═══ -->
+    <div class="bmp-page" id="bmppage-portfolio">
+      <div style="max-width:1100px;margin:0 auto;padding:40px 24px 80px" id="portfolio-content"></div>
+    </div>
+
+    <!-- ═══ DISPUTE RESOLUTION PAGE ═══ -->
+    <div class="bmp-page" id="bmppage-dispute">
+      <div style="max-width:900px;margin:0 auto;padding:40px 24px 80px" id="dispute-content"></div>
+    </div>
+
+    <!-- ═══ ONBOARDING WIZARD PAGE ═══ -->
+    <div class="bmp-page" id="bmppage-onboarding">
+      <div style="max-width:800px;margin:0 auto;padding:40px 24px 80px" id="onboarding-content"></div>
+    </div>
+
+    <!-- ═══ CONTRATTI PAGE ═══ -->
+    <div class="bmp-page" id="bmppage-contratti">
+      <div style="max-width:900px;margin:0 auto;padding:40px 24px 80px">
+        <h2 style="font-family:'DM Sans',sans-serif;font-size:clamp(1.6rem,4vw,2.2rem);color:#f0e6c8;margin-bottom:8px">Contratti & Onboarding</h2>
+        <p style="color:#5a4a3a;font-size:14px;margin-bottom:32px;line-height:1.7">Sistema contrattuale ispirato ai migliori marketplace. Ogni collaborazione è regolata da un accordo chiaro e trasparente.</p>
+
+        <!-- Onboarding Steps -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:40px">
+          <div style="background:rgba(232,184,75,.06);border:1px solid rgba(232,184,75,.15);border-radius:14px;padding:20px;text-align:center">
+            <div style="font-size:28px;margin-bottom:10px">📝</div>
+            <div style="color:#E8B84B;font-weight:700;font-size:14px;margin-bottom:6px">1. Registrazione</div>
+            <div style="color:#5a4a3a;font-size:12.5px;line-height:1.5">Crea il tuo profilo professionale con portfolio e certificazioni</div>
+          </div>
+          <div style="background:rgba(232,184,75,.06);border:1px solid rgba(232,184,75,.15);border-radius:14px;padding:20px;text-align:center">
+            <div style="font-size:28px;margin-bottom:10px">✅</div>
+            <div style="color:#E8B84B;font-weight:700;font-size:14px;margin-bottom:6px">2. Verifica</div>
+            <div style="color:#5a4a3a;font-size:12.5px;line-height:1.5">Verifica identità, certificazioni HACCP e assicurazione RC</div>
+          </div>
+          <div style="background:rgba(232,184,75,.06);border:1px solid rgba(232,184,75,.15);border-radius:14px;padding:20px;text-align:center">
+            <div style="font-size:28px;margin-bottom:10px">📄</div>
+            <div style="color:#E8B84B;font-weight:700;font-size:14px;margin-bottom:6px">3. Contratto</div>
+            <div style="color:#5a4a3a;font-size:12.5px;line-height:1.5">Firma digitale del Contratto di Collaborazione con la piattaforma</div>
+          </div>
+          <div style="background:rgba(232,184,75,.06);border:1px solid rgba(232,184,75,.15);border-radius:14px;padding:20px;text-align:center">
+            <div style="font-size:28px;margin-bottom:10px">🚀</div>
+            <div style="color:#E8B84B;font-weight:700;font-size:14px;margin-bottom:6px">4. Go Live</div>
+            <div style="color:#5a4a3a;font-size:12.5px;line-height:1.5">Profilo attivo, ricevi prenotazioni e inizia a guadagnare</div>
+          </div>
+        </div>
+
+        <!-- Contract Tabs -->
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px" id="contract-tabs">
+          <button class="bmp-navbtn active" onclick="showContractTab('overview',this)">📋 Overview</button>
+          <button class="bmp-navbtn" onclick="showContractTab('barman-agreement',this)">🍸 Accordo Barman</button>
+          <button class="bmp-navbtn" onclick="showContractTab('client-agreement',this)">👤 Accordo Cliente</button>
+          <button class="bmp-navbtn" onclick="showContractTab('insurance',this)">🛡️ Assicurazione</button>
+          <button class="bmp-navbtn" onclick="showContractTab('payments',this)">💳 Pagamenti</button>
+          <button class="bmp-navbtn" onclick="showContractTab('gdpr',this)">🔒 GDPR</button>
+        </div>
+
+        <div id="contract-content"></div>
+      </div>
+    </div>
+
+  <!-- Footer -->
+  <div class="bmp-footer">
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px">
+      <span style="font-size:20px">🍸</span>
+      <span style="font-family:'DM Sans',sans-serif;font-size:18px;color:#E8B84B">Barman A Domicilio</span>
+    </div>
+    <p style="color:#3a3030;font-size:13px;margin-bottom:12px">Il marketplace dei barman professionisti per eventi indimenticabili</p>
+    <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap">
+      <span style="color:#3a3030;font-size:12px;cursor:pointer">Come funziona</span>
+      <span style="color:#3a3030;font-size:12px;cursor:pointer">Per i Barman</span>
+      <span style="color:#3a3030;font-size:12px;cursor:pointer">Sicurezza</span>
+      <span style="color:#3a3030;font-size:12px;cursor:pointer">Privacy</span>
+      <span style="color:#3a3030;font-size:12px;cursor:pointer">Termini</span>
+      <span style="color:#3a3030;font-size:12px;cursor:pointer">Contatti</span>
+    </div>
+    <div style="margin-top:18px;color:#2a2020;font-size:11px">© 2025 Barman A Domicilio · Made in Sardegna 🤌</div>
+  </div>
+</div>
+
+<!-- Booking Modal -->
+<div id="bmp-booking-modal" style="display:none" class="bmp-modal-overlay" onclick="if(event.target===this)bmpCloseBooking()">
+  <div class="bmp-modal" id="bmp-booking-modal-inner" onclick="event.stopPropagation()"></div>
+</div>
+
+<!-- Toast notification -->
+<div id="toast"></div>
+</div><!-- /page-barman-wrapper -->
+<script>
+const BMP_BARMEN = [
+  { id:1, name:"Marco Ferretti", city:"Cagliari", region:"Sardegna", rating:4.9, reviews:63, price:280, badge:"Elite", styles:["Cocktail Classici","Flair Bartending","Aperitivo"], img:"MF", available:true, bio:"Campione regionale di flair bartending con 10+ anni di esperienza. Specializzato in matrimoni e eventi corporate.", events:["Matrimoni","Corporate","Privati"], response:"< 2 ore", completions:187 },
+  { id:2, name:"Sofia Conti", city:"Milano", region:"Lombardia", rating:4.8, reviews:41, price:320, badge:"Top Barman", styles:["Molecular Mixology","Craft Cocktails","Wine Service"], img:"SC", available:true, bio:"Ex head bartender di un cocktail bar stellato. Porta l'alta mixology direttamente ai tuoi eventi.", events:["Matrimoni","Gala","Corporate"], response:"< 1 ora", completions:98 },
+  { id:3, name:"Luca Mancini", city:"Roma", region:"Lazio", rating:4.7, reviews:29, price:240, badge:"Top Barman", styles:["Aperitivo Italiano","Cocktail Tropicali","Beer Service"], img:"LM", available:true, bio:"Bartender romano con specializzazione negli aperitivi e feste all'aperto. Ama portare allegria ad ogni evento.", events:["Feste","Compleanni","Lauree"], response:"< 4 ore", completions:71 },
+  { id:4, name:"Giulia Esposito", city:"Napoli", region:"Campania", rating:4.6, reviews:18, price:200, badge:"Verified Pro", styles:["Cocktail Classici","Spritz & Aperol","Mocktails"], img:"GE", available:false, bio:"Specializzata in cerimonie e ricevimenti. Attenzione ai dettagli e cortesia impeccabile.", events:["Matrimoni","Battesimi","Comunioni"], response:"< 6 ore", completions:34 },
+  { id:5, name:"Alessandro Ricci", city:"Firenze", region:"Toscana", rating:4.9, reviews:52, price:350, badge:"Elite", styles:["Wine & Spirits","Craft Cocktails","Whisky Tasting"], img:"AR", available:true, bio:"Sommelier e bartender. Porta l'eccellenza toscana nel tuo bicchiere con selezioni di vini e cocktail premium.", events:["Degustazioni","Corporate","Wedding"], response:"< 2 ore", completions:143 },
+  { id:6, name:"Chiara Bianchi", city:"Torino", region:"Piemonte", rating:4.5, reviews:12, price:190, badge:"Verified Pro", styles:["Cocktail Moderni","Gin Tonic Bar","Birra Artigianale"], img:"CB", available:true, bio:"Giovane talento della scena cocktail torinese. Fresca di certificazione AIBES con grande passione.", events:["Feste","Compleanni","Privati"], response:"< 3 ore", completions:22 },
+];
+
+const BMP_REVIEWS = [
+  { barmanId:1, author:"Elena M.", event:"Matrimonio", text:"Marco è stato straordinario! Ogni ospite ha adorato i suoi cocktail. Professionale e simpaticissimo.", rating:5, date:"15 Gen 2025" },
+  { barmanId:1, author:"Roberto T.", event:"Corporate Party", text:"Ottimo servizio, puntuale e molto professionale. Tutti i colleghi hanno chiesto il suo contatto.", rating:5, date:"3 Nov 2024" },
+  { barmanId:2, author:"Francesca V.", event:"Gala Dinner", text:"Sofia ha trasformato la serata in qualcosa di magico. La molecular mixology ha stupito tutti.", rating:5, date:"20 Feb 2025" },
+  { barmanId:5, author:"Giovanni P.", event:"Degustazione", text:"Alessandro conosce ogni vino e cocktail alla perfezione. Una serata memorabile.", rating:5, date:"8 Dic 2024" },
+];
+
+const BMP_BADGE_CFG = {
+  "Elite":{ color:"#FFD700", bg:"rgba(255,215,0,0.15)", icon:"👑" },
+  "Top Barman":{ color:"#C0C0C0", bg:"rgba(192,192,192,0.15)", icon:"⭐" },
+  "Verified Pro":{ color:"#CD7F32", bg:"rgba(205,127,50,0.15)", icon:"✓" },
+  "Standard":{ color:"#888", bg:"rgba(136,136,136,0.15)", icon:"○" }
+};
+
+const BMP_AVATAR_COLORS = { MF:"#1a3a5c", SC:"#2d1b4e", LM:"#1a4a2e", GE:"#4a1a2e", AR:"#3d2a00", CB:"#1a2d4a" };
+const BMP_BOOKINGS = [
+  { barman:BMP_BARMEN[0], date:"15 Mar 2025", event:"Matrimonio", status:"confirmed", amount:280 },
+  { barman:BMP_BARMEN[4], date:"22 Mar 2025", event:"Corporate Event", status:"pending", amount:350 },
+  { barman:BMP_BARMEN[1], date:"5 Apr 2025", event:"Gala Dinner", status:"completed", amount:320 },
+];
+
+let bmpCurrentBarman = null;
+let bmpChatMessages = [];
+let bmpBookingStep = 1;
+let bmpBookingForm = {};
+let bmpBookingSubmitted = false;
+let bmpProfileTab = 'info';
+let bmpInitialized = false;
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function bmpStars(v) {
+  return '<span class="bmp-stars">' + '★'.repeat(Math.floor(v)) + '☆'.repeat(5 - Math.floor(v)) + '</span>';
+}
+
+function bmpAvatar(initials, size=56, badge=null) {
+  const col = BMP_AVATAR_COLORS[initials] || '#222';
+  const fs = Math.round(size * 0.3);
+  const bdS = Math.round(size * 0.32);
+  const bdFS = Math.round(size * 0.16);
+  const cfg = badge ? BMP_BADGE_CFG[badge] : null;
+  return `<div class="bmp-avatar" style="width:${size}px;height:${size}px;background:linear-gradient(135deg,${col},${col}cc);font-size:${fs}px;flex-shrink:0">
+    ${initials}
+    ${cfg ? `<div class="bmp-badge-dot" style="background:${cfg.color};width:${bdS}px;height:${bdS}px;font-size:${bdFS}px">${cfg.icon}</div>` : ''}
+  </div>`;
+}
+
+function bmpBadgePill(level) {
+  const cfg = BMP_BADGE_CFG[level] || BMP_BADGE_CFG['Standard'];
+  return `<span class="bmp-badge-pill" style="background:${cfg.bg};color:${cfg.color};border-color:${cfg.color}40">${cfg.icon} ${level}</span>`;
+}
+
+function bmpE(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ── NAVIGATION ─────────────────────────────────────────────────────────────────
+function bmpNavigate(page, data=null) {
+  // Hide all pages
+  document.querySelectorAll('.bmp-page').forEach(p => { p.classList.remove('active'); p.style.display='none'; });
+  // Update nav buttons
+  document.querySelectorAll('.bmp-navbtn').forEach(b => b.classList.toggle('active', b.dataset.bmppage === page));
+  // Show target page
+  const target = document.getElementById('bmppage-' + page);
+  if (target) { target.classList.add('active'); target.style.display='block'; }
+  // Render content
+  if (page === 'home') bmpRenderHome();
+  if (page === 'search') { bmpRenderSearch(data); }
+  if (page === 'profile' && data) { bmpCurrentBarman = data; bmpRenderProfile(); }
+  if (page === 'chat' && data) { bmpCurrentBarman = data; bmpRenderChat(); }
+  if (page === 'dashboard') bmpRenderDashboard();
+  if (page === 'login') { setTimeout(() => bmpSetAuthTab(data === 'register' ? 'register' : 'login'), 50); }
+  if (page === 'area-riservata') { if (!bmpCurrentUser) { bmpNavigate('login'); return; } bmpRenderAreaRiservata(); }
+  if (page === 'contratti') { renderContractTab('overview'); }
+  if (page === 'analytics') { renderAnalytics(); }
+  if (page === 'calendario') { renderCalendario(); }
+  if (page === 'portfolio') { renderPortfolio(); }
+  if (page === 'dispute') { renderDispute(); }
+  if (page === 'onboarding') { renderOnboarding(); }
+  // Scroll to top of barman section
+  document.getElementById('page-barman-wrapper').scrollIntoView({behavior:'smooth'});
+}
+
+// ── HOME ──────────────────────────────────────────────────────────────────────
+function bmpRenderHome() {
+  const featured = BMP_BARMEN.filter(b => b.badge==='Elite' || b.badge==='Top Barman').slice(0,3);
+  document.getElementById('bmp-featured-cards').innerHTML = featured.map(b => `
+    <div class="bmp-mini-card" onclick="bmpNavigate('profile',BMP_BARMEN.find(x=>x.id===${b.id}))">
+      ${bmpAvatar(b.img, 40, b.badge)}
+      <div style="text-align:left">
+        <div style="color:#f0e6c8;font-size:14px;font-weight:600">${bmpE(b.name)}</div>
+        <div style="color:#5a4a3a;font-size:12px">${bmpE(b.city)} · ${b.rating}★</div>
+      </div>
+    </div>`).join('');
+}
+
+// ── SEARCH ─────────────────────────────────────────────────────────────────────
+function bmpRenderSearch(filters) {
+  if (filters) {
+    if (filters.city) document.getElementById('bmp-search-q').value = filters.city;
+  }
+  const q = (document.getElementById('bmp-search-q')?.value || '').toLowerCase();
+  const badge = document.getElementById('bmp-badge-filter')?.value || '';
+  const sort = document.getElementById('bmp-sort')?.value || 'rating';
+  const onlyAvail = document.getElementById('bmp-only-avail')?.checked || false;
+  const maxPrice = 500;
+
+  let list = BMP_BARMEN.filter(b => {
+    if (q && !b.city.toLowerCase().includes(q) && !b.name.toLowerCase().includes(q) && !b.region.toLowerCase().includes(q)) return false;
+    if (badge && b.badge !== badge) return false;
+    if (b.price > maxPrice) return false;
+    if (onlyAvail && !b.available) return false;
+    return true;
+  }).sort((a,b) => {
+    if (sort==='rating') return b.rating - a.rating;
+    if (sort==='price_asc') return a.price - b.price;
+    if (sort==='price_desc') return b.price - a.price;
+    if (sort==='reviews') return b.reviews - a.reviews;
+    return 0;
+  });
+
+  document.getElementById('bmp-result-count').textContent = list.length + ' professionisti disponibili';
+  document.getElementById('bmp-barmen-grid').innerHTML = list.map(b => `
+    <div class="bmp-barman-card" onclick="bmpNavigate('profile',BMP_BARMEN.find(x=>x.id===${b.id}))">
+      <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:14px">
+        ${bmpAvatar(b.img, 60, b.badge)}
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px">
+            <span style="color:#f0e6c8;font-weight:700;font-size:15px;font-family:'DM Sans',sans-serif">${bmpE(b.name)}</span>
+            ${bmpBadgePill(b.badge)}
+          </div>
+          <div style="color:#5a4a3a;font-size:13px;margin-bottom:6px">📍 ${bmpE(b.city)}, ${bmpE(b.region)}</div>
+          <div style="display:flex;align-items:center;gap:6px">
+            ${bmpStars(b.rating)}
+            <span style="color:#E8B84B;font-weight:700;font-size:13px">${b.rating}</span>
+            <span style="color:#5a4a3a;font-size:12px">(${b.reviews})</span>
+          </div>
+          <div style="color:#5a4a3a;font-size:12px;margin-top:4px">⚡ ${bmpE(b.response)}</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+        ${b.styles.slice(0,3).map(s=>`<span style="background:rgba(232,184,75,.06);border:1px solid rgba(232,184,75,.15);border-radius:12px;padding:3px 10px;color:#8a7060;font-size:11px">${bmpE(s)}</span>`).join('')}
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <span style="color:#f0e6c8;font-family:'DM Sans',sans-serif;font-size:20px;font-weight:700">€${b.price}</span>
+          <span style="color:#5a4a3a;font-size:12px"> / evento</span>
+        </div>
+        <span class="${b.available ? 'bmp-avail-on' : 'bmp-avail-off'}">● ${b.available ? 'Disponibile' : 'Non disponibile'}</span>
+      </div>
+    </div>`).join('');
+}
+
+// ── PROFILE ───────────────────────────────────────────────────────────────────
+function bmpRenderProfile() {
+  const b = bmpCurrentBarman; if(!b) return;
+  const revs = BMP_REVIEWS.filter(r => r.barmanId === b.id);
+  const container = document.getElementById('bmp-profile-content');
+  container.innerHTML = `
+    <button onclick="bmpNavigate('search')" style="background:none;border:none;color:#5a4a3a;font-size:14px;cursor:pointer;margin-bottom:24px;padding:0;font-family:'DM Sans',Georgia,serif">← Torna alla ricerca</button>
+    <div class="bmp-profile-header">
+      ${bmpAvatar(b.img, 80, b.badge)}
+      <div style="flex:1;min-width:200px">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px">
+          <h1 style="font-family:'DM Sans',sans-serif;font-size:1.8rem;color:#f0e6c8;margin:0">${bmpE(b.name)}</h1>
+          ${bmpBadgePill(b.badge)}
+          <span class="${b.available ? 'bmp-avail-on' : 'bmp-avail-off'}">● ${b.available ? 'Disponibile' : 'Non disponibile'}</span>
+        </div>
+        <div style="color:#5a4a3a;font-size:14px;margin-bottom:14px">📍 ${bmpE(b.city)}, ${bmpE(b.region)}</div>
+        <div class="bmp-profile-stats">
+          <div class="bmp-stat-box"><div class="bmp-stat-val">${b.rating}</div><div class="bmp-stat-label">Rating</div></div>
+          <div class="bmp-stat-box"><div class="bmp-stat-val">${b.reviews}</div><div class="bmp-stat-label">Recensioni</div></div>
+          <div class="bmp-stat-box"><div class="bmp-stat-val">${b.completions}</div><div class="bmp-stat-label">Servizi</div></div>
+          <div class="bmp-stat-box"><div class="bmp-stat-val" style="font-size:14px">${bmpE(b.response)}</div><div class="bmp-stat-label">Risposta</div></div>
+        </div>
+      </div>
+      <div style="text-align:center;min-width:160px">
+        <div style="color:#f0e6c8;font-size:28px;font-family:'DM Sans',sans-serif;font-weight:700;margin-bottom:4px">€${b.price}</div>
+        <div style="color:#5a4a3a;font-size:12px;margin-bottom:16px">a partire da / evento</div>
+        <button onclick="bmpOpenBooking()" ${b.available?'':'disabled'}
+          style="width:100%;background:${b.available?'linear-gradient(135deg,#E8B84B,#c8941f)':'rgba(255,255,255,.05)'};border:none;border-radius:10px;padding:12px 28px;color:${b.available?'#0a0a0a':'#444'};font-weight:800;font-size:14px;cursor:${b.available?'pointer':'not-allowed'};font-family:'DM Sans',Georgia,serif;margin-bottom:8px;display:block">
+          ${b.available ? 'Prenota ora' : 'Non disponibile'}
+        </button>
+        <button onclick="bmpNavigate('chat',bmpCurrentBarman)"
+          style="width:100%;background:rgba(232,184,75,.08);border:1px solid rgba(232,184,75,.2);border-radius:10px;padding:10px 28px;color:#E8B84B;font-weight:700;font-size:13px;cursor:pointer;font-family:'DM Sans',Georgia,serif;display:block">
+          💬 Messaggia
+        </button>
+      </div>
+    </div>
+    <div class="bmp-tab-bar">
+      <button class="bmp-tab-item active" onclick="bmpSetProfileTab('info',this)">👤 Profilo</button>
+      <button class="bmp-tab-item" onclick="bmpSetProfileTab('reviews',this)">⭐ Recensioni (${revs.length})</button>
+      <button class="bmp-tab-item" onclick="bmpSetProfileTab('events',this)">🎉 Servizi</button>
+    </div>
+    <div class="bmp-tab-content" id="bmp-ptab-content"></div>`;
+  bmpRenderProfileTab('info');
+}
+
+function bmpSetProfileTab(tab, btn) {
+  document.querySelectorAll('.bmp-tab-item').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  bmpRenderProfileTab(tab);
+}
+
+function bmpRenderProfileTab(tab) {
+  const b = bmpCurrentBarman; if(!b) return;
+  const revs = BMP_REVIEWS.filter(r => r.barmanId === b.id);
+  const el = document.getElementById('bmp-ptab-content'); if(!el) return;
+  if (tab === 'info') {
+    el.innerHTML = `
+      <h3 style="color:#f0e6c8;font-family:'DM Sans',sans-serif;margin-bottom:12px">Bio</h3>
+      <p style="color:#8a7a6a;line-height:1.7;margin-bottom:24px">${bmpE(b.bio)}</p>
+      <h3 style="color:#f0e6c8;font-family:'DM Sans',sans-serif;margin-bottom:12px">Specializzazioni</h3>
+      <div style="margin-bottom:24px">${b.styles.map(s=>`<span class="bmp-tag">${bmpE(s)}</span>`).join('')}</div>
+      <h3 style="color:#f0e6c8;font-family:'DM Sans',sans-serif;margin-bottom:12px">Tipi di evento</h3>
+      <div>${b.events.map(e=>`<span class="bmp-event-tag">${bmpE(e)}</span>`).join('')}</div>`;
+  } else if (tab === 'reviews') {
+    el.innerHTML = revs.length === 0
+      ? '<div style="color:#5a4a3a;text-align:center;padding:40px 0">Nessuna recensione ancora</div>'
+      : revs.map((r,i) => `
+        <div class="bmp-review-item">
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:8px">
+            <div><span style="color:#f0e6c8;font-weight:700">${bmpE(r.author)}</span> <span style="color:#5a4a3a;font-size:12px;margin-left:8px">${bmpE(r.event)}</span></div>
+            <div style="display:flex;align-items:center;gap:6px">${bmpStars(r.rating)}<span style="color:#5a4a3a;font-size:12px">${bmpE(r.date)}</span></div>
+          </div>
+          <p style="color:#8a7a6a;line-height:1.6;margin:0">${bmpE(r.text)}</p>
+        </div>`).join('');
+  } else if (tab === 'events') {
+    el.innerHTML = b.events.map(e => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid rgba(232,184,75,.06);flex-wrap:wrap;gap:10px">
+        <div>
+          <div style="color:#f0e6c8;font-weight:600">${bmpE(e)}</div>
+          <div style="color:#5a4a3a;font-size:13px">Preventivo personalizzato disponibile</div>
+        </div>
+        <button onclick="bmpOpenBooking()" style="background:rgba(232,184,75,.1);border:1px solid rgba(232,184,75,.2);border-radius:8px;padding:8px 16px;color:#E8B84B;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',Georgia,serif">Richiedi preventivo</button>
+      </div>`).join('');
+  }
+}
+
+// ── BOOKING MODAL ─────────────────────────────────────────────────────────────
+function bmpOpenBooking() {
+  bmpBookingStep = 1;
+  bmpBookingForm = { date:'', time:'', guests:'', eventType:'', address:'', notes:'' };
+  bmpBookingSubmitted = false;
+  document.getElementById('bmp-booking-modal').style.display = 'flex';
+  bmpRenderBooking();
+}
+
+function bmpCloseBooking() {
+  document.getElementById('bmp-booking-modal').style.display = 'none';
+}
+
+function bmpRenderBooking() {
+  const b = bmpCurrentBarman; if(!b) return;
+  const modal = document.getElementById('bmp-booking-modal-inner');
+  const total = b.price;
+  const deposit = Math.round(total * 0.3);
+
+  if (bmpBookingSubmitted) {
+    modal.innerHTML = `
+      <div style="text-align:center;padding:20px 0">
+        <div style="font-size:64px;margin-bottom:20px">🎉</div>
+        <h2 style="font-family:'DM Sans',sans-serif;color:#f0e6c8;margin-bottom:12px">Richiesta inviata!</h2>
+        <p style="color:#8a7a6a;line-height:1.7;margin-bottom:28px">La tua richiesta è stata inviata a <strong style="color:#E8B84B">${bmpE(b.name)}</strong>. Risponderà entro ${bmpE(b.response)}.</p>
+        <button onclick="bmpCloseBooking();bmpNavigate('dashboard')" class="bmp-btn-gold" style="padding:13px 40px">Vai alle prenotazioni</button>
+      </div>`;
+    return;
+  }
+
+  const stepBar = [1,2,3].map(s => `<div class="bmp-modal-step" style="background:${s<=bmpBookingStep?'#E8B84B':'rgba(232,184,75,.15)'}"></div>`).join('');
+
+  let content = '';
+  if (bmpBookingStep === 1) {
+    content = `
+      <h3 style="color:#f0e6c8;margin-bottom:20px">Dettagli evento</h3>
+      ${[['Data','date','date'],['Orario','time','time'],['Numero ospiti','guests','number'],['Tipo evento','eventType','text'],['Indirizzo','address','text']].map(([lbl,key,type]) => `
+        <div style="margin-bottom:14px">
+          <label class="bmp-field-label">${lbl}</label>
+          <input type="${type}" class="bmp-field-input" id="bf-${key}" value="${bmpE(bmpBookingForm[key]||'')}" oninput="bmpBookingForm['${key}']=this.value">
+        </div>`).join('')}
+      <div style="margin-bottom:20px">
+        <label class="bmp-field-label">Note aggiuntive</label>
+        <textarea class="bmp-field-input" rows="3" id="bf-notes" oninput="bmpBookingForm.notes=this.value" style="resize:vertical">${bmpE(bmpBookingForm.notes||'')}</textarea>
+      </div>
+      <button class="bmp-btn-gold" style="width:100%;padding:13px" onclick="bmpBookingStep=2;bmpRenderBooking()">Continua →</button>`;
+  } else if (bmpBookingStep === 2) {
+    content = `
+      <h3 style="color:#f0e6c8;margin-bottom:20px">Riepilogo e Pagamento</h3>
+      <div style="background:rgba(232,184,75,.04);border:1px solid rgba(232,184,75,.1);border-radius:10px;padding:16px;margin-bottom:20px">
+        ${[['Barman',b.name],['Città',b.city],['Data',bmpBookingForm.date||'—'],['Ospiti',bmpBookingForm.guests||'—'],['Tipo evento',bmpBookingForm.eventType||'—']].map(([k,v]) => `
+          <div style="display:flex;justify-content:space-between;padding-bottom:8px;margin-bottom:8px;border-bottom:1px solid rgba(232,184,75,.06)">
+            <span style="color:#5a4a3a;font-size:13px">${k}</span>
+            <span style="color:#f0e6c8;font-size:13px">${bmpE(v)}</span>
+          </div>`).join('')}
+        <div style="display:flex;justify-content:space-between;padding-top:4px">
+          <span style="color:#E8B84B;font-weight:700">Totale stimato</span>
+          <span style="color:#E8B84B;font-weight:700;font-size:18px">€${total}</span>
+        </div>
+      </div>
+      <div style="background:rgba(30,160,80,.05);border:1px solid rgba(30,160,80,.15);border-radius:10px;padding:14px;margin-bottom:20px">
+        <div style="color:#30c060;font-size:13px;margin-bottom:4px">💳 Pagamento sicuro via Stripe</div>
+        <div style="color:#8a7a6a;font-size:12px">Anticipo del 30% ora (€${deposit}) · Saldo dopo l'evento</div>
+      </div>
+      <div style="margin-bottom:16px">
+        <label class="bmp-field-label">Numero carta</label>
+        <input class="bmp-field-input" placeholder="1234 5678 9012 3456">
+      </div>
+      <div style="display:flex;gap:10px;margin-bottom:20px">
+        <div style="flex:1"><label class="bmp-field-label">Scadenza</label><input class="bmp-field-input" placeholder="MM/AA"></div>
+        <div style="flex:1"><label class="bmp-field-label">CVV</label><input class="bmp-field-input" placeholder="•••"></div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="bmp-btn-back" onclick="bmpBookingStep=1;bmpRenderBooking()">← Indietro</button>
+        <button class="bmp-btn-gold" style="flex:2;padding:13px" onclick="bmpBookingStep=3;bmpRenderBooking()">Paga €${deposit} →</button>
+      </div>`;
+  } else if (bmpBookingStep === 3) {
+    content = `
+      <h3 style="color:#f0e6c8;margin-bottom:20px">Contratto digitale</h3>
+      <div style="background:rgba(255,255,255,.02);border:1px solid rgba(232,184,75,.1);border-radius:10px;padding:16px;margin-bottom:20px;font-size:13px;color:#8a7a6a;line-height:1.7">
+        <strong style="color:#f0e6c8;display:block;margin-bottom:8px">Contratto di Servizio</strong>
+        Il sottoscritto cliente accetta di ingaggiare il barman professionista <strong style="color:#E8B84B">${bmpE(b.name)}</strong> per il servizio concordato. Il pagamento dell'anticipo conferma l'accordo. Il barman si impegna a presentarsi puntuale all'indirizzo concordato. La piattaforma Barman A Domicilio agisce da intermediario e applica una commissione del 12%.
+      </div>
+      <label style="display:flex;gap:10px;align-items:flex-start;color:#8a7a6a;font-size:13px;margin-bottom:20px;cursor:pointer">
+        <input type="checkbox" style="accent-color:#E8B84B;margin-top:2px">
+        Ho letto e accetto i Termini di Servizio e la Privacy Policy di Barman A Domicilio.
+      </label>
+      <div style="display:flex;gap:10px">
+        <button class="bmp-btn-back" onclick="bmpBookingStep=2;bmpRenderBooking()">← Indietro</button>
+        <button class="bmp-btn-gold" style="flex:2;padding:13px" onclick="bmpBookingSubmitted=true;bmpRenderBooking()">✍️ Firma e Conferma</button>
+      </div>`;
+  }
+
+  modal.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+      <h2 style="font-family:'DM Sans',sans-serif;color:#f0e6c8;margin:0">Prenota ${bmpE(b.name)}</h2>
+      <button onclick="bmpCloseBooking()" style="background:none;border:none;color:#5a4a3a;font-size:20px;cursor:pointer">✕</button>
+    </div>
+    <div class="bmp-modal-step-bar">${stepBar}</div>
+    ${content}`;
+}
+
+// ── CHAT ──────────────────────────────────────────────────────────────────────
+function bmpRenderChat() {
+  const b = bmpCurrentBarman; if(!b) return;
+  if (!bmpChatMessages.length || bmpChatMessages[0].barmanId !== b.id) {
+    bmpChatMessages = [{ from:'barman', text:`Ciao! Sono ${b.name}. Come posso aiutarti?`, time:bmpNow(), barmanId:b.id }];
+  }
+  const container = document.getElementById('bmp-chat-content');
+  container.innerHTML = `
+    <div class="bmp-chat-header">
+      <button onclick="bmpNavigate('profile',bmpCurrentBarman)" style="background:none;border:none;color:#5a4a3a;cursor:pointer;font-size:18px">←</button>
+      ${bmpAvatar(b.img, 44, b.badge)}
+      <div>
+        <div style="color:#f0e6c8;font-weight:700">${bmpE(b.name)}</div>
+        <div style="color:#30c060;font-size:12px">● Online</div>
+      </div>
+    </div>
+    <div class="bmp-messages" id="bmp-messages-list">
+      ${bmpChatMessages.map(m => `
+        <div class="bmp-msg-wrap ${m.from}">
+          ${m.from==='barman' ? bmpAvatar(b.img, 32) + '<div style="margin-left:8px">' : '<div>'}
+            <div class="bmp-msg ${m.from}">${bmpE(m.text)}</div>
+            <div class="bmp-msg-time" style="text-align:${m.from==='user'?'right':'left'}">${m.time}</div>
+          </div>
+        </div>`).join('')}
+    </div>
+    <div class="bmp-chat-footer">
+      <input class="bmp-chat-input" id="bmp-chat-input" placeholder="Scrivi un messaggio..." onkeydown="if(event.key==='Enter')bmpSendChat()">
+      <button class="bmp-send-btn" onclick="bmpSendChat()">→</button>
+    </div>`;
+  bmpScrollChat();
+}
+
+function bmpNow() {
+  const d = new Date();
+  return d.getHours() + ':' + String(d.getMinutes()).padStart(2,'0');
+}
+
+function bmpScrollChat() {
+  const list = document.getElementById('bmp-messages-list');
+  if (list) list.scrollTop = list.scrollHeight;
+}
+
+function bmpSendChat() {
+  const inp = document.getElementById('bmp-chat-input'); if(!inp) return;
+  const text = inp.value.trim(); if(!text) return;
+  const time = bmpNow();
+  bmpChatMessages.push({ from:'user', text, time, barmanId:bmpCurrentBarman?.id });
+  inp.value = '';
+  bmpRenderChatMessages();
+  setTimeout(() => {
+    const replies = ["Certo! Sono disponibile per quella data.", "Fammi sapere i dettagli dell'evento e ti preparo un preventivo.", "Ottimo! Posso portare tutto l'occorrente.", "Perfetto, possiamo organizzare qualcosa di speciale!"];
+    bmpChatMessages.push({ from:'barman', text:replies[Math.floor(Math.random()*replies.length)], time:bmpNow(), barmanId:bmpCurrentBarman?.id });
+    bmpRenderChatMessages();
+  }, 1000);
+}
+
+function bmpRenderChatMessages() {
+  const b = bmpCurrentBarman; if(!b) return;
+  const list = document.getElementById('bmp-messages-list'); if(!list) return;
+  list.innerHTML = bmpChatMessages.map(m => `
+    <div class="bmp-msg-wrap ${m.from}">
+      ${m.from==='barman' ? bmpAvatar(b.img, 32) + '<div style="margin-left:8px">' : '<div>'}
+        <div class="bmp-msg ${m.from}">${bmpE(m.text)}</div>
+        <div class="bmp-msg-time" style="text-align:${m.from==='user'?'right':'left'}">${m.time}</div>
+      </div>
+    </div>`).join('');
+  bmpScrollChat();
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────────────────────────
+function bmpRenderDashboard() {
+  const statusColor = { confirmed:"#30c060", pending:"#E8B84B", completed:"#5a4a3a" };
+  const statusLabel = { confirmed:"Confermato", pending:"In attesa", completed:"Completato" };
+  document.getElementById('bmp-bookings-list').innerHTML = BMP_BOOKINGS.map((bk,i) => `
+    <div class="bmp-booking-row">
+      ${bmpAvatar(bk.barman.img, 48, bk.barman.badge)}
+      <div style="flex:1;min-width:160px">
+        <div style="color:#f0e6c8;font-weight:700">${bmpE(bk.barman.name)}</div>
+        <div style="color:#5a4a3a;font-size:13px">${bmpE(bk.event)} · ${bmpE(bk.date)}</div>
+      </div>
+      <div style="color:#E8B84B;font-family:'DM Sans',sans-serif;font-weight:700;font-size:18px">€${bk.amount}</div>
+      <span class="bmp-status" style="background:rgba(${bk.status==='confirmed'?'30,160,80':bk.status==='pending'?'232,184,75':'90,74,58'},0.1);border-color:${statusColor[bk.status]}40;color:${statusColor[bk.status]}">${statusLabel[bk.status]}</span>
+      <button onclick="bmpNavigate('profile',BMP_BARMEN.find(x=>x.id===${bk.barman.id}))" style="background:rgba(232,184,75,.08);border:1px solid rgba(232,184,75,.15);border-radius:8px;padding:8px 16px;color:#E8B84B;font-size:13px;cursor:pointer;font-family:'DM Sans',Georgia,serif">Dettagli</button>
+    </div>`).join('');
+}
+
+// ── AUTH STATE ────────────────────────────────────────────────────────────────
+let bmpCurrentUser = null;
+let bmpSelectedRole = 'client';
+
+// Seed fake users for demo
+const BMP_DEMO_USERS = [
+  { email: 'demo@barman.it', password: 'demo1234', nome: 'Luca', cognome: 'Demo', role: 'client', initials: 'LD' },
+  { email: 'barman@barman.it', password: 'barman1234', nome: 'Marco', cognome: 'Ferretti', role: 'barman', initials: 'MF' },
+];
+
+// Seed conversations
+const BMP_CONVERSATIONS = [
+  { id: 1, barmanId: 1, barmanName: 'Marco Ferretti', barmanImg: 'MF', lastMsg: 'Sono disponibile per quella data, ottimo!', time: 'Oggi 10:42', unread: 2, messages: [
+    { from: 'barman', text: 'Ciao! Sono Marco Ferretti. Come posso aiutarti?', time: '10:30' },
+    { from: 'user', text: 'Ciao Marco, ho bisogno di un barman per il 15 marzo, matrimonio a Cagliari.', time: '10:35' },
+    { from: 'barman', text: 'Perfetto! Quanti ospiti prevedi?', time: '10:38' },
+    { from: 'user', text: 'Circa 150 ospiti, buffet apericena dalle 18 alle 23.', time: '10:40' },
+    { from: 'barman', text: 'Sono disponibile per quella data, ottimo!', time: '10:42' },
+  ]},
+  { id: 2, barmanId: 5, barmanName: 'Alessandro Ricci', barmanImg: 'AR', lastMsg: 'Ti mando il preventivo entro stasera.', time: 'Ieri', unread: 1, messages: [
+    { from: 'barman', text: 'Buongiorno! Alessandro Ricci, specializzato in wine & spirits. Come posso aiutarti?', time: 'Ieri 14:10' },
+    { from: 'user', text: 'Buongiorno Alessandro, cerco qualcuno per una degustazione wine pairing, 30 persone.', time: 'Ieri 14:20' },
+    { from: 'barman', text: 'Interessante! Ho esperienza in degustazioni abbinate. Ti mando il preventivo entro stasera.', time: 'Ieri 14:35' },
+  ]},
+  { id: 3, barmanId: 2, barmanName: 'Sofia Conti', barmanImg: 'SC', lastMsg: 'Grazie per la fiducia, a presto!', time: '3 giorni fa', unread: 0, messages: [
+    { from: 'barman', text: 'Ciao! Sono Sofia Conti, specializzata in molecular mixology.', time: '3g fa 20:00' },
+    { from: 'user', text: 'Perfetta per il nostro gala dinner aziendale!', time: '3g fa 20:05' },
+    { from: 'barman', text: 'Ottimo! Ho già preparato una proposta con 8 cocktail signature.', time: '3g fa 20:10' },
+    { from: 'user', text: 'Fantastico, sei confermata!', time: '3g fa 20:12' },
+    { from: 'barman', text: 'Grazie per la fiducia, a presto!', time: '3g fa 20:13' },
+  ]},
+];
+
+let bmpActiveConvId = 1;
+let bmpConvMessages = JSON.parse(JSON.stringify(BMP_CONVERSATIONS)); // deep copy
+
+// ── AUTH FUNCTIONS ────────────────────────────────────────────────────────────
+function bmpSetAuthTab(tab) {
+  const lForm = document.getElementById('bmp-login-form');
+  const rForm = document.getElementById('bmp-register-form');
+  const btnL = document.getElementById('btn-tab-login');
+  const btnR = document.getElementById('btn-tab-register');
+  if (!lForm || !rForm) return;
+  if (tab === 'login') {
+    lForm.style.display = 'block'; rForm.style.display = 'none';
+    btnL.style.background = 'rgba(232,184,75,.12)'; btnL.style.borderColor = 'rgba(232,184,75,.25)'; btnL.style.color = '#E8B84B';
+    btnR.style.background = 'transparent'; btnR.style.borderColor = 'transparent'; btnR.style.color = '#5a4a3a';
+  } else {
+    lForm.style.display = 'none'; rForm.style.display = 'block';
+    btnR.style.background = 'rgba(232,184,75,.12)'; btnR.style.borderColor = 'rgba(232,184,75,.25)'; btnR.style.color = '#E8B84B';
+    btnL.style.background = 'transparent'; btnL.style.borderColor = 'transparent'; btnL.style.color = '#5a4a3a';
+  }
+}
+
+function bmpSetRole(role) {
+  bmpSelectedRole = role;
+  const cl = document.getElementById('role-client-lbl');
+  const bl = document.getElementById('role-barman-lbl');
+  const bf = document.getElementById('bmp-barman-fields');
+  if (!cl) return;
+  if (role === 'client') {
+    cl.style.background = 'rgba(232,184,75,.12)'; cl.style.borderColor = 'rgba(232,184,75,.3)'; cl.querySelector('div:nth-child(2)').style.color = '#E8B84B';
+    bl.style.background = 'rgba(255,255,255,.03)'; bl.style.borderColor = 'rgba(232,184,75,.1)'; bl.querySelector('div:nth-child(2)').style.color = '#8a7a6a';
+    if (bf) bf.style.display = 'none';
+  } else {
+    bl.style.background = 'rgba(232,184,75,.12)'; bl.style.borderColor = 'rgba(232,184,75,.3)'; bl.querySelector('div:nth-child(2)').style.color = '#E8B84B';
+    cl.style.background = 'rgba(255,255,255,.03)'; cl.style.borderColor = 'rgba(232,184,75,.1)'; cl.querySelector('div:nth-child(2)').style.color = '#8a7a6a';
+    if (bf) bf.style.display = 'block';
+  }
+}
+
+function bmpTogglePwd(id, btn) {
+  const inp = document.getElementById(id); if (!inp) return;
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  btn.textContent = inp.type === 'password' ? '👁' : '🙈';
+}
+
+function bmpCheckPwdStrength(val) {
+  const bars = document.querySelectorAll('.bmp-str-bar');
+  if (!bars.length) return;
+  let score = 0;
+  if (val.length >= 8) score++;
+  if (/[A-Z]/.test(val)) score++;
+  if (/[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+  const colors = ['#e03e50','#e8a830','#4a90e8','#22c97a'];
+  bars.forEach((b, i) => { b.style.background = i < score ? colors[score-1] : 'rgba(255,255,255,.08)'; });
+}
+
+function bmpShowForgot() {
+  const err = document.getElementById('bmp-login-err');
+  if (err) { err.style.display = 'block'; err.style.background = 'rgba(18,184,160,.08)'; err.style.borderColor = 'rgba(18,184,160,.2)'; err.style.color = '#12b8a0'; err.textContent = "✓ Se l'email è registrata, riceverai le istruzioni entro pochi minuti."; }
+}
+
+function bmpDoLogin() {
+  const email = document.getElementById('bmp-login-email')?.value?.trim();
+  const pwd = document.getElementById('bmp-login-pwd')?.value;
+  const err = document.getElementById('bmp-login-err');
+  if (!email || !pwd) { if(err){err.style.display='block';err.textContent='Compila tutti i campi.';} return; }
+  const user = BMP_DEMO_USERS.find(u => u.email === email && u.password === pwd);
+  if (!user) {
+    if (err) { err.style.display = 'block'; err.textContent = '❌ Email o password non corretti. Prova con demo@barman.it / demo1234'; }
+    return;
+  }
+  bmpLoginSuccess(user);
+}
+
+function bmpDoSocialLogin(provider) {
+  bmpLoginSuccess({ email: 'social@barman.it', nome: 'Utente', cognome: provider, role: 'client', initials: 'US' });
+}
+
+function bmpDoRegister() {
+  const nome = document.getElementById('bmp-reg-nome')?.value?.trim();
+  const cognome = document.getElementById('bmp-reg-cognome')?.value?.trim();
+  const email = document.getElementById('bmp-reg-email')?.value?.trim();
+  const pwd = document.getElementById('bmp-reg-pwd')?.value;
+  const pwd2 = document.getElementById('bmp-reg-pwd2')?.value;
+  const terms = document.getElementById('bmp-reg-terms')?.checked;
+  const err = document.getElementById('bmp-reg-err');
+  if (!nome || !cognome || !email || !pwd) { if(err){err.style.display='block';err.textContent='Compila tutti i campi obbligatori.';} return; }
+  if (pwd !== pwd2) { if(err){err.style.display='block';err.textContent='Le password non coincidono.';} return; }
+  if (pwd.length < 8) { if(err){err.style.display='block';err.textContent='La password deve avere almeno 8 caratteri.';} return; }
+  if (!terms) { if(err){err.style.display='block';err.textContent='Devi accettare i Termini di Servizio.';} return; }
+  const initials = (nome[0] + cognome[0]).toUpperCase();
+  bmpLoginSuccess({ email, nome, cognome, role: bmpSelectedRole, initials });
+}
+
+function bmpLoginSuccess(user) {
+  bmpCurrentUser = user;
+  bmpUpdateAuthUI();
+  bmpNavigate('area-riservata');
+}
+
+function bmpLogout() {
+  bmpCurrentUser = null;
+  bmpUpdateAuthUI();
+  bmpNavigate('home');
+}
+
+function bmpUpdateAuthUI() {
+  const authBtns = document.getElementById('bmp-auth-btns');
+  const userBtns = document.getElementById('bmp-user-btns');
+  const msgNav = document.getElementById('bmp-msg-navbtn');
+  if (!authBtns || !userBtns) return;
+  if (bmpCurrentUser) {
+    authBtns.style.display = 'none';
+    userBtns.style.display = 'flex';
+    if (msgNav) msgNav.style.display = 'flex';
+    const nameMini = document.getElementById('bmp-user-name-mini');
+    const avatarMini = document.getElementById('bmp-user-avatar-mini');
+    if (nameMini) nameMini.textContent = bmpCurrentUser.nome;
+    if (avatarMini) avatarMini.textContent = bmpCurrentUser.initials;
+  } else {
+    authBtns.style.display = 'flex';
+    userBtns.style.display = 'none';
+    if (msgNav) msgNav.style.display = 'none';
+  }
+}
+
+// ── AREA RISERVATA ────────────────────────────────────────────────────────────
+function bmpRenderAreaRiservata() {
+  if (!bmpCurrentUser) { bmpNavigate('login'); return; }
+  const u = bmpCurrentUser;
+  const el = (id) => document.getElementById(id);
+  if (el('bmp-ar-avatar')) el('bmp-ar-avatar').textContent = u.initials;
+  if (el('bmp-ar-name')) el('bmp-ar-name').textContent = u.nome + ' ' + u.cognome;
+  if (el('bmp-ar-email')) el('bmp-ar-email').textContent = u.email;
+  if (el('bmp-ar-role-badge')) {
+    el('bmp-ar-role-badge').textContent = u.role === 'barman' ? '🍸 Barman Pro' : '👤 Cliente';
+    el('bmp-ar-role-badge').style.background = u.role === 'barman' ? 'rgba(232,184,75,.12)' : 'rgba(18,184,160,.12)';
+    el('bmp-ar-role-badge').style.color = u.role === 'barman' ? '#E8B84B' : '#12b8a0';
+    el('bmp-ar-role-badge').style.border = `1px solid ${u.role === 'barman' ? 'rgba(232,184,75,.25)' : 'rgba(18,184,160,.25)'}`;
+  }
+  // Default tab: messaggi
+  bmpSetArTab('messaggi', document.querySelector('.bmp-ar-menu-btn'));
+}
+
+function bmpSetArTab(tab, btn) {
+  document.querySelectorAll('.bmp-ar-menu-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const container = document.getElementById('bmp-ar-content'); if (!container) return;
+  if (tab === 'messaggi') bmpRenderInbox(container);
+  else if (tab === 'prenotazioni') bmpRenderArBookings(container);
+  else if (tab === 'profilo') bmpRenderArProfile(container);
+  else if (tab === 'notifiche') bmpRenderArNotifiche(container);
+  else if (tab === 'sicurezza') bmpRenderArSicurezza(container);
+}
+
+// ── MESSAGISTICA INTERNA ──────────────────────────────────────────────────────
+function bmpRenderInbox(container) {
+  const conv = bmpConvMessages;
+  const active = conv.find(c => c.id === bmpActiveConvId) || conv[0];
+  container.innerHTML = `
+    <div style="display:flex;gap:0;background:rgba(20,15,8,.8);border:1px solid rgba(232,184,75,.12);border-radius:14px;overflow:hidden;min-height:560px">
+      <!-- Conversation list -->
+      <div style="width:280px;flex-shrink:0;border-right:1px solid rgba(232,184,75,.08);display:flex;flex-direction:column">
+        <div style="padding:16px;border-bottom:1px solid rgba(232,184,75,.08);display:flex;align-items:center;justify-content:space-between">
+          <span style="color:#f0e6c8;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:700">Messaggi</span>
+          <span style="background:rgba(224,62,80,.12);color:#e03e50;border:1px solid rgba(224,62,80,.2);border-radius:99px;padding:2px 8px;font-size:11px;font-weight:700">${conv.filter(c=>c.unread>0).length} nuovi</span>
+        </div>
+        <div style="flex:1;overflow-y:auto">
+          ${conv.map(c => `
+            <div class="bmp-inbox-row ${c.unread > 0 ? 'unread' : ''} ${c.id === bmpActiveConvId ? 'active' : ''}" onclick="bmpSelectConv(${c.id})">
+              ${bmpAvatar(c.barmanImg, 42)}
+              <div style="flex:1;min-width:0">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px">
+                  <span class="bmp-inbox-name">${bmpE(c.barmanName)}</span>
+                  <span class="bmp-inbox-time">${bmpE(c.time)}</span>
+                </div>
+                <div class="bmp-inbox-preview">${bmpE(c.lastMsg)}</div>
+              </div>
+              ${c.unread > 0 ? `<div style="width:8px;height:8px;border-radius:50%;background:#E8B84B;flex-shrink:0;margin-left:6px;margin-top:5px"></div>` : ''}
+            </div>`).join('')}
+        </div>
+        <div style="padding:12px;border-top:1px solid rgba(232,184,75,.08)">
+          <button class="bmp-btn-gold" style="width:100%;padding:10px;font-size:13px" onclick="bmpNavigate('search')">+ Nuovo Contatto</button>
+        </div>
+      </div>
+      <!-- Chat view -->
+      <div style="flex:1;display:flex;flex-direction:column" id="bmp-conv-area">
+        ${active ? bmpBuildConvHTML(active) : '<div style="flex:1;display:flex;align-items:center;justify-content:center;color:#5a4a3a">Seleziona una conversazione</div>'}
+      </div>
+    </div>`;
+  // Mark as read
+  if (active) { const c = bmpConvMessages.find(x=>x.id===bmpActiveConvId); if(c) c.unread = 0; }
+}
+
+function bmpBuildConvHTML(conv) {
+  const barman = BMP_BARMEN.find(b => b.id === conv.barmanId);
+  return `
+    <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid rgba(232,184,75,.08)">
+      ${bmpAvatar(conv.barmanImg, 40, barman?.badge)}
+      <div style="flex:1">
+        <div style="color:#f0e6c8;font-weight:700;font-family:'DM Sans',sans-serif">${bmpE(conv.barmanName)}</div>
+        <div style="color:#30c060;font-size:12px">● Online</div>
+      </div>
+      <button onclick="bmpNavigate('profile',BMP_BARMEN.find(b=>b.id===${conv.barmanId}))" style="background:rgba(232,184,75,.08);border:1px solid rgba(232,184,75,.15);border-radius:8px;padding:7px 14px;color:#E8B84B;font-size:12px;cursor:pointer;font-family:'DM Sans',Georgia,serif">Vedi Profilo</button>
+      <button onclick="bmpOpenBookingFromInbox(${conv.barmanId})" style="background:linear-gradient(135deg,#E8B84B,#c8941f);border:none;border-radius:8px;padding:7px 14px;color:#0a0a0a;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',Georgia,serif">Prenota</button>
+    </div>
+    <div id="bmp-msg-body" style="flex:1;padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;max-height:400px">
+      ${conv.messages.map(m => `
+        <div style="display:flex;justify-content:${m.from==='user'?'flex-end':'flex-start'}">
+          ${m.from==='barman' ? bmpAvatar(conv.barmanImg, 30) + '<div style="margin-left:8px">' : '<div>'}
+            <div style="max-width:70%;padding:10px 14px;font-size:13px;line-height:1.5;border-radius:${m.from==='user'?'14px 14px 0 14px':'14px 14px 14px 0'};background:${m.from==='user'?'linear-gradient(135deg,#E8B84B,#c8941f)':'rgba(255,255,255,.05)'};${m.from==='user'?'color:#0a0a0a':'color:#e0d0b0;border:1px solid rgba(232,184,75,.1)'}">${bmpE(m.text)}</div>
+            <div style="font-size:11px;color:#3a3030;margin-top:3px;text-align:${m.from==='user'?'right':'left'}">${bmpE(m.time)}</div>
+          </div>
+        </div>`).join('')}
+    </div>
+    <div style="padding:12px 16px;border-top:1px solid rgba(232,184,75,.08);display:flex;gap:10px">
+      <input id="bmp-inbox-input" class="bmp-chat-input" placeholder="Scrivi un messaggio..." onkeydown="if(event.key==='Enter')bmpSendInboxMsg(${conv.id})">
+      <button class="bmp-send-btn" onclick="bmpSendInboxMsg(${conv.id})">→</button>
+    </div>`;
+}
+
+function bmpSelectConv(id) {
+  bmpActiveConvId = id;
+  const container = document.getElementById('bmp-ar-content'); if (!container) return;
+  bmpRenderInbox(container);
+  // Scroll to bottom
+  setTimeout(() => { const body = document.getElementById('bmp-msg-body'); if(body) body.scrollTop = body.scrollHeight; }, 50);
+}
+
+function bmpSendInboxMsg(convId) {
+  const inp = document.getElementById('bmp-inbox-input'); if (!inp) return;
+  const text = inp.value.trim(); if (!text) return;
+  const time = bmpNow();
+  const conv = bmpConvMessages.find(c => c.id === convId); if (!conv) return;
+  conv.messages.push({ from: 'user', text, time });
+  conv.lastMsg = text; conv.time = 'Ora';
+  inp.value = '';
+  // Re-render
+  const area = document.getElementById('bmp-conv-area');
+  if (area) area.innerHTML = bmpBuildConvHTML(conv);
+  // Auto-reply after 1s
+  setTimeout(() => {
+    const replies = ['Certo, lo verifico subito!','Ottima scelta, possiamo organizzarci così.','Ti mando i dettagli entro breve.','Perfetto, confermiamo la data?'];
+    conv.messages.push({ from: 'barman', text: replies[Math.floor(Math.random()*replies.length)], time: bmpNow() });
+    conv.lastMsg = conv.messages[conv.messages.length-1].text;
+    const area2 = document.getElementById('bmp-conv-area');
+    if (area2) area2.innerHTML = bmpBuildConvHTML(conv);
+    setTimeout(() => { const body = document.getElementById('bmp-msg-body'); if(body) body.scrollTop = body.scrollHeight; }, 30);
+  }, 1000);
+}
+
+function bmpOpenBookingFromInbox(barmanId) {
+  const b = BMP_BARMEN.find(x => x.id === barmanId); if (!b) return;
+  bmpCurrentBarman = b;
+  bmpOpenBooking();
+}
+
+// ── AR BOOKINGS ────────────────────────────────────────────────────────────────
+function bmpRenderArBookings(container) {
+  const statusColor = { confirmed:'#30c060', pending:'#E8B84B', completed:'#5a4a3a' };
+  const statusLabel = { confirmed:'Confermato', pending:'In attesa', completed:'Completato' };
+  container.innerHTML = `
+    <h3 style="font-family:'DM Sans',sans-serif;color:#f0e6c8;font-size:1.4rem;margin-bottom:20px">Le mie Prenotazioni</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:24px">
+      <div class="bmp-kpi-card"><div class="bmp-kpi-val">3</div><div class="bmp-kpi-lbl">Totali</div></div>
+      <div class="bmp-kpi-card"><div class="bmp-kpi-val">€950</div><div class="bmp-kpi-lbl">Spesa</div></div>
+      <div class="bmp-kpi-card"><div class="bmp-kpi-val">1</div><div class="bmp-kpi-lbl">Attive</div></div>
+      <div class="bmp-kpi-card"><div class="bmp-kpi-val">4.8★</div><div class="bmp-kpi-lbl">Rating medio</div></div>
+    </div>
+    <div class="bmp-bookings-list">
+      ${BMP_BOOKINGS.map(bk => `
+        <div class="bmp-booking-row">
+          ${bmpAvatar(bk.barman.img, 48, bk.barman.badge)}
+          <div style="flex:1;min-width:0">
+            <div style="color:#f0e6c8;font-weight:700">${bmpE(bk.barman.name)}</div>
+            <div style="color:#5a4a3a;font-size:13px">${bmpE(bk.event)} · ${bmpE(bk.date)}</div>
+          </div>
+          <div style="color:#E8B84B;font-family:'DM Sans',sans-serif;font-weight:700;font-size:18px">€${bk.amount}</div>
+          <span class="bmp-status" style="background:rgba(${bk.status==='confirmed'?'30,160,80':bk.status==='pending'?'232,184,75':'90,74,58'},0.1);border:1px solid ${statusColor[bk.status]}40;color:${statusColor[bk.status]}">${statusLabel[bk.status]}</span>
+          <button onclick="bmpSelectConv(${bk.barman.id});(function(){var btns=document.querySelectorAll('.bmp-ar-menu-btn');var mb=Array.from(btns).find(b=>b.textContent.includes('Messaggi'));bmpSetArTab('messaggi',mb||btns[0]);})()" style="background:rgba(18,184,160,.08);border:1px solid rgba(18,184,160,.2);border-radius:8px;padding:7px 14px;color:#12b8a0;font-size:12px;cursor:pointer;font-family:'DM Sans',Georgia,serif">💬 Messaggia</button>
+        </div>`).join('')}
+    </div>`;
+}
+
+// ── AR PROFILE ────────────────────────────────────────────────────────────────
+function bmpRenderArProfile(container) {
+  const u = bmpCurrentUser; if (!u) return;
+  container.innerHTML = `
+    <h3 style="font-family:'DM Sans',sans-serif;color:#f0e6c8;font-size:1.4rem;margin-bottom:20px">Il mio Profilo</h3>
+    <div style="background:rgba(20,15,8,.8);border:1px solid rgba(232,184,75,.12);border-radius:14px;padding:24px;margin-bottom:16px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div><label class="bmp-field-label">Nome</label><input class="bmp-field-input" value="${bmpE(u.nome)}" id="pr-nome"></div>
+        <div><label class="bmp-field-label">Cognome</label><input class="bmp-field-input" value="${bmpE(u.cognome)}" id="pr-cognome"></div>
+        <div style="grid-column:1/-1"><label class="bmp-field-label">Email</label><input class="bmp-field-input" type="email" value="${bmpE(u.email)}" id="pr-email"></div>
+        <div style="grid-column:1/-1"><label class="bmp-field-label">Telefono</label><input class="bmp-field-input" type="tel" placeholder="+39 333 000 0000" id="pr-tel"></div>
+        ${u.role === 'barman' ? `
+        <div style="grid-column:1/-1"><label class="bmp-field-label">Bio / Presentazione</label><textarea class="bmp-field-input" rows="3" id="pr-bio" placeholder="Raccontati ai tuoi clienti...">${bmpE(u.bio||'')}</textarea></div>
+        <div><label class="bmp-field-label">Città operatività</label><input class="bmp-field-input" value="${bmpE(u.city||u.cognome)}" id="pr-city"></div>
+        <div><label class="bmp-field-label">Tariffa oraria (€)</label><input class="bmp-field-input" type="number" placeholder="25" id="pr-rate"></div>` : ''}
+      </div>
+    </div>
+    <div style="text-align:right">
+      <button class="bmp-btn-gold" style="padding:11px 28px" onclick="bmpSaveProfile()">Salva modifiche</button>
+    </div>`;
+}
+
+function bmpSaveProfile() {
+  const u = bmpCurrentUser; if(!u) return;
+  const nome = document.getElementById('pr-nome')?.value?.trim();
+  const cognome = document.getElementById('pr-cognome')?.value?.trim();
+  if (nome) u.nome = nome;
+  if (cognome) u.cognome = cognome;
+  if (nome && cognome) u.initials = (nome[0]+cognome[0]).toUpperCase();
+  bmpUpdateAuthUI();
+  bmpRenderAreaRiservata();
+  // toast
+  const t = document.getElementById('toast');
+  if(t){t.textContent='✓ Profilo aggiornato!';t.className='show';setTimeout(()=>t.className='',2500);}
+}
+
+// ── AR NOTIFICHE ───────────────────────────────────────────────────────────────
+function bmpRenderArNotifiche(container) {
+  const notifs = [
+    { icon:'🎉', title:'Prenotazione confermata', desc:'Marco Ferretti ha confermato per il 15 Mar 2025', time:'2 ore fa', read:false },
+    { icon:'💬', title:'Nuovo messaggio', desc:'Alessandro Ricci: "Ti mando il preventivo entro stasera."', time:'Ieri', read:false },
+    { icon:'⭐', title:'Lascia una recensione', desc:'Il tuo evento con Sofia Conti è terminato. Come è andata?', time:'3 giorni fa', read:false },
+    { icon:'📋', title:'Promemoria evento', desc:'Matrimonio con Marco Ferretti tra 7 giorni — 15 Marzo', time:'4 giorni fa', read:true },
+    { icon:'✅', title:'Pagamento ricevuto', desc:'Anticipo di €84 ricevuto per il Gala Dinner', time:'1 settimana fa', read:true },
+  ];
+  container.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <h3 style="font-family:'DM Sans',sans-serif;color:#f0e6c8;font-size:1.4rem">Notifiche</h3>
+      <button style="background:none;border:none;color:#E8B84B;font-size:13px;cursor:pointer;font-family:'DM Sans',Georgia,serif">Segna tutte come lette</button>
+    </div>
+    <div style="background:rgba(20,15,8,.8);border:1px solid rgba(232,184,75,.12);border-radius:14px;overflow:hidden">
+      ${notifs.map(n => `
+        <div style="display:flex;gap:14px;padding:16px 20px;border-bottom:1px solid rgba(232,184,75,.06);background:${n.read?'transparent':'rgba(232,184,75,.03)'};align-items:flex-start">
+          <div style="width:40px;height:40px;border-radius:50%;background:${n.read?'rgba(255,255,255,.04)':'rgba(232,184,75,.1)'};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${n.icon}</div>
+          <div style="flex:1">
+            <div style="color:${n.read?'#8a7a6a':'#f0e6c8'};font-weight:${n.read?'400':'700'};font-size:14px;margin-bottom:3px">${bmpE(n.title)}</div>
+            <div style="color:#5a4a3a;font-size:12px;line-height:1.5">${bmpE(n.desc)}</div>
+          </div>
+          <div style="color:#3a3020;font-size:11px;white-space:nowrap;flex-shrink:0">${bmpE(n.time)}</div>
+          ${!n.read ? '<div style="width:8px;height:8px;border-radius:50%;background:#E8B84B;flex-shrink:0;margin-top:6px"></div>' : ''}
+        </div>`).join('')}
+    </div>`;
+}
+
+// ── AR SICUREZZA ───────────────────────────────────────────────────────────────
+function bmpRenderArSicurezza(container) {
+  container.innerHTML = `
+    <h3 style="font-family:'DM Sans',sans-serif;color:#f0e6c8;font-size:1.4rem;margin-bottom:20px">Sicurezza</h3>
+    <div style="background:rgba(20,15,8,.8);border:1px solid rgba(232,184,75,.12);border-radius:14px;padding:24px;margin-bottom:16px">
+      <div style="font-size:15px;font-weight:600;color:#f0e6c8;margin-bottom:16px">Cambia Password</div>
+      <div style="display:flex;flex-direction:column;gap:14px;max-width:400px">
+        <div><label class="bmp-field-label">Password attuale</label><input type="password" class="bmp-field-input" placeholder="••••••••"></div>
+        <div><label class="bmp-field-label">Nuova password</label><input type="password" class="bmp-field-input" placeholder="Min. 8 caratteri"></div>
+        <div><label class="bmp-field-label">Conferma nuova password</label><input type="password" class="bmp-field-input" placeholder="Ripeti la nuova password"></div>
+      </div>
+      <button class="bmp-btn-gold" style="margin-top:20px;padding:11px 28px">Aggiorna password</button>
+    </div>
+    <div style="background:rgba(20,15,8,.8);border:1px solid rgba(232,184,75,.12);border-radius:14px;padding:24px;margin-bottom:16px">
+      <div style="font-size:15px;font-weight:600;color:#f0e6c8;margin-bottom:8px">Autenticazione a due fattori</div>
+      <div style="color:#5a4a3a;font-size:13px;margin-bottom:16px">Aumenta la sicurezza del tuo account con una verifica aggiuntiva al login.</div>
+      <button style="background:rgba(18,184,160,.1);border:1px solid rgba(18,184,160,.2);border-radius:8px;padding:10px 20px;color:#12b8a0;font-size:13px;cursor:pointer;font-family:'DM Sans',Georgia,serif;font-weight:600">Attiva 2FA</button>
+    </div>
+    <div style="background:rgba(224,62,80,.04);border:1px solid rgba(224,62,80,.15);border-radius:14px;padding:24px">
+      <div style="font-size:15px;font-weight:600;color:#e03e50;margin-bottom:8px">Zona pericolosa</div>
+      <div style="color:#5a4a3a;font-size:13px;margin-bottom:16px">L'eliminazione dell'account è permanente e irreversibile.</div>
+      <button style="background:rgba(224,62,80,.1);border:1px solid rgba(224,62,80,.25);border-radius:8px;padding:10px 20px;color:#e03e50;font-size:13px;cursor:pointer;font-family:'DM Sans',Georgia,serif;font-weight:600">Elimina account</button>
+    </div>`;
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+function bmpInit() {
+  if (!bmpInitialized) {
+    bmpInitialized = true;
+  }
+  bmpUpdateAuthUI();
+  bmpNavigate('home');
+}
+
+// Auto-init
+document.addEventListener('DOMContentLoaded', function() {
+  if(typeof bmpInit === 'function') bmpInit();
+  else if(typeof bmpRenderFeatured === 'function') bmpRenderFeatured();
+});
+// ── VERIFICATION LEVELS (Fiverr-style) ─────────────────────────────────────────
+const BMP_LEVELS = {
+  'New':       { icon:'🌱', color:'#8a7a6a', label:'New Barman', minEvents:0,  perks:['Profilo base','Max 5 prenotazioni/mese'] },
+  'Verified':  { icon:'✅', color:'#2cc08a', label:'Verificato', minEvents:5,  perks:['Badge verificato','Max 15 prenotazioni/mese','Accesso chat prioritaria'] },
+  'Top':       { icon:'⭐', color:'#E8B84B', label:'Top Barman', minEvents:20, perks:['Posizionamento premium','Prenotazioni illimitate','Commissione ridotta 10%','Accesso analytics avanzati'] },
+  'Elite':     { icon:'👑', color:'#f472b6', label:'Elite',      minEvents:50, perks:['Instant booking','Commissione 8%','Featured in homepage','Badge esclusivo','Account manager dedicato'] }
+};
+
+// ── ANALYTICS DASHBOARD ────────────────────────────────────────────────────────
+function renderAnalytics() {
+  const c = document.getElementById('analytics-content');
+  if(!c) return;
+  const months = ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
+  const revenue = [1200,980,1450,1680,2100,1890,2340,2780,2100,1650,1420,1890];
+  const bookings = [4,3,5,6,8,7,9,11,8,6,5,7];
+  const maxRev = Math.max(...revenue);
+  const totalRev = revenue.reduce((a,b)=>a+b,0);
+  const totalBook = bookings.reduce((a,b)=>a+b,0);
+  const avgRating = 4.7;
+  const responseTime = '18 min';
+
+  c.innerHTML = `
+    <h2 style="font-family:'DM Sans',sans-serif;font-size:clamp(1.5rem,4vw,2rem);color:#f0e6c8;margin-bottom:8px">📊 Analytics Dashboard</h2>
+    <p style="color:#5a4a3a;font-size:13px;margin-bottom:28px">Performance degli ultimi 12 mesi — Stile Deliveroo Partner Hub</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:32px">
+      <div style="background:rgba(232,184,75,.06);border:1px solid rgba(232,184,75,.12);border-radius:14px;padding:20px;text-align:center">
+        <div style="font-family:'DM Sans',sans-serif;font-size:clamp(1.8rem,5vw,2.4rem);font-weight:700;color:#E8B84B">€${totalRev.toLocaleString()}</div>
+        <div style="color:#5a4a3a;font-size:11px;margin-top:4px;text-transform:uppercase;letter-spacing:1px">Revenue totale</div>
+      </div>
+      <div style="background:rgba(44,192,138,.06);border:1px solid rgba(44,192,138,.12);border-radius:14px;padding:20px;text-align:center">
+        <div style="font-family:'DM Sans',sans-serif;font-size:clamp(1.8rem,5vw,2.4rem);font-weight:700;color:#2cc08a">${totalBook}</div>
+        <div style="color:#5a4a3a;font-size:11px;margin-top:4px;text-transform:uppercase;letter-spacing:1px">Prenotazioni</div>
+      </div>
+      <div style="background:rgba(79,142,247,.06);border:1px solid rgba(79,142,247,.12);border-radius:14px;padding:20px;text-align:center">
+        <div style="font-family:'DM Sans',sans-serif;font-size:clamp(1.8rem,5vw,2.4rem);font-weight:700;color:#4f8ef7">${avgRating}</div>
+        <div style="color:#5a4a3a;font-size:11px;margin-top:4px;text-transform:uppercase;letter-spacing:1px">Rating medio</div>
+      </div>
+      <div style="background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.12);border-radius:14px;padding:20px;text-align:center">
+        <div style="font-family:'DM Sans',sans-serif;font-size:clamp(1.8rem,5vw,2.4rem);font-weight:700;color:#a78bfa">${responseTime}</div>
+        <div style="color:#5a4a3a;font-size:11px;margin-top:4px;text-transform:uppercase;letter-spacing:1px">Tempo risposta</div>
+      </div>
+    </div>
+
+    <div style="background:rgba(20,15,8,.8);border:1px solid rgba(232,184,75,.12);border-radius:16px;padding:24px;margin-bottom:20px">
+      <h3 style="font-family:'DM Sans',sans-serif;color:#f0e6c8;font-size:1rem;margin-bottom:16px">Revenue mensile (€)</h3>
+      <div style="display:flex;align-items:flex-end;gap:clamp(4px,1.5vw,10px);height:180px;padding-bottom:30px;position:relative">
+        ${months.map((m,i) => `
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative">
+            <div style="font-size:10px;color:#E8B84B;font-weight:600">€${revenue[i]}</div>
+            <div style="width:100%;max-width:40px;height:${(revenue[i]/maxRev)*140}px;background:linear-gradient(to top,rgba(232,184,75,.3),rgba(232,184,75,.7));border-radius:6px 6px 2px 2px;transition:all .3s;cursor:pointer" title="${m}: €${revenue[i]}"></div>
+            <div style="font-size:10px;color:#5a4a3a;position:absolute;bottom:-24px">${m}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:20px">
+      <div style="background:rgba(20,15,8,.8);border:1px solid rgba(232,184,75,.12);border-radius:16px;padding:24px">
+        <h3 style="font-family:'DM Sans',sans-serif;color:#f0e6c8;font-size:1rem;margin-bottom:16px">Conversion Funnel</h3>
+        ${[{l:'Visualizzazioni profilo',v:342,c:'#E8B84B'},{l:'Richieste ricevute',v:89,c:'#4f8ef7'},{l:'Preventivi inviati',v:76,c:'#a78bfa'},{l:'Prenotazioni confermate',v:totalBook,c:'#2cc08a'}].map(s => `
+          <div style="margin-bottom:12px">
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="color:#8a7a6a">${s.l}</span><span style="color:${s.c};font-weight:700">${s.v}</span></div>
+            <div style="height:8px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden"><div style="height:100%;width:${(s.v/342)*100}%;background:${s.c};border-radius:4px;transition:width .5s"></div></div>
+          </div>`).join('')}
+      </div>
+      <div style="background:rgba(20,15,8,.8);border:1px solid rgba(232,184,75,.12);border-radius:16px;padding:24px">
+        <h3 style="font-family:'DM Sans',sans-serif;color:#f0e6c8;font-size:1rem;margin-bottom:16px">Livello attuale</h3>
+        ${Object.entries(BMP_LEVELS).map(([k,v]) => `
+          <div style="display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;margin-bottom:6px;background:${k==='Top'?'rgba(232,184,75,.08)':'transparent'};border:1px solid ${k==='Top'?'rgba(232,184,75,.2)':'transparent'}">
+            <span style="font-size:20px">${v.icon}</span>
+            <div style="flex:1">
+              <div style="color:${k==='Top'?'#E8B84B':'#5a4a3a'};font-weight:${k==='Top'?'700':'400'};font-size:13px">${v.label} ${k==='Top'?'← Tu':''}</div>
+              <div style="color:#3a3020;font-size:11px">Min. ${v.minEvents} eventi</div>
+            </div>
+            ${k==='Top'?'<span style="color:#E8B84B;font-size:11px;font-weight:700">ATTIVO</span>':''}
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <div style="background:rgba(20,15,8,.8);border:1px solid rgba(232,184,75,.12);border-radius:16px;padding:24px">
+      <h3 style="font-family:'DM Sans',sans-serif;color:#f0e6c8;font-size:1rem;margin-bottom:16px">Metriche chiave</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+        ${[{l:'Tasso accettazione',v:'94%',t:'Target: >90%',c:'#2cc08a'},{l:'Cancellazioni',v:'2.1%',t:'Target: <5%',c:'#2cc08a'},{l:'Repeat customers',v:'38%',t:'Media piattaforma: 25%',c:'#E8B84B'},{l:'Revenue medio/evento',v:'€267',t:'+12% vs trimestre prec.',c:'#4f8ef7'},{l:'Prossimo livello (Elite)',v:'32/50',t:'Mancano 18 eventi',c:'#a78bfa'},{l:'Payout in arrivo',v:'€580',t:'Entro 5gg lavorativi',c:'#E8B84B'}].map(s => `
+          <div style="background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:10px;padding:14px">
+            <div style="font-size:11px;color:#5a4a3a;margin-bottom:6px">${s.l}</div>
+            <div style="font-size:20px;font-weight:700;color:${s.c};font-family:'DM Sans',sans-serif">${s.v}</div>
+            <div style="font-size:10px;color:#3a3020;margin-top:4px">${s.t}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// ── CALENDARIO DISPONIBILITÀ ───────────────────────────────────────────────────
+function renderCalendario() {
+  const c = document.getElementById('calendario-content');
+  if(!c) return;
+  const now = new Date();
+  let calMonth = now.getMonth(), calYear = now.getFullYear();
+
+  function draw() {
+    const first = new Date(calYear, calMonth, 1);
+    const last = new Date(calYear, calMonth + 1, 0);
+    const startDay = (first.getDay() + 6) % 7;
+    const mNames = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+    
+    // Demo availability data
+    const booked = [3,7,8,14,15,21,22,28];
+    const available = [1,2,4,5,6,9,10,11,12,13,16,17,18,19,20,23,24,25,26,27,29,30,31].filter(d => d <= last.getDate());
+    const blocked = []; // weekends could be blocked
+
+    let cells = '';
+    for(let i=0; i<startDay; i++) cells += '<div></div>';
+    for(let d=1; d<=last.getDate(); d++) {
+      const isBooked = booked.includes(d);
+      const isToday = d === now.getDate() && calMonth === now.getMonth() && calYear === now.getFullYear();
+      const bg = isBooked ? 'rgba(232,184,75,.15)' : 'rgba(44,192,138,.06)';
+      const border = isBooked ? 'rgba(232,184,75,.3)' : isToday ? 'rgba(79,142,247,.5)' : 'rgba(255,255,255,.04)';
+      const color = isBooked ? '#E8B84B' : '#8a7a6a';
+      cells += `<div style="background:${bg};border:1px solid ${border};border-radius:10px;padding:10px 8px;text-align:center;cursor:pointer;transition:all .15s;min-height:60px" onclick="calDayClick(${d})">
+        <div style="font-weight:700;font-size:14px;color:${color}">${d}</div>
+        ${isBooked ? '<div style="font-size:9px;color:#E8B84B;margin-top:4px">🍸 Prenotato</div>' : '<div style="font-size:9px;color:#2cc08a;margin-top:4px">Disponibile</div>'}
+        ${isToday ? '<div style="width:4px;height:4px;background:#4f8ef7;border-radius:50%;margin:4px auto 0"></div>' : ''}
+      </div>`;
+    }
+
+    c.innerHTML = `
+      <h2 style="font-family:'DM Sans',sans-serif;font-size:clamp(1.5rem,4vw,2rem);color:#f0e6c8;margin-bottom:8px">📅 Calendario Disponibilità</h2>
+      <p style="color:#5a4a3a;font-size:13px;margin-bottom:28px">Gestisci le tue disponibilità. I clienti vedranno solo gli slot aperti.</p>
+      
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+        <button onclick="calNav(-1)" style="background:rgba(232,184,75,.08);border:1px solid rgba(232,184,75,.15);border-radius:10px;padding:10px 18px;color:#E8B84B;cursor:pointer;font-size:14px;font-family:'DM Sans',Georgia,serif">← Prec</button>
+        <h3 style="font-family:'DM Sans',sans-serif;color:#f0e6c8;font-size:1.3rem">${mNames[calMonth]} ${calYear}</h3>
+        <button onclick="calNav(1)" style="background:rgba(232,184,75,.08);border:1px solid rgba(232,184,75,.15);border-radius:10px;padding:10px 18px;color:#E8B84B;cursor:pointer;font-size:14px;font-family:'DM Sans',Georgia,serif">Succ →</button>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+        <span style="font-size:11px;color:#2cc08a;display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:rgba(44,192,138,.3);border-radius:3px;display:inline-block"></span>Disponibile</span>
+        <span style="font-size:11px;color:#E8B84B;display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:rgba(232,184,75,.3);border-radius:3px;display:inline-block"></span>Prenotato</span>
+        <span style="font-size:11px;color:#4f8ef7;display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:rgba(79,142,247,.5);border-radius:50%;display:inline-block"></span>Oggi</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:8px">
+        ${['Lun','Mar','Mer','Gio','Ven','Sab','Dom'].map(d => `<div style="text-align:center;font-size:11px;color:#5a4a3a;font-weight:700;padding:8px 0">${d}</div>`).join('')}
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">
+        ${cells}
+      </div>
+
+      <div id="cal-day-detail" style="margin-top:20px"></div>
+    `;
+  }
+
+  window.calNav = function(dir) { calMonth += dir; if(calMonth<0){calMonth=11;calYear--;}if(calMonth>11){calMonth=0;calYear++;} draw(); };
+  window.calDayClick = function(d) {
+    const det = document.getElementById('cal-day-detail');
+    if(!det) return;
+    const isBooked = [3,7,8,14,15,21,22,28].includes(d);
+    det.innerHTML = isBooked ? `
+      <div style="background:rgba(232,184,75,.06);border:1px solid rgba(232,184,75,.15);border-radius:14px;padding:20px">
+        <h4 style="color:#E8B84B;font-family:'DM Sans',sans-serif;margin-bottom:10px">🍸 Prenotazione — ${d} del mese</h4>
+        <div style="color:#8a7a6a;font-size:13px;line-height:1.7">Evento: Cocktail Party aziendale<br>Orario: 19:00 – 00:00<br>Ospiti: ~40<br>Location: Hotel Calamosca, Cagliari<br>Compenso: €320<br>Status: <span style="color:#2cc08a;font-weight:700">Confermato</span></div>
+      </div>` : `
+      <div style="background:rgba(44,192,138,.06);border:1px solid rgba(44,192,138,.15);border-radius:14px;padding:20px">
+        <h4 style="color:#2cc08a;font-family:'DM Sans',sans-serif;margin-bottom:10px">✅ Giorno ${d} — Disponibile</h4>
+        <p style="color:#8a7a6a;font-size:13px;margin-bottom:14px">Questo slot è aperto per nuove prenotazioni.</p>
+        <button style="background:rgba(232,184,75,.15);border:1px solid rgba(232,184,75,.25);border-radius:10px;padding:10px 20px;color:#E8B84B;cursor:pointer;font-family:'DM Sans',Georgia,serif;font-size:13px" onclick="this.textContent='🔒 Bloccato';this.style.opacity='.5'">Blocca questo giorno</button>
+      </div>`;
+  };
+  draw();
+}
+
+// ── PORTFOLIO GALLERY ──────────────────────────────────────────────────────────
+function renderPortfolio() {
+  const c = document.getElementById('portfolio-content');
+  if(!c) return;
+  const events = [
+    {title:'Matrimonio Villa Ferrara',date:'Mar 2025',guests:120,type:'Matrimonio',cocktails:8,desc:'Open bar con 8 signature cocktails, welcome drink e after dinner. Tema: Sardinia meets Tiki.'},
+    {title:'Gala Aziendale TechCorp',date:'Feb 2025',guests:80,type:'Corporate',cocktails:6,desc:'Cocktail bar premium per evento corporate. Molecular mixology e drink personalizzati con logo aziendale.'},
+    {title:'Compleanno 40° — Rooftop',date:'Gen 2025',guests:50,type:'Privato',cocktails:5,desc:'Bar setup su terrazza panoramica. Menu curato con 5 cocktail classici rivisitati in chiave moderna.'},
+    {title:'Opening Night Wine Bar',date:'Dic 2024',guests:200,type:'Inaugurazione',cocktails:12,desc:'Inaugurazione locale nel centro di Cagliari. 12 drink speciali, flair bartending e live mixing show.'},
+    {title:'Festival del Mirto',date:'Nov 2024',guests:300,type:'Festival',cocktails:10,desc:'Stand cocktail al festival. 10 variazioni sul tema mirto: classic, frozen, tiki, molecular, dessert.'},
+    {title:'Cena di Gala Rotary Club',date:'Ott 2024',guests:60,type:'Gala',cocktails:4,desc:'Servizio elegante con 4 cocktail abbinati ai 4 piatti del menu degustazione dello chef.'},
+  ];
+
+  const colors = {Matrimonio:'#f472b6',Corporate:'#4f8ef7',Privato:'#E8B84B',Inaugurazione:'#2cc08a',Festival:'#fb923c',Gala:'#a78bfa'};
+
+  c.innerHTML = `
+    <h2 style="font-family:'DM Sans',sans-serif;font-size:clamp(1.5rem,4vw,2rem);color:#f0e6c8;margin-bottom:8px">🖼️ Portfolio Eventi</h2>
+    <p style="color:#5a4a3a;font-size:13px;margin-bottom:12px">Galleria dei tuoi eventi passati. I clienti vedranno questo nel tuo profilo.</p>
+    <div style="display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap">
+      <span style="background:rgba(232,184,75,.08);border:1px solid rgba(232,184,75,.15);border-radius:8px;padding:6px 14px;font-size:12px;color:#E8B84B;font-weight:600">${events.length} Eventi</span>
+      <span style="background:rgba(44,192,138,.08);border:1px solid rgba(44,192,138,.15);border-radius:8px;padding:6px 14px;font-size:12px;color:#2cc08a;font-weight:600">${events.reduce((a,e)=>a+e.guests,0)} Ospiti serviti</span>
+      <span style="background:rgba(79,142,247,.08);border:1px solid rgba(79,142,247,.15);border-radius:8px;padding:6px 14px;font-size:12px;color:#4f8ef7;font-weight:600">${events.reduce((a,e)=>a+e.cocktails,0)} Cocktail creati</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px">
+      ${events.map((e,i) => `
+        <div style="background:rgba(20,15,8,.8);border:1px solid rgba(232,184,75,.1);border-radius:16px;overflow:hidden;transition:transform .2s,box-shadow .2s;cursor:pointer" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 12px 32px rgba(0,0,0,.3)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="height:140px;background:linear-gradient(135deg,${colors[e.type]}22,${colors[e.type]}08);display:flex;align-items:center;justify-content:center;position:relative">
+            <div style="font-size:48px;opacity:.6">🍸</div>
+            <div style="position:absolute;top:12px;right:12px;background:${colors[e.type]}20;border:1px solid ${colors[e.type]}40;border-radius:100px;padding:3px 10px;font-size:10px;color:${colors[e.type]};font-weight:700">${e.type}</div>
+          </div>
+          <div style="padding:18px">
+            <h4 style="font-family:'DM Sans',sans-serif;color:#f0e6c8;font-size:15px;margin-bottom:6px">${e.title}</h4>
+            <div style="font-size:11px;color:#5a4a3a;margin-bottom:10px">${e.date} · ${e.guests} ospiti · ${e.cocktails} cocktail</div>
+            <p style="font-size:12.5px;color:#8a7a6a;line-height:1.6">${e.desc}</p>
+          </div>
+        </div>`).join('')}
+    </div>
+    <div style="margin-top:24px;text-align:center">
+      <button style="background:rgba(232,184,75,.1);border:1px solid rgba(232,184,75,.2);border-radius:12px;padding:14px 28px;color:#E8B84B;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',Georgia,serif" onclick="this.textContent='📸 Caricamento foto in sviluppo...'">+ Aggiungi evento al portfolio</button>
+    </div>
+  `;
+}
+
+// ── DISPUTE RESOLUTION CENTER ──────────────────────────────────────────────────
+function renderDispute() {
+  const c = document.getElementById('dispute-content');
+  if(!c) return;
+  const tickets = [
+    {id:'DSP-2025-042',date:'12 Mar 2025',client:'Marco R.',event:'Cocktail Party',amount:'€320',status:'resolved',resolution:'Rimborso parziale 15% — ritardo 25 min per traffico',statusColor:'#2cc08a'},
+    {id:'DSP-2025-038',date:'28 Feb 2025',client:'Sara L.',event:'Compleanno',amount:'€180',status:'in-review',resolution:'In attesa risposta barman — contestazione qualità cocktail',statusColor:'#fb923c'},
+    {id:'DSP-2025-021',date:'5 Feb 2025',client:'Andrea P.',event:'Aperitivo Aziendale',amount:'€450',status:'closed',resolution:'Contestazione rigettata — servizio conforme agli standard',statusColor:'#8a7a6a'},
+  ];
+  const statusLabels = {'resolved':'Risolto','in-review':'In revisione','closed':'Chiuso'};
+
+  c.innerHTML = `
+    <h2 style="font-family:'DM Sans',sans-serif;font-size:clamp(1.5rem,4vw,2rem);color:#f0e6c8;margin-bottom:8px">⚖️ Dispute Resolution Center</h2>
+    <p style="color:#5a4a3a;font-size:13px;margin-bottom:28px">Sistema di risoluzione contestazioni con mediazione, escrow e timeline. Modello Fiverr + Deliveroo.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:28px">
+      <div style="background:rgba(44,192,138,.06);border:1px solid rgba(44,192,138,.12);border-radius:12px;padding:16px;text-align:center">
+        <div style="font-size:24px;font-weight:700;color:#2cc08a;font-family:'DM Sans',sans-serif">1</div>
+        <div style="font-size:11px;color:#5a4a3a;margin-top:4px">Risolte</div>
+      </div>
+      <div style="background:rgba(251,146,60,.06);border:1px solid rgba(251,146,60,.12);border-radius:12px;padding:16px;text-align:center">
+        <div style="font-size:24px;font-weight:700;color:#fb923c;font-family:'DM Sans',sans-serif">1</div>
+        <div style="font-size:11px;color:#5a4a3a;margin-top:4px">In revisione</div>
+      </div>
+      <div style="background:rgba(138,122,106,.06);border:1px solid rgba(138,122,106,.12);border-radius:12px;padding:16px;text-align:center">
+        <div style="font-size:24px;font-weight:700;color:#8a7a6a;font-family:'DM Sans',sans-serif">1</div>
+        <div style="font-size:11px;color:#5a4a3a;margin-top:4px">Chiuse</div>
+      </div>
+      <div style="background:rgba(232,184,75,.06);border:1px solid rgba(232,184,75,.12);border-radius:12px;padding:16px;text-align:center">
+        <div style="font-size:24px;font-weight:700;color:#E8B84B;font-family:'DM Sans',sans-serif">96%</div>
+        <div style="font-size:11px;color:#5a4a3a;margin-top:4px">Tasso risoluzione</div>
+      </div>
+    </div>
+
+    <div style="background:rgba(79,142,247,.04);border:1px solid rgba(79,142,247,.12);border-radius:14px;padding:18px;margin-bottom:24px">
+      <h4 style="color:#4f8ef7;font-size:13px;font-weight:700;margin-bottom:8px">ℹ️ Come funziona l'escrow</h4>
+      <p style="color:#8a7a6a;font-size:12.5px;line-height:1.6">I fondi del cliente vengono trattenuti in escrow dalla piattaforma fino al completamento dell'evento. In caso di contestazione, i fondi restano bloccati fino alla risoluzione. La piattaforma agisce come mediatore imparziale entro 5 giorni lavorativi.</p>
+    </div>
+
+    ${tickets.map(t => `
+      <div style="background:rgba(20,15,8,.8);border:1px solid rgba(232,184,75,.1);border-radius:14px;padding:20px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+          <div>
+            <span style="font-family:'DM Mono',monospace;font-size:11px;color:#5a4a3a">${t.id}</span>
+            <h4 style="font-family:'DM Sans',sans-serif;color:#f0e6c8;font-size:15px;margin-top:4px">${t.event} — ${t.client}</h4>
+          </div>
+          <span style="background:${t.statusColor}15;border:1px solid ${t.statusColor}30;border-radius:100px;padding:4px 12px;font-size:11px;color:${t.statusColor};font-weight:700">${statusLabels[t.status]}</span>
+        </div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:#5a4a3a;margin-bottom:10px">
+          <span>📅 ${t.date}</span><span>💰 ${t.amount}</span>
+        </div>
+        <div style="background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:8px;padding:12px;font-size:12.5px;color:#8a7a6a;line-height:1.6">
+          <strong style="color:#f0e6c8">Esito:</strong> ${t.resolution}
+        </div>
+      </div>`).join('')}
+
+    <div style="margin-top:20px">
+      <button style="background:rgba(232,184,75,.1);border:1px solid rgba(232,184,75,.2);border-radius:12px;padding:14px 28px;color:#E8B84B;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',Georgia,serif;width:100%" onclick="this.textContent='📧 Il tuo ticket è stato aperto! ID: DSP-2025-043'">Apri nuova contestazione</button>
+    </div>
+  `;
+}
+
+// ── ONBOARDING WIZARD ──────────────────────────────────────────────────────────
+let onbStep = 1;
+function renderOnboarding() {
+  const c = document.getElementById('onboarding-content');
+  if(!c) return;
+
+  const steps = [
+    {n:1, icon:'👤', title:'Profilo personale', desc:'Nome, foto, bio professionale, specializzazioni e anni di esperienza.',
+     fields:`<div style="display:grid;gap:14px">
+      <div><label style="font-size:12px;color:#8a7a6a;display:block;margin-bottom:4px">Nome completo</label><input style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(232,184,75,.15);border-radius:10px;padding:12px;color:#f0e6c8;font-size:14px;font-family:'DM Sans',Georgia,serif" placeholder="Mario Rossi"></div>
+      <div><label style="font-size:12px;color:#8a7a6a;display:block;margin-bottom:4px">Bio professionale</label><textarea style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(232,184,75,.15);border-radius:10px;padding:12px;color:#f0e6c8;font-size:13px;font-family:'DM Sans',Georgia,serif;min-height:80px;resize:vertical" placeholder="Racconta la tua esperienza..."></textarea></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><label style="font-size:12px;color:#8a7a6a;display:block;margin-bottom:4px">Anni di esperienza</label><input type="number" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(232,184,75,.15);border-radius:10px;padding:12px;color:#f0e6c8;font-size:14px" value="5"></div><div><label style="font-size:12px;color:#8a7a6a;display:block;margin-bottom:4px">Città</label><input style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(232,184,75,.15);border-radius:10px;padding:12px;color:#f0e6c8;font-size:14px" value="Cagliari"></div></div>
+     </div>`},
+    {n:2, icon:'📄', title:'Documenti', desc:'Carica i documenti necessari per la verifica del profilo.',
+     fields:`<div style="display:grid;gap:16px">
+      ${['Documento d\'identità (fronte + retro)','Attestato HACCP','Polizza RC Professionale','P.IVA o Autocertificazione prestazione occasionale','Codice IBAN'].map(d => `
+        <div style="display:flex;align-items:center;gap:14px;padding:14px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:12px">
+          <div style="width:40px;height:40px;background:rgba(232,184,75,.08);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">📎</div>
+          <div style="flex:1"><div style="font-size:13px;color:#f0e6c8;font-weight:600">${d}</div><div style="font-size:11px;color:#5a4a3a">PDF, JPG o PNG — Max 10MB</div></div>
+          <button style="background:rgba(232,184,75,.1);border:1px solid rgba(232,184,75,.2);border-radius:8px;padding:8px 14px;color:#E8B84B;font-size:12px;cursor:pointer;white-space:nowrap;font-family:'DM Sans',Georgia,serif" onclick="this.textContent='✅ Caricato';this.style.color='#2cc08a';this.style.borderColor='rgba(44,192,138,.3)'">Carica</button>
+        </div>`).join('')}
+     </div>`},
+    {n:3, icon:'💰', title:'Tariffe & Pagamento', desc:'Imposta le tue tariffe e i dati per ricevere i pagamenti.',
+     fields:`<div style="display:grid;gap:14px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div><label style="font-size:12px;color:#8a7a6a;display:block;margin-bottom:4px">Tariffa base (€/evento)</label><input type="number" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(232,184,75,.15);border-radius:10px;padding:12px;color:#f0e6c8;font-size:14px" value="250"></div>
+        <div><label style="font-size:12px;color:#8a7a6a;display:block;margin-bottom:4px">Tariffa oraria (€/h)</label><input type="number" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(232,184,75,.15);border-radius:10px;padding:12px;color:#f0e6c8;font-size:14px" value="45"></div>
+      </div>
+      <div style="background:rgba(232,184,75,.04);border:1px solid rgba(232,184,75,.1);border-radius:10px;padding:14px;font-size:12.5px;color:#8a7a6a;line-height:1.6">
+        💡 La piattaforma applica una commissione del <strong style="color:#E8B84B">12%</strong> sul valore lordo. Con livello <strong style="color:#E8B84B">Top</strong> scende al 10%, con <strong style="color:#f472b6">Elite</strong> all'8%.
+      </div>
+      <div><label style="font-size:12px;color:#8a7a6a;display:block;margin-bottom:4px">IBAN per pagamenti</label><input style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(232,184,75,.15);border-radius:10px;padding:12px;color:#f0e6c8;font-size:14px;font-family:'DM Mono',monospace" placeholder="IT00 X000 0000 0000 0000 0000 000"></div>
+     </div>`},
+    {n:4, icon:'✅', title:'Revisione & Firma', desc:'Controlla i tuoi dati e firma il contratto di collaborazione.',
+     fields:`<div>
+      <div style="background:rgba(44,192,138,.06);border:1px solid rgba(44,192,138,.15);border-radius:14px;padding:20px;margin-bottom:16px">
+        <h4 style="color:#2cc08a;font-family:'DM Sans',sans-serif;margin-bottom:10px">Riepilogo</h4>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;color:#8a7a6a">
+          <div>👤 Profilo: <span style="color:#2cc08a">Completo</span></div>
+          <div>📄 Documenti: <span style="color:#2cc08a">5/5 caricati</span></div>
+          <div>💰 Tariffe: <span style="color:#2cc08a">Impostate</span></div>
+          <div>🛡️ Assicurazione: <span style="color:#2cc08a">Verificata</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><input type="checkbox" id="onb-terms" style="width:18px;height:18px;accent-color:#E8B84B"><label for="onb-terms" style="color:#f0e6c8;font-size:13px;cursor:pointer">Ho letto e accetto il Contratto di Collaborazione e la Privacy Policy</label></div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><input type="checkbox" id="onb-gdpr" style="width:18px;height:18px;accent-color:#E8B84B"><label for="onb-gdpr" style="color:#f0e6c8;font-size:13px;cursor:pointer">Autorizzo il trattamento dati ai sensi del GDPR (Reg. UE 2016/679)</label></div>
+     </div>`}
+  ];
+
+  const step = steps[onbStep-1];
+  const progress = (onbStep / steps.length) * 100;
+
+  c.innerHTML = `
+    <h2 style="font-family:'DM Sans',sans-serif;font-size:clamp(1.5rem,4vw,2rem);color:#f0e6c8;margin-bottom:8px">🚀 Onboarding Wizard</h2>
+    <p style="color:#5a4a3a;font-size:13px;margin-bottom:24px">Completa tutti i passaggi per attivare il tuo profilo sulla piattaforma.</p>
+
+    <div style="display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap">
+      ${steps.map(s => `<div style="flex:1;min-width:60px;text-align:center">
+        <div style="width:36px;height:36px;border-radius:50%;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:16px;background:${s.n<onbStep?'rgba(44,192,138,.15)':s.n===onbStep?'rgba(232,184,75,.15)':'rgba(255,255,255,.05)'};border:2px solid ${s.n<onbStep?'#2cc08a':s.n===onbStep?'#E8B84B':'rgba(255,255,255,.1)'}">${s.n<onbStep?'✓':s.icon}</div>
+        <div style="font-size:10px;color:${s.n===onbStep?'#E8B84B':'#5a4a3a'}">${s.title}</div>
+      </div>`).join('')}
+    </div>
+
+    <div style="height:6px;background:rgba(255,255,255,.05);border-radius:3px;margin-bottom:28px;overflow:hidden">
+      <div style="height:100%;width:${progress}%;background:linear-gradient(90deg,#E8B84B,#f472b6);border-radius:3px;transition:width .4s"></div>
+    </div>
+
+    <div style="background:rgba(20,15,8,.8);border:1px solid rgba(232,184,75,.12);border-radius:16px;padding:28px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
+        <span style="font-size:24px">${step.icon}</span>
+        <h3 style="font-family:'DM Sans',sans-serif;color:#f0e6c8;font-size:1.2rem">Step ${step.n}: ${step.title}</h3>
+      </div>
+      <p style="color:#5a4a3a;font-size:13px;margin-bottom:20px">${step.desc}</p>
+      ${step.fields}
+    </div>
+
+    <div style="display:flex;justify-content:space-between;margin-top:20px;gap:12px;flex-wrap:wrap">
+      <button style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 24px;color:#8a7a6a;cursor:pointer;font-size:14px;font-family:'DM Sans',Georgia,serif;${onbStep===1?'opacity:.3;pointer-events:none':''}" onclick="onbStep=Math.max(1,onbStep-1);renderOnboarding()">← Indietro</button>
+      <button class="bmp-btn-gold" style="padding:12px 32px;font-size:14px" onclick="${onbStep===4?`if(!document.getElementById('onb-terms').checked||!document.getElementById('onb-gdpr').checked){alert('Accetta i termini per continuare');return;}this.textContent='🎉 Account attivato!';this.style.background='#2cc08a'`:`onbStep=Math.min(4,onbStep+1);renderOnboarding()`}">${onbStep===4?'Firma e Attiva Account':'Avanti →'}</button>
+    </div>
+  `;
+}
+
+// ── CONTRATTI SYSTEM (Deliveroo-style) ─────────────────────────────────────────
+function showContractTab(tab, btn) {
+  document.querySelectorAll('#contract-tabs .bmp-navbtn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderContractTab(tab);
+}
+
+function renderContractTab(tab) {
+  const c = document.getElementById('contract-content');
+  if(!c) return;
+  const card = (title, html) => `<div style="background:rgba(20,15,8,.8);border:1px solid rgba(232,184,75,.12);border-radius:16px;padding:28px;margin-bottom:16px"><h3 style="font-family:'DM Sans',sans-serif;font-size:1.2rem;color:#f0e6c8;margin-bottom:16px">${title}</h3>${html}</div>`;
+  const clause = (n, t, d) => `<div style="display:flex;gap:14px;padding:16px 0;border-bottom:1px solid rgba(232,184,75,.06)"><div style="width:32px;height:32px;border-radius:8px;background:rgba(232,184,75,.1);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#E8B84B;flex-shrink:0">${n}</div><div><div style="color:#f0e6c8;font-weight:600;font-size:14px;margin-bottom:4px">${t}</div><div style="color:#5a4a3a;font-size:12.5px;line-height:1.6">${d}</div></div></div>`;
+
+  const tabs = {
+    'overview': `
+      ${card('Panoramica contrattuale', `
+        <p style="color:#8a7a6a;font-size:13.5px;line-height:1.7;margin-bottom:20px">Barman A Domicilio opera come piattaforma di intermediazione tra barman professionisti autonomi e clienti. Ogni rapporto è regolato da contratti specifici che tutelano tutte le parti.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px">
+          <div style="background:rgba(232,184,75,.05);border:1px solid rgba(232,184,75,.1);border-radius:12px;padding:18px">
+            <div style="font-size:22px;margin-bottom:8px">📜</div>
+            <div style="color:#E8B84B;font-weight:700;font-size:13px;margin-bottom:6px">Contratto di Collaborazione</div>
+            <div style="color:#5a4a3a;font-size:12px;line-height:1.5">Accordo quadro tra piattaforma e barman. Definisce obblighi, commissioni, standard di servizio e cause di risoluzione.</div>
+          </div>
+          <div style="background:rgba(232,184,75,.05);border:1px solid rgba(232,184,75,.1);border-radius:12px;padding:18px">
+            <div style="font-size:22px;margin-bottom:8px">🤝</div>
+            <div style="color:#E8B84B;font-weight:700;font-size:13px;margin-bottom:6px">Condizioni di Servizio Cliente</div>
+            <div style="color:#5a4a3a;font-size:12px;line-height:1.5">T&C accettati dal cliente al momento della prenotazione. Politica di cancellazione, pagamenti e responsabilità.</div>
+          </div>
+          <div style="background:rgba(232,184,75,.05);border:1px solid rgba(232,184,75,.1);border-radius:12px;padding:18px">
+            <div style="font-size:22px;margin-bottom:8px">🛡️</div>
+            <div style="color:#E8B84B;font-weight:700;font-size:13px;margin-bottom:6px">Copertura Assicurativa</div>
+            <div style="color:#5a4a3a;font-size:12px;line-height:1.5">RC professionale obbligatoria per ogni barman. Copertura eventi, danni a terzi e responsabilità civile.</div>
+          </div>
+          <div style="background:rgba(232,184,75,.05);border:1px solid rgba(232,184,75,.1);border-radius:12px;padding:18px">
+            <div style="font-size:22px;margin-bottom:8px">💳</div>
+            <div style="color:#E8B84B;font-weight:700;font-size:13px;margin-bottom:6px">Sistema Pagamenti</div>
+            <div style="color:#5a4a3a;font-size:12px;line-height:1.5">Split payment automatico: anticipo 30% alla conferma, saldo 70% post-evento. Commissione piattaforma 12%.</div>
+          </div>
+        </div>
+      `)}
+      ${card('Flusso contrattuale per evento', `
+        <div style="position:relative;padding-left:24px">
+          <div style="position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:rgba(232,184,75,.15)"></div>
+          ${['Cliente invia richiesta di prenotazione con dettagli evento','Barman riceve notifica e accetta/rifiuta entro 4 ore','Alla conferma, il cliente paga anticipo 30% tramite Stripe','Generazione automatica Contratto di Servizio con firma digitale OTP','Barman esegue il servizio secondo gli standard della piattaforma','Cliente conferma completamento — saldo 70% sbloccato al barman','Periodo di 48h per eventuali contestazioni prima del payout finale','Recensione reciproca: cliente valuta barman e viceversa'].map((s,i) => `
+          <div style="display:flex;gap:14px;padding:12px 0;position:relative">
+            <div style="width:16px;height:16px;border-radius:50%;background:${i<5?'#E8B84B':'rgba(232,184,75,.3)'};border:2px solid #0d0a08;flex-shrink:0;position:relative;z-index:1;margin-top:2px"></div>
+            <div><span style="color:${i<5?'#f0e6c8':'#5a4a3a'};font-size:13px;font-weight:${i<5?'600':'400'}">${s}</span></div>
+          </div>`).join('')}
+        </div>
+      `)}`,
+
+    'barman-agreement': `
+      ${card('Contratto di Collaborazione — Barman Professionista', `
+        <div style="background:rgba(232,184,75,.04);border:1px solid rgba(232,184,75,.08);border-radius:10px;padding:14px 16px;margin-bottom:20px;font-size:12px;color:#8a7a6a;line-height:1.6">
+          <strong style="color:#E8B84B">Modello contrattuale:</strong> Prestazione occasionale / Collaborazione autonoma ex art. 2222 c.c. Il barman opera come lavoratore autonomo con P.IVA o in regime di prestazione occasionale (sotto i 5.000€/anno).
+        </div>
+        ${clause('1','Oggetto','Il Collaboratore si impegna a fornire servizi di bartending professionale presso eventi privati e aziendali, secondo le richieste ricevute tramite la Piattaforma.')}
+        ${clause('2','Natura del rapporto','Il presente accordo NON costituisce rapporto di lavoro subordinato. Il Collaboratore è libero di accettare o rifiutare ogni singolo incarico, stabilire i propri orari di disponibilità e lavorare per altre piattaforme o clienti diretti.')}
+        ${clause('3','Requisiti obbligatori','Certificazione HACCP in corso di validità, Assicurazione RC professionale (minimo €500.000 di massimale), Documento d\'identità verificato, Partita IVA o dichiarazione di prestazione occasionale.')}
+        ${clause('4','Standard di servizio','Il Collaboratore si impegna a: presentarsi puntuale e in tenuta professionale, fornire attrezzatura base concordata, rispettare le normative igienico-sanitarie, mantenere un rating minimo di 4.2/5.')}
+        ${clause('5','Commissioni','La Piattaforma trattiene una commissione del 12% sul valore lordo di ogni prenotazione completata. Il pagamento avviene entro 5 giorni lavorativi dal completamento dell\'evento, tramite bonifico SEPA o Stripe Connect.')}
+        ${clause('6','Cancellazione e penali','Cancellazione barman entro 48h dall\'evento: penale del 50% del compenso. No-show: sospensione immediata dall\'account + rimborso totale al cliente. Cancellazione con più di 7gg di preavviso: nessuna penale.')}
+        ${clause('7','Proprietà intellettuale','Tutte le recensioni, foto e contenuti pubblicati sul profilo restano di proprietà della Piattaforma per uso promozionale. Il Collaboratore mantiene i diritti sulle proprie ricette e tecniche.')}
+        ${clause('8','Riservatezza e non-circumvention','Il Collaboratore si impegna a non contattare direttamente i clienti acquisiti tramite la Piattaforma per un periodo di 12 mesi dalla prima collaborazione, al di fuori della Piattaforma stessa.')}
+        ${clause('9','Risoluzione','Entrambe le parti possono recedere con 30 giorni di preavviso. La Piattaforma può sospendere immediatamente l\'account in caso di: rating sotto 3.5, violazioni T&C ripetute, comportamento non professionale, mancata copertura assicurativa.')}
+        ${clause('10','Foro competente','Per ogni controversia sarà competente il Tribunale di Cagliari. Le parti si impegnano a tentare una conciliazione preventiva tramite il servizio di mediazione della Piattaforma.')}
+        <div style="margin-top:24px;padding:20px;background:rgba(232,184,75,.06);border:1px solid rgba(232,184,75,.15);border-radius:12px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px"><input type="checkbox" id="ctr-accept1" style="width:18px;height:18px;accent-color:#E8B84B"><label for="ctr-accept1" style="color:#f0e6c8;font-size:13px;font-weight:600;cursor:pointer">Dichiaro di aver letto e compreso tutte le clausole del presente Contratto di Collaborazione</label></div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px"><input type="checkbox" id="ctr-accept2" style="width:18px;height:18px;accent-color:#E8B84B"><label for="ctr-accept2" style="color:#f0e6c8;font-size:13px;font-weight:600;cursor:pointer">Confermo di operare come lavoratore autonomo e di possedere i requisiti indicati all'art. 3</label></div>
+          <button class="bmp-btn-gold" style="width:100%;padding:14px" onclick="signContract('barman')">Firma digitale — Accetta Contratto</button>
+        </div>
+      `)}`,
+
+    'client-agreement': `
+      ${card('Condizioni Generali di Servizio — Cliente', `
+        <div style="background:rgba(232,184,75,.04);border:1px solid rgba(232,184,75,.08);border-radius:10px;padding:14px 16px;margin-bottom:20px;font-size:12px;color:#8a7a6a;line-height:1.6">
+          Accettate automaticamente al momento della prenotazione. Il cliente conferma di aver letto e compreso tutti i termini prima del pagamento dell'anticipo.
+        </div>
+        ${clause('1','Servizio','La Piattaforma mette in contatto il Cliente con barman professionisti autonomi. La Piattaforma agisce esclusivamente come intermediario tecnologico e non è parte del rapporto di servizio tra Cliente e Barman.')}
+        ${clause('2','Prenotazione e conferma','La prenotazione diventa vincolante al pagamento dell\'anticipo del 30%. Il barman ha 4 ore per accettare. In caso di mancata accettazione, l\'anticipo viene rimborsato integralmente entro 24 ore.')}
+        ${clause('3','Politica di cancellazione','Cancellazione gratuita fino a 7 giorni prima dell\'evento. Da 7 a 2 giorni: rimborso 50% dell\'anticipo. Meno di 48 ore: nessun rimborso dell\'anticipo. Cancellazione da parte del barman: rimborso totale + credito del 10% per il disagio.')}
+        ${clause('4','Pagamenti','Anticipo 30% alla conferma tramite carta di credito/debito (Stripe). Saldo 70% addebitato 24 ore prima dell\'evento. IVA inclusa dove applicabile. Fattura elettronica emessa automaticamente.')}
+        ${clause('5','Responsabilità','Il Cliente è responsabile di: fornire uno spazio adeguato e sicuro per il servizio, garantire accesso ad acqua corrente ed elettricità, comunicare allergie e restrizioni alimentari degli ospiti con almeno 72h di anticipo.')}
+        ${clause('6','Contestazioni','Eventuali reclami devono essere inoltrati entro 48 ore dal completamento dell\'evento tramite il sistema di ticketing della Piattaforma. La Piattaforma si riserva di mediare e, se necessario, emettere rimborsi parziali.')}
+        ${clause('7','Recensioni','Il Cliente si impegna a lasciare una recensione onesta e veritiera. La Piattaforma si riserva di rimuovere recensioni contenenti linguaggio offensivo, informazioni false o dati personali.')}
+      `)}`,
+
+    'insurance': `
+      ${card('Copertura Assicurativa', `
+        <p style="color:#8a7a6a;font-size:13px;line-height:1.7;margin-bottom:20px">Ogni barman registrato sulla piattaforma deve possedere una copertura RC professionale attiva. La piattaforma offre inoltre una polizza integrativa per ogni evento prenotato.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:20px">
+          <div style="background:rgba(232,184,75,.05);border:1px solid rgba(232,184,75,.1);border-radius:12px;padding:20px">
+            <div style="color:#E8B84B;font-weight:700;font-size:14px;margin-bottom:10px">🛡️ RC Professionale Barman</div>
+            <div style="color:#5a4a3a;font-size:12.5px;line-height:1.6">Obbligatoria — A carico del barman<br>Massimale minimo: €500.000<br>Copertura: danni a terzi, danni a cose, intossicazione alimentare<br>Validità: annuale, da rinnovare prima della scadenza</div>
+          </div>
+          <div style="background:rgba(232,184,75,.05);border:1px solid rgba(232,184,75,.1);border-radius:12px;padding:20px">
+            <div style="color:#E8B84B;font-weight:700;font-size:14px;margin-bottom:10px">🏥 Polizza Evento Piattaforma</div>
+            <div style="color:#5a4a3a;font-size:12.5px;line-height:1.6">Inclusa — A carico della piattaforma<br>Massimale: €1.000.000 per evento<br>Copertura: responsabilità civile evento, danni alla location, infortuni<br>Attivazione: automatica alla conferma della prenotazione</div>
+          </div>
+        </div>
+        ${clause('📋','Documenti richiesti per l\'onboarding','Copia polizza RC professionale in corso di validità, Certificato di attribuzione P.IVA o autocertificazione prestazione occasionale, Attestato HACCP (max 3 anni dalla data di rilascio), Documento d\'identità fronte-retro, Codice fiscale, IBAN per i pagamenti.')}
+      `)}`,
+
+    'payments': `
+      ${card('Sistema Pagamenti & Commissioni', `
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:24px">
+          <div style="background:rgba(232,184,75,.08);border:1px solid rgba(232,184,75,.15);border-radius:12px;padding:18px;text-align:center">
+            <div style="font-family:'DM Sans',sans-serif;font-size:28px;font-weight:700;color:#E8B84B">12%</div>
+            <div style="color:#5a4a3a;font-size:11px;margin-top:4px">Commissione piattaforma</div>
+          </div>
+          <div style="background:rgba(232,184,75,.08);border:1px solid rgba(232,184,75,.15);border-radius:12px;padding:18px;text-align:center">
+            <div style="font-family:'DM Sans',sans-serif;font-size:28px;font-weight:700;color:#E8B84B">30%</div>
+            <div style="color:#5a4a3a;font-size:11px;margin-top:4px">Anticipo alla conferma</div>
+          </div>
+          <div style="background:rgba(232,184,75,.08);border:1px solid rgba(232,184,75,.15);border-radius:12px;padding:18px;text-align:center">
+            <div style="font-family:'DM Sans',sans-serif;font-size:28px;font-weight:700;color:#E8B84B">5 gg</div>
+            <div style="color:#5a4a3a;font-size:11px;margin-top:4px">Payout post-evento</div>
+          </div>
+          <div style="background:rgba(232,184,75,.08);border:1px solid rgba(232,184,75,.15);border-radius:12px;padding:18px;text-align:center">
+            <div style="font-family:'DM Sans',sans-serif;font-size:28px;font-weight:700;color:#E8B84B">48h</div>
+            <div style="color:#5a4a3a;font-size:11px;margin-top:4px">Finestra contestazioni</div>
+          </div>
+        </div>
+        ${clause('💰','Flusso pagamento','Il cliente paga il 30% di anticipo alla conferma via Stripe. Il saldo del 70% viene addebitato 24h prima dell\'evento. Dopo il completamento, il compenso (meno la commissione del 12%) viene trasferito al barman entro 5 giorni lavorativi su IBAN o Stripe Connect.')}
+        ${clause('📊','Esempio di split','Tariffa barman: €300. Anticipo cliente: €90 (30%). Saldo cliente: €210 (70%). Commissione piattaforma: €36 (12%). Netto barman: €264. Payout entro 5gg lavorativi.')}
+        ${clause('🔄','Rimborsi','In caso di cancellazione secondo policy: il rimborso viene elaborato entro 5-10 giorni lavorativi sulla carta originale. In caso di contestazione: la piattaforma trattiene il pagamento in escrow fino alla risoluzione.')}
+        ${clause('🧾','Fatturazione','La piattaforma emette fattura elettronica al cliente per ogni prenotazione. Il barman emette fattura/ricevuta alla piattaforma per il compenso netto ricevuto. Per prestazioni occasionali: la piattaforma opera come sostituto d\'imposta (ritenuta 20%).')}
+      `)}`,
+
+    'gdpr': `
+      ${card('Privacy & GDPR — Reg. UE 2016/679', `
+        ${clause('📌','Titolare del trattamento','Barman A Domicilio S.r.l. — Via Roma 123, 09124 Cagliari (CA) — P.IVA 12345678901 — DPO: privacy@barman-a-domicilio.it')}
+        ${clause('📂','Dati raccolti','Dati anagrafici (nome, cognome, CF, P.IVA), dati di contatto (email, telefono, indirizzo), dati bancari (IBAN per pagamenti), dati professionali (certificazioni, portfolio, recensioni), dati di navigazione (cookie tecnici e analytics).')}
+        ${clause('🎯','Finalità del trattamento','Erogazione del servizio di intermediazione, gestione pagamenti e fatturazione, comunicazioni relative alle prenotazioni, miglioramento del servizio tramite analytics aggregati, obblighi di legge (fiscali, assicurativi).')}
+        ${clause('⏱️','Conservazione','Dati account: fino a cancellazione + 12 mesi. Dati fiscali: 10 anni (obbligo di legge). Dati di navigazione: 26 mesi. Recensioni: indefinitamente (anonimizzate dopo cancellazione account).')}
+        ${clause('🔑','Diritti dell\'interessato','Accesso, rettifica, cancellazione (diritto all\'oblio), limitazione, portabilità, opposizione. Esercitabili scrivendo a privacy@barman-a-domicilio.it. Risposta entro 30 giorni. Reclamo al Garante Privacy: www.garanteprivacy.it.')}
+        ${clause('🌐','Trasferimenti extra-UE','I dati vengono elaborati tramite Stripe (certificato Privacy Shield / SCC) e server AWS in Irlanda (UE). Nessun trasferimento verso paesi terzi senza adeguate garanzie.')}
+      `)}`
+  };
+
+  c.innerHTML = tabs[tab] || tabs['overview'];
+}
+
+function signContract(type) {
+  const c1 = document.getElementById('ctr-accept1');
+  const c2 = document.getElementById('ctr-accept2');
+  if(!c1?.checked || !c2?.checked) {
+    const t = document.getElementById('toast');
+    if(t){t.textContent='⚠️ Devi accettare tutte le clausole per procedere.';t.className='show';setTimeout(()=>t.className='',3000);}
+    return;
+  }
+  const t = document.getElementById('toast');
+  if(t){t.textContent='✅ Contratto firmato digitalmente! Riceverai conferma via email.';t.className='show';setTimeout(()=>t.className='',4000);}
+}
+
+</script>
+</body>
+</html>

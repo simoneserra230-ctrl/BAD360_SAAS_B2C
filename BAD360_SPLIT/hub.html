@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BAD.S — Pro Hub</title>
+<style>
+:root{
+  --bg:#f0f3f8;--bg2:#e8ecf3;--bg3:#dde3ed;--bg4:#ffffff;--bg5:#f7f9fc;--canvas:#ffffff;
+  --border:rgba(30,50,100,.10);--border2:rgba(30,50,100,.16);--border3:rgba(30,50,100,.24);
+  --text:#1a2540;--text2:#5a6a8a;--text3:#94a3b8;
+  --blue:#2563eb;--blue2:#3b82f6;--blue3:#1d4ed8;--blue-dim:rgba(37,99,235,.08);--blue-glow:rgba(37,99,235,.15);
+  --green:#16a34a;--green-dim:rgba(22,163,74,.09);
+  --amber:#d97706;--amber-dim:rgba(217,119,6,.09);
+  --red:#dc2626;--red-dim:rgba(220,38,38,.09);
+  --gold:#d97706;--gold2:#f59e0b;--gold-dim:rgba(217,119,6,.09);
+  --font:'DM Sans',sans-serif;--serif:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
+  --r:12px;--r2:8px;--r3:999px;
+  --shadow-xs:0 1px 3px rgba(15,30,70,.08),0 1px 2px rgba(15,30,70,.05);
+  --shadow-sm:0 2px 8px rgba(15,30,70,.10),0 1px 3px rgba(15,30,70,.06);
+  --shadow-md:0 4px 20px rgba(15,30,70,.12),0 2px 8px rgba(15,30,70,.07);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 70% 50% at 10% 0%,rgba(37,99,235,.04) 0%,transparent 55%),radial-gradient(ellipse 50% 40% at 90% 100%,rgba(8,145,178,.03) 0%,transparent 50%)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:rgba(30,50,100,.18);border-radius:3px}
+
+.page{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:40px 24px 80px}
+
+/* ── Hero ── */
+.hero{padding:56px 0 44px}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:var(--blue-dim);border:1px solid var(--blue-glow);border-radius:20px;padding:6px 16px;margin-bottom:20px}
+.hero-tag span{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue)}
+.hero h1{font-family:'DM Sans',sans-serif;font-size:clamp(2rem,5vw,3rem);font-weight:900;line-height:1.1;margin-bottom:16px}
+.hero h1 em{font-style:italic;color:var(--blue)}
+.hero p{font-size:15px;color:var(--text2);line-height:1.8;max-width:560px;margin-bottom:28px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 22px;border-radius:var(--r2);font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:var(--font);transition:all .18s}
+.btn-blue{background:linear-gradient(135deg,var(--blue),var(--blue3));color:#fff;box-shadow:0 2px 8px var(--blue-glow)}
+.btn-blue:hover{transform:translateY(-1px);box-shadow:0 5px 16px var(--blue-glow)}
+.btn-outline{background:transparent;color:var(--text2);border:1.5px solid var(--border2)}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--amber));color:#fff}
+.btn-gold:hover{transform:translateY(-1px)}
+
+/* ── Metrics ── */
+.metric-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:12px;margin-bottom:52px}
+.metric{background:var(--canvas);border:1px solid var(--border);border-radius:var(--r);padding:16px;text-align:center;box-shadow:var(--shadow-xs);animation:fadeUp .4s ease both}
+.metric-val{font-family:'DM Sans',sans-serif;font-size:28px;font-weight:700;color:var(--blue);line-height:1;margin-bottom:6px}
+.metric-lbl{font-size:11px;font-weight:600;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase}
+
+/* ── Section heading ── */
+.sec-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.sec-title{font-family:'DM Sans',sans-serif;font-size:1.4rem;font-weight:700;color:var(--text);margin-bottom:4px}
+.sec-sub{font-size:13px;color:var(--text2);margin-bottom:24px}
+
+/* ── Module grid ── */
+.module-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:52px}
+.module-card{background:var(--canvas);border:1px solid var(--border);border-radius:var(--r);padding:22px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow-xs);animation:fadeUp .4s ease both}
+.module-card:hover{border-color:var(--blue);box-shadow:var(--shadow-sm);transform:translateY(-2px)}
+.module-icon{font-size:30px;line-height:1}
+.module-title{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;color:var(--text)}
+.module-desc{font-size:12.5px;color:var(--text2);line-height:1.6;flex:1}
+.module-link{font-size:12px;font-weight:700;color:var(--blue);margin-top:4px;display:inline-flex;align-items:center;gap:4px}
+.module-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;margin-top:2px;width:fit-content}
+.mb-live{background:var(--green-dim);color:var(--green);border:1px solid rgba(22,163,74,.25)}
+.mb-new{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(37,99,235,.2)}
+.mb-iso{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(217,119,6,.25)}
+.mb-fefo{background:rgba(124,58,237,.08);color:#7c3aed;border:1px solid rgba(124,58,237,.2)}
+
+/* ── Activity feed ── */
+.feed-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:52px}
+@media(max-width:640px){.feed-grid{grid-template-columns:1fr}}
+.feed-card{background:var(--canvas);border:1px solid var(--border);border-radius:var(--r);padding:20px;box-shadow:var(--shadow-xs)}
+.feed-title{font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+.feed-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--bg2)}
+.feed-item:last-child{border-bottom:none}
+.feed-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.feed-dot-green{background:var(--green)}
+.feed-dot-amber{background:var(--amber)}
+.feed-dot-red{background:var(--red)}
+.feed-dot-blue{background:var(--blue)}
+.feed-item-text{font-size:12.5px;color:var(--text);line-height:1.5}
+.feed-item-time{font-size:11px;color:var(--text3);font-family:var(--mono);margin-top:1px}
+
+/* ── Quick access ── */
+.quick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:52px}
+.quick-btn{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--canvas);border:1px solid var(--border);border-radius:var(--r2);cursor:pointer;transition:all .18s;box-shadow:var(--shadow-xs)}
+.quick-btn:hover{border-color:var(--blue);background:var(--bg5);transform:translateX(2px)}
+.quick-btn-icon{font-size:20px;flex-shrink:0}
+.quick-btn-label{font-size:12.5px;font-weight:600;color:var(--text)}
+.quick-btn-sub{font-size:10px;color:var(--text3)}
+</style>
+
+<link rel="stylesheet" href="bad360-ds.css">
+</head>
+<body class="b360-module">
+<header class="b360-topbar" id="b360-topbar">
+<div class="b360-tb-l">
+<a href="index.html" class="b360-tb-back" title="Torna alla Suite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a>
+<a href="index.html" class="b360-tb-brand" tabindex="-1"><div class="b360-tb-logo">B360</div><span class="b360-tb-name">BAD<strong>360</strong>.ai</span></a>
+<span class="b360-tb-sep"></span>
+<span class="b360-tb-module" id="b360-page-label">Suite</span>
+</div>
+<div class="b360-tb-r">
+<span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.0</span>
+<button class="b360-tb-theme" id="b360-theme-btn" title="Cambia tema">&#9790;</button>
+</div>
+</header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"&#9790;":"&#9788;";b.addEventListener("click",function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"&#9790;":"&#9788;";try{localStorage.setItem("bad360_theme",nt)}catch(e){}});}var lbl=document.getElementById("b360-page-label");if(lbl){var title=document.title.replace("BAD360.ai — ","").replace("BAD.S — ","").replace("BAD360 — ","");if(title&&title!==document.title)lbl.textContent=title;}});})()</script>
+<div class="page" id="page-hub">
+
+  <!-- ── Hero ── -->
+  <div class="hero">
+    <div class="hero-tag"><span>⚡ BAD.S PRO HUB</span></div>
+    <h1>La tua <em>piattaforma operativa</em><br>per l'hospitality.</h1>
+    <p>Gestisci qualità, compliance, supply chain, formazione e network da un unico ambiente. Tutto connesso, tutto tracciato, tutto in tempo reale.</p>
+    <div class="hero-actions">
+      <button class="btn btn-blue" onclick="window.location.href='bevmanager.html'">🍸 Beverage Manager</button>
+      <button class="btn btn-gold" onclick="window.location.href='cert.html'">🏅 Certificazioni</button>
+      <button class="btn btn-outline" onclick="window.location.href='academy.html'">🎓 Academy</button>
+    </div>
+  </div>
+
+  <!-- ── KPI strip ── -->
+  <div class="metric-strip">
+    <div class="metric"><div class="metric-val">47</div><div class="metric-lbl">Certificazioni attive</div></div>
+    <div class="metric"><div class="metric-val">230+</div><div class="metric-lbl">Consulenti network</div></div>
+    <div class="metric"><div class="metric-val">98%</div><div class="metric-lbl">Uptime piattaforma</div></div>
+    <div class="metric"><div class="metric-val">12</div><div class="metric-lbl">Moduli attivi</div></div>
+    <div class="metric"><div class="metric-val">ISO</div><div class="metric-lbl">Tracciabilità chain</div></div>
+    <div class="metric"><div class="metric-val">LIVE</div><div class="metric-lbl">Sync dati real-time</div></div>
+  </div>
+
+  <!-- ── Activity ── -->
+  <div class="feed-grid">
+    <div class="feed-card">
+      <div class="feed-title">Attività recenti</div>
+      <div class="feed-item"><div class="feed-dot feed-dot-red"></div><div><div class="feed-item-text">NC aperta — Temperatura ricevimento Mozzarella DOP</div><div class="feed-item-time">Oggi 09:14 · Magazzino</div></div></div>
+      <div class="feed-item"><div class="feed-dot feed-dot-amber"></div><div><div class="feed-item-text">SLA Alert — Laundry Express Hotel: OTD −18.5%</div><div class="feed-item-time">Ieri 16:40 · SCM Pro</div></div></div>
+      <div class="feed-item"><div class="feed-dot feed-dot-green"></div><div><div class="feed-item-text">Certificazione ISO 22000 — gap analysis completata</div><div class="feed-item-time">21 Apr · Certificazioni</div></div></div>
+      <div class="feed-item"><div class="feed-dot feed-dot-blue"></div><div><div class="feed-item-text">Turno serale — 12 coperti registrati, 3 cocktail top</div><div class="feed-item-time">21 Apr 22:00 · Beverage</div></div></div>
+      <div class="feed-item"><div class="feed-dot feed-dot-amber"></div><div><div class="feed-item-text">Shelf Life — 3 prodotti in scadenza critica (≤3 gg)</div><div class="feed-item-time">20 Apr · Magazzino</div></div></div>
+    </div>
+    <div class="feed-card">
+      <div class="feed-title">Aggiornamenti normativi</div>
+      <div class="feed-item"><div class="feed-dot feed-dot-red"></div><div><div class="feed-item-text">Direttiva UE 2024/1275 EPBD — efficienza edifici, urgente valutazione</div><div class="feed-item-time">10 Gen 2025 · Normative</div></div></div>
+      <div class="feed-item"><div class="feed-dot feed-dot-amber"></div><div><div class="feed-item-text">Transizione 5.0 — credito imposta 45% efficienza energetica</div><div class="feed-item-time">28 Feb 2025 · Fiscale</div></div></div>
+      <div class="feed-item"><div class="feed-dot feed-dot-amber"></div><div><div class="feed-item-text">NIS2 — cybersecurity strutture ricettive da ottobre 2024</div><div class="feed-item-time">18 Feb 2025 · Digitale</div></div></div>
+      <div class="feed-item"><div class="feed-dot feed-dot-blue"></div><div><div class="feed-item-text">CCNL Turismo 2024 — nuove tabelle retributive in vigore</div><div class="feed-item-time">1 Feb 2025 · Lavoro</div></div></div>
+      <div class="feed-item"><div class="feed-dot feed-dot-green"></div><div><div class="feed-item-text">EMAS — aggiornamento BRS settore turistico-ricettivo</div><div class="feed-item-time">22 Feb 2025 · Ambientale</div></div></div>
+    </div>
+  </div>
+
+  <!-- ── Moduli ── -->
+  <div class="sec-label">Piattaforma</div>
+  <div class="sec-title">Tutti i moduli BAD.S</div>
+  <div class="sec-sub">Clicca su un modulo per aprirlo direttamente</div>
+  <div class="module-grid">
+    <div class="module-card" onclick="window.location.href='bevmanager.html'">
+      <div class="module-icon">🍸</div>
+      <div class="module-title">Beverage Manager</div>
+      <div class="module-badge mb-live">● LIVE</div>
+      <div class="module-desc">22 sub-tab · Gestione cocktail, magazzino, food cost, forecast, digital menu, recipe lab e molto altro.</div>
+      <div class="module-link">Apri modulo →</div>
+    </div>
+    <div class="module-card" onclick="window.location.href='shiftmanager.html'">
+      <div class="module-icon">⚙️</div>
+      <div class="module-title">Shift Manager</div>
+      <div class="module-badge mb-live">● LIVE</div>
+      <div class="module-desc">Gestione turni, staff lab, benchmark operativo, POS sync, revenue management e waste log.</div>
+      <div class="module-link">Apri modulo →</div>
+    </div>
+    <div class="module-card" onclick="window.location.href='haccp.html'">
+      <div class="module-icon">🛡️</div>
+      <div class="module-title">HACCP & Safety</div>
+      <div class="module-badge mb-live">● LIVE</div>
+      <div class="module-desc">20 sub-tab · piano HACCP, monitoraggio temperature IoT, CCP, registrazioni e audit.</div>
+      <div class="module-link">Apri modulo →</div>
+    </div>
+    <div class="module-card" onclick="window.location.href='events.html'">
+      <div class="module-icon">🎪</div>
+      <div class="module-title">Events & CRM</div>
+      <div class="module-badge mb-new">◈ NEW</div>
+      <div class="module-desc">Gestione eventi, preventivi, shopping list banqueting e CRM clienti in un unico flusso.</div>
+      <div class="module-link">Apri modulo →</div>
+    </div>
+    <div class="module-card" onclick="window.location.href='cert.html'">
+      <div class="module-icon">🏅</div>
+      <div class="module-title">Certificazioni</div>
+      <div class="module-badge mb-iso">◆ ISO</div>
+      <div class="module-desc">Dashboard, gap analysis, documenti, NC e roadmap per ISO 9001, 14001, 22000, EMAS, Green Key.</div>
+      <div class="module-link">Apri modulo →</div>
+    </div>
+    <div class="module-card" onclick="window.location.href='scmpro.html'">
+      <div class="module-icon">⭐</div>
+      <div class="module-title">SCM Pro</div>
+      <div class="module-badge mb-new">◈ NEW</div>
+      <div class="module-desc">Vendor Rating, SLA alert, partnership strategiche, risk matrix e standard di acquisto per categoria.</div>
+      <div class="module-link">Apri modulo →</div>
+    </div>
+    <div class="module-card" onclick="window.location.href='tracciabilita.html'">
+      <div class="module-icon">🔍</div>
+      <div class="module-title">Tracciabilità</div>
+      <div class="module-badge mb-iso">◆ ISO</div>
+      <div class="module-desc">Reg. CE 178/2002 — lotti, scadenze, fornitori, ritiri e audit trail completo per ogni prodotto.</div>
+      <div class="module-link">Apri modulo →</div>
+    </div>
+    <div class="module-card" onclick="window.location.href='shelflife.html'">
+      <div class="module-icon">📦</div>
+      <div class="module-title">Shelf Life</div>
+      <div class="module-badge mb-fefo">◆ FEFO</div>
+      <div class="module-desc">Controllo scadenze, logica FEFO, alert automatici su soglie critiche e scheduler smart.</div>
+      <div class="module-link">Apri modulo →</div>
+    </div>
+    <div class="module-card" onclick="window.location.href='housekeeping.html'">
+      <div class="module-icon">🛏️</div>
+      <div class="module-title">Housekeeping</div>
+      <div class="module-badge mb-new">◈ NEW</div>
+      <div class="module-desc">Status camere, task giornalieri, forniture, lavanderia e KPI operativi con benchmark.</div>
+      <div class="module-link">Apri modulo →</div>
+    </div>
+    <div class="module-card" onclick="window.location.href='nc.html'">
+      <div class="module-icon">⚠️</div>
+      <div class="module-title">Non Conformità</div>
+      <div class="module-badge mb-new">◈ NEW</div>
+      <div class="module-desc">ISO 9001 cl. 10.2 — apertura NC, workflow azione correttiva, dashboard e SLA tracker.</div>
+      <div class="module-link">Apri modulo →</div>
+    </div>
+    <div class="module-card" onclick="window.location.href='hotellerie.html'">
+      <div class="module-icon">🌿</div>
+      <div class="module-title">Hotellerie</div>
+      <div class="module-badge mb-new">◈ NEW</div>
+      <div class="module-desc">Suite gestionale hotel con dark design system dedicato, prefisso HTL, integrazione PMS.</div>
+      <div class="module-link">Apri modulo →</div>
+    </div>
+    <div class="module-card" onclick="window.location.href='barman.html'">
+      <div class="module-icon">🍹</div>
+      <div class="module-title">Barman Network</div>
+      <div class="module-badge mb-new">◈ NEW</div>
+      <div class="module-desc">Directory barman professionisti, profili, portfolio cocktail e matchmaking per eventi.</div>
+      <div class="module-link">Apri modulo →</div>
+    </div>
+  </div>
+
+  <!-- ── Quick access ── -->
+  <div class="sec-label">Accesso rapido</div>
+  <div class="sec-title">Sezioni trasversali</div>
+  <div class="sec-sub">Strumenti di supporto e sviluppo professionale</div>
+  <div class="quick-grid">
+    <button class="quick-btn" onclick="window.location.href='consulenze.html'"><div class="quick-btn-icon">🤝</div><div><div class="quick-btn-label">Consulenze</div><div class="quick-btn-sub">4 esperti · 12 servizi</div></div></button>
+    <button class="quick-btn" onclick="window.location.href='academy.html'"><div class="quick-btn-icon">🎓</div><div><div class="quick-btn-label">Academy</div><div class="quick-btn-sub">12 corsi · attestati</div></div></button>
+    <button class="quick-btn" onclick="window.location.href='norme.html'"><div class="quick-btn-icon">📜</div><div><div class="quick-btn-label">Normative</div><div class="quick-btn-sub">9 aggiornamenti 2025</div></div></button>
+    <button class="quick-btn" onclick="window.location.href='network.html'"><div class="quick-btn-icon">🌐</div><div><div class="quick-btn-label">Network</div><div class="quick-btn-sub">Community · eventi</div></div></button>
+    <button class="quick-btn" onclick="window.switchTab&&window.switchTab('haccp2')"><div class="quick-btn-icon">🛡️</div><div><div class="quick-btn-label">HACCP v2</div><div class="quick-btn-sub">Modulo avanzato</div></div></button>
+    <button class="quick-btn" onclick="window.location.href='hotellerie.html'"><div class="quick-btn-icon">🌿</div><div><div class="quick-btn-label">Hotellerie Pro</div><div class="quick-btn-sub">Suite dark mode</div></div></button>
+  </div>
+
+</div>
+
+  <!-- ═══ SYSTEM STATUS ═══ -->
+  <section style="margin-top:32px">
+    <h2 style="font-family:'DM Sans',sans-serif;font-size:1.2rem;color:#f0f4ff;margin-bottom:14px">⚡ Stato Sistema</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:24px">
+      <div style="background:rgba(22,163,74,.06);border:1px solid rgba(22,163,74,.15);border-radius:12px;padding:16px;display:flex;align-items:center;gap:10px">
+        <div style="width:10px;height:10px;border-radius:50%;background:#16a34a;box-shadow:0 0 8px #16a34a;animation:pulse 2s infinite"></div>
+        <div><div style="font-weight:700;font-size:13px;color:#16a34a">Tutti i moduli operativi</div><div style="font-size:11px;color:#5a6882">Uptime 99.8% — ultimo check: ora</div></div>
+      </div>
+      <div style="background:rgba(79,142,247,.06);border:1px solid rgba(79,142,247,.15);border-radius:12px;padding:16px;text-align:center">
+        <div style="font-size:22px;font-weight:800;color:#4f8ef7">17</div>
+        <div style="font-size:11px;color:#5a6882">Moduli attivi</div>
+      </div>
+      <div style="background:rgba(245,166,35,.06);border:1px solid rgba(245,166,35,.15);border-radius:12px;padding:16px;text-align:center">
+        <div style="font-size:22px;font-weight:800;color:#f5a623">248</div>
+        <div style="font-size:11px;color:#5a6882">Sessioni oggi</div>
+      </div>
+      <div style="background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.15);border-radius:12px;padding:16px;text-align:center">
+        <div style="font-size:22px;font-weight:800;color:#a78bfa">12</div>
+        <div style="font-size:11px;color:#5a6882">Utenti attivi</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ QUICK ACTIONS ═══ -->
+  <section style="margin-top:8px">
+    <h2 style="font-family:'DM Sans',sans-serif;font-size:1.2rem;color:#f0f4ff;margin-bottom:14px">🚀 Azioni Rapide</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-bottom:24px">
+      <button onclick="window.location.href='nc.html'" style="background:rgba(224,62,80,.06);border:1px solid rgba(224,62,80,.15);border-radius:12px;padding:16px;cursor:pointer;text-align:left;font-family:inherit;color:#e8e8f0">
+        <div style="font-size:18px;margin-bottom:6px">⚠️</div>
+        <div style="font-weight:700;font-size:13px">Apri Non Conformità</div>
+        <div style="font-size:11px;color:#5a6882">Segnala un problema quality</div>
+      </button>
+      <button onclick="window.location.href='haccp.html'" style="background:rgba(79,142,247,.06);border:1px solid rgba(79,142,247,.15);border-radius:12px;padding:16px;cursor:pointer;text-align:left;font-family:inherit;color:#e8e8f0">
+        <div style="font-size:18px;margin-bottom:6px">🌡️</div>
+        <div style="font-weight:700;font-size:13px">Registra Temperatura</div>
+        <div style="font-size:11px;color:#5a6882">Log HACCP rapido</div>
+      </button>
+      <button onclick="window.location.href='housekeeping.html'" style="background:rgba(155,111,232,.06);border:1px solid rgba(155,111,232,.15);border-radius:12px;padding:16px;cursor:pointer;text-align:left;font-family:inherit;color:#e8e8f0">
+        <div style="font-size:18px;margin-bottom:6px">🛏️</div>
+        <div style="font-weight:700;font-size:13px">Status Camere</div>
+        <div style="font-size:11px;color:#5a6882">Room board real-time</div>
+      </button>
+      <button onclick="window.location.href='shiftmanager.html'" style="background:rgba(44,192,138,.06);border:1px solid rgba(44,192,138,.15);border-radius:12px;padding:16px;cursor:pointer;text-align:left;font-family:inherit;color:#e8e8f0">
+        <div style="font-size:18px;margin-bottom:6px">⚙️</div>
+        <div style="font-weight:700;font-size:13px">Turni Oggi</div>
+        <div style="font-size:11px;color:#5a6882">Visualizza planning</div>
+      </button>
+    </div>
+  </section>
+
+  <!-- ═══ RECENT ACTIVITY ═══ -->
+  <section style="margin-top:8px">
+    <h2 style="font-family:'DM Sans',sans-serif;font-size:1.2rem;color:#f0f4ff;margin-bottom:14px">📋 Attività Recente</h2>
+    <div style="background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:4px">
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.04)"><span style="color:#16a34a">✅</span><div style="flex:1;font-size:13px">NC-026-012 chiusa — Temperatura frigo risolta</div><span style="font-size:11px;color:#5a6882">2h fa</span></div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.04)"><span style="color:#4f8ef7">📊</span><div style="flex:1;font-size:13px">Audit interno cucina completato — Score 90%</div><span style="font-size:11px;color:#5a6882">5h fa</span></div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.04)"><span style="color:#f5a623">🍸</span><div style="flex:1;font-size:13px">Beverage Manager: ordine #142 confermato — €1,240</div><span style="font-size:11px;color:#5a6882">6h fa</span></div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.04)"><span style="color:#e03e50">⚠️</span><div style="flex:1;font-size:13px">Alert: 3 prodotti sotto par level nel magazzino bar</div><span style="font-size:11px;color:#5a6882">8h fa</span></div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.04)"><span style="color:#a78bfa">🎪</span><div style="flex:1;font-size:13px">Nuovo lead evento: Matrimonio Ferrara — €12,500</div><span style="font-size:11px;color:#5a6882">ieri</span></div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 16px"><span style="color:#9b6fe8">🛏️</span><div style="flex:1;font-size:13px">Housekeeping: 42/48 camere pronte — 87.5%</div><span style="font-size:11px;color:#5a6882">ieri</span></div>
+    </div>
+  </section>
+
+  <!-- ═══ ALERTS ═══ -->
+  <section style="margin-top:24px;margin-bottom:32px">
+    <h2 style="font-family:'DM Sans',sans-serif;font-size:1.2rem;color:#f0f4ff;margin-bottom:14px">🔔 Alert & Notifiche</h2>
+    <div style="display:grid;gap:8px">
+      <div style="background:rgba(224,62,80,.06);border:1px solid rgba(224,62,80,.15);border-radius:10px;padding:14px;display:flex;align-items:center;gap:10px"><span style="font-size:16px">🔴</span><div style="flex:1;font-size:13px;color:#e8e8f0">CAPA-026-04 in scadenza — cross-contaminazione cucina (scade domani)</div><button onclick="window.location.href='haccp.html'" style="background:rgba(224,62,80,.15);border:1px solid rgba(224,62,80,.25);border-radius:6px;padding:5px 12px;color:#e03e50;font-size:11px;cursor:pointer;font-family:inherit;white-space:nowrap">Vai →</button></div>
+      <div style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);border-radius:10px;padding:14px;display:flex;align-items:center;gap:10px"><span style="font-size:16px">🟡</span><div style="flex:1;font-size:13px;color:#e8e8f0">Certificato HACCP Sara L. in scadenza tra 15 giorni</div><button onclick="window.location.href='cert.html'" style="background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.25);border-radius:6px;padding:5px 12px;color:#f59e0b;font-size:11px;cursor:pointer;font-family:inherit;white-space:nowrap">Vai →</button></div>
+      <div style="background:rgba(79,142,247,.06);border:1px solid rgba(79,142,247,.15);border-radius:10px;padding:14px;display:flex;align-items:center;gap:10px"><span style="font-size:16px">🔵</span><div style="flex:1;font-size:13px;color:#e8e8f0">Aggiornamento normativo: nuovo Reg. UE 2026/XXX pubblicato</div><button onclick="window.location.href='norme.html'" style="background:rgba(79,142,247,.15);border:1px solid rgba(79,142,247,.25);border-radius:6px;padding:5px 12px;color:#4f8ef7;font-size:11px;cursor:pointer;font-family:inherit;white-space:nowrap">Vai →</button></div>
+    </div>
+  </section>
+
+<script>
+window.switchTab=window.switchTab||function(t){var m={bevmanager:'bevmanager.html',hotellerie:'hotellerie.html',housekeeping:'housekeeping.html',haccp:'haccp.html',nc:'nc.html',tracciabilita:'tracciabilita.html',shelflife:'shelflife.html',scmpro:'scmpro.html',shiftmanager:'shiftmanager.html',events:'events.html',hub:'hub.html',cert:'cert.html',consult:'consulenze.html',academy:'academy.html',norme:'norme.html',network:'network.html',barman:'barman.html',frontoffice:'BAD360.html#frontoffice',revenue:'BAD360.html#revenue',iotmonitor:'BAD360.html#iotmonitor',demand:'BAD360.html#demand',supplier:'BAD360.html#supplier',possync:'BAD360.html#possync',bidashboard:'BAD360.html#bidashboard',bandi360:'BAD360.html#bandi360',iso22005adv:'BAD360.html#iso22005adv',procurement:'BAD360.html#procurement',haccp2:'BAD360.html#haccp2'};var u=m[t];if(u){if(u.indexOf('#')!==-1)sessionStorage.setItem('bad360_tab',t);window.location.href=u}};
+</script>
+</body>
+</html>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BAD.S — Consulenze</title>
+<style>
+:root{
+  --bg:#f0f3f8;--bg2:#e8ecf3;--bg3:#dde3ed;--bg5:#f7f9fc;--canvas:#ffffff;
+  --border:rgba(30,50,100,.10);--border2:rgba(30,50,100,.16);--border3:rgba(30,50,100,.24);
+  --text:#1a2540;--text2:#5a6a8a;--text3:#94a3b8;
+  --blue:#2563eb;--blue-dim:rgba(37,99,235,.08);--blue-glow:rgba(37,99,235,.15);
+  --green:#16a34a;--green-dim:rgba(22,163,74,.09);
+  --amber:#d97706;--amber-dim:rgba(217,119,6,.09);
+  --red:#dc2626;--red-dim:rgba(220,38,38,.09);
+  --gold:#d97706;--gold2:#f59e0b;--gold-dim:rgba(217,119,6,.09);
+  --font:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
+  --r:12px;--r2:8px;
+  --shadow-xs:0 1px 3px rgba(15,30,70,.08),0 1px 2px rgba(15,30,70,.05);
+  --shadow-sm:0 2px 8px rgba(15,30,70,.10),0 1px 3px rgba(15,30,70,.06);
+  --shadow-md:0 4px 20px rgba(15,30,70,.12),0 2px 8px rgba(15,30,70,.07);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 70% 50% at 10% 0%,rgba(37,99,235,.04) 0%,transparent 55%),radial-gradient(ellipse 50% 40% at 90% 100%,rgba(8,145,178,.03) 0%,transparent 50%)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:rgba(30,50,100,.18);border-radius:3px}
+
+.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:36px 24px 80px}
+.page-hdr{padding:40px 0 32px;border-bottom:1px solid var(--border);margin-bottom:36px}
+.overline{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.page-title{font-family:'DM Sans',sans-serif;font-size:clamp(1.8rem,4vw,2.5rem);font-weight:900;line-height:1.1;margin-bottom:12px}
+.page-sub{font-size:14px;color:var(--text2);max-width:540px;line-height:1.7}
+.hdr-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:var(--r2);font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:var(--font);transition:all .18s}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--amber));color:#fff}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(217,119,6,.25)}
+.btn-outline{background:transparent;color:var(--text2);border:1.5px solid var(--border2)}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+.btn-xs{padding:5px 12px;font-size:11px}
+.btn-sm{padding:7px 14px;font-size:12px}
+
+/* ── Filters ── */
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;align-items:center}
+.filter-btn{padding:7px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid var(--border2);background:var(--canvas);color:var(--text2);font-family:var(--font);transition:all .15s}
+.filter-btn.active,.filter-btn:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
+
+/* ── Section labels ── */
+.sec-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.sec-title{font-family:'DM Sans',sans-serif;font-size:1.25rem;font-weight:700;color:var(--text);margin-bottom:4px}
+.sec-sub{font-size:13px;color:var(--text2);margin-bottom:22px}
+
+/* ── Expert cards ── */
+.experts-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:48px}
+@media(max-width:720px){.experts-grid{grid-template-columns:1fr}}
+.expert-card{background:var(--canvas);border:1px solid var(--border);border-radius:var(--r);padding:22px;display:flex;gap:16px;transition:all .2s;box-shadow:var(--shadow-xs);animation:fadeUp .4s ease both}
+.expert-card:hover{border-color:var(--border2);box-shadow:var(--shadow-sm)}
+.expert-avatar{width:54px;height:54px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--blue),#1d4ed8);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff;font-family:'DM Sans',sans-serif}
+.expert-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px}
+.expert-title-c{font-size:12px;color:var(--text2);margin-bottom:8px}
+.stars{color:var(--gold);font-size:12px;letter-spacing:1px}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700}
+.badge-muted{background:var(--bg3);color:var(--text3);border:1px solid var(--border2)}
+.badge-gold{background:var(--gold-dim);color:var(--gold);border:1px solid rgba(217,119,6,.25)}
+
+/* ── Service grid ── */
+.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-bottom:48px}
+.consult-card{background:var(--canvas);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:all .25s;cursor:pointer;box-shadow:var(--shadow-xs);animation:fadeUp .4s ease both}
+.consult-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.consult-img{height:100px;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(135deg,var(--gold-dim),rgba(217,119,6,.02));border-bottom:1px solid var(--border)}
+.consult-body{padding:18px}
+.consult-title{font-family:'DM Sans',sans-serif;font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:6px;line-height:1.3}
+.consult-desc{font-size:12.5px;color:var(--text2);line-height:1.6;margin-bottom:14px}
+.consult-meta{display:flex;align-items:center;justify-content:space-between}
+.consult-price{font-family:var(--mono);font-size:13px;color:var(--gold);font-weight:600}
+
+/* ── Modal ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,20,50,.45);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--canvas);border-radius:var(--r);padding:32px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-md);animation:fadeUp .25s ease both;position:relative}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--bg3);border:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--text2);font-family:var(--font)}
+.modal-title{font-family:'DM Sans',sans-serif;font-size:1.4rem;font-weight:700;color:var(--text);margin-bottom:4px}
+.modal-sub{font-size:13px;color:var(--text2);margin-bottom:20px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text3);margin-bottom:5px}
+.input{width:100%;background:var(--bg5);border:1.5px solid var(--border2);border-radius:var(--r2);padding:9px 13px;color:var(--text);font-size:13px;outline:none;font-family:var(--font);transition:border-color .15s}
+.input:focus{border-color:var(--blue)}
+.textarea{min-height:80px;resize:vertical}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.form-grid{grid-template-columns:1fr}}
+
+/* ── Toast ── */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--text);color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;opacity:0;transform:translateY(10px);transition:all .3s}
+.toast.show{opacity:1;transform:none}
+</style>
+
+<link rel="stylesheet" href="bad360-ds.css">
+</head>
+<body class="b360-module">
+<header class="b360-topbar" id="b360-topbar">
+<div class="b360-tb-l">
+<a href="index.html" class="b360-tb-back" title="Torna alla Suite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a>
+<a href="index.html" class="b360-tb-brand" tabindex="-1"><div class="b360-tb-logo">B360</div><span class="b360-tb-name">BAD<strong>360</strong>.ai</span></a>
+<span class="b360-tb-sep"></span>
+<span class="b360-tb-module" id="b360-page-label">Suite</span>
+</div>
+<div class="b360-tb-r">
+<span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.0</span>
+<button class="b360-tb-theme" id="b360-theme-btn" title="Cambia tema">&#9790;</button>
+</div>
+</header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"&#9790;":"&#9788;";b.addEventListener("click",function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"&#9790;":"&#9788;";try{localStorage.setItem("bad360_theme",nt)}catch(e){}});}var lbl=document.getElementById("b360-page-label");if(lbl){var title=document.title.replace("BAD360.ai — ","").replace("BAD.S — ","").replace("BAD360 — ","");if(title&&title!==document.title)lbl.textContent=title;}});})()</script>
+
+<div class="wrap" id="page-consult">
+
+  <!-- Header -->
+  <div class="page-hdr">
+    <div class="overline">Marketplace · BAD.S Pro</div>
+    <div class="page-title">Consulenze & Servizi<br>per l'Hospitality.</div>
+    <div class="page-sub">Professionisti selezionati, certificati e valutati dalla community. Dall'HACCP al Revenue, dall'ISO 14001 alla digital transformation.</div>
+    <div class="hdr-actions">
+      <button class="btn btn-gold" onclick="openRequestModal()">✦ Richiedi Consulenza</button>
+      <button class="btn btn-outline" onclick="scrollToServices()">📋 Esplora servizi</button>
+    </div>
+  </div>
+
+  <!-- Esperti -->
+  <div class="sec-label">Professionisti</div>
+  <div class="sec-title">Esperti del settore</div>
+  <div class="sec-sub">Selezionati per competenza, esperienza e reputazione nella community BAD.S</div>
+  <div class="experts-grid" id="experts-grid"></div>
+
+  <!-- Servizi -->
+  <div id="services-anchor"></div>
+  <div class="sec-label">Marketplace Servizi</div>
+  <div class="sec-title">12 servizi disponibili</div>
+
+  <div class="filter-row" id="cat-filters">
+    <button class="filter-btn active" onclick="filterCat('all',this)">Tutti</button>
+    <button class="filter-btn" onclick="filterCat('F&B Management',this)">🍽️ F&B</button>
+    <button class="filter-btn" onclick="filterCat('Revenue Management',this)">📊 Revenue</button>
+    <button class="filter-btn" onclick="filterCat('Sostenibilità',this)">🌿 Sostenibilità</button>
+    <button class="filter-btn" onclick="filterCat('Energia',this)">⚡ Energia</button>
+    <button class="filter-btn" onclick="filterCat('Certificazioni',this)">🏅 Certificazioni</button>
+    <button class="filter-btn" onclick="filterCat('Digital & Tech',this)">📱 Digital</button>
+    <button class="filter-btn" onclick="filterCat('Legale & Fiscale',this)">💶 Legale</button>
+  </div>
+  <div class="services-grid" id="services-grid"></div>
+
+</div>
+
+<!-- Modal service detail -->
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<!-- Modal richiesta consulenza -->
+<div class="modal-overlay" id="modal-request" onclick="if(event.target===this)closeModal2()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal2()">✕</button>
+    <div class="modal-title">Richiedi una Consulenza</div>
+    <div class="modal-sub">Descrivi la tua esigenza e ti metteremo in contatto con il consulente più adatto entro 24h</div>
+    <div class="form-grid">
+      <div class="field"><label>Nome & Cognome</label><input class="input" placeholder="Mario Rossi" id="rc-nome"></div>
+      <div class="field"><label>Struttura</label><input class="input" placeholder="Hotel Aurora..." id="rc-str"></div>
+      <div class="field"><label>Email</label><input class="input" type="email" placeholder="info@hotel.it" id="rc-email"></div>
+      <div class="field"><label>Telefono</label><input class="input" placeholder="+39 0..." id="rc-tel"></div>
+      <div class="field"><label>Area di Interesse</label>
+        <select class="input" id="rc-area" style="cursor:pointer">
+          <option>F&B Management</option><option>Revenue Management</option>
+          <option>Certificazioni ISO/EMAS</option><option>Sostenibilità & Green Key</option>
+          <option>HR & Formazione HACCP</option><option>Digital Transformation</option>
+          <option>Brand & Marketing</option><option>Legale & Incentivi</option>
+        </select>
+      </div>
+      <div class="field"><label>Budget Indicativo</label>
+        <select class="input" id="rc-budget" style="cursor:pointer">
+          <option>Fino a € 1.000</option><option>€ 1.000 – 3.000</option>
+          <option>€ 3.000 – 8.000</option><option>€ 8.000+</option>
+        </select>
+      </div>
+    </div>
+    <div class="field" style="margin-top:4px"><label>Descrivi la tua esigenza</label>
+      <textarea class="input textarea" id="rc-msg" placeholder="Situazione attuale e obiettivi che vuoi raggiungere…"></textarea>
+    </div>
+    <button class="btn btn-gold" onclick="submitRequest()" style="margin-top:8px;width:100%;justify-content:center">✦ Invia Richiesta</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+
+  <!-- ═══ PACKAGES ═══ -->
+  <section style="margin-top:32px">
+    <h2 style="font-family:'DM Sans',sans-serif;font-size:1.2rem;color:#f0f4ff;margin-bottom:14px">📦 Pacchetti Consulenza</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:24px">
+      <div style="background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:24px;position:relative;overflow:hidden">
+        <div style="font-size:11px;color:#5a6882;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Starter</div>
+        <div style="font-size:28px;font-weight:800;color:#f0f4ff;font-family:'DM Sans',sans-serif">€149<span style="font-size:14px;color:#5a6882;font-weight:400">/sessione</span></div>
+        <div style="margin:14px 0;font-size:13px;color:#8a8aaa;line-height:1.8">✓ 1 ora video call<br>✓ Analisi preliminare<br>✓ Report sintetico<br>✓ Follow-up email 7gg</div>
+        <button onclick="this.textContent='✅ Richiesta inviata'" style="width:100%;padding:10px;border-radius:10px;background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.2);color:#4f8ef7;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">Prenota</button>
+      </div>
+      <div style="background:rgba(245,166,35,.04);border:1px solid rgba(245,166,35,.2);border-radius:14px;padding:24px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:12px;right:12px;background:rgba(245,166,35,.15);border-radius:100px;padding:3px 10px;font-size:10px;color:#f5a623;font-weight:700">⭐ POPOLARE</div>
+        <div style="font-size:11px;color:#f5a623;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Professional</div>
+        <div style="font-size:28px;font-weight:800;color:#f0f4ff;font-family:'DM Sans',sans-serif">€399<span style="font-size:14px;color:#5a6882;font-weight:400">/mese</span></div>
+        <div style="margin:14px 0;font-size:13px;color:#8a8aaa;line-height:1.8">✓ 4 ore video call/mese<br>✓ Audit on-site (1 giorno)<br>✓ Piano d'azione dettagliato<br>✓ Supporto chat illimitato<br>✓ Template e documenti</div>
+        <button onclick="this.textContent='✅ Richiesta inviata'" style="width:100%;padding:10px;border-radius:10px;background:linear-gradient(135deg,#f5a623,#e88a00);border:none;color:#0a0a0a;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">Prenota</button>
+      </div>
+      <div style="background:rgba(167,139,250,.04);border:1px solid rgba(167,139,250,.2);border-radius:14px;padding:24px">
+        <div style="font-size:11px;color:#a78bfa;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Enterprise</div>
+        <div style="font-size:28px;font-weight:800;color:#f0f4ff;font-family:'DM Sans',sans-serif">Custom</div>
+        <div style="margin:14px 0;font-size:13px;color:#8a8aaa;line-height:1.8">✓ Ore illimitate<br>✓ Team dedicato multi-area<br>✓ Audit mensili on-site<br>✓ KPI tracking continuo<br>✓ Formazione staff inclusa<br>✓ Supporto h24</div>
+        <button onclick="this.textContent='📧 Ti contatteremo'" style="width:100%;padding:10px;border-radius:10px;background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.2);color:#a78bfa;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">Contattaci</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ DISPONIBILITÀ ═══ -->
+  <section style="margin-top:8px">
+    <h2 style="font-family:'DM Sans',sans-serif;font-size:1.2rem;color:#f0f4ff;margin-bottom:14px">📅 Prossimi Slot Disponibili</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:24px">
+      <div style="background:rgba(22,163,74,.06);border:1px solid rgba(22,163,74,.15);border-radius:12px;padding:14px;text-align:center"><div style="font-size:14px;font-weight:700;color:#16a34a">Lun 05/05</div><div style="font-size:12px;color:#5a6882">10:00 · 14:00 · 16:00</div></div>
+      <div style="background:rgba(22,163,74,.06);border:1px solid rgba(22,163,74,.15);border-radius:12px;padding:14px;text-align:center"><div style="font-size:14px;font-weight:700;color:#16a34a">Mar 06/05</div><div style="font-size:12px;color:#5a6882">09:00 · 11:00</div></div>
+      <div style="background:rgba(22,163,74,.06);border:1px solid rgba(22,163,74,.15);border-radius:12px;padding:14px;text-align:center"><div style="font-size:14px;font-weight:700;color:#16a34a">Gio 08/05</div><div style="font-size:12px;color:#5a6882">14:00 · 16:00 · 18:00</div></div>
+      <div style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);border-radius:12px;padding:14px;text-align:center"><div style="font-size:14px;font-weight:700;color:#f59e0b">Ven 09/05</div><div style="font-size:12px;color:#5a6882">Solo 1 slot: 10:00</div></div>
+    </div>
+  </section>
+
+  <!-- ═══ TESTIMONIALS ═══ -->
+  <section style="margin-top:8px;margin-bottom:32px">
+    <h2 style="font-family:'DM Sans',sans-serif;font-size:1.2rem;color:#f0f4ff;margin-bottom:14px">💬 Feedback Clienti</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px">
+      <div style="background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:18px"><div style="color:#f5a623;margin-bottom:8px">⭐⭐⭐⭐⭐</div><div style="font-size:13px;color:#c8c8e0;line-height:1.6;font-style:italic">"Il consulente HACCP ci ha guidato alla certificazione ISO 22000 in soli 4 mesi. Servizio impeccabile."</div><div style="font-size:12px;color:#5a6882;margin-top:10px">— Hotel Calamosca, Cagliari</div></div>
+      <div style="background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:18px"><div style="color:#f5a623;margin-bottom:8px">⭐⭐⭐⭐⭐</div><div style="font-size:13px;color:#c8c8e0;line-height:1.6;font-style:italic">"Revenue management: +18% di RevPAR in 3 mesi. Il ROI della consulenza è stato immediato."</div><div style="font-size:12px;color:#5a6882;margin-top:10px">— Resort Costa Rei</div></div>
+      <div style="background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:18px"><div style="color:#f5a623;margin-bottom:8px">⭐⭐⭐⭐</div><div style="font-size:13px;color:#c8c8e0;line-height:1.6;font-style:italic">"Supporto eccellente sulla sostenibilità. Ottenuto Ecolabel UE al primo tentativo."</div><div style="font-size:12px;color:#5a6882;margin-top:10px">— Boutique Hotel Villasimius</div></div>
+    </div>
+  </section>
+
+<script>
+const EXPERTS=[
+  {init:'GF',name:'Giulia Ferretti',title:'F&B Director & Consulente',tags:['F&B','Menu Engineering','Food Cost','Mise en Place'],stars:5,reviews:47,exp:'14 anni',rate:'€ 180/h',bio:'Ex F&B Director Marriott Italia. Specializzata in menu engineering, food cost optimization e lancio concept ristorativi per strutture luxury.'},
+  {init:'MT',name:'Marco Trentini',title:'Revenue Manager & Strategy',tags:['Revenue Management','RMS','OTA','MICE'],stars:5,reviews:38,exp:'11 anni',rate:'€ 160/h',bio:'Revenue Manager per catene internazionali. Esperto in Total Revenue Management, pricing dinamico e strategie di distribuzione multicanale.'},
+  {init:'LB',name:'Laura Bianchi',title:'Environmental & Quality Manager',tags:['ISO 14001','EMAS','ISO 50001','Green Key'],stars:5,reviews:62,exp:'18 anni',rate:'€ 200/h',bio:'Lead Auditor ISO 14001/9001 ACCREDIA. 180+ certificazioni accompagnate. Esperta EMAS e sistemi di gestione integrati per hospitality.'},
+  {init:'AR',name:'Andrea Romano',title:'Hotel Operations Consultant',tags:['Operations','SOP','PMS','Yield'],stars:4,reviews:29,exp:'9 anni',rate:'€ 140/h',bio:'Specialista in ottimizzazione operativa, implementazione PMS (Opera, Mews), formazione housekeeping e standardizzazione processi.'},
+];
+
+const SERVICES=[
+  {icon:'🍽️',cat:'F&B Management',title:'Consulenza Menu Engineering & Food Cost',desc:'Analisi approfondita del menu attuale, ottimizzazione della profittabilità, redesign grafico e sensoriale, formazione staff su upselling.',price:'Da € 800',duration:'2-4 settimane',tags:['F&B','Menu','Revenue']},
+  {icon:'📊',cat:'Revenue Management',title:'Revenue Strategy & OTA Optimization',desc:'Audit canali di distribuzione, revenue management dinamico, strategie pricing stagionale, gestione channel manager e OTA parity.',price:'Da € 1.200',duration:'1 mese',tags:['Revenue','OTA','Pricing']},
+  {icon:'🌿',cat:'Sostenibilità',title:'Percorso Certificazione ISO 14001:2015',desc:'Gap analysis iniziale, redazione documentazione SGA, formazione RSGA, supporto durante audit di certificazione da ente terzo.',price:'Da € 3.500',duration:'6-12 mesi',tags:['ISO14001','SGA','Sostenibilità']},
+  {icon:'⚡',cat:'Energia',title:'Diagnosi Energetica + ISO 50001',desc:'Audit energetico conforme D.Lgs. 102/2014, business case interventi, supporto accesso Certificati Bianchi GSE, implementazione SGE.',price:'Da € 2.800',duration:'3-6 mesi',tags:['ISO50001','Energia','GSE']},
+  {icon:'👥',cat:'HR & Formazione',title:'Piano Formazione HACCP & Food Safety',desc:'Formazione obbligatoria personale OSA, aggiornamento HACCP, test di valutazione, emissione attestati validi ai sensi D.Lgs. 193/2007.',price:'Da € 300/corso',duration:'1-2 giorni',tags:['HACCP','Formazione','OSA']},
+  {icon:'📱',cat:'Digital & Tech',title:'Digital Transformation Hospitality',desc:'Selezione e implementazione PMS, CRM, RMS, channel manager. Ottimizzazione reputazione online, review management, social strategy.',price:'Da € 1.500',duration:'2-3 mesi',tags:['Tech','PMS','Digital']},
+  {icon:'🏅',cat:'Certificazioni',title:'EMAS III — Dalla ISO 14001 alla Registrazione',desc:'Supporto nella redazione della Dichiarazione Ambientale, gestione rapporto con verificatori accreditati ISPRA, iter registrazione EMAS.',price:'Da € 6.000',duration:'12-18 mesi',tags:['EMAS','ISO14001','ISPRA']},
+  {icon:'🔑',cat:'Sostenibilità',title:'Certificazione Green Key Hotel',desc:'Analisi requisiti FEE Italia, piano azioni ambientali, supporto nella compilazione dossier, preparazione ispezione e mantenimento annuale.',price:'Da € 900',duration:'3-4 mesi',tags:['GreenKey','FEE','Ecolabel']},
+  {icon:'💶',cat:'Legale & Fiscale',title:'Consulenza Incentivi e Agevolazioni Strutture',desc:'Mappatura completa incentivi disponibili: PNRR, Transizione 5.0, Ecobonus, Certificati Bianchi, bandi regionali per il turismo.',price:'Da € 600',duration:'2 settimane',tags:['Incentivi','PNRR','Fiscale']},
+  {icon:'🍷',cat:'F&B Management',title:'Wine Program & Beverage Strategy',desc:'Costruzione wine list coerente con concept, gestione cantina, formazione sommelier, wine pairing menu, markup strategy e negoziazione.',price:'Da € 700',duration:'2-3 settimane',tags:['Wine','Beverage','F&B']},
+  {icon:'🏗️',cat:'Hotel Operations',title:'Pre-Opening Consulting Hotel & Restaurant',desc:'Supporto completo pre-apertura: progettazione operativa, selezione fornitori, definizione SOP, recruitment, training, soft opening.',price:'Da € 4.000',duration:'3-6 mesi',tags:['Pre-Opening','Operations','SOP']},
+  {icon:'🎯',cat:'Brand & Marketing',title:'Brand Identity & Positioning Hospitality',desc:'Analisi competitor, definizione posizionamento, sviluppo brand identity, naming, visual identity, storytelling e comunicazione integrata.',price:'Da € 2.000',duration:'4-8 settimane',tags:['Brand','Marketing','Strategy']},
+];
+
+let currentCat='all';
+
+function renderExperts(){
+  const el=document.getElementById('experts-grid');
+  if(!el) return;
+  el.innerHTML=EXPERTS.map(e=>`
+    <div class="expert-card">
+      <div class="expert-avatar">${e.init}</div>
+      <div style="flex:1">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;flex-wrap:wrap">
+          <div>
+            <div class="expert-name">${e.name}</div>
+            <div class="expert-title-c">${e.title}</div>
+          </div>
+          <div style="text-align:right;flex-shrink:0">
+            <div style="font-family:var(--mono);font-size:13px;color:var(--gold);font-weight:700">${e.rate}</div>
+            <div class="stars">${'★'.repeat(e.stars)}${'☆'.repeat(5-e.stars)}</div>
+            <div style="font-size:10px;color:var(--text3)">${e.reviews} recensioni · ${e.exp}</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--text2);margin:8px 0;line-height:1.6">${e.bio}</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+          <div style="display:flex;gap:4px;flex-wrap:wrap">${e.tags.map(t=>`<span class="badge badge-muted">${t}</span>`).join('')}</div>
+          <button class="btn btn-gold btn-xs" onclick="showToast('Richiesta inviata a ${e.name} — risponderà entro 24h ✦')">Contatta</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function renderServices(cat){
+  const el=document.getElementById('services-grid');
+  if(!el) return;
+  const filtered=cat==='all'?SERVICES:SERVICES.filter(s=>s.cat===cat||s.tags.includes(cat));
+  el.innerHTML=filtered.map((s,i)=>`
+    <div class="consult-card" onclick="openServiceModal(${i})" style="animation-delay:${i*.04}s">
+      <div class="consult-img" style="background:linear-gradient(135deg,rgba(217,119,6,.07),rgba(217,119,6,.02))">${s.icon}</div>
+      <div class="consult-body">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <span class="badge badge-muted">${s.cat}</span>
+          <span class="consult-price">${s.price}</span>
+        </div>
+        <div class="consult-title">${s.title}</div>
+        <div class="consult-desc">${s.desc.slice(0,110)}…</div>
+        <div class="consult-meta">
+          <div style="display:flex;gap:4px;flex-wrap:wrap">${s.tags.slice(0,2).map(t=>`<span class="badge badge-muted" style="font-size:9.5px">${t}</span>`).join('')}</div>
+          <span style="font-size:11px;color:var(--text3)">⏱ ${s.duration}</span>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function filterCat(cat,btn){
+  currentCat=cat;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderServices(cat);
+}
+
+function openServiceModal(idx){
+  const s=SERVICES[idx];
+  document.getElementById('modal-content').innerHTML=`
+    <div style="font-size:40px;margin-bottom:12px">${s.icon}</div>
+    <div class="modal-title">${s.title}</div>
+    <div class="modal-sub">${s.cat} · ⏱ ${s.duration}</div>
+    <div style="font-size:13.5px;color:var(--text2);line-height:1.8;margin-bottom:20px">${s.desc}</div>
+    <div style="display:flex;gap:12px;margin-bottom:22px;flex-wrap:wrap">
+      <div style="padding:12px 20px;background:var(--gold-dim);border-radius:10px;border:1px solid rgba(217,119,6,.2)">
+        <div style="font-size:10px;color:var(--text3);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">Investimento</div>
+        <div style="font-family:var(--mono);font-size:1.2rem;color:var(--gold);font-weight:700">${s.price}</div>
+      </div>
+      <div style="padding:12px 20px;background:var(--bg5);border-radius:10px;border:1px solid var(--border2)">
+        <div style="font-size:10px;color:var(--text3);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">Durata</div>
+        <div style="font-size:1rem;font-weight:700;color:var(--text)">${s.duration}</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-gold" onclick="closeModal();openRequestModal()">✦ Richiedi questo servizio</button>
+      <button class="btn btn-outline" onclick="closeModal()">Chiudi</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal(){ document.getElementById('modal-overlay').classList.remove('open'); }
+function openRequestModal(){ document.getElementById('modal-request').classList.add('open'); }
+function closeModal2(){ document.getElementById('modal-request').classList.remove('open'); }
+function scrollToServices(){ document.getElementById('services-anchor').scrollIntoView({behavior:'smooth'}); }
+
+function submitRequest(){
+  const nome=document.getElementById('rc-nome')?.value?.trim();
+  if(!nome){ showToast('Inserisci il tuo nome per procedere'); return; }
+  closeModal2();
+  showToast('Richiesta inviata! '+nome+', sarai contattato entro 24h ✦');
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3500);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{ renderExperts(); renderServices('all'); });
+</script>
+<script>
+window.switchTab=window.switchTab||function(t){var m={bevmanager:'bevmanager.html',hotellerie:'hotellerie.html',housekeeping:'housekeeping.html',haccp:'haccp.html',nc:'nc.html',tracciabilita:'tracciabilita.html',shelflife:'shelflife.html',scmpro:'scmpro.html',shiftmanager:'shiftmanager.html',events:'events.html',hub:'hub.html',cert:'cert.html',consult:'consulenze.html',academy:'academy.html',norme:'norme.html',network:'network.html',barman:'barman.html',frontoffice:'BAD360.html#frontoffice',revenue:'BAD360.html#revenue',iotmonitor:'BAD360.html#iotmonitor',demand:'BAD360.html#demand',supplier:'BAD360.html#supplier',possync:'BAD360.html#possync',bidashboard:'BAD360.html#bidashboard',bandi360:'BAD360.html#bandi360',iso22005adv:'BAD360.html#iso22005adv',procurement:'BAD360.html#procurement',haccp2:'BAD360.html#haccp2'};var u=m[t];if(u){if(u.indexOf('#')!==-1)sessionStorage.setItem('bad360_tab',t);window.location.href=u}};
+</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+.env
+.env.*
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.log
+.git/
+.gitignore
+.DS_Store
+Thumbs.db
+STORICO HTML/
+file input/
+BAD360_ALL/
+*.bat
+*.txt
+!requirements.txt

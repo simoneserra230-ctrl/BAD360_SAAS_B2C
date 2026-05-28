@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BAD.S — Network</title>
+<style>
+:root{
+  --bg:#f0f3f8;--bg2:#e8ecf3;--bg3:#dde3ed;--bg5:#f7f9fc;--canvas:#ffffff;
+  --border:rgba(30,50,100,.10);--border2:rgba(30,50,100,.16);
+  --text:#1a2540;--text2:#5a6a8a;--text3:#94a3b8;
+  --blue:#2563eb;--blue2:#3b82f6;--blue-dim:rgba(37,99,235,.08);--blue-glow:rgba(37,99,235,.15);
+  --green:#16a34a;--green-dim:rgba(22,163,74,.09);
+  --amber:#d97706;--amber-dim:rgba(217,119,6,.09);
+  --gold:#d97706;--gold-dim:rgba(217,119,6,.09);
+  --teal:#0891b2;--teal-dim:rgba(8,145,178,.09);
+  --font:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
+  --r:12px;--r2:8px;
+  --shadow-xs:0 1px 3px rgba(15,30,70,.08),0 1px 2px rgba(15,30,70,.05);
+  --shadow-sm:0 2px 8px rgba(15,30,70,.10),0 1px 3px rgba(15,30,70,.06);
+  --shadow-md:0 4px 20px rgba(15,30,70,.12),0 2px 8px rgba(15,30,70,.07);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 60% 50% at 5% 0%,rgba(37,99,235,.04) 0%,transparent 50%),radial-gradient(ellipse 50% 40% at 95% 100%,rgba(8,145,178,.04) 0%,transparent 50%)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:rgba(30,50,100,.18);border-radius:3px}
+.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:36px 24px 80px}
+.page-hdr{padding:40px 0 32px;border-bottom:1px solid var(--border);margin-bottom:36px}
+.overline{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:10px}
+.page-title{font-family:'DM Sans',sans-serif;font-size:clamp(1.8rem,4vw,2.5rem);font-weight:900;line-height:1.1;margin-bottom:12px}
+.page-title em{font-style:italic;color:var(--blue)}
+.page-sub{font-size:14px;color:var(--text2);max-width:580px;line-height:1.7;margin-bottom:20px}
+.assoc-strip{display:flex;gap:8px;flex-wrap:wrap}
+.assoc-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:var(--canvas);border:1.5px solid var(--border2);border-radius:20px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:var(--shadow-xs);cursor:default;transition:all .15s}
+.assoc-pill:hover{border-color:var(--blue);color:var(--blue)}
+.main-grid{display:grid;grid-template-columns:1fr 320px;gap:20px;margin-bottom:48px}
+@media(max-width:860px){.main-grid{grid-template-columns:1fr}}
+.sec-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:6px}
+.sec-title{font-family:'DM Sans',sans-serif;font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:16px}
+.search-row{display:flex;gap:8px;margin-bottom:14px}
+.search-input{flex:1;background:var(--canvas);border:1.5px solid var(--border2);border-radius:var(--r2);padding:9px 14px;color:var(--text);font-size:13px;outline:none;font-family:var(--font);transition:border-color .15s}
+.search-input:focus{border-color:var(--blue)}
+.pros-grid{display:grid;gap:10px}
+.pro-card{background:var(--canvas);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;display:flex;gap:13px;align-items:flex-start;transition:all .18s;box-shadow:var(--shadow-xs);animation:fadeUp .4s ease both}
+.pro-card:hover{border-color:var(--blue);box-shadow:var(--shadow-sm)}
+.pro-avatar{width:42px;height:42px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--teal),var(--blue2));display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;font-family:'DM Sans',sans-serif}
+.pro-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:1px}
+.pro-role{font-size:11px;color:var(--text2);margin-bottom:5px}
+.stars{color:var(--gold);font-size:11px}
+.badge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700}
+.badge-muted{background:var(--bg3);color:var(--text3);border:1px solid var(--border2)}
+.badge-blue{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(37,99,235,.2)}
+.badge-teal{background:var(--teal-dim);color:var(--teal);border:1px solid rgba(8,145,178,.2)}
+.badge-gold{background:var(--gold-dim);color:var(--gold);border:1px solid rgba(217,119,6,.25)}
+.sidebar-card{background:var(--canvas);border:1px solid var(--border);border-radius:var(--r);padding:18px;box-shadow:var(--shadow-xs);margin-bottom:14px}
+.sidebar-title{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+.job-item{padding:10px 0;border-bottom:1px solid var(--bg2)}
+.job-item:last-child{border-bottom:none}
+.job-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.job-meta{font-size:11px;color:var(--text3);display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:var(--r2);font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:var(--font);transition:all .18s}
+.btn-blue{background:linear-gradient(135deg,var(--blue),#1d4ed8);color:#fff}
+.btn-blue:hover{transform:translateY(-1px);box-shadow:0 4px 14px var(--blue-glow)}
+.btn-outline{background:transparent;color:var(--text2);border:1.5px solid var(--border2)}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--amber));color:#fff}
+.btn-xs{padding:5px 11px;font-size:11px}
+.events-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+.event-card{background:var(--canvas);border:1px solid var(--border);border-radius:var(--r);padding:18px;transition:all .2s;box-shadow:var(--shadow-xs);animation:fadeUp .4s ease both}
+.event-card:hover{border-color:var(--border2);box-shadow:var(--shadow-sm)}
+.event-hdr{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.event-title{font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:700;color:var(--text);line-height:1.3}
+.event-desc{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:12px}
+.event-footer{display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
+.event-date{font-size:12px;font-weight:700;color:var(--blue)}
+.event-place{font-size:11px;color:var(--text3)}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--text);color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;opacity:0;transform:translateY(10px);transition:all .3s}
+.toast.show{opacity:1;transform:none}
+</style>
+
+<link rel="stylesheet" href="bad360-ds.css">
+</head>
+<body class="b360-module">
+<header class="b360-topbar" id="b360-topbar">
+<div class="b360-tb-l">
+<a href="index.html" class="b360-tb-back" title="Torna alla Suite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a>
+<a href="index.html" class="b360-tb-brand" tabindex="-1"><div class="b360-tb-logo">B360</div><span class="b360-tb-name">BAD<strong>360</strong>.ai</span></a>
+<span class="b360-tb-sep"></span>
+<span class="b360-tb-module" id="b360-page-label">Suite</span>
+</div>
+<div class="b360-tb-r">
+<span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.0</span>
+<button class="b360-tb-theme" id="b360-theme-btn" title="Cambia tema">&#9790;</button>
+</div>
+</header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"&#9790;":"&#9788;";b.addEventListener("click",function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"&#9790;":"&#9788;";try{localStorage.setItem("bad360_theme",nt)}catch(e){}});}var lbl=document.getElementById("b360-page-label");if(lbl){var title=document.title.replace("BAD360.ai — ","").replace("BAD.S — ","").replace("BAD360 — ","");if(title&&title!==document.title)lbl.textContent=title;}});})()</script>
+<div class="wrap" id="page-network">
+
+  <div class="page-hdr">
+    <div class="overline">🌐 Community · BAD.S Pro</div>
+    <div class="page-title"><em>Network</em> Hospitality Italia</div>
+    <div class="page-sub">Connettiti con professionisti certificati, scopri opportunità lavorative e resta aggiornato sugli eventi di settore più rilevanti.</div>
+    <div class="assoc-strip">
+      <div class="assoc-pill">🤝 FIPE</div>
+      <div class="assoc-pill">🏨 Federalberghi</div>
+      <div class="assoc-pill">🏅 ACCREDIA</div>
+      <div class="assoc-pill">🌿 FEE Italia</div>
+      <div class="assoc-pill">📊 HSMAI Europa</div>
+      <div class="assoc-pill">⚡ FIRE</div>
+      <div class="assoc-pill">🍷 AIS</div>
+    </div>
+  </div>
+
+  <div class="main-grid">
+    <div>
+      <div class="sec-label">Community</div>
+      <div class="sec-title">Professionisti del settore</div>
+      <div class="search-row">
+        <input class="search-input" id="pro-search" placeholder="Cerca per nome, città, specializzazione…" oninput="filterPros()">
+        <button class="btn btn-blue btn-xs">🔍</button>
+      </div>
+      <div class="pros-grid" id="network-pros"></div>
+      <div style="margin-top:14px;text-align:center">
+        <button class="btn btn-outline" onclick="showToast('Funzione PRO — 230+ professionisti disponibili nel network completo ✦')">Carica altri professionisti</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="sidebar-card">
+        <div class="sidebar-title">💼 Job Board</div>
+        <div id="job-board"></div>
+        <div style="margin-top:12px">
+          <button class="btn btn-gold" style="width:100%;justify-content:center" onclick="showToast('Pubblica posizione — disponibile con account Struttura PRO ✦')">+ Pubblica Posizione</button>
+        </div>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-title">🔗 Quick Connect</div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:12px;line-height:1.6">Descrivi la tua esigenza e la community risponde entro 24h.</div>
+        <textarea class="search-input" style="min-height:68px;resize:none;margin-bottom:10px;display:block;width:100%" placeholder="Es. Cerco Revenue Manager per apertura estiva, 3 mesi…" id="qc-msg"></textarea>
+        <button class="btn btn-blue" style="width:100%;justify-content:center" onclick="submitConnect()">Invia al Network →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-label">Calendario</div>
+  <div class="sec-title">Prossimi eventi di settore</div>
+  <div style="margin-bottom:20px;font-size:13px;color:var(--text2)">Fiere, congressi e corsi certificati · hospitality 2025</div>
+  <div class="events-grid" id="events-grid"></div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+
+  <!-- ═══ GROUPS ═══ -->
+  <section style="margin-top:32px">
+    <h2 style="font-family:'DM Sans',sans-serif;font-size:1.2rem;color:#f0f4ff;margin-bottom:14px">👥 Gruppi Professionali</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:24px">
+      <div style="background:rgba(224,62,80,.04);border:1px solid rgba(224,62,80,.15);border-radius:14px;padding:18px"><div style="font-size:20px;margin-bottom:8px">🛡️</div><div style="font-weight:700;color:#f0f4ff">HACCP & Sicurezza Alimentare</div><div style="font-size:12px;color:#5a6882;margin:6px 0">85 membri · 12 discussioni attive</div><button onclick="this.textContent='✅ Iscritto'" style="background:rgba(224,62,80,.1);border:1px solid rgba(224,62,80,.2);border-radius:8px;padding:6px 14px;color:#e03e50;font-size:11px;cursor:pointer;font-family:inherit">Entra</button></div>
+      <div style="background:rgba(245,166,35,.04);border:1px solid rgba(245,166,35,.15);border-radius:14px;padding:18px"><div style="font-size:20px;margin-bottom:8px">🍸</div><div style="font-weight:700;color:#f0f4ff">F&B Managers Italia</div><div style="font-size:12px;color:#5a6882;margin:6px 0">142 membri · 8 discussioni attive</div><button onclick="this.textContent='✅ Iscritto'" style="background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.2);border-radius:8px;padding:6px 14px;color:#f5a623;font-size:11px;cursor:pointer;font-family:inherit">Entra</button></div>
+      <div style="background:rgba(79,142,247,.04);border:1px solid rgba(79,142,247,.15);border-radius:14px;padding:18px"><div style="font-size:20px;margin-bottom:8px">📈</div><div style="font-weight:700;color:#f0f4ff">Revenue & Distribution</div><div style="font-size:12px;color:#5a6882;margin:6px 0">63 membri · 5 discussioni attive</div><button onclick="this.textContent='✅ Iscritto'" style="background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.2);border-radius:8px;padding:6px 14px;color:#4f8ef7;font-size:11px;cursor:pointer;font-family:inherit">Entra</button></div>
+      <div style="background:rgba(22,163,74,.04);border:1px solid rgba(22,163,74,.15);border-radius:14px;padding:18px"><div style="font-size:20px;margin-bottom:8px">🌿</div><div style="font-weight:700;color:#f0f4ff">Sostenibilità & Green Hotel</div><div style="font-size:12px;color:#5a6882;margin:6px 0">48 membri · 3 discussioni attive</div><button onclick="this.textContent='✅ Iscritto'" style="background:rgba(22,163,74,.1);border:1px solid rgba(22,163,74,.2);border-radius:8px;padding:6px 14px;color:#16a34a;font-size:11px;cursor:pointer;font-family:inherit">Entra</button></div>
+    </div>
+  </section>
+
+  <!-- ═══ MENTORING ═══ -->
+  <section style="margin-top:8px">
+    <h2 style="font-family:'DM Sans',sans-serif;font-size:1.2rem;color:#f0f4ff;margin-bottom:14px">🎓 Programma Mentoring</h2>
+    <div style="background:linear-gradient(135deg,rgba(167,139,250,.05),rgba(79,142,247,.05));border:1px solid rgba(167,139,250,.15);border-radius:14px;padding:22px;margin-bottom:24px">
+      <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center">
+        <div style="font-size:38px">🤝</div>
+        <div style="flex:1;min-width:240px">
+          <div style="font-weight:700;font-size:16px;color:#f0f4ff;margin-bottom:6px">Trova il tuo Mentor</div>
+          <div style="font-size:13px;color:#8a8aaa;line-height:1.6">Connettiti con professionisti senior del settore hospitality. Sessioni 1:1, obiettivi personalizzati, crescita accelerata.</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;text-align:center">
+          <div style="background:rgba(167,139,250,.08);border-radius:10px;padding:12px 16px"><div style="font-size:20px;font-weight:800;color:#a78bfa">24</div><div style="font-size:10px;color:#5a6882">Mentor</div></div>
+          <div style="background:rgba(79,142,247,.08);border-radius:10px;padding:12px 16px"><div style="font-size:20px;font-weight:800;color:#4f8ef7">156</div><div style="font-size:10px;color:#5a6882">Sessioni</div></div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:16px">
+        <div style="background:rgba(255,255,255,.03);border-radius:10px;padding:12px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;border-radius:50%;background:rgba(224,62,80,.1);display:flex;align-items:center;justify-content:center;font-size:14px">MR</div><div><div style="font-size:12px;font-weight:700;color:#f0f4ff">Marco Ferrara</div><div style="font-size:10px;color:#5a6882">GM · 15 anni exp</div></div></div>
+        <div style="background:rgba(255,255,255,.03);border-radius:10px;padding:12px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;border-radius:50%;background:rgba(79,142,247,.1);display:flex;align-items:center;justify-content:center;font-size:14px">AS</div><div><div style="font-size:12px;font-weight:700;color:#f0f4ff">Anna Sanna</div><div style="font-size:10px;color:#5a6882">Revenue Dir · 12 anni</div></div></div>
+        <div style="background:rgba(255,255,255,.03);border-radius:10px;padding:12px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;border-radius:50%;background:rgba(22,163,74,.1);display:flex;align-items:center;justify-content:center;font-size:14px">GL</div><div><div style="font-size:12px;font-weight:700;color:#f0f4ff">Giuseppe Lai</div><div style="font-size:10px;color:#5a6882">Executive Chef · 20 anni</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PROJECT BOARD ═══ -->
+  <section style="margin-top:8px;margin-bottom:32px">
+    <h2 style="font-family:'DM Sans',sans-serif;font-size:1.2rem;color:#f0f4ff;margin-bottom:14px">📋 Project Board — Collaborazioni</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px">
+      <div style="background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:18px"><span style="background:rgba(22,163,74,.1);color:#16a34a;border-radius:100px;padding:2px 8px;font-size:10px;font-weight:700">Aperto</span><div style="font-weight:700;color:#f0f4ff;font-size:14px;margin:8px 0 4px">Consulente HACCP per hotel 4* Cagliari</div><div style="font-size:12px;color:#5a6882;line-height:1.5">Cerchiamo consulente HACCP per accompagnamento alla certificazione ISO 22000. Budget: €3,000-5,000. Durata: 3 mesi.</div><div style="margin-top:10px;font-size:11px;color:#5a6882">📅 Pubblicato 2gg fa · 👁️ 18 visualizzazioni · 💬 4 candidature</div></div>
+      <div style="background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:18px"><span style="background:rgba(79,142,247,.1);color:#4f8ef7;border-radius:100px;padding:2px 8px;font-size:10px;font-weight:700">In corso</span><div style="font-weight:700;color:#f0f4ff;font-size:14px;margin:8px 0 4px">Revenue Manager freelance — Resort stagionale</div><div style="font-size:12px;color:#5a6882;line-height:1.5">Resort Costa Rei cerca revenue manager per stagione estiva Giu-Set. Remoto + 2 visite/mese.</div><div style="margin-top:10px;font-size:11px;color:#5a6882">📅 5gg fa · 👁️ 34 visualizzazioni · 💬 7 candidature</div></div>
+      <div style="background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:18px"><span style="background:rgba(245,166,35,.1);color:#f5a623;border-radius:100px;padding:2px 8px;font-size:10px;font-weight:700">Urgente</span><div style="font-weight:700;color:#f0f4ff;font-size:14px;margin:8px 0 4px">Barman per evento 200 PAX — 15 Maggio</div><div style="font-size:12px;color:#5a6882;line-height:1.5">Servono 2 barman professionisti per gala aziendale. Open bar premium + cocktail station. Compenso €300/barman.</div><div style="margin-top:10px;font-size:11px;color:#5a6882">📅 1gg fa · 👁️ 45 visualizzazioni · 💬 6 candidature</div></div>
+    </div>
+  </section>
+
+<script>
+const NET_PROS=[
+  {init:'SC',name:'Sofia Castellano',title:'Food Safety Manager',city:'Milano',tags:['ISO22000','HACCP','FSSC'],stars:5,exp:'12 anni',available:true},
+  {init:'LP',name:'Luca Palermo',title:'General Manager Hotel',city:'Toscana',tags:['Revenue','Operations','Pre-Opening'],stars:5,exp:'15 anni',available:false},
+  {init:'MB',name:'Maria Bello',title:'Sustainability Manager',city:'Napoli',tags:['EMAS','GreenKey','ISO14001'],stars:4,exp:'9 anni',available:true},
+  {init:'DP',name:'Daniele Proietti',title:'Revenue Manager',city:'Roma',tags:['RMS','OTA','MICE'],stars:5,exp:'11 anni',available:true},
+  {init:'FV',name:'Federica Vitale',title:'HR & Training Manager',city:'Torino',tags:['HACCP','Formazione','Leadership'],stars:4,exp:'8 anni',available:false},
+  {init:'GM',name:'Giorgio Mancini',title:'F&B Director',city:'Venezia',tags:['Menu Engineering','Wine','Food Cost'],stars:5,exp:'16 anni',available:true},
+  {init:'AR',name:'Alessia Ricci',title:'Quality & Compliance Manager',city:'Bologna',tags:['ISO9001','Audit','NC'],stars:4,exp:'7 anni',available:true},
+  {init:'TF',name:'Tommaso Ferrari',title:'Digital & Tech Consultant',city:'Milano',tags:['PMS','CRM','NIS2'],stars:5,exp:'10 anni',available:false},
+];
+const JOBS=[
+  {title:'Head Bartender — Hotel 5★',luogo:'Milano',tipo:'Permanente',urgente:true},
+  {title:'Revenue Manager — Apertura estate',luogo:'Sardegna',tipo:'Stagionale',urgente:true},
+  {title:'HACCP Coordinator — Ristorazione',luogo:'Roma',tipo:'Permanente',urgente:false},
+  {title:'Sustainability Officer — Resort',luogo:'Toscana',tipo:'Permanente',urgente:false},
+  {title:'Pre-Opening F&B Manager',luogo:'Sicilia',tipo:'Progetto',urgente:true},
+];
+const EVENTS=[
+  {icon:'🎤',title:'TTG Rimini — Travel Technologies & Tourism',date:'8-10 Ottobre 2025',place:'Rimini Expo Centre',cat:'Fiera Int.',catColor:'badge-gold',desc:'La più importante fiera italiana del turismo. Workshop su sostenibilità, digital hospitality e revenue management. 50.000+ visitatori.'},
+  {icon:'🍽️',title:'Identità Golose — Gastronomy Congress',date:'23-25 Marzo 2025',place:'MiCo Milano',cat:'Congresso',catColor:'badge-blue',desc:'Summit internazionale dell'alta cucina. Chef stellati, innovazione F&B, tendenze gastronomiche 2025. 80+ relatori da 30 paesi.'},
+  {icon:'🌿',title:'Ecomondo — Economia Verde & Sostenibilità',date:'4-7 Novembre 2025',place:'Rimini',cat:'Fiera',catColor:'badge-teal',desc:'Focus sostenibilità hospitality. EMAS, Green Key, certificazioni ambientali, Transizione 5.0 e incentivi GSE.'},
+  {icon:'📊',title:'HSMAI Europe ROC — Revenue Optimization',date:'15 Aprile 2025',place:'Bruxelles',cat:'Conferenza',catColor:'badge-blue',desc:'Revenue management, data analytics, AI in hospitality. Benchmark e best practice europee. Sessioni certificanti CHBA.'},
+  {icon:'🏅',title:'HORECA Expo — Hotel & Catering International',date:'16-20 Novembre 2025',place:'Gent, Belgio',cat:'Fiera Int.',catColor:'badge-gold',desc:'La principale fiera europea per professionisti hotel e catering. Tecnologia, F&B, sostenibilità. 70.000+ visitatori.'},
+  {icon:'🔒',title:'Formazione HACCP & ISO — Roma',date:'18 Marzo 2025',place:'Roma — Hotel Excelsior',cat:'Corso',catColor:'badge-muted',desc:'Corso intensivo 2 giorni: ISO 14001, EMAS, HACCP 2025. Attestati riconosciuti. Max 20 partecipanti. Early bird aperto.'},
+];
+
+let allPros=[...NET_PROS];
+
+function renderPros(pros){
+  const el=document.getElementById('network-pros');
+  if(!el) return;
+  el.innerHTML=pros.map((p,i)=>`
+    <div class="pro-card" style="animation-delay:${i*.04}s">
+      <div class="pro-avatar">${p.init}</div>
+      <div style="flex:1">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:6px;flex-wrap:wrap">
+          <div>
+            <div class="pro-name">${p.name}</div>
+            <div class="pro-role">${p.title} · ${p.city}</div>
+          </div>
+          <div style="display:flex;gap:5px;align-items:center;flex-shrink:0">
+            <span class="stars">${'★'.repeat(p.stars)}${'☆'.repeat(5-p.stars)}</span>
+            <span class="badge ${p.available?'badge-teal':'badge-muted'}">${p.available?'● Disponibile':'○ Occupato'}</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px;flex-wrap:wrap;gap:6px">
+          <div style="display:flex;gap:4px;flex-wrap:wrap">${p.tags.slice(0,3).map(t=>`<span class="badge badge-muted">${t}</span>`).join('')}</div>
+          <div style="display:flex;gap:5px;align-items:center">
+            <span style="font-size:11px;color:var(--text3)">${p.exp}</span>
+            <button class="btn btn-outline btn-xs" onclick="showToast('Richiesta di connessione inviata a ${p.name} ✦')">Connetti</button>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function filterPros(){
+  const q=(document.getElementById('pro-search')?.value||'').toLowerCase();
+  const filtered=q?NET_PROS.filter(p=>
+    p.name.toLowerCase().includes(q)||
+    p.title.toLowerCase().includes(q)||
+    p.city.toLowerCase().includes(q)||
+    p.tags.some(t=>t.toLowerCase().includes(q))
+  ):NET_PROS;
+  renderPros(filtered);
+}
+
+function renderJobs(){
+  const el=document.getElementById('job-board');
+  if(!el) return;
+  el.innerHTML=JOBS.map(j=>`
+    <div class="job-item">
+      <div class="job-title">${j.title}</div>
+      <div class="job-meta">
+        <span>📍 ${j.luogo}</span>
+        <span style="background:${j.urgente?'rgba(220,38,38,.09)':'var(--green-dim)'};color:${j.urgente?'#dc2626':'var(--green)'};padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">${j.urgente?'🔴 Urgente':'🟢 Aperta'}</span>
+        <span style="background:var(--blue-dim);color:var(--blue);padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700">${j.tipo}</span>
+      </div>
+    </div>`).join('');
+}
+
+function renderEvents(){
+  const el=document.getElementById('events-grid');
+  if(!el) return;
+  el.innerHTML=EVENTS.map((e,i)=>`
+    <div class="event-card" style="animation-delay:${i*.05}s">
+      <div class="event-hdr">
+        <span style="font-size:24px;flex-shrink:0">${e.icon}</span>
+        <div>
+          <span class="badge ${e.catColor}" style="margin-bottom:6px;display:inline-flex">${e.cat}</span>
+          <div class="event-title">${e.title}</div>
+        </div>
+      </div>
+      <div class="event-desc">${e.desc}</div>
+      <div class="event-footer">
+        <div>
+          <div class="event-date">${e.date}</div>
+          <div class="event-place">📍 ${e.place}</div>
+        </div>
+        <button class="btn btn-outline btn-xs" onclick="showToast('Info disponibili sul sito ufficiale ✦')">Info →</button>
+      </div>
+    </div>`).join('');
+}
+
+function submitConnect(){
+  const msg=document.getElementById('qc-msg')?.value?.trim();
+  if(!msg){ showToast('Descrivi prima la tua esigenza'); return; }
+  document.getElementById('qc-msg').value='';
+  showToast('Richiesta inviata al network — risposta attesa entro 24h ✦');
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3800);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{ renderPros(NET_PROS); renderJobs(); renderEvents(); });
+</script>
+<script>
+window.switchTab=window.switchTab||function(t){var m={bevmanager:'bevmanager.html',hotellerie:'hotellerie.html',housekeeping:'housekeeping.html',haccp:'haccp.html',nc:'nc.html',tracciabilita:'tracciabilita.html',shelflife:'shelflife.html',scmpro:'scmpro.html',shiftmanager:'shiftmanager.html',events:'events.html',hub:'hub.html',cert:'cert.html',consult:'consulenze.html',academy:'academy.html',norme:'norme.html',network:'network.html',barman:'barman.html',frontoffice:'BAD360.html#frontoffice',revenue:'BAD360.html#revenue',iotmonitor:'BAD360.html#iotmonitor',demand:'BAD360.html#demand',supplier:'BAD360.html#supplier',possync:'BAD360.html#possync',bidashboard:'BAD360.html#bidashboard',bandi360:'BAD360.html#bandi360',iso22005adv:'BAD360.html#iso22005adv',procurement:'BAD360.html#procurement',haccp2:'BAD360.html#haccp2'};var u=m[t];if(u){if(u.indexOf('#')!==-1)sessionStorage.setItem('bad360_tab',t);window.location.href=u}};
+</script>
+</body>
+</html>

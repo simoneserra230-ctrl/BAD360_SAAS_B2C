@@ -1,0 +1,720 @@
+/*
+ * BAD360.ai — Unified Design System v4.1
+ * Warm luxury dark · Gold accent · Playfair Display + Syne + DM Sans
+ * Injected as LAST stylesheet to enforce unified palette across all pages.
+ */
+
+/* ── Google Fonts fallback import ── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap');
+
+/* ─────────────────────────────────────────────────────────────────────
+   CANONICAL WARM GOLD PALETTE
+   These override any :root{} declared above us in the document.
+───────────────────────────────────────────────────────────────────── */
+:root {
+  /* ── Gold accent ── */
+  --g:   #C9A84C;
+  --gl:  #F0D78A;
+  --gd:  #6B4F0A;
+  --gold:  #C9A84C;
+  --gold2: #F0D78A;
+
+  /* ── Backgrounds (warm black) ── */
+  --bg:     #06060A;
+  --bg2:    #0D0B08;
+  --bg3:    #131008;
+  --bg4:    #1E1608;
+  --bg5:    #090709;
+  --canvas: #0D0B08;
+  --warm:   rgba(255,149,0,.08);
+
+  /* ── Borders ── */
+  --line:    rgba(201,168,76,.08);
+  --line2:   rgba(201,168,76,.16);
+  --border:  rgba(201,168,76,.08);
+  --border2: rgba(201,168,76,.16);
+  --border3: rgba(201,168,76,.28);
+
+  /* ── Text ── */
+  --txt:   #F8F4EE;
+  --txt2:  #8a7a5a;
+  --txt3:  #4a3a1a;
+  --text:  #F8F4EE;
+  --text2: #8a7a5a;
+  --text3: #4a3a1a;
+  --w:     #F8F4EE;
+  --gr:    #777;
+  --text-primary:   #F8F4EE;
+  --text-secondary: #8a7a5a;
+  --text-tertiary:  #4a3a1a;
+  --text-disabled:  #2e2410;
+
+  /* ── Brand / Accents — gold as primary ── */
+  --blue:   #C9A84C;
+  --green:  #6aab76;
+  --orange: #d4803a;
+  --purple: #9b7fc7;
+  --red:    #c94a4a;
+  --teal:   #5abcb0;
+  --pink:   #c47a9b;
+
+  /* ── Accent aliases (legacy page compatibility) ── */
+  --blue2:       #F0D78A;
+  --blue3:       #a8832a;
+  --brand:       #C9A84C;
+  --brand-dim:   rgba(201,168,76,.12);
+  --brand-glow:  rgba(201,168,76,.25);
+  --blue-dim:    rgba(201,168,76,.10);
+  --blue-glow:   rgba(201,168,76,.18);
+  --amber:       #d4803a;
+  --amber-dim:   rgba(212,128,58,.10);
+  --gold-dim:    rgba(201,168,76,.10);
+  --emerald:     #6aab76;
+  --emerald-dim: rgba(106,171,118,.12);
+  --rose:        #c94a4a;
+  --rose-dim:    rgba(201,74,74,.12);
+  --violet:      #9b7fc7;
+  --success:     #6aab76;
+  --warning:     #C9A84C;
+  --danger:      #c94a4a;
+  --info:        #C9A84C;
+
+  /* ── Color-tinted backgrounds ── */
+  --blue-bg:    rgba(201,168,76,.10);
+  --green-bg:   rgba(106,171,118,.10);
+  --orange-bg:  rgba(212,128,58,.10);
+  --purple-bg:  rgba(155,127,199,.10);
+  --gold-bg:    rgba(201,168,76,.10);
+  --red-bg:     rgba(201,74,74,.10);
+  --teal-bg:    rgba(90,188,176,.10);
+  --pink-bg:    rgba(196,122,155,.10);
+  --gray-bg:    rgba(255,255,255,.04);
+  --red-dim:    rgba(201,74,74,.10);
+  --green-dim:  rgba(106,171,118,.10);
+
+  /* ── Background layer aliases for BAD360.html ── */
+  --bg-base:       #06060A;
+  --bg-surface:    #0D0B08;
+  --bg-elevated:   #131008;
+  --bg-overlay:    #1E1608;
+  --bg-muted:      #261d08;
+  --border-hover:  rgba(201,168,76,.20);
+  --border-active: rgba(201,168,76,.50);
+
+  /* ── Typography ── */
+  --font:    'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --serif:   'Playfair Display', Georgia, 'Times New Roman', serif;
+  --heading: 'Syne', 'DM Sans', sans-serif;
+  --mono:    'DM Mono', 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+
+  /* ── Layout ── */
+  --radius: 12px;
+  --r:  12px;
+  --r2:  8px;
+  --r3: 999px;
+
+  /* ── Shadows (warm-tinted) ── */
+  --shadow-xs: 0 1px 3px rgba(0,0,0,.55), 0 1px 2px rgba(0,0,0,.40);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,.60), 0 1px 3px rgba(0,0,0,.45);
+  --shadow-md: 0 4px 24px rgba(0,0,0,.70), 0 2px 8px rgba(0,0,0,.50);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,.80), 0 4px 16px rgba(0,0,0,.55);
+  --glow-gold: 0 0 20px rgba(201,168,76,.25);
+  --glow-blue: 0 0 20px rgba(201,168,76,.25);
+}
+
+/* Light mode override (theme toggle) */
+[data-theme="light"] {
+  --bg:    #faf7f0;
+  --bg2:   #ffffff;
+  --bg3:   #f2ede0;
+  --bg4:   #e8e0cc;
+  --bg5:   #f7f3ea;
+  --canvas:#ffffff;
+  --warm:  rgba(255,149,0,.04);
+  --line:  rgba(107,79,10,.10);
+  --line2: rgba(107,79,10,.18);
+  --border:  rgba(107,79,10,.10);
+  --border2: rgba(107,79,10,.18);
+  --txt:   #1a1408;
+  --txt2:  #6b5a2a;
+  --txt3:  #a8966a;
+  --text:  #1a1408;
+  --text2: #6b5a2a;
+  --text3: #a8966a;
+  --w:     #1a1408;
+  --text-primary:   #1a1408;
+  --text-secondary: #6b5a2a;
+  --text-tertiary:  #a8966a;
+  --bg-base:    #faf7f0;
+  --bg-surface: #ffffff;
+  --bg-elevated:#f2ede0;
+  --shadow-xs: 0 1px 3px rgba(0,0,0,.10), 0 1px 2px rgba(0,0,0,.06);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,.12), 0 1px 3px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 24px rgba(0,0,0,.14), 0 2px 8px rgba(0,0,0,.09);
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   BASE RESET & TYPOGRAPHY
+───────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  background: var(--bg) !important;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg) !important;
+  color: var(--txt) !important;
+  font-family: var(--font) !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body * {
+  font-family: inherit;
+}
+
+/* Headings use Syne for bold uppercase feel */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--heading) !important;
+  letter-spacing: -.02em;
+  color: var(--txt) !important;
+}
+
+/* Restore mono font for code-like elements */
+code, pre, kbd, samp,
+[class*="-mono"], [class*="mono-"],
+[class*="fira"], [class*="jetbrains"] {
+  font-family: var(--mono) !important;
+}
+
+/* Body padding for pages with the unified topbar */
+body:has(.b360-topbar) {
+  padding-top: 52px !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   SCROLLBAR
+───────────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(201,168,76,.20); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(201,168,76,.35); }
+
+/* ─────────────────────────────────────────────────────────────────────
+   UNIFIED TOPBAR  (.b360-topbar)
+───────────────────────────────────────────────────────────────────── */
+.b360-topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 52px;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: rgba(6,6,10,.94);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border-bottom: 1px solid rgba(201,168,76,.12);
+  box-shadow: 0 1px 0 rgba(201,168,76,.06), 0 4px 28px rgba(0,0,0,.60);
+}
+
+[data-theme="light"] .b360-topbar {
+  background: rgba(250,247,240,.96);
+  border-bottom-color: rgba(107,79,10,.14);
+  box-shadow: 0 1px 0 rgba(255,255,255,.8), 0 2px 12px rgba(0,0,0,.10);
+}
+
+.b360-tb-l {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.b360-tb-r {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Back arrow button */
+.b360-tb-back {
+  width: 30px; height: 30px;
+  border-radius: 7px;
+  border: 1px solid var(--line2);
+  background: rgba(201,168,76,.06);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--txt2);
+  text-decoration: none;
+  transition: all .15s;
+  flex-shrink: 0;
+}
+.b360-tb-back:hover {
+  border-color: var(--gold);
+  background: rgba(201,168,76,.14);
+  color: var(--gold);
+}
+.b360-tb-back svg {
+  width: 14px; height: 14px;
+  stroke: currentColor;
+}
+
+/* Brand mark */
+.b360-tb-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+}
+.b360-tb-logo {
+  width: 30px; height: 30px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, var(--gd) 0%, var(--g) 60%, var(--gl) 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  color: #0D0B08;
+  flex-shrink: 0;
+  font-family: var(--heading) !important;
+}
+.b360-tb-name {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -.015em;
+  color: var(--txt);
+  font-family: var(--heading) !important;
+}
+.b360-tb-name strong {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+/* Separator */
+.b360-tb-sep {
+  width: 1px;
+  height: 16px;
+  background: var(--line2);
+  flex-shrink: 0;
+}
+
+/* Module name label */
+.b360-tb-module {
+  font-size: 11px;
+  color: var(--txt2);
+  font-family: var(--mono) !important;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 240px;
+}
+
+/* Live pill */
+.b360-tb-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  border: 1px solid rgba(201,168,76,.20);
+  background: rgba(201,168,76,.06);
+  color: var(--txt2);
+  font-family: var(--mono) !important;
+  text-transform: uppercase;
+}
+.b360-tb-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 6px var(--gold);
+  animation: b360pulse 2s infinite;
+}
+@keyframes b360pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .35; }
+}
+
+/* Theme toggle button */
+.b360-tb-theme {
+  width: 30px; height: 30px;
+  border-radius: 7px;
+  border: 1px solid var(--line2);
+  background: rgba(201,168,76,.06);
+  color: var(--txt2);
+  font-size: 13px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+  font-family: var(--font) !important;
+}
+.b360-tb-theme:hover {
+  background: rgba(201,168,76,.14);
+  color: var(--gold);
+  border-color: var(--gold);
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   LEGACY .b360-back
+───────────────────────────────────────────────────────────────────── */
+a.b360-back {
+  position: fixed !important;
+  top: 10px !important; left: 16px !important;
+  border-radius: 10px !important;
+  padding: 8px 14px !important;
+  background: rgba(6,6,10,.94) !important;
+  backdrop-filter: blur(16px) !important;
+  border: 1px solid var(--line2) !important;
+  color: var(--txt2) !important;
+  font-family: var(--font) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,.55) !important;
+  transform: none !important;
+  transition: all .15s !important;
+  z-index: 9999 !important;
+}
+a.b360-back:hover {
+  border-color: var(--gold) !important;
+  color: var(--gold) !important;
+  transform: none !important;
+}
+a.b360-back svg {
+  width: 14px !important; height: 14px !important;
+  color: var(--gold) !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   COMMON COMPONENT OVERRIDES
+───────────────────────────────────────────────────────────────────── */
+
+/* Cards */
+[class*="-card"],
+[class*="card-"],
+.card {
+  background: var(--bg2);
+  border-color: var(--line);
+}
+
+/* Tables */
+[class*="-table"] th {
+  background: var(--bg3) !important;
+  color: var(--txt2) !important;
+  border-color: var(--line2) !important;
+  font-family: var(--heading) !important;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  font-size: .7em !important;
+}
+[class*="-table"] td {
+  border-color: var(--line) !important;
+  color: var(--txt) !important;
+}
+[class*="-table"] tr:hover td {
+  background: rgba(201,168,76,.04) !important;
+}
+
+/* Inputs */
+[class*="-input"],
+[class*="-select"],
+[class*="-textarea"],
+input:not([type=checkbox]):not([type=radio]):not([type=range]),
+select,
+textarea {
+  background: var(--bg3) !important;
+  border-color: var(--line2) !important;
+  color: var(--txt) !important;
+  font-family: var(--font) !important;
+}
+input::placeholder,
+textarea::placeholder { color: var(--txt3) !important; }
+select option {
+  background: var(--bg2) !important;
+  color: var(--txt) !important;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none !important;
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 0 3px rgba(201,168,76,.12) !important;
+}
+
+/* Buttons */
+[class*="-btn"]:not([class*="active"]):not([class*="blue"]):not([class*="green"]):not([class*="red"]):not([class*="orange"]):not([class*="gold"]):not([class*="purple"]):not([class*="teal"]) {
+  font-family: var(--font) !important;
+}
+
+/* KPI value numbers — use Syne for bold numerals */
+[class*="-kpi-val"],
+[class*="-val"],
+.metric-val,
+[class*="-num"],
+[class*="-count"],
+[class*="-score"],
+[class*="-amount"] {
+  font-family: var(--heading) !important;
+  font-weight: 700;
+}
+
+/* Page/section titles — Syne for uppercase bold headings */
+[class*="-page-title"],
+[class*="-title"],
+[class*="-heading"],
+[class*="-name"],
+[class*="sec-title"],
+[class*="section-title"] {
+  font-family: var(--heading) !important;
+  letter-spacing: -.02em;
+}
+
+/* Display / italic hero headings — Playfair Display */
+[class*="-display"],
+[class*="hero-title"],
+[class*="-tagline"],
+[class*="-headline"],
+em, i {
+  font-family: var(--serif) !important;
+}
+
+/* Mono labels */
+[class*="-label"][style*="letter-spacing"],
+[class*="-tag"],
+[class*="-ctx"],
+[class*="-mono"],
+.subsec {
+  font-family: var(--mono) !important;
+}
+
+/* Progress bars */
+[class*="-bar-track"],
+[class*="-progress-track"] {
+  background: var(--bg3) !important;
+}
+
+/* Page roots */
+.hero,
+.page,
+[class*="-root"],
+[class*="-shell"],
+[class*="-wrap"],
+[class*="-page"],
+main {
+  background: transparent !important;
+}
+
+/* Section dividers */
+.sec-divider,
+[class*="-divider"] {
+  background: var(--line) !important;
+}
+
+/* Hero sections */
+.hero h1,
+.hero-title {
+  color: var(--txt) !important;
+  font-family: var(--serif) !important;
+}
+.hero p,
+.hero-sub {
+  color: var(--txt2) !important;
+}
+
+/* Section labels (gold accent) */
+.sec-label,
+[class*="-sec-label"],
+[class*="-subtitle"][class*="gold"],
+[class*="-overline"] {
+  color: var(--gold) !important;
+  font-family: var(--mono) !important;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  font-size: .72em !important;
+}
+
+/* Badges */
+[class*="-badge"],
+.badge,
+.tech,
+.app-badge,
+.pill {
+  font-family: var(--mono) !important;
+}
+
+/* Feed / activity items */
+.feed-item,
+[class*="-feed-item"],
+[class*="-activity-item"] {
+  border-color: var(--line) !important;
+}
+
+/* Search inputs */
+.search-box,
+[class*="search-"] input {
+  background: var(--bg3) !important;
+  border-color: var(--line2) !important;
+  color: var(--txt) !important;
+}
+.search-box:focus {
+  border-color: var(--gold) !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   SPECIFIC PAGE FIXES — hub.html and common module classes
+───────────────────────────────────────────────────────────────────── */
+.module-card,
+.feed-card,
+.metric {
+  background: var(--bg2) !important;
+  border-color: var(--line) !important;
+  box-shadow: var(--shadow-xs) !important;
+}
+.module-card:hover {
+  border-color: rgba(201,168,76,.35) !important;
+  box-shadow: var(--shadow-sm), 0 0 0 1px rgba(201,168,76,.12) !important;
+}
+.sec-label {
+  color: var(--gold) !important;
+}
+.sec-title {
+  color: var(--txt) !important;
+  font-family: var(--heading) !important;
+}
+.sec-sub {
+  color: var(--txt2) !important;
+}
+.module-title {
+  color: var(--txt) !important;
+  font-family: var(--heading) !important;
+}
+.module-desc {
+  color: var(--txt2) !important;
+}
+.module-link {
+  color: var(--gold) !important;
+}
+.metric-val {
+  color: var(--gold) !important;
+  font-family: var(--heading) !important;
+}
+.metric-lbl {
+  color: var(--txt3) !important;
+}
+.feed-title {
+  color: var(--txt3) !important;
+}
+
+/* Buttons */
+.btn-blue,
+.btn-outline,
+.btn-gold {
+  font-family: var(--font) !important;
+}
+.btn-outline {
+  border-color: var(--line2) !important;
+  color: var(--txt2) !important;
+  background: transparent !important;
+}
+.btn-outline:hover {
+  border-color: var(--gold) !important;
+  color: var(--gold) !important;
+}
+.btn-blue,
+.btn-primary {
+  background: linear-gradient(135deg, var(--gd), var(--g)) !important;
+  color: #06060A !important;
+  border-color: transparent !important;
+}
+
+/* CEO/hero banner */
+.ceo-banner,
+.hero-tag {
+  background: linear-gradient(135deg, rgba(201,168,76,.08), rgba(107,79,10,.05)) !important;
+  border-color: rgba(201,168,76,.18) !important;
+}
+
+/* Subnav */
+#shift-subnav,
+[id*="subnav"],
+[class*="subnav"] {
+  background: var(--bg2) !important;
+  border-color: var(--line) !important;
+}
+.subnav-group-label,
+[class*="subnav-group-label"] {
+  color: var(--txt3) !important;
+  font-family: var(--mono) !important;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.subtab-btn,
+[class*="subtab-btn"] {
+  color: var(--txt2) !important;
+  font-family: var(--font) !important;
+}
+.subtab-btn.active,
+[class*="subtab-btn"].active {
+  color: var(--gold) !important;
+}
+
+/* Page roots */
+[class$="-root"] {
+  background: var(--bg) !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   GOLD ACCENT UTILITIES — used by pages that reference --blue as primary
+───────────────────────────────────────────────────────────────────── */
+.gold-text    { color: var(--gold) !important; }
+.gold-border  { border-color: var(--gold) !important; }
+.gold-bg      { background: rgba(201,168,76,.08) !important; }
+
+/* Generic accent surfaces that were blue-tinted */
+[class*="-accent-bg"],
+[class*="-highlight"] {
+  background: rgba(201,168,76,.08) !important;
+  border-color: rgba(201,168,76,.18) !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   NOISE TEXTURE — warm dark grain
+───────────────────────────────────────────────────────────────────── */
+body.b360-module::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: .022;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   ANIMATIONS
+───────────────────────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes goldShimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .b360-topbar { padding: 0 12px; }
+  .b360-tb-module { display: none; }
+  .b360-tb-sep    { display: none; }
+  .b360-tb-pill   { display: none; }
+}

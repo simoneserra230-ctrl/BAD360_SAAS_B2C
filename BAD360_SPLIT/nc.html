@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BAD.S — Non Conformità</title>
+<style>
+/* BAD.S DS v8 — dark module (nc prefix) */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;background:var(--bg);color:var(--txt)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:3px}
+
+/* ── layout ── */
+.nc-root{min-height:100vh;background:var(--bg)}
+
+
+
+
+
+.nc-btn{background:transparent;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:8px 14px;color:var(--txt3);font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap;transition:all .15s;font-family:inherit}
+.nc-btn.active{background:rgba(224,62,80,.1);border-color:rgba(224,62,80,.3);color:#e03e50}
+.nc-btn:hover:not(.active){color:#8a8aaa;border-color:rgba(255,255,255,.15)}
+
+
+.nc-page{display:none}.nc-page.active{display:block;animation:fadeUp .3s ease both}
+.nc-wrap{max-width:1200px;margin:0 auto;padding:24px 20px 80px}
+
+
+/* ── cards ── */
+.nc-card{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:20px;margin-bottom:14px}
+.nc-card-red{border-color:rgba(224,62,80,.2);background:rgba(224,62,80,.03)}
+
+/* ── kpi ── */
+.nc-kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-bottom:18px}
+.nc-kpi{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px;text-align:center}
+.nc-kpi-val{font-size:1.8rem;font-weight:800;font-family:'DM Sans',sans-serif;line-height:1}
+.nc-kpi-lbl{font-size:11px;color:var(--txt3);margin-top:5px;font-weight:600}
+
+/* ── table ── */
+.nc-table{width:100%;border-collapse:collapse}
+.nc-table th{background:rgba(224,62,80,.06);color:#e03e50;font-size:11px;font-weight:700;letter-spacing:.8px;padding:10px 14px;text-align:left;border-bottom:1px solid rgba(224,62,80,.15)}
+.nc-table td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px;color:var(--txt2)}
+.nc-table tr:hover td{background:rgba(255,255,255,.02)}
+
+/* ── form ── */
+.nc-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.nc-form-grid{grid-template-columns:1fr}}
+.nc-label{display:block;font-size:12px;font-weight:600;color:#8a8aaa;margin-bottom:5px;letter-spacing:.3px}
+.nc-input{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:9px 13px;color:var(--txt);font-size:13px;outline:none;font-family:inherit;transition:border-color .15s}
+.nc-input:focus{border-color:rgba(224,62,80,.4)}
+.nc-textarea{min-height:80px;resize:vertical}
+.nc-select option{background:var(--bg2);color:var(--txt)}
+
+/* ── badges ── */
+.nc-badge{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:99px;font-size:10px;font-weight:700;border:1px solid}
+.nc-red{background:rgba(220,38,38,.1);color:#DC2626;border-color:rgba(220,38,38,.3)}
+.nc-orange{background:rgba(234,88,12,.1);color:#EA580C;border-color:rgba(234,88,12,.3)}
+.nc-amber{background:rgba(202,138,4,.1);color:#CA8A04;border-color:rgba(202,138,4,.3)}
+.nc-green{background:rgba(22,163,74,.1);color:#16A34A;border-color:rgba(22,163,74,.3)}
+.nc-blue{background:rgba(74,144,232,.1);color:#4a90e8;border-color:rgba(74,144,232,.3)}
+.nc-purple{background:rgba(155,111,232,.1);color:#9b6fe8;border-color:rgba(155,111,232,.3)}
+.nc-muted{background:rgba(255,255,255,.05);color:var(--txt3);border-color:rgba(255,255,255,.08)}
+
+/* ── page header ── */
+.nc-page-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px}
+.nc-page-title{font-family:'DM Sans',sans-serif;font-size:1.4rem;font-weight:800;color:var(--txt)}
+.nc-page-sub{font-size:12px;color:var(--txt3);margin-top:3px}
+.nc-refresh{padding:7px 14px;border-radius:8px;background:rgba(224,62,80,.1);border:1px solid rgba(224,62,80,.3);color:#e03e50;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s}
+.nc-refresh:hover{background:rgba(224,62,80,.18)}
+
+/* ── alert result ── */
+.nc-result{margin-top:14px;font-size:13px}
+
+/* ── severity bar ── */
+.nc-bar-row{display:flex;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);gap:12px}
+.nc-bar-label{font-size:13px;color:var(--txt2);min-width:110px}
+.nc-bar-track{flex:1;height:7px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden}
+.nc-bar-fill{height:100%;border-radius:4px;transition:width .8s cubic-bezier(.16,1,.3,1)}
+.nc-bar-count{font-size:12px;font-weight:700;min-width:28px;text-align:right}
+
+/* ── timeline ── */
+.nc-timeline{position:relative;padding-left:22px}
+.nc-timeline::before{content:'';position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:rgba(224,62,80,.12)}
+.nc-tl-item{position:relative;padding:0 0 16px}
+.nc-tl-dot{position:absolute;left:-18px;top:4px;width:9px;height:9px;border-radius:50%;border:2px solid #e03e50;background:var(--bg)}
+.nc-tl-date{font-size:10px;color:var(--txt3);font-family:'DM Mono',monospace;margin-bottom:3px}
+.nc-tl-text{font-size:12px;color:var(--txt2);line-height:1.5}
+
+/* ── filters ── */
+.nc-filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+</style>
+
+<link rel="stylesheet" href="bad360-ds.css">
+</head>
+<body class="b360-module">
+<header class="b360-topbar" id="b360-topbar">
+<div class="b360-tb-l">
+<a href="index.html" class="b360-tb-back" title="Torna alla Suite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a>
+<a href="index.html" class="b360-tb-brand" tabindex="-1"><div class="b360-tb-logo">B360</div><span class="b360-tb-name">BAD<strong>360</strong>.ai</span></a>
+<span class="b360-tb-sep"></span>
+<span class="b360-tb-module" id="b360-page-label">Suite</span>
+</div>
+<div class="b360-tb-r">
+<span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.0</span>
+<button class="b360-tb-theme" id="b360-theme-btn" title="Cambia tema">&#9790;</button>
+</div>
+</header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"&#9790;":"&#9788;";b.addEventListener("click",function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"&#9790;":"&#9788;";try{localStorage.setItem("bad360_theme",nt)}catch(e){}});}var lbl=document.getElementById("b360-page-label");if(lbl){var title=document.title.replace("BAD360.ai — ","").replace("BAD.S — ","").replace("BAD360 — ","");if(title&&title!==document.title)lbl.textContent=title;}});})()</script>
+<div class="nc-root">
+  <div style="display:flex;gap:6px;padding:14px 20px;background:rgba(7,9,15,.97);border-bottom:1px solid rgba(224,62,80,.1);overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:50;padding-left:90px">
+    <button class="nc-btn active" data-ncpage="dashboard" onclick="ncSwitchPage('dashboard')">📊 Dashboard</button>
+    <button class="nc-btn" data-ncpage="lista" onclick="ncSwitchPage('lista')">📋 Registro</button>
+    <button class="nc-btn" data-ncpage="nuova" onclick="ncSwitchPage('nuova')">➕ Nuova NC</button>
+    <button class="nc-btn" data-ncpage="capa" onclick="ncSwitchPage('capa')">🔧 CAPA</button>
+    <button class="nc-btn" data-ncpage="rootcause" onclick="ncSwitchPage('rootcause')">🔬 Root Cause</button>
+    <button class="nc-btn" data-ncpage="trends" onclick="ncSwitchPage('trends')">📈 Trend</button>
+    <button class="nc-btn" data-ncpage="riskclass" onclick="ncSwitchPage('riskclass')">⚠️ Risk</button>
+    <button class="nc-btn" data-ncpage="supplier" onclick="ncSwitchPage('supplier')">🏭 Fornitori</button>
+    <button class="nc-btn" data-ncpage="copq" onclick="ncSwitchPage('copq')">💰 COPQ</button>
+    <button class="nc-btn" data-ncpage="auditfindings" onclick="ncSwitchPage('auditfindings')">🔎 Audit</button>
+  </div>
+
+  <!-- ══════════════ PAGE: DASHBOARD ══════════════ -->
+  <div class="nc-page active" id="nc-page-dashboard">
+    <div class="nc-wrap">
+      <div class="nc-page-hdr">
+        <div>
+          <div class="nc-page-title">📊 Dashboard Non Conformità
+            <span id="nc-demo-badge2" class="nc-demo-pill" style="font-size:10px;padding:3px 10px;vertical-align:middle;margin-left:8px"></span>
+          </div>
+          <div class="nc-page-sub">ISO 9001:2015 cl. 10.2 · D.Lgs 193/2007 · HACCP — monitoraggio real-time</div>
+        </div>
+        <button class="nc-refresh" onclick="ncLoadDashboard()">↻ Aggiorna</button>
+      </div>
+
+      <!-- KPI grid -->
+      <div class="nc-kpi-grid" id="nc-kpi-grid"></div>
+
+      <!-- NC per area + trend -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+        <div class="nc-card nc-card-red">
+          <div style="font-size:11px;font-weight:700;color:#e03e50;letter-spacing:.8px;margin-bottom:14px">📊 NC PER AREA</div>
+          <div id="nc-area-chart"></div>
+        </div>
+        <div class="nc-card">
+          <div style="font-size:11px;font-weight:700;color:var(--txt3);letter-spacing:.8px;margin-bottom:14px">🕐 ULTIME APERTURE</div>
+          <div class="nc-timeline" id="nc-timeline"></div>
+        </div>
+      </div>
+
+      <!-- NC aperte critiche banner -->
+      <div id="nc-critiche-banner"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════ PAGE: LISTA NC ══════════════ -->
+  <div class="nc-page" id="nc-page-lista">
+    <div class="nc-wrap">
+      <div class="nc-page-hdr">
+        <div>
+          <div class="nc-page-title">📋 Registro Non Conformità</div>
+          <div class="nc-page-sub">Archivio completo · filtri per stato, gravità, area</div>
+        </div>
+        <button class="nc-refresh" onclick="ncLoadLista()">↻ Aggiorna</button>
+      </div>
+      <div class="nc-filters">
+        <select id="nc-filter-stato" class="nc-input" style="width:auto" onchange="ncLoadLista()">
+          <option value="">Tutti gli stati</option>
+          <option value="aperta">Aperta</option>
+          <option value="in_contenimento">In contenimento</option>
+          <option value="in_analisi">In analisi</option>
+          <option value="in_corso">Azione in corso</option>
+          <option value="in_verifica">In verifica</option>
+          <option value="chiusa">Chiusa</option>
+        </select>
+        <select id="nc-filter-gravita" class="nc-input" style="width:auto" onchange="ncLoadLista()">
+          <option value="">Tutte le gravità</option>
+          <option value="critica">Critica</option>
+          <option value="alta">Alta</option>
+          <option value="media">Media</option>
+          <option value="bassa">Bassa</option>
+        </select>
+        <select id="nc-filter-area" class="nc-input" style="width:auto" onchange="ncLoadLista()">
+          <option value="">Tutte le aree</option>
+          <option value="cucina">Cucina</option>
+          <option value="magazzino">Magazzino</option>
+          <option value="sala">Sala</option>
+          <option value="fornitori">Fornitori</option>
+          <option value="housekeeping">Housekeeping</option>
+          <option value="manutenzione">Manutenzione</option>
+        </select>
+      </div>
+      <div class="nc-card" style="padding:0;overflow:hidden">
+        <div style="overflow-x:auto">
+          <table class="nc-table">
+            <thead><tr>
+              <th>N. NC</th><th>Area</th><th>Gravità</th><th>Titolo</th><th>Stato</th><th>Rilevata</th><th>SLA</th>
+            </tr></thead>
+            <tbody id="nc-lista-tbody">
+              <tr><td colspan="7" style="text-align:center;color:var(--txt3);padding:30px">Caricamento…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ PAGE: NUOVA NC ══════════════ -->
+  <div class="nc-page" id="nc-page-nuova">
+    <div class="nc-wrap" style="max-width:760px">
+      <div class="nc-page-hdr">
+        <div>
+          <div class="nc-page-title">➕ Apri Nuova Non Conformità</div>
+          <div class="nc-page-sub">Reg. CE 178/2002 · Tracciabilità obbligatoria per ogni NC rilevata</div>
+        </div>
+      </div>
+      <div class="nc-card">
+        <div class="nc-form-grid">
+          <div style="grid-column:1/-1">
+            <label class="nc-label">Titolo NC *</label>
+            <input id="nc-new-titolo" class="nc-input" placeholder="Es. Temperatura frigorifero fuori soglia — Cella 2">
+          </div>
+          <div style="grid-column:1/-1">
+            <label class="nc-label">Descrizione dettagliata *</label>
+            <textarea id="nc-new-desc" class="nc-input nc-textarea" placeholder="Descrizione completa del problema: cosa è stato rilevato, dove, quando, da chi, entità del problema…"></textarea>
+          </div>
+          <div>
+            <label class="nc-label">Area / Processo</label>
+            <select id="nc-new-area" class="nc-input nc-select">
+              <option value="cucina">Cucina</option>
+              <option value="magazzino">Magazzino</option>
+              <option value="sala">Sala</option>
+              <option value="fornitori">Fornitori</option>
+              <option value="housekeeping">Housekeeping</option>
+              <option value="manutenzione">Manutenzione</option>
+              <option value="altro">Altro</option>
+            </select>
+          </div>
+          <div>
+            <label class="nc-label">Gravità</label>
+            <select id="nc-new-gravita" class="nc-input nc-select">
+              <option value="bassa">🟢 Bassa</option>
+              <option value="media" selected>🟡 Media</option>
+              <option value="alta">🟠 Alta</option>
+              <option value="critica">🔴 Critica</option>
+            </select>
+          </div>
+          <div>
+            <label class="nc-label">Azione immediata / Contenimento</label>
+            <input id="nc-new-azione" class="nc-input" placeholder="Es. Prodotti isolati, produzione sospesa…">
+          </div>
+          <div>
+            <label class="nc-label">Rilevata da</label>
+            <input id="nc-new-rilevato" class="nc-input" placeholder="Nome e ruolo del rilevatore">
+          </div>
+        </div>
+        <div style="margin-top:18px;display:flex;gap:10px;align-items:center">
+          <button onclick="ncApriNuova()" style="padding:11px 28px;border-radius:9px;background:linear-gradient(135deg,#e03e50,#a02030);border:none;color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.3px">⚠️ Apri NC</button>
+          <button onclick="ncSwitchPage('lista')" style="padding:11px 18px;border-radius:9px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#8a8aaa;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit">Annulla</button>
+        </div>
+        <div id="nc-new-result" class="nc-result"></div>
+      </div>
+
+      <!-- Guida gravità -->
+      <div class="nc-card" style="margin-top:4px">
+        <div style="font-size:11px;font-weight:700;color:var(--txt3);letter-spacing:.8px;margin-bottom:12px">📖 GUIDA ALLA GRAVITÀ</div>
+        <div style="display:grid;gap:8px">
+          <div style="display:flex;gap:10px;align-items:flex-start;padding:8px 12px;background:rgba(220,38,38,.06);border-radius:8px">
+            <span class="nc-badge nc-red" style="flex-shrink:0">🔴 Critica</span>
+            <span style="font-size:12px;color:var(--txt2);line-height:1.5">Rischio sicurezza alimentare, salute ospiti/operatori, violazioni normative gravi. SLA risposta: <strong>2 ore</strong></span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start;padding:8px 12px;background:rgba(234,88,12,.06);border-radius:8px">
+            <span class="nc-badge nc-orange" style="flex-shrink:0">🟠 Alta</span>
+            <span style="font-size:12px;color:var(--txt2);line-height:1.5">Deviazione significativa da procedura HACCP o standard qualità. Rischio non sicuro. SLA risposta: <strong>8 ore</strong></span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start;padding:8px 12px;background:rgba(202,138,4,.06);border-radius:8px">
+            <span class="nc-badge nc-amber" style="flex-shrink:0">🟡 Media</span>
+            <span style="font-size:12px;color:var(--txt2);line-height:1.5">Non conformità procedurale o operativa senza rischio immediato per la sicurezza. SLA: <strong>48 ore</strong></span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start;padding:8px 12px;background:rgba(22,163,74,.06);border-radius:8px">
+            <span class="nc-badge nc-green" style="flex-shrink:0">🟢 Bassa</span>
+            <span style="font-size:12px;color:var(--txt2);line-height:1.5">Osservazione, miglioramento non urgente, opportunità di miglioramento. SLA: <strong>7 giorni</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ PAGE: CAPA ══════════════ -->
+  <div class="nc-page" id="nc-page-capa"><div class="nc-wrap" id="nc-capa-c"></div></div>
+  <!-- ══════════════ PAGE: ROOT CAUSE ══════════════ -->
+  <div class="nc-page" id="nc-page-rootcause"><div class="nc-wrap" id="nc-rootcause-c"></div></div>
+  <!-- ══════════════ PAGE: TRENDS ══════════════ -->
+  <div class="nc-page" id="nc-page-trends"><div class="nc-wrap" id="nc-trends-c"></div></div>
+  <!-- ══════════════ PAGE: RISK ══════════════ -->
+  <div class="nc-page" id="nc-page-riskclass"><div class="nc-wrap" id="nc-riskclass-c"></div></div>
+  <!-- ══════════════ PAGE: SUPPLIER NC ══════════════ -->
+  <div class="nc-page" id="nc-page-supplier"><div class="nc-wrap" id="nc-supplier-c"></div></div>
+  <!-- ══════════════ PAGE: COPQ ══════════════ -->
+  <div class="nc-page" id="nc-page-copq"><div class="nc-wrap" id="nc-copq-c"></div></div>
+  <!-- ══════════════ PAGE: AUDIT FINDINGS ══════════════ -->
+  <div class="nc-page" id="nc-page-auditfindings"><div class="nc-wrap" id="nc-audit-c"></div></div>
+</div>
+
+<script>
+const BADS_API_NC = window.location.origin;
+const BADS_HID_NC = (typeof localStorage !== 'undefined' && localStorage.getItem('hotel_id')) || 'demo';
+
+function ncDate(d){ return d ? new Date(d).toLocaleDateString('it-IT') : '—'; }
+function ncAlert(msg,type='error'){
+  const c=type==='ok'?'#22c97a':type==='warn'?'#e8a830':'#e03e50';
+  return `<div style="background:${c}18;border:1px solid ${c}44;border-radius:9px;padding:11px 14px;color:${c};font-size:13px">${msg}</div>`;
+}
+async function ncGet(path){
+  const r=await fetch(BADS_API_NC+path);
+  if(!r.ok) throw new Error(r.status);
+  return r.json();
+}
+async function ncPost(path,body){
+  const r=await fetch(BADS_API_NC+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+function ncSetDemo(show){
+  document.querySelectorAll('#nc-demo-badge,#nc-demo-badge2').forEach(b=>{
+    if(b) b.style.display=show?'inline-flex':'none';
+  });
+}
+
+// ── DEMO DATA ──────────────────────────────────────────────────
+const NC_DEMO = {
+  kpi:{
+    totale_nc:23, nc_aperte:7, nc_critiche_aperte:2, sla_scaduti:1,
+    tasso_chiusura_pct:70, tempo_medio_chiusura_ore:18,
+    nc_ricorrenti:3,
+    per_area:{
+      'Cucina':8, 'Magazzino':6, 'Fornitori':4, 'Sala':3, 'Housekeeping':2
+    }
+  },
+  timeline:[
+    { data:'2026-04-22 09:14', area:'Magazzino', titolo:'Lotto Mozzarella Bufala — temperatura +7°C in accettazione', gravita:'critica' },
+    { data:'2026-04-21 14:30', area:'Cucina', titolo:'Etichetta allergeni mancante su preparato semifreddo', gravita:'alta' },
+    { data:'2026-04-20 11:05', area:'Fornitori', titolo:'DDT non conforme — Macelleria Centrale NC consecutiva', gravita:'alta' },
+    { data:'2026-04-18 16:20', area:'Sala', titolo:'Tovagliato non conforme a standard — segnalazione ospite', gravita:'bassa' },
+  ],
+  nc:[
+    { id:'nc-001', numero_nc:'NC-2026-041', area:'magazzino', gravita:'critica', titolo:'Temperatura ricevimento lotto Mozzarella Bufala DOP oltre soglia (+7°C)', stato:'in_contenimento', rilevato_at:'2026-04-22T09:14:00', sla_ore:2 },
+    { id:'nc-002', numero_nc:'NC-2026-040', area:'cucina', gravita:'alta', titolo:'Etichetta allergeni assente su preparato semifreddo al cioccolato', stato:'in_analisi', rilevato_at:'2026-04-21T14:30:00', sla_ore:8 },
+    { id:'nc-003', numero_nc:'NC-2026-039', area:'fornitori', gravita:'alta', titolo:'DDT fornitore non conforme — 3ª NC consecutiva Macelleria Centrale', stato:'aperta', rilevato_at:'2026-04-20T11:05:00', sla_ore:8 },
+    { id:'nc-004', numero_nc:'NC-2026-038', area:'cucina', gravita:'media', titolo:'Coltelli da cucina non calibrati — verifica mancata trimestrale', stato:'in_corso', rilevato_at:'2026-04-19T08:00:00', sla_ore:48 },
+    { id:'nc-005', numero_nc:'NC-2026-037', area:'magazzino', gravita:'media', titolo:'Giacenza olio EVO — 2 lotti aperti contemporaneamente (violazione FEFO)', stato:'in_corso', rilevato_at:'2026-04-18T10:30:00', sla_ore:48 },
+    { id:'nc-006', numero_nc:'NC-2026-036', area:'sala', gravita:'bassa', titolo:'Tovagliato non conforme a standard — segnalazione ospite camera 312', stato:'chiusa', rilevato_at:'2026-04-18T16:20:00', sla_ore:168 },
+    { id:'nc-007', numero_nc:'NC-2026-035', area:'housekeeping', gravita:'media', titolo:'Prodotto sanificante errato per tipo di superficie — rischio cross-contamination', stato:'in_verifica', rilevato_at:'2026-04-17T09:00:00', sla_ore:48 },
+    { id:'nc-008', numero_nc:'NC-2026-034', area:'manutenzione', gravita:'alta', titolo:'Estintori cucina — verifica semestrale scaduta da 12 giorni', stato:'chiusa', rilevato_at:'2026-04-15T11:00:00', sla_ore:8 },
+  ]
+};
+
+function ncSwitchPage(p){
+  const renderers={capa:ncRenderCAPA,rootcause:ncRenderRootCause,trends:ncRenderTrends,riskclass:ncRenderRisk,supplier:ncRenderSupplier,copq:ncRenderCOPQ,auditfindings:ncRenderAudit};
+
+  document.querySelectorAll('.nc-page').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.nc-btn').forEach(b=>{
+    b.classList.toggle('active', b.textContent.toLowerCase().includes(
+      p==='dashboard'?'dashboard':p==='lista'?'lista':'nuova'
+    ));
+  });
+  const el=document.getElementById('nc-page-'+p);
+  if(el) el.classList.add('active');
+  if(p==='dashboard') ncLoadDashboard();
+  else if(p==='lista') ncLoadLista();
+}
+
+async function ncLoadDashboard(){
+  const grid=document.getElementById('nc-kpi-grid');
+  const chart=document.getElementById('nc-area-chart');
+  const tl=document.getElementById('nc-timeline');
+  const banner=document.getElementById('nc-critiche-banner');
+  if(!grid) return;
+
+  let k, timeline, demo=false;
+  try{
+    const d=await ncGet(`/api/nc/dashboard?hotel_id=${BADS_HID_NC}`);
+    k=d.kpi||{};
+    timeline=d.timeline||[];
+    if(!k.totale_nc){ k=NC_DEMO.kpi; timeline=NC_DEMO.timeline; demo=true; }
+  }catch(e){ k=NC_DEMO.kpi; timeline=NC_DEMO.timeline; demo=true; }
+  ncSetDemo(demo);
+
+  const kc=(v,l,icon,color)=>`<div class="nc-kpi"><div style="font-size:20px">${icon}</div><div class="nc-kpi-val" style="color:${color}">${v}</div><div class="nc-kpi-lbl">${l}</div></div>`;
+  grid.innerHTML=
+    kc(k.totale_nc,'Totale NC','📋','#4a90e8')+
+    kc(k.nc_aperte,'NC Aperte','🔓',k.nc_aperte>0?'#e8a830':'#22c97a')+
+    kc(k.nc_critiche_aperte,'Critiche Aperte','🔴',k.nc_critiche_aperte>0?'#DC2626':'#22c97a')+
+    kc(k.sla_scaduti,'SLA Scaduti','⏰',k.sla_scaduti>0?'#DC2626':'#22c97a')+
+    kc(k.tasso_chiusura_pct+'%','Tasso Chiusura','✅','#22c97a')+
+    kc(k.tempo_medio_chiusura_ore?k.tempo_medio_chiusura_ore+'h':'—','T. Medio Chiusura','⏱️','#9b6fe8');
+
+  if(chart && k.per_area){
+    const max=Math.max(...Object.values(k.per_area),1);
+    const colori=['#e03e50','#EA580C','#CA8A04','#4a90e8','#9b6fe8','#22c97a'];
+    chart.innerHTML=Object.entries(k.per_area).map(([a,n],i)=>`
+      <div class="nc-bar-row">
+        <span class="nc-bar-label">${a}</span>
+        <div class="nc-bar-track"><div class="nc-bar-fill" style="width:${Math.round(n/max*100)}%;background:${colori[i%colori.length]}"></div></div>
+        <span class="nc-bar-count" style="color:${colori[i%colori.length]}">${n}</span>
+      </div>`).join('')+
+      (k.nc_ricorrenti?`<div style="margin-top:12px;padding:8px 12px;background:rgba(220,38,38,.08);border-radius:7px;font-size:12px;color:#DC2626">⚠️ ${k.nc_ricorrenti} NC ricorrenti — rivedere root cause analysis</div>`:'');
+  }
+
+  if(tl && timeline.length){
+    const GC={critica:'#DC2626',alta:'#EA580C',media:'#CA8A04',bassa:'#16A34A'};
+    tl.innerHTML=timeline.map(t=>`
+      <div class="nc-tl-item">
+        <div class="nc-tl-dot" style="border-color:${GC[t.gravita]||'#e03e50'}"></div>
+        <div class="nc-tl-date">${t.data} · ${t.area||'—'}</div>
+        <div class="nc-tl-text">${t.titolo}</div>
+      </div>`).join('');
+  }
+
+  if(banner && k.nc_critiche_aperte>0){
+    banner.innerHTML=`<div style="display:flex;align-items:center;gap:12px;padding:13px 18px;background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.25);border-radius:12px;margin-bottom:14px">
+      <div style="width:7px;height:7px;border-radius:50%;background:#DC2626;animation:pulse 1.5s infinite;flex-shrink:0"></div>
+      <div style="flex:1;font-size:13px;font-weight:700;color:#DC2626">${k.nc_critiche_aperte} NC CRITICA/E IN CORSO — azione immediata richiesta</div>
+      <button onclick="ncSwitchPage('lista')" style="padding:6px 14px;border-radius:7px;background:rgba(220,38,38,.15);border:1px solid rgba(220,38,38,.3);color:#DC2626;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">Vai alla lista →</button>
+    </div>`;
+  }else if(banner){ banner.innerHTML=''; }
+}
+
+async function ncLoadLista(){
+  const tbody=document.getElementById('nc-lista-tbody');
+  if(!tbody) return;
+  const stato=document.getElementById('nc-filter-stato')?.value||'';
+  const gravita=document.getElementById('nc-filter-gravita')?.value||'';
+  const area=document.getElementById('nc-filter-area')?.value||'';
+  tbody.innerHTML=`<tr><td colspan="7" style="text-align:center;color:var(--txt3);padding:20px">Caricamento…</td></tr>`;
+
+  let nc, demo=false;
+  try{
+    let url=`/api/nc?hotel_id=${BADS_HID_NC}`;
+    if(stato) url+=`&stato=${stato}`;
+    if(gravita) url+=`&gravita=${gravita}`;
+    if(area) url+=`&area=${area}`;
+    const d=await ncGet(url);
+    nc=d.nc||[];
+    if(!nc.length){ nc=NC_DEMO.nc; demo=true; }
+  }catch(e){ nc=NC_DEMO.nc; demo=true; }
+  ncSetDemo(demo);
+
+  // Apply client-side filters on demo data
+  if(demo){
+    if(stato) nc=nc.filter(n=>n.stato===stato);
+    if(gravita) nc=nc.filter(n=>n.gravita===gravita);
+    if(area) nc=nc.filter(n=>n.area===area);
+  }
+
+  const GC={critica:'#DC2626',alta:'#EA580C',media:'#CA8A04',bassa:'#16A34A'};
+  const SC={aperta:'#e8a830',in_contenimento:'#EA580C',in_analisi:'#9b6fe8',in_corso:'#4a90e8',in_verifica:'#22c97a',chiusa:'#22c97a',annullata:'var(--txt3)'};
+  const SLA={critica:2,alta:8,media:48,bassa:168};
+
+  tbody.innerHTML=nc.length?nc.map(n=>{
+    const slaH=n.sla_ore||SLA[n.gravita]||48;
+    const aperto=(n.stato!=='chiusa'&&n.stato!=='annullata');
+    const orePassate=n.rilevato_at?Math.round((Date.now()-new Date(n.rilevato_at))/3600000):0;
+    const slaScaduto=aperto&&orePassate>slaH;
+    return `<tr>
+      <td><code style="color:#9b6fe8;font-size:11px">${n.numero_nc||n.id?.slice(0,8)||'—'}</code></td>
+      <td><span class="nc-badge nc-muted">${n.area||'—'}</span></td>
+      <td><span class="nc-badge ${n.gravita==='critica'?'nc-red':n.gravita==='alta'?'nc-orange':n.gravita==='media'?'nc-amber':'nc-green'}">● ${n.gravita||'—'}</span></td>
+      <td style="max-width:260px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${n.titolo||''}">${n.titolo||'—'}</td>
+      <td><span style="color:${SC[n.stato]||'var(--txt3)'};font-size:11px;font-weight:600">${n.stato?.replace(/_/g,' ')||'—'}</span></td>
+      <td style="font-size:11px;color:var(--txt3);white-space:nowrap">${ncDate(n.rilevato_at)}</td>
+      <td>${slaScaduto?'<span class="nc-badge nc-red">⏰ SCADUTO</span>':aperto?`<span style="font-size:11px;color:var(--txt3)">${slaH}h</span>`:'<span class="nc-badge nc-green">✅</span>'}</td>
+    </tr>`;
+  }).join('')
+  :`<tr><td colspan="7" style="text-align:center;color:var(--txt3);padding:30px">Nessuna NC trovata con i filtri selezionati</td></tr>`;
+}
+
+async function ncApriNuova(){
+  const result=document.getElementById('nc-new-result');
+  const titolo=document.getElementById('nc-new-titolo')?.value?.trim();
+  const desc=document.getElementById('nc-new-desc')?.value?.trim();
+  if(!titolo||!desc){result.innerHTML=ncAlert('Compila almeno Titolo e Descrizione');return;}
+  try{
+    const body={
+      hotel_id:BADS_HID_NC,
+      area:document.getElementById('nc-new-area')?.value||'altro',
+      gravita:document.getElementById('nc-new-gravita')?.value||'media',
+      titolo, descrizione:desc,
+      azione_immediata:document.getElementById('nc-new-azione')?.value||null,
+      rilevato_da:document.getElementById('nc-new-rilevato')?.value||null,
+    };
+    const d=await ncPost('/api/nc',body);
+    result.innerHTML=ncAlert(`✅ NC aperta: ${d.numero_nc||d.nc_id} | SLA: ${d.sla_ore}h`,'ok');
+    // Clear form
+    ['nc-new-titolo','nc-new-desc','nc-new-azione','nc-new-rilevato'].forEach(id=>{
+      const el=document.getElementById(id); if(el) el.value='';
+    });
+  }catch(e){
+    // Demo mode: simulate success
+    const gravita=document.getElementById('nc-new-gravita')?.value||'media';
+    const slaMap={critica:2,alta:8,media:48,bassa:168};
+    const fakeId='NC-2026-0'+(42+Math.floor(Math.random()*10));
+    result.innerHTML=ncAlert(`✅ (Demo) NC simulata: ${fakeId} | SLA: ${slaMap[gravita]}h | Gravità: ${gravita}`,'ok');
+    setTimeout(()=>{result.innerHTML='';},4000);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', ncLoadDashboard);
+</script>
+<script>
+window.switchTab=window.switchTab||function(t){var m={bevmanager:'bevmanager.html',hotellerie:'hotellerie.html',housekeeping:'housekeeping.html',haccp:'haccp.html',nc:'nc.html',tracciabilita:'tracciabilita.html',shelflife:'shelflife.html',scmpro:'scmpro.html',shiftmanager:'shiftmanager.html',events:'events.html',hub:'hub.html',cert:'cert.html',consult:'consulenze.html',academy:'academy.html',norme:'norme.html',network:'network.html',barman:'barman.html',frontoffice:'BAD360.html#frontoffice',revenue:'BAD360.html#revenue',iotmonitor:'BAD360.html#iotmonitor',demand:'BAD360.html#demand',supplier:'BAD360.html#supplier',possync:'BAD360.html#possync',bidashboard:'BAD360.html#bidashboard',bandi360:'BAD360.html#bandi360',iso22005adv:'BAD360.html#iso22005adv',procurement:'BAD360.html#procurement',haccp2:'BAD360.html#haccp2'};var u=m[t];if(u){if(u.indexOf('#')!==-1)sessionStorage.setItem('bad360_tab',t);window.location.href=u}};
+
+// ── NC ADVANCED MODULES ────────────────────────────────────────────────────────
+function ncRenderCAPA(){
+  const c=document.getElementById('nc-capa-c');if(!c)return;
+  const items=[
+    {id:'CAPA-026-01',nc:'NC-026-012',desc:'Temperatura frigo +9°C',root:'Guarnizione deteriorata',action:'Sostituzione + taratura',responsible:'Mario R.',due:'05/05',status:'open'},
+    {id:'CAPA-026-02',nc:'NC-026-010',desc:'Pulizie non registrate',root:'Formazione insufficiente',action:'Training + checklist digitale',responsible:'Giulia S.',due:'30/04',status:'in-progress'},
+    {id:'CAPA-026-03',nc:'NC-026-008',desc:'Allergeni non indicati',root:'Menu non aggiornato post-cambio fornitore',action:'Matrice allergeni aggiornata',responsible:'Andrea P.',due:'15/04',status:'closed'},
+  ];
+  const sc={open:'#dc2626','in-progress':'#f59e0b',closed:'#16a34a'};
+  c.innerHTML=`<div class="nc-page-hdr"><div><div class="nc-page-title">🔧 CAPA — Azioni Correttive e Preventive</div><div class="nc-page-sub">Workflow strutturato: Root Cause → Correzione → Prevenzione → Verifica</div></div></div>
+  <div class="nc-kpi-grid"><div class="nc-kpi"><div class="nc-kpi-val" style="color:#dc2626">${items.filter(i=>i.status==='open').length}</div><div class="nc-kpi-lbl">Aperte</div></div><div class="nc-kpi"><div class="nc-kpi-val" style="color:#f59e0b">${items.filter(i=>i.status==='in-progress').length}</div><div class="nc-kpi-lbl">In corso</div></div><div class="nc-kpi"><div class="nc-kpi-val" style="color:#16a34a">${items.filter(i=>i.status==='closed').length}</div><div class="nc-kpi-lbl">Chiuse</div></div><div class="nc-kpi"><div class="nc-kpi-val" style="color:#4a90e8">3.2gg</div><div class="nc-kpi-lbl">Tempo medio</div></div></div>
+  ${items.map(i=>`<div class="nc-card" style="border-left:3px solid ${sc[i.status]}"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px"><div><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--txt3)">${i.id} ← ${i.nc}</span><div style="font-weight:700;margin-top:2px">${i.desc}</div></div><span class="nc-badge" style="background:${sc[i.status]}15;color:${sc[i.status]};border-color:${sc[i.status]}30">${i.status}</span></div><div style="font-size:12px;color:#8a8aaa;line-height:1.8"><strong style="color:var(--txt)">Root:</strong> ${i.root}<br><strong style="color:var(--txt)">Azione:</strong> ${i.action}<br>👤 ${i.responsible} · 📅 ${i.due}</div></div>`).join('')}`;
+}
+
+function ncRenderRootCause(){
+  const c=document.getElementById('nc-rootcause-c');if(!c)return;
+  c.innerHTML=`<div class="nc-page-hdr"><div><div class="nc-page-title">🔬 Root Cause Analysis — 5 Why</div><div class="nc-page-sub">Strumento di analisi causa radice per NC ricorrenti</div></div></div>
+  <div class="nc-card nc-card-red"><h4 style="color:#e03e50;margin-bottom:14px">Esempio: NC-026-012 — Temperatura frigo +9°C</h4>
+  ${['Perché il frigo era a +9°C? → La porta non chiudeva bene','Perché la porta non chiudeva? → La guarnizione era deteriorata','Perché non è stata sostituita? → Non c\'era un piano di manutenzione preventiva','Perché non c\'era il piano? → Nessuno era responsabile della manutenzione','Perché non c\'era un responsabile? → Mancanza di organigramma manutenzione'].map((w,i)=>`<div style="display:flex;gap:12px;padding:12px 0;border-bottom:1px solid rgba(224,62,80,.08)"><div style="width:30px;height:30px;border-radius:50%;background:rgba(224,62,80,.1);border:1px solid rgba(224,62,80,.2);display:flex;align-items:center;justify-content:center;font-weight:800;color:#e03e50;flex-shrink:0;font-size:12px">${i+1}</div><div style="font-size:13px;color:var(--txt2)">${w}</div></div>`).join('')}
+  <div style="margin-top:14px;padding:14px;background:rgba(22,163,74,.06);border:1px solid rgba(22,163,74,.15);border-radius:10px"><strong style="color:#16a34a">✅ Root Cause:</strong> <span style="color:var(--txt2)">Mancanza di organigramma e piano manutenzione preventiva</span><br><strong style="color:#16a34a">Azione preventiva:</strong> <span style="color:var(--txt2)">Creare organigramma manutenzione + piano MP annuale con checklist mensili</span></div></div>`;
+}
+
+function ncRenderTrends(){
+  const c=document.getElementById('nc-trends-c');if(!c)return;
+  const months=['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
+  const data=[5,3,7,4,6,3,2,4,5,3,2,4];
+  const maxD=Math.max(...data);
+  const byArea=[{a:'Cucina',n:18,pct:38},{a:'Magazzino',n:12,pct:25},{a:'Bar',n:8,pct:17},{a:'Sala',n:5,pct:11},{a:'Ricevimento',n:4,pct:9}];
+  const byType=[{t:'Temperatura',n:15,c:'#dc2626'},{t:'Pulizia',n:10,c:'#f59e0b'},{t:'Documentazione',n:8,c:'#4a90e8'},{t:'Allergeni',n:6,c:'#9b6fe8'},{t:'Scadenze',n:5,c:'#ca8a04'},{t:'Altro',n:3,c:'var(--txt3)'}];
+  c.innerHTML=`<div class="nc-page-hdr"><div><div class="nc-page-title">📈 Trend Analysis</div><div class="nc-page-sub">Analisi NC per mese, area e tipologia — ultimi 12 mesi</div></div></div>
+  <div class="nc-kpi-grid"><div class="nc-kpi"><div class="nc-kpi-val" style="color:#e03e50">${data.reduce((a,d)=>a+d,0)}</div><div class="nc-kpi-lbl">NC totali (12m)</div></div><div class="nc-kpi"><div class="nc-kpi-val" style="color:#f59e0b">${(data.reduce((a,d)=>a+d,0)/12).toFixed(1)}</div><div class="nc-kpi-lbl">Media/mese</div></div><div class="nc-kpi"><div class="nc-kpi-val" style="color:#16a34a">-22%</div><div class="nc-kpi-lbl">Trend vs anno prec.</div></div></div>
+  <div class="nc-card"><h4 style="color:#e03e50;margin-bottom:14px">NC per mese</h4><div style="display:flex;align-items:flex-end;gap:clamp(3px,1.5vw,10px);height:140px;padding-bottom:24px">${months.map((m,i)=>`<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;position:relative"><div style="font-size:10px;color:#e03e50;font-weight:700">${data[i]}</div><div style="width:100%;max-width:36px;height:${(data[i]/maxD)*110}px;background:linear-gradient(to top,rgba(224,62,80,.3),rgba(224,62,80,.7));border-radius:4px 4px 1px 1px"></div><div style="font-size:9px;color:var(--txt3);position:absolute;bottom:-20px">${m}</div></div>`).join('')}</div></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+  <div class="nc-card"><h4 style="color:#e03e50;margin-bottom:14px">Per area</h4>${byArea.map(a=>`<div style="display:flex;align-items:center;gap:10px;padding:6px 0"><div style="width:90px;font-size:12px;font-weight:600">${a.a}</div><div style="flex:1;height:8px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden"><div style="height:100%;width:${a.pct}%;background:#e03e50;border-radius:4px"></div></div><div style="width:30px;font-size:12px;color:#e03e50;font-weight:700;text-align:right">${a.n}</div></div>`).join('')}</div>
+  <div class="nc-card"><h4 style="color:#e03e50;margin-bottom:14px">Per tipo</h4>${byType.map(t=>`<div style="display:flex;align-items:center;gap:10px;padding:6px 0"><div style="width:110px;font-size:12px;font-weight:600">${t.t}</div><div style="flex:1;height:8px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden"><div style="height:100%;width:${(t.n/15)*100}%;background:${t.c};border-radius:4px"></div></div><div style="width:30px;font-size:12px;color:${t.c};font-weight:700;text-align:right">${t.n}</div></div>`).join('')}</div>
+  </div>`;
+}
+
+function ncRenderRisk(){
+  const c=document.getElementById('nc-riskclass-c');if(!c)return;
+  c.innerHTML=`<div class="nc-page-hdr"><div><div class="nc-page-title">⚠️ Risk Classification</div><div class="nc-page-sub">Classificazione NC per gravità e probabilità</div></div></div>
+  <div class="nc-card"><h4 style="color:#e03e50;margin-bottom:14px">Matrice 5×5</h4>
+  <div style="display:grid;grid-template-columns:40px repeat(5,1fr);gap:2px;font-size:11px;text-align:center">
+  <div></div>${['Trascurabile','Minore','Moderato','Grave','Critico'].map(h=>`<div style="padding:6px;color:var(--txt3);font-weight:700">${h}</div>`).join('')}
+  ${[5,4,3,2,1].map(prob=>`<div style="padding:6px;color:var(--txt3);font-weight:700">${prob}</div>${[1,2,3,4,5].map(imp=>{const r=prob*imp;const col=r>=16?'#dc2626':r>=9?'#f59e0b':r>=4?'#ca8a04':'#16a34a';return`<div style="padding:8px;background:${col}15;border:1px solid ${col}25;border-radius:4px;color:${col};font-weight:700;cursor:pointer" title="P${prob}×I${imp}=${r}">${r}</div>`}).join('')}`).join('')}
+  </div>
+  <div style="margin-top:14px;display:flex;gap:12px;flex-wrap:wrap;font-size:11px"><span style="color:#16a34a">■ Basso (1-3)</span><span style="color:#ca8a04">■ Medio (4-8)</span><span style="color:#f59e0b">■ Alto (9-15)</span><span style="color:#dc2626">■ Critico (16-25)</span></div></div>`;
+}
+
+function ncRenderSupplier(){
+  const c=document.getElementById('nc-supplier-c');if(!c)return;
+  const scars=[
+    {id:'SCAR-001',supplier:'Ortofruit CA',nc:'Prodotto scaduto in consegna',date:'20/04',status:'open',response:'In attesa'},
+    {id:'SCAR-002',supplier:'Panificio Pani',nc:'Corpo estraneo nel pane',date:'15/04',status:'resolved',response:'Azione correttiva implementata'},
+    {id:'SCAR-003',supplier:'Ittica PT',nc:'Temperatura trasporto +6°C',date:'10/04',status:'closed',response:'Sostituzione mezzo refrigerato'},
+  ];
+  const sc={open:'#dc2626',resolved:'#f59e0b',closed:'#16a34a'};
+  c.innerHTML=`<div class="nc-page-hdr"><div><div class="nc-page-title">🏭 NC Fornitori (SCAR)</div><div class="nc-page-sub">Supplier Corrective Action Report — tracciamento NC esterne</div></div></div>
+  ${scars.map(s=>`<div class="nc-card" style="border-left:3px solid ${sc[s.status]}"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px"><div><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--txt3)">${s.id}</span><div style="font-weight:700;margin-top:2px">${s.supplier} — ${s.nc}</div></div><span class="nc-badge" style="background:${sc[s.status]}15;color:${sc[s.status]};border-color:${sc[s.status]}30">${s.status}</span></div><div style="font-size:12px;color:#8a8aaa">📅 ${s.date} · 💬 ${s.response}</div></div>`).join('')}`;
+}
+
+function ncRenderCOPQ(){
+  const c=document.getElementById('nc-copq-c');if(!c)return;
+  const cats=[
+    {name:'Scarti prodotto',cost:1200,pct:28},
+    {name:'Rilavorazioni',cost:850,pct:20},
+    {name:'Ispezioni aggiuntive',cost:600,pct:14},
+    {name:'Reclami cliente',cost:950,pct:22},
+    {name:'Ritardi consegna',cost:400,pct:9},
+    {name:'Formazione correttiva',cost:300,pct:7},
+  ];
+  const total=cats.reduce((a,c)=>a+c.cost,0);
+  c.innerHTML=`<div class="nc-page-hdr"><div><div class="nc-page-title">💰 COPQ — Cost of Poor Quality</div><div class="nc-page-sub">Costi associati alle non conformità — ultimo trimestre</div></div></div>
+  <div class="nc-kpi-grid"><div class="nc-kpi"><div class="nc-kpi-val" style="color:#e03e50">€${total.toLocaleString()}</div><div class="nc-kpi-lbl">COPQ totale Q1</div></div><div class="nc-kpi"><div class="nc-kpi-val" style="color:#f59e0b">1.8%</div><div class="nc-kpi-lbl">% su revenue</div></div><div class="nc-kpi"><div class="nc-kpi-val" style="color:#16a34a">-15%</div><div class="nc-kpi-lbl">vs Q4 2025</div></div></div>
+  <div class="nc-card">${cats.map(ct=>`<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)"><div style="width:160px;font-weight:600;font-size:13px">${ct.name}</div><div style="flex:1;height:10px;background:rgba(255,255,255,.05);border-radius:5px;overflow:hidden"><div style="height:100%;width:${ct.pct}%;background:linear-gradient(90deg,#e03e50,#a02030);border-radius:5px"></div></div><div style="width:70px;text-align:right;font-weight:700;color:#e03e50">€${ct.cost}</div><div style="width:40px;text-align:right;font-size:12px;color:var(--txt3)">${ct.pct}%</div></div>`).join('')}</div>`;
+}
+
+function ncRenderAudit(){
+  const c=document.getElementById('nc-audit-c');if(!c)return;
+  const findings=[
+    {id:'AF-001',audit:'Audit interno Q1',clause:'cl. 7.1.5',finding:'Taratura termometri non documentata',severity:'minor',status:'closed',capa:'CAPA-026-04'},
+    {id:'AF-002',audit:'Audit interno Q1',clause:'cl. 8.5.2',finding:'Registri pulizie incompleti (bar)',severity:'minor',status:'in-progress',capa:'CAPA-026-02'},
+    {id:'AF-003',audit:'Audit esterno 2025',clause:'cl. 10.2',finding:'CAPA non chiuse nei tempi',severity:'major',status:'closed',capa:'CAPA-025-18'},
+    {id:'AF-004',audit:'Audit fornitore',clause:'—',finding:'Certificato HACCP scaduto (Panificio)',severity:'major',status:'open',capa:'—'},
+  ];
+  const sev={minor:'#f59e0b',major:'#dc2626',obs:'var(--txt3)'};
+  const sc={open:'#dc2626','in-progress':'#f59e0b',closed:'#16a34a'};
+  c.innerHTML=`<div class="nc-page-hdr"><div><div class="nc-page-title">🔎 Audit Findings</div><div class="nc-page-sub">NC da audit interni, esterni e su fornitori</div></div></div>
+  <div class="nc-card"><table class="nc-table"><thead><tr><th>ID</th><th>Audit</th><th>Clausola</th><th>Finding</th><th>Gravità</th><th>CAPA</th><th>Status</th></tr></thead><tbody>${findings.map(f=>`<tr><td style="font-family:'DM Mono',monospace;font-size:11px">${f.id}</td><td style="font-size:12px">${f.audit}</td><td>${f.clause}</td><td style="font-weight:600">${f.finding}</td><td><span class="nc-badge" style="background:${sev[f.severity]}15;color:${sev[f.severity]};border-color:${sev[f.severity]}30">${f.severity}</span></td><td style="font-family:'DM Mono',monospace;font-size:11px">${f.capa}</td><td><span class="nc-badge" style="background:${sc[f.status]}15;color:${sc[f.status]};border-color:${sc[f.status]}30">${f.status}</span></td></tr>`).join('')}</tbody></table></div>`;
+}
+
+</script>
+</body>
+</html>
