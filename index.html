@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BAD360 — Gestionale AI per Bar e Hotel · Skills Solutions</title>
+<meta name="description" content="BAD360: il gestionale SaaS con agenti AI per bar, locali e strutture ricettive. Metodo Bar Pro e Metodo Hotel Pro. Turni, inventario, HACCP, bandi, recensioni.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--g:#C9A84C;--gl:#F0D78A;--bg:#06060A;--bg2:#0D0B08;--w:#F8F4EE;--r:12px;--rpill:999px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--w);font-family:'DM Sans',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;background:rgba(6,6,10,.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(201,168,76,.08);}
+.nav-brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;}
+.nav-logo{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--g);}
+.nav-sub{font-size:.48rem;letter-spacing:.28em;color:rgba(201,168,76,.4);text-transform:uppercase;}
+.nav-cta{padding:.5rem 1.3rem;background:var(--g);color:#000;font-size:.58rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;border-radius:var(--rpill);transition:background .3s;}
+.nav-cta:hover{background:var(--gl);}
+
+.hero{min-height:100dvh;display:grid;place-items:center;text-align:center;padding:8rem 2.5rem 4rem;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 30%,rgba(201,168,76,.07),transparent);}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;font-size:.5rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(201,168,76,.7);border:1px solid rgba(201,168,76,.15);padding:.4rem 1rem;border-radius:var(--rpill);margin-bottom:2rem;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(3rem,9vw,7rem);font-weight:900;line-height:.92;margin-bottom:1.8rem;}
+.hero h1 em{font-style:italic;background:linear-gradient(135deg,var(--gl),var(--g));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-desc{font-size:.9rem;color:rgba(248,244,238,.5);max-width:500px;line-height:1.9;margin:0 auto 2.5rem;}
+.hero-btns{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;}
+.btn-g{display:inline-flex;align-items:center;gap:.5rem;padding:.95rem 2.2rem;background:var(--g);color:#000;font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;border-radius:var(--rpill);transition:background .3s;}
+.btn-g:hover{background:var(--gl);}
+.btn-o{display:inline-flex;align-items:center;gap:.5rem;padding:.95rem 2.2rem;border:1px solid rgba(201,168,76,.25);color:var(--g);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;border-radius:var(--rpill);transition:all .3s;}
+.btn-o:hover{background:rgba(201,168,76,.07);}
+
+.modules{padding:5rem 2.5rem;max-width:1100px;margin:0 auto;}
+.sec-label{font-size:.5rem;letter-spacing:.38em;color:var(--g);text-transform:uppercase;margin-bottom:.7rem;display:flex;align-items:center;gap:.5rem;}
+.sec-label::before{content:'✦';}
+.sec-h2{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:700;margin-bottom:.5rem;}
+.sec-h2 em{font-style:italic;color:var(--g);}
+.sec-note{font-size:.8rem;color:rgba(248,244,238,.4);margin-bottom:3rem;}
+
+.meth-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:3rem;}
+@media(max-width:700px){.meth-grid{grid-template-columns:1fr;gap:1rem;}}
+
+.meth-card{background:var(--bg2);border:1px solid rgba(201,168,76,.15);border-radius:var(--r);padding:2.5rem;position:relative;overflow:hidden;transition:all .4s;}
+.meth-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--g),var(--gl));transform:scaleX(0);transform-origin:left;transition:transform .4s;}
+.meth-card:hover::before{transform:scaleX(1);}
+.meth-card:hover{transform:translateY(-4px);box-shadow:0 24px 50px rgba(0,0,0,.5);}
+.meth-ico{font-size:2.5rem;margin-bottom:1rem;}
+.meth-name{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--gl);margin-bottom:.7rem;}
+.meth-desc{font-size:.8rem;color:rgba(248,244,238,.5);line-height:1.85;margin-bottom:1.5rem;}
+.meth-tags{display:flex;flex-wrap:wrap;gap:.4rem;}
+.tag{font-size:.44rem;letter-spacing:.15em;padding:.2rem .65rem;border-radius:var(--rpill);border:1px solid rgba(201,168,76,.2);color:rgba(201,168,76,.7);}
+.meth-link{display:inline-flex;align-items:center;gap:.4rem;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--g);text-decoration:none;margin-top:1.5rem;border-bottom:1px solid rgba(201,168,76,.2);padding-bottom:2px;transition:border-color .3s;}
+.meth-link:hover{border-color:var(--g);}
+
+.features{padding:4rem 2.5rem;border-top:1px solid rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.04);}
+.feat-inner{max-width:1100px;margin:0 auto;}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem;}
+@media(max-width:750px){.feat-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:450px){.feat-grid{grid-template-columns:1fr;}}
+.feat{padding:1.8rem;background:rgba(201,168,76,.03);border:1px solid rgba(255,255,255,.05);border-radius:var(--r);transition:border-color .3s;}
+.feat:hover{border-color:rgba(201,168,76,.15);}
+.feat-icon{font-size:1.4rem;margin-bottom:.8rem;}
+.feat-t{font-size:.8rem;font-weight:500;margin-bottom:.3rem;}
+.feat-d{font-size:.72rem;color:rgba(248,244,238,.4);line-height:1.7;}
+
+.cta-band{padding:5rem 2.5rem;text-align:center;}
+.cta-band h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,3.2rem);font-weight:700;margin-bottom:1rem;}
+.cta-band h2 em{font-style:italic;color:var(--g);}
+.cta-band p{font-size:.85rem;color:rgba(248,244,238,.45);margin-bottom:2.5rem;}
+
+footer{padding:2rem 2.5rem;border-top:1px solid rgba(255,255,255,.04);}
+.foot-in{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.foot-brand{font-family:'Syne',sans-serif;font-size:.85rem;color:rgba(201,168,76,.5);}
+.foot-eco{display:flex;gap:1.5rem;flex-wrap:wrap;}
+.foot-eco a{font-size:.52rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(248,244,238,.25);text-decoration:none;transition:color .3s;}
+.foot-eco a:hover{color:var(--g);}
+.foot-copy{font-size:.5rem;color:rgba(248,244,238,.15);width:100%;}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">
+    <div>
+      <div class="nav-logo">BAD360</div>
+      <div class="nav-sub">Gestionale AI · Bar & Hotel</div>
+    </div>
+  </a>
+  <a href="BAD360_SPLIT/hub.html" class="nav-cta">Accedi →</a>
+</nav>
+
+<section class="hero">
+  <div>
+    <div class="hero-badge">Skills Solutions · SaaS · Hospitality AI</div>
+    <h1>Il gestionale<br><em>che lavora</em><br>per te.</h1>
+    <p class="hero-desc">Agenti AI integrati per bar, locali e hotel. Dall'inventario ai turni, dall'HACCP ai bandi di finanziamento — tutto in un'unica piattaforma.</p>
+    <div class="hero-btns">
+      <a href="BAD360_SPLIT/hub.html" class="btn-g">Apri la piattaforma →</a>
+      <a href="#metodi" class="btn-o">Scopri i metodi ↓</a>
+    </div>
+  </div>
+</section>
+
+<section class="modules" id="metodi">
+  <div class="sec-label">Due metodi</div>
+  <h2 class="sec-h2">Scegli il tuo<br><em>verticale.</em></h2>
+  <p class="sec-note">BAD360 nasce come suite unica ma si specializza in due prodotti distinti per contesto operativo.</p>
+
+  <div class="meth-grid">
+    <div class="meth-card">
+      <div class="meth-ico">🍸</div>
+      <div class="meth-name">Metodo Bar Pro</div>
+      <p class="meth-desc">Il sistema operativo per bar, cocktail bar e locali F&B. Gestisci drink cost, inventario spirits, turni staff, ricettario, eventi e HACCP con agenti AI che analizzano i tuoi dati in tempo reale.</p>
+      <div class="meth-tags">
+        <span class="tag">Drink Cost</span>
+        <span class="tag">Inventario</span>
+        <span class="tag">Ricettario</span>
+        <span class="tag">Turni</span>
+        <span class="tag">HACCP</span>
+        <span class="tag">Shelf Life</span>
+        <span class="tag">SCM Pro</span>
+      </div>
+      <a href="BAD360_SPLIT/shiftmanager.html" class="meth-link">Apri Metodo Bar Pro →</a>
+    </div>
+    <div class="meth-card">
+      <div class="meth-ico">🏨</div>
+      <div class="meth-name">Metodo Hotel Pro</div>
+      <p class="meth-desc">Il gestionale per strutture ricettive e resort. Housekeeping, F&B management, analisi non conformità, tracciabilità fornitori, briefing mattutino AI e monitoraggio bandi pubblici per l'hotel.</p>
+      <div class="meth-tags">
+        <span class="tag">Housekeeping</span>
+        <span class="tag">Non Conformità</span>
+        <span class="tag">Tracciabilità</span>
+        <span class="tag">Morning Briefing</span>
+        <span class="tag">Bandi Hotel</span>
+        <span class="tag">Recensioni AI</span>
+      </div>
+      <a href="BAD360_SPLIT/hotellerie.html" class="meth-link">Apri Metodo Hotel Pro →</a>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="feat-inner">
+    <div class="sec-label">Funzionalità</div>
+    <h2 class="sec-h2" style="margin-bottom:.3rem;">Tutto quello che<br><em>serve davvero.</em></h2>
+    <div class="feat-grid">
+      <div class="feat"><div class="feat-icon">🤖</div><div class="feat-t">Agenti AI</div><div class="feat-d">Analisi automatica di costi, trend, anomalie e suggerimenti operativi in tempo reale</div></div>
+      <div class="feat"><div class="feat-icon">📊</div><div class="feat-t">Dashboard unificata</div><div class="feat-d">KPI operativi di bar e hotel in un'unica schermata con hub centrale</div></div>
+      <div class="feat"><div class="feat-icon">💰</div><div class="feat-t">Drink & Food Cost</div><div class="feat-d">Calcolo margini, waste analysis, pricing ottimale per ogni ricetta</div></div>
+      <div class="feat"><div class="feat-icon">📅</div><div class="feat-t">Shift Manager</div><div class="feat-d">Pianificazione turni, fogli presenze e notifiche staff automatizzate</div></div>
+      <div class="feat"><div class="feat-icon">✅</div><div class="feat-t">HACCP & Conformità</div><div class="feat-d">Registri digitali, check-list automatiche e report pronti per le ispezioni</div></div>
+      <div class="feat"><div class="feat-icon">🎓</div><div class="feat-t">Academy integrata</div><div class="feat-d">Formazione staff direttamente nella piattaforma: cocktail, servizio, norme</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <h2>Pronto a <em>iniziare?</em></h2>
+  <p>Accedi alla piattaforma o contattaci per una demo personalizzata.</p>
+  <div class="hero-btns">
+    <a href="BAD360_SPLIT/hub.html" class="btn-g">Apri BAD360 →</a>
+    <a href="https://wa.me/393468473144?text=Ciao Simone! Vorrei saperne di più su BAD360." target="_blank" rel="noopener noreferrer" class="btn-o">💬 Richiedi demo</a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-in">
+    <div class="foot-brand">BAD360 · Skills Solutions</div>
+    <nav class="foot-eco">
+      <a href="../SKILLSOLUTIONS.COM/index.html">✦ Skills Solutions Hub</a>
+      <a href="../BA.IA.SKILLSOLUTIONS.COM/index.html">BA.IA — Bandi AI</a>
+      <a href="../BAD.SKILLSOLUTIONS.COM/index.html">BAD.S Events</a>
+      <a href="../BARMANMATCH.SKILLSOLUTIONS.COM/barman_network.html">BarmanMatch</a>
+    </nav>
+    <div class="foot-copy">© 2025-2026 BAD360 · Skills Solutions · Simone Serra · Sardegna</div>
+  </div>
+</footer>
+<script src="../SKILLSOLUTIONS.COM/ss-nav.js"></script>
+<script>SSNav.init({current:'bad360'});</script>
+</body>
+</html>

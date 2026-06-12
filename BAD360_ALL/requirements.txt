@@ -1,0 +1,65 @@
+# ═══════════════════════════════════════════════════════════════════
+#  BAD.S Unified Platform — Python Dependencies
+#  Installazione: pip install -r requirements.txt
+# ═══════════════════════════════════════════════════════════════════
+
+# ── Framework Web ─────────────────────────────────────────────────
+fastapi==0.115.6
+uvicorn[standard]==0.32.1
+python-multipart==0.0.20
+
+# ── HTTP Client (chiamate API Anthropic via httpx) ─────────────────
+httpx==0.28.1
+
+# ── SDK Anthropic (usato da non_conformita.py — client sincrono) ──
+anthropic>=0.25.0
+
+# ── Validazione dati ──────────────────────────────────────────────
+pydantic==2.10.4
+pydantic-settings==2.7.0
+email-validator==2.2.0
+
+# ── Variabili d'ambiente ──────────────────────────────────────────
+python-dotenv==1.0.1
+
+# ── Supabase (database cloud) ─────────────────────────────────────
+supabase==2.10.0
+postgrest==0.18.0
+
+# ── Date e orari ─────────────────────────────────────────────────
+python-dateutil==2.9.0
+
+# ── Scheduler (Shelf Life — job giornaliero scadenze 07:00) ───────
+apscheduler>=3.10.0
+
+# ── Sicurezza & Auth ──────────────────────────────────────────────
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+
+# ── Logging avanzato ─────────────────────────────────────────────
+loguru==0.7.3
+
+# ── Serializzazione JSON ─────────────────────────────────────────
+orjson==3.10.12
+
+# ── Generazione PDF (HACCP report) ───────────────────────────────
+reportlab>=4.0.0
+
+# ── OPZIONALI — attiva decommentando ──────────────────────────────
+
+# Celery + Redis per task asincroni (alert HACCP, report ESG)
+# celery==5.4.0
+# redis==5.2.1
+
+# Pandas per analisi dati e report SCM
+# pandas==2.2.3
+# openpyxl==3.1.5
+
+# Stripe per pagamenti abbonamenti SaaS
+# stripe==11.3.0
+
+# Sentry per error tracking in produzione
+# sentry-sdk[fastapi]==2.19.2
+
+# Twilio per SMS alert HACCP
+# twilio==9.4.0

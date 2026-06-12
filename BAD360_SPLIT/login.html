@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Syne:wght@400;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>BAD360.ai — Accedi</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#06060A;color:#F8F4EE;font-family:'DM Sans',sans-serif;font-size:14px;-webkit-font-smoothing:antialiased}
+button{cursor:pointer;font-family:inherit;border:none;outline:none;transition:all .18s}
+input{font-family:inherit;outline:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes gridMove{from{background-position:0 0}to{background-position:60px 60px}}
+
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 0% 100%, rgba(107,79,10,.06) 0%, transparent 50%);
+}
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.18;
+  background-image:
+    linear-gradient(rgba(201,168,76,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(201,168,76,.06) 1px,transparent 1px);
+  background-size:60px 60px;
+  animation:gridMove 8s linear infinite;
+}
+
+.page{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:20px;position:relative;z-index:1;
+}
+
+/* Brand strip */
+.brand{text-align:center;margin-bottom:32px;animation:fadeUp .5s ease}
+.brand-logo{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:56px;height:56px;background:rgba(201,168,76,.12);
+  border:2px solid rgba(201,168,76,.3);border-radius:16px;
+  font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#C9A84C;
+  margin-bottom:14px;letter-spacing:.05em;
+}
+.brand-name{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;line-height:1}
+.brand-name em{font-style:italic;color:#C9A84C}
+.brand-tagline{font-size:12px;color:#4a3a1a;font-family:'DM Mono',monospace;letter-spacing:.06em;text-transform:uppercase;margin-top:6px}
+
+/* Card */
+.card{
+  width:100%;max-width:420px;
+  background:rgba(13,11,8,.92);border:1px solid rgba(201,168,76,.18);
+  border-radius:18px;padding:32px;
+  box-shadow:0 24px 64px rgba(0,0,0,.7),0 0 0 1px rgba(201,168,76,.06);
+  animation:fadeUp .5s .1s ease both;
+}
+
+.card-title{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:6px}
+.card-sub{font-size:13px;color:#8a7a5a;margin-bottom:24px;line-height:1.6}
+
+/* Fields */
+.field{margin-bottom:16px}
+.field label{display:block;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.8px;text-transform:uppercase;color:#4a3a1a;margin-bottom:6px}
+.field input{
+  width:100%;background:rgba(255,255,255,.04);
+  border:1.5px solid rgba(201,168,76,.12);border-radius:9px;
+  padding:11px 14px;color:#F8F4EE;font-size:14px;
+  transition:border-color .15s,box-shadow .15s;
+}
+.field input:focus{border-color:rgba(201,168,76,.45);box-shadow:0 0 0 3px rgba(201,168,76,.1)}
+.field input::placeholder{color:#3a2a10}
+
+/* Error */
+.err-box{
+  display:none;background:rgba(201,74,74,.08);border:1px solid rgba(201,74,74,.25);
+  border-radius:9px;padding:10px 14px;color:#e03e50;font-size:13px;margin-bottom:16px;
+}
+
+/* Submit */
+.submit-btn{
+  width:100%;padding:14px;border-radius:10px;font-size:15px;font-weight:700;letter-spacing:.02em;
+  background:linear-gradient(135deg,#6B4F0A,#C9A84C);color:#06060A;border:none;
+  box-shadow:0 4px 20px rgba(201,168,76,.3);margin-bottom:20px;
+}
+.submit-btn:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(201,168,76,.4)}
+.submit-btn:active{transform:none}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* Divider */
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(201,168,76,.1)}
+.divider span{font-size:11px;color:#3a2a10}
+
+/* Demo accounts */
+.demo-section{border-top:1px solid rgba(201,168,76,.1);padding-top:20px}
+.demo-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#4a3a1a;margin-bottom:10px}
+.demo-grid{display:flex;flex-direction:column;gap:6px}
+.demo-row{
+  display:flex;align-items:center;gap:10px;padding:9px 12px;
+  background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.08);
+  border-radius:8px;cursor:pointer;transition:all .15s;
+}
+.demo-row:hover{border-color:rgba(201,168,76,.25);background:rgba(201,168,76,.05)}
+.demo-avatar{width:28px;height:28px;border-radius:50%;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.25);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#C9A84C;flex-shrink:0}
+.demo-info{flex:1}
+.demo-name{font-size:12.5px;font-weight:600}
+.demo-role{font-size:10px;color:#5a4a3a}
+.demo-hint{font-size:9.5px;color:#3a2a10;font-family:'DM Mono',monospace}
+
+/* Status dot */
+.status-row{display:flex;align-items:center;gap:6px;margin-top:18px;font-size:11px;color:#3a2a10}
+.status-dot{width:6px;height:6px;border-radius:50%;background:#4a3a1a;flex-shrink:0}
+.status-dot.online{background:#6aab76;box-shadow:0 0 8px rgba(106,171,118,.5);animation:pulse 2s infinite}
+.status-dot.offline{background:#d4803a}
+
+/* Footer */
+.footer{text-align:center;margin-top:24px;font-size:11px;color:#3a2a10;animation:fadeUp .5s .2s ease both}
+</style>
+</head>
+<body>
+<div class="page">
+  <div style="width:100%;max-width:420px">
+    <div class="brand">
+      <div class="brand-logo">B360</div>
+      <div class="brand-name">BAD<em>360</em>.ai</div>
+      <div class="brand-tagline">Hospitality AI Suite · v4.1</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Benvenuto</div>
+      <div class="card-sub">Accedi alla piattaforma di gestione per la tua struttura.</div>
+
+      <div class="err-box" id="err-box"></div>
+
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="f-email" placeholder="demo@bad360.ai" autocomplete="email">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="f-pwd" placeholder="••••••••" autocomplete="current-password">
+      </div>
+
+      <button class="submit-btn" id="submit-btn" onclick="doLogin()">Accedi →</button>
+
+      <div class="demo-section">
+        <div class="demo-label">Account demo — clicca per compilare</div>
+        <div class="demo-grid" id="demo-grid"></div>
+      </div>
+
+      <div class="status-row">
+        <div class="status-dot" id="status-dot"></div>
+        <span id="status-txt">Controllo connessione API…</span>
+      </div>
+    </div>
+
+    <div class="footer">© 2026 BAD360.ai · SkillSolutions.com · Sardegna</div>
+  </div>
+</div>
+
+<script>
+const DEMO_ACCOUNTS = [
+  {email:'demo@bad360.ai',    password:'Demo2024!', name:'Demo User',    role:'Bar Manager',      icon:'🍸'},
+  {email:'simone@bad360.ai',  password:'Bads2024!', name:'Simone Serra', role:'Owner / Founder',  icon:'👑'},
+  {email:'test@bad360.ai',    password:'Test2024!', name:'Test GM',      role:'General Manager',  icon:'🏨'},
+  {email:'admin@bad360.ai',   password:'Admin2024!',name:'Admin',        role:'Platform Admin',   icon:'⚙️'},
+];
+
+const API = window.location.protocol === 'file:' ? 'http://localhost:8000' : '';
+
+// Render demo rows
+document.getElementById('demo-grid').innerHTML = DEMO_ACCOUNTS.map(a => `
+  <div class="demo-row" onclick="fillDemo('${a.email}','${a.password}')">
+    <div class="demo-avatar">${a.icon}</div>
+    <div class="demo-info">
+      <div class="demo-name">${a.name}</div>
+      <div class="demo-role">${a.role}</div>
+    </div>
+    <div class="demo-hint">${a.email}</div>
+  </div>`).join('');
+
+function fillDemo(email, pwd) {
+  document.getElementById('f-email').value = email;
+  document.getElementById('f-pwd').value   = pwd;
+  document.getElementById('f-email').focus();
+}
+
+async function doLogin() {
+  const email = document.getElementById('f-email').value.trim();
+  const pwd   = document.getElementById('f-pwd').value;
+  const btn   = document.getElementById('submit-btn');
+  const err   = document.getElementById('err-box');
+
+  err.style.display = 'none';
+  if (!email || !pwd) { showErr('Inserisci email e password'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Accesso in corso…';
+
+  try {
+    const r = await fetch(API + '/api/auth/demo-login', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({email, password: pwd}),
+    });
+    if (!r.ok) {
+      const e = await r.json().catch(()=>({}));
+      throw new Error(e.detail || 'Credenziali non valide');
+    }
+    const d = await r.json();
+    localStorage.setItem('bad360_token', d.access_token);
+    localStorage.setItem('bad360_user',  JSON.stringify(d.user));
+    btn.textContent = '✅ Accesso effettuato…';
+    // Redirect to suite dashboard
+    const dest = new URLSearchParams(location.search).get('next') || 'index.html';
+    setTimeout(() => { window.location.href = dest; }, 600);
+  } catch(e) {
+    showErr(e.message);
+    btn.disabled = false;
+    btn.textContent = 'Accedi →';
+  }
+}
+
+function showErr(msg) {
+  const el = document.getElementById('err-box');
+  el.textContent = '⚠️ ' + msg;
+  el.style.display = 'block';
+}
+
+// Enter key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+// Check if already logged in
+(function(){
+  const token = localStorage.getItem('bad360_token');
+  if (token) {
+    // Try to validate without blocking the page
+    fetch(API + '/api/auth/me', {headers:{Authorization:'Bearer '+token}})
+      .then(r=>r.json()).then(d=>{
+        if (d.authenticated) window.location.href = 'index.html';
+      }).catch(()=>{});
+  }
+})();
+
+// API health check
+fetch(API + '/api/health', {signal: AbortSignal.timeout(3000)})
+  .then(r => r.json())
+  .then(d => {
+    const dot = document.getElementById('status-dot');
+    const txt = document.getElementById('status-txt');
+    if (d.status === 'ok') {
+      dot.className = 'status-dot online';
+      txt.textContent = 'API online · BAD360.ai v' + (d.version || '4.1');
+    }
+  })
+  .catch(() => {
+    const dot = document.getElementById('status-dot');
+    const txt = document.getElementById('status-txt');
+    dot.className = 'status-dot offline';
+    txt.textContent = 'API offline — avvia il server con avvia.bat';
+  });
+</script>
+</body>
+</html>

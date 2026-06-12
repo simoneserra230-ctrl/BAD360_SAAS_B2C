@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BAD360.ai — Reputazione & Recensioni</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;background:var(--bg);color:var(--txt);font-family:var(--font);font-size:14px;-webkit-font-smoothing:antialiased}
+button{cursor:pointer;font-family:var(--font);border:none;outline:none;transition:all .18s}
+input,select,textarea{font-family:var(--font);outline:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.rr-wrap{max-width:1300px;margin:0 auto;padding:26px 24px 80px}
+
+/* Header */
+.rr-hdr{display:flex;align-items:center;gap:16px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin-bottom:20px;position:relative;overflow:hidden}
+.rr-hdr::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--g) 0%,var(--gd) 100%)}
+.rr-hdr-icon{width:46px;height:46px;border-radius:12px;flex-shrink:0;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.25);display:flex;align-items:center;justify-content:center;font-size:22px}
+.rr-hdr-info{flex:1}
+.rr-hdr h1{font-family:var(--heading);font-size:20px;font-weight:800;color:var(--txt)}
+.rr-hdr p{font-size:11.5px;color:var(--txt2);margin-top:3px}
+.rr-hdr-actions{display:flex;gap:8px;flex-shrink:0}
+
+/* KPI strip */
+.rr-kpi{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:22px}
+.rr-kpi-card{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:16px;text-align:center;animation:fadeUp .4s ease both}
+.rr-kpi-val{font-size:1.7rem;font-weight:800;font-family:var(--heading);color:var(--g);line-height:1}
+.rr-kpi-sub{font-size:9.5px;color:var(--txt3);margin-top:5px;text-transform:uppercase;letter-spacing:.7px;font-family:var(--mono)}
+.rr-kpi-delta{font-size:10.5px;font-weight:700;margin-top:4px}
+.rr-kpi-delta.up{color:var(--green)}.rr-kpi-delta.dn{color:var(--red)}.rr-kpi-delta.neu{color:var(--txt3)}
+
+/* Platform tabs */
+.rr-tabs{display:flex;gap:3px;flex-wrap:wrap;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:5px;margin-bottom:18px;position:sticky;top:52px;z-index:20}
+.rr-tab{display:flex;align-items:center;gap:6px;background:transparent;color:var(--txt2);border:1px solid transparent;border-radius:7px;padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;transition:all .16s;white-space:nowrap}
+.rr-tab.active{background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.3);color:var(--g)}
+.rr-tab:hover:not(.active){background:var(--bg3);color:var(--txt)}
+
+/* Filters bar */
+.rr-filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
+.rr-filter-sel{background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:7px 12px;font-size:12px;color:var(--txt);cursor:pointer}
+.rr-filter-sel:focus{border-color:var(--g)}
+.rr-search{flex:1;min-width:180px;background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:7px 12px;font-size:12px;color:var(--txt)}
+.rr-search::placeholder{color:var(--txt3)}
+.rr-search:focus{border-color:var(--g)}
+.rr-filter-badge{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:6px;padding:3px 10px;font-size:11px;color:var(--g);font-weight:700;font-family:var(--mono)}
+
+/* Layout 2 col */
+.rr-layout{display:grid;grid-template-columns:1fr 340px;gap:16px;align-items:start}
+@media(max-width:900px){.rr-layout{grid-template-columns:1fr}}
+
+/* Review card */
+.rr-list{display:flex;flex-direction:column;gap:12px}
+.rr-card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px 20px;animation:fadeUp .35s ease both;transition:border-color .18s}
+.rr-card:hover{border-color:var(--line2)}
+.rr-card.urgent{border-color:rgba(201,74,74,.25);background:rgba(201,74,74,.03)}
+.rr-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+.rr-card-meta{display:flex;flex-direction:column;gap:4px}
+.rr-author{font-size:13px;font-weight:700;color:var(--txt)}
+.rr-date{font-size:10.5px;color:var(--txt3);font-family:var(--mono)}
+.rr-card-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.rr-stars{font-size:13px;line-height:1}
+.rr-platform-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:99px;font-size:9.5px;font-weight:700;font-family:var(--mono);letter-spacing:.4px}
+.plt-google{background:rgba(66,133,244,.12);color:#4285F4;border:1px solid rgba(66,133,244,.25)}
+.plt-tripadvisor{background:rgba(0,175,90,.12);color:#00AF5A;border:1px solid rgba(0,175,90,.25)}
+.plt-thefork{background:rgba(255,87,51,.12);color:#FF5733;border:1px solid rgba(255,87,51,.25)}
+.plt-booking{background:rgba(0,104,219,.12);color:#0068DB;border:1px solid rgba(0,104,219,.25)}
+
+.rr-sentiment-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:2px}
+.sent-pos{background:var(--green)}.sent-neu{background:var(--orange)}.sent-neg{background:var(--red)}
+
+.rr-body{font-size:12.5px;color:var(--txt2);line-height:1.7;margin-bottom:12px}
+.rr-keywords{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.rr-kw{background:var(--bg3);border:1px solid var(--line);border-radius:5px;padding:2px 7px;font-size:10px;color:var(--txt3);font-family:var(--mono)}
+.rr-kw.pos{background:rgba(106,171,118,.08);color:var(--green);border-color:rgba(106,171,118,.2)}
+.rr-kw.neg{background:rgba(201,74,74,.08);color:var(--red);border-color:rgba(201,74,74,.2)}
+
+.rr-reply-area{background:var(--bg3);border:1px solid var(--line);border-radius:9px;padding:12px 14px;margin-top:10px;display:none}
+.rr-reply-area.open{display:block}
+.rr-reply-label{font-size:9.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--g);margin-bottom:7px;font-family:var(--mono)}
+.rr-reply-txt{width:100%;background:transparent;border:none;resize:vertical;font-size:12px;color:var(--txt);line-height:1.7;min-height:80px}
+.rr-reply-txt::placeholder{color:var(--txt3)}
+.rr-reply-actions{display:flex;gap:8px;margin-top:8px;justify-content:flex-end}
+
+.rr-card-actions{display:flex;gap:7px;flex-wrap:wrap}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-weight:700;font-size:11.5px;transition:all .18s;cursor:pointer}
+.btn-gold{background:linear-gradient(135deg,var(--gd),var(--g));color:#06060A;border:none}
+.btn-gold:hover{opacity:.9;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:var(--txt2);border:1px solid var(--line2)}
+.btn-outline:hover{border-color:var(--g);color:var(--g);background:rgba(201,168,76,.06)}
+.btn-ghost{background:transparent;color:var(--txt3);border:1px solid var(--line);font-size:11px;padding:5px 10px}
+.btn-ghost:hover{color:var(--txt);border-color:var(--line2)}
+.btn-red{background:rgba(201,74,74,.12);color:var(--red);border:1px solid rgba(201,74,74,.25)}
+.btn-red:hover{background:rgba(201,74,74,.2)}
+.btn-sm{padding:4px 10px;font-size:10.5px}
+.btn-icon{padding:6px 10px}
+
+/* Sidebar */
+.rr-sidebar{display:flex;flex-direction:column;gap:14px}
+.rr-panel{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px}
+.rr-panel-title{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--g);margin-bottom:14px;font-family:var(--mono)}
+
+/* Score ring */
+.rr-score-ring{display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:16px}
+.ring-wrap{position:relative;width:100px;height:100px}
+.ring-svg{transform:rotate(-90deg)}
+.ring-track{stroke:rgba(201,168,76,.1)}
+.ring-fill{stroke:var(--g);stroke-linecap:round;transition:stroke-dashoffset 1s ease}
+.ring-val{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.ring-num{font-size:26px;font-weight:800;font-family:var(--heading);color:var(--g);line-height:1}
+.ring-tot{font-size:9.5px;color:var(--txt3);font-family:var(--mono)}
+.ring-label{font-size:11px;color:var(--txt2);font-weight:600}
+
+/* Platform breakdown */
+.rr-plt-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;last-child{margin-bottom:0}}
+.rr-plt-name{font-size:11.5px;font-weight:600;color:var(--txt);min-width:90px}
+.rr-plt-bar-wrap{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.rr-plt-bar-fill{height:100%;border-radius:3px;transition:width 1s ease}
+.plt-bar-google{background:#4285F4}.plt-bar-tripadvisor{background:#00AF5A}.plt-bar-thefork{background:#FF5733}.plt-bar-booking{background:#0068DB}
+.rr-plt-score{font-size:11.5px;font-weight:700;font-family:var(--mono);color:var(--txt2);min-width:28px;text-align:right}
+
+/* Keyword cloud */
+.rr-cloud{display:flex;flex-wrap:wrap;gap:6px}
+.cloud-kw{padding:4px 9px;border-radius:6px;font-size:10.5px;font-weight:700;cursor:default}
+.ckw-pos{background:rgba(106,171,118,.1);color:var(--green);border:1px solid rgba(106,171,118,.2)}
+.ckw-neg{background:rgba(201,74,74,.1);color:var(--red);border:1px solid rgba(201,74,74,.2)}
+
+/* Alert panel */
+.rr-urgent-list{display:flex;flex-direction:column;gap:8px}
+.rr-urgent-item{background:rgba(201,74,74,.06);border:1px solid rgba(201,74,74,.2);border-radius:9px;padding:11px 13px}
+.rr-urgent-meta{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.rr-urgent-stars{font-size:11px}
+.rr-urgent-age{font-size:10px;color:var(--red);font-family:var(--mono);font-weight:700}
+.rr-urgent-snippet{font-size:11px;color:var(--txt2);line-height:1.55}
+.rr-urgent-cta{font-size:10.5px;font-weight:700;color:var(--red);margin-top:6px;cursor:pointer;background:none;border:none;padding:0;text-decoration:underline dotted}
+
+/* Trend chart (CSS sparkline) */
+.rr-trend{display:flex;align-items:flex-end;gap:4px;height:56px;padding-top:8px}
+.rr-trend-bar{flex:1;border-radius:3px 3px 0 0;background:rgba(201,168,76,.2);transition:height .6s ease,background .2s}
+.rr-trend-bar:hover{background:var(--g)}
+.rr-trend-labels{display:flex;justify-content:space-between;margin-top:4px}
+.rr-trend-lbl{font-size:8.5px;font-family:var(--mono);color:var(--txt3)}
+
+/* Empty state */
+.rr-empty{text-align:center;padding:48px 20px;color:var(--txt3)}
+.rr-empty-icon{font-size:40px;margin-bottom:12px}
+.rr-empty-msg{font-size:13px}
+
+/* AI reply spinner */
+.spin-inline{animation:spin 1s linear infinite;display:inline-block}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid rgba(201,168,76,.3);color:var(--g);padding:11px 18px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none}
+.toast.show{opacity:1;transform:none}
+</style>
+<link rel="stylesheet" href="bad360-ds.css">
+<script src="bad360-sdk.js"></script>
+</head>
+<body class="b360-module">
+
+<header class="b360-topbar" id="b360-topbar">
+  <div class="b360-tb-l">
+    <a href="hub.html" class="b360-tb-back" title="Hub">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </a>
+    <a href="hub.html" class="b360-tb-brand" tabindex="-1">
+      <div class="b360-tb-logo">B360</div>
+      <span class="b360-tb-name">BAD<strong>360</strong>.ai</span>
+    </a>
+    <span class="b360-tb-sep"></span>
+    <span class="b360-tb-module" id="b360-page-label">Suite</span>
+  </div>
+  <div class="b360-tb-r">
+    <span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.1</span>
+    <button class="b360-tb-theme" id="b360-theme-btn" title="Tema">☽</button>
+  </div>
+</header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"☽":"☀";b.addEventListener("click",function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"☽":"☀";try{localStorage.setItem("bad360_theme",nt)}catch(e){}});}var lbl=document.getElementById("b360-page-label");if(lbl){var title=document.title.replace("BAD360.ai — ","");if(title)lbl.textContent=title;}});})()</script>
+
+<div class="rr-wrap">
+
+  <!-- Header -->
+  <div class="rr-hdr">
+    <div class="rr-hdr-icon">⭐</div>
+    <div class="rr-hdr-info">
+      <h1>Reputazione & Recensioni</h1>
+      <p>Monitor multi-piattaforma · AI Reply Generator · Sentiment analysis · Alert negativi</p>
+    </div>
+    <div class="rr-hdr-actions">
+      <button class="btn btn-outline btn-sm" onclick="exportCSV()">📥 Esporta</button>
+      <button class="btn btn-gold btn-sm" onclick="batchReply()">✨ Rispondi a tutte</button>
+    </div>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="rr-kpi" id="kpi-strip"></div>
+
+  <!-- Platform tabs -->
+  <div class="rr-tabs">
+    <button class="rr-tab active" data-plt="all"       onclick="filterPlt('all')">🌐 Tutte le piattaforme</button>
+    <button class="rr-tab"        data-plt="google"    onclick="filterPlt('google')">🔵 Google</button>
+    <button class="rr-tab"        data-plt="tripadvisor" onclick="filterPlt('tripadvisor')">🟢 TripAdvisor</button>
+    <button class="rr-tab"        data-plt="thefork"   onclick="filterPlt('thefork')">🟠 TheFork</button>
+    <button class="rr-tab"        data-plt="booking"   onclick="filterPlt('booking')">🔷 Booking.com</button>
+  </div>
+
+  <!-- Filters -->
+  <div class="rr-filters">
+    <input class="rr-search" id="rr-search" type="text" placeholder="🔍 Cerca nelle recensioni..." oninput="applyFilters()">
+    <select class="rr-filter-sel" id="fil-stars" onchange="applyFilters()">
+      <option value="">⭐ Tutti i rating</option>
+      <option value="5">⭐⭐⭐⭐⭐ 5 stelle</option>
+      <option value="4">⭐⭐⭐⭐ 4 stelle</option>
+      <option value="3">⭐⭐⭐ 3 stelle</option>
+      <option value="2">⭐⭐ 2 stelle</option>
+      <option value="1">⭐ 1 stella</option>
+    </select>
+    <select class="rr-filter-sel" id="fil-reply" onchange="applyFilters()">
+      <option value="">💬 Tutte</option>
+      <option value="no">❌ Senza risposta</option>
+      <option value="yes">✅ Con risposta</option>
+    </select>
+    <select class="rr-filter-sel" id="fil-sent" onchange="applyFilters()">
+      <option value="">😐 Tutti i sentiment</option>
+      <option value="pos">😊 Positivo</option>
+      <option value="neu">😐 Neutro</option>
+      <option value="neg">😠 Negativo</option>
+    </select>
+    <span class="rr-filter-badge" id="rr-count">— recensioni</span>
+  </div>
+
+  <!-- Main layout -->
+  <div class="rr-layout">
+
+    <!-- Reviews list -->
+    <div>
+      <div class="rr-list" id="rr-list"></div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="rr-sidebar">
+
+      <!-- Reputation score -->
+      <div class="rr-panel">
+        <div class="rr-panel-title">Reputation Score</div>
+        <div class="rr-score-ring">
+          <div class="ring-wrap">
+            <svg class="ring-svg" width="100" height="100" viewBox="0 0 100 100">
+              <circle class="ring-track" cx="50" cy="50" r="42" fill="none" stroke-width="8"/>
+              <circle class="ring-fill" cx="50" cy="50" r="42" fill="none" stroke-width="8"
+                stroke-dasharray="263.9" stroke-dashoffset="39.6" id="ring-circle"/>
+            </svg>
+            <div class="ring-val"><div class="ring-num" id="ring-num">4.3</div><div class="ring-tot">/5.0</div></div>
+          </div>
+          <div class="ring-label">Score complessivo</div>
+        </div>
+        <div id="plt-breakdown"></div>
+      </div>
+
+      <!-- Trend mensile -->
+      <div class="rr-panel">
+        <div class="rr-panel-title">Trend Rating — 6 mesi</div>
+        <div class="rr-trend" id="rr-trend"></div>
+        <div class="rr-trend-labels" id="rr-trend-labels"></div>
+      </div>
+
+      <!-- Keyword cloud -->
+      <div class="rr-panel">
+        <div class="rr-panel-title">Parole chiave</div>
+        <div class="rr-cloud" id="rr-cloud"></div>
+      </div>
+
+      <!-- Alert urgenti -->
+      <div class="rr-panel" id="urgent-panel">
+        <div class="rr-panel-title" style="color:var(--red)">🔴 Urgenti — senza risposta</div>
+        <div class="rr-urgent-list" id="urgent-list"></div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── Dataset demo ─────────────────────────────────────────────────── */
+const REVIEWS = [
+  {id:'r1',platform:'google',author:'Marco T.',stars:5,date:'2026-06-07',
+   text:'Esperienza eccellente! Il personale è stato straordinario, attento e professionale. La colazione era ricca e di qualità. Tornerò sicuramente.',
+   sentiment:'pos',keywords:['personale','colazione','qualità'],replied:true,
+   reply:'Grazie mille Marco! Siamo davvero felici che abbia apprezzato il nostro servizio e la colazione. La aspettiamo presto!'},
+  {id:'r2',platform:'tripadvisor',author:'Giulia M.',stars:4,date:'2026-06-05',
+   text:'Hotel molto bello, posizione centralissima. Camera pulita e ben arredata. L\'unico neo è il rumore della strada di notte, ma nel complesso consiglio.',
+   sentiment:'pos',keywords:['posizione','camera','rumore'],replied:false,reply:''},
+  {id:'r3',platform:'thefork',author:'Alessandro R.',stars:2,date:'2026-06-04',
+   text:'Servizio lento, abbiamo aspettato 40 minuti per il primo piatto. Il cibo era nella media. Mi aspettavo di più vista la reputazione del locale.',
+   sentiment:'neg',keywords:['servizio lento','attesa','deluso'],replied:false,reply:''},
+  {id:'r4',platform:'booking',author:'Carla B.',stars:5,date:'2026-06-03',
+   text:'Staff incredibilmente disponibile. Ci hanno aiutato con una richiesta speciale e hanno reso il nostro anniversario indimenticabile. Vista mozzafiato!',
+   sentiment:'pos',keywords:['staff','anniversario','vista'],replied:true,
+   reply:'Carola, grazie di cuore per queste parole bellissime! È stato un piacere rendere speciale il vostro anniversario. Ci auguriamo di rivedervi presto!'},
+  {id:'r5',platform:'google',author:'Luca F.',stars:3,date:'2026-06-02',
+   text:'Camera ok, letto comodo, ma il WiFi era lentissimo e il check-in alle 15:00 era rigido nonostante la camera fosse disponibile dalle 13. Potrebbe migliorare.',
+   sentiment:'neu',keywords:['WiFi','check-in','letto'],replied:false,reply:''},
+  {id:'r6',platform:'tripadvisor',author:'Sophie D.',stars:5,date:'2026-05-31',
+   text:'Magnifique hôtel! La décoration est soignée et le personnel parle français. Le petit déjeuner est excellent. Je reviendrai sans hésiter.',
+   sentiment:'pos',keywords:['décoration','personnel','petit déjeuner'],replied:true,
+   reply:'Merci beaucoup Sophie pour votre magnifique commentaire! Nous sommes ravis que vous ayez apprécié notre établissement. À très bientôt!'},
+  {id:'r7',platform:'thefork',author:'Roberto P.',stars:4,date:'2026-05-30',
+   text:'Ottima cucina del territorio, ingredienti freschi e presentazione curata. Il sommelier ha fatto eccellenti abbinamenti. Ambiente elegante ma rilassato.',
+   sentiment:'pos',keywords:['cucina','ingredienti freschi','sommelier'],replied:false,reply:''},
+  {id:'r8',platform:'google',author:'Anna S.',stars:1,date:'2026-05-29',
+   text:'Esperienza negativa. La camera aveva problemi con l\'aria condizionata e nonostante la segnalazione il guasto non è stato risolto. Rimborso parziale ricevuto ma non sufficiente.',
+   sentiment:'neg',keywords:['aria condizionata','guasto','rimborso'],replied:false,reply:''},
+  {id:'r9',platform:'booking',author:'Thomas K.',stars:4,date:'2026-05-28',
+   text:'Great location, very clean rooms. The gym could be better equipped but the pool was fantastic. Breakfast had a good variety. Would recommend.',
+   sentiment:'pos',keywords:['location','clean','pool'],replied:false,reply:''},
+  {id:'r10',platform:'google',author:'Francesca V.',stars:5,date:'2026-05-27',
+   text:'Terza volta in questo hotel e ogni volta ci sorprendono positivamente. Migliorano sempre. Le suite sono magnifiche e il servizio in camera impeccabile.',
+   sentiment:'pos',keywords:['fedeltà','suite','servizio in camera'],replied:true,
+   reply:'Francesca, siamo onorati della sua fedeltà! Ogni visita per noi è un motivo di orgoglio. La aspettiamo per la quarta volta!'},
+  {id:'r11',platform:'tripadvisor',author:'Diego M.',stars:2,date:'2026-05-25',
+   text:'Il ristorante era prenotato ma ci hanno detto che non c\'era posto, nonostante la conferma. Situazione gestita male, nessuna alternativa proposta. Deluso.',
+   sentiment:'neg',keywords:['prenotazione','disorganizzazione','deluso'],replied:false,reply:''},
+  {id:'r12',platform:'thefork',author:'Valentina C.',stars:5,date:'2026-05-24',
+   text:'Cena romantica perfetta. Menù degustazione a 7 portate, ogni piatto un capolavoro. Il maître ci ha guidati con passione. Prenoto già per l\'estate.',
+   sentiment:'pos',keywords:['romantico','menù degustazione','maître'],replied:false,reply:''},
+  {id:'r13',platform:'booking',author:'Hans W.',stars:3,date:'2026-05-22',
+   text:'Average stay. Room was clean but smaller than expected from photos. Parking was expensive. The staff was friendly though. Nothing special.',
+   sentiment:'neu',keywords:['camera piccola','parcheggio','staff friendly'],replied:false,reply:''},
+  {id:'r14',platform:'google',author:'Maria G.',stars:5,date:'2026-05-20',
+   text:'Il migliore hotel della città! Ogni dettaglio curato con amore. Il concierge Carlo è fenomenale, ha organizzato un tour privato per noi. Servizio 5 stelle vero.',
+   sentiment:'pos',keywords:['Carlo concierge','tour privato','5 stelle'],replied:true,
+   reply:'Maria, grazie per queste parole bellissime! Carlo e tutto il nostro team sono felicissimi di aver reso il suo soggiorno speciale. La aspettiamo!'},
+  {id:'r15',platform:'tripadvisor',author:'Pierre L.',stars:4,date:'2026-05-18',
+   text:'Très bon séjour. Chambre spacieuse avec vue sur la mer. Service rapide et souriant. Petit bémol: la climatisation un peu bruyante la nuit.',
+   sentiment:'pos',keywords:['chambre spacieuse','vue mer','climatisation'],replied:false,reply:''},
+];
+
+/* ── State ────────────────────────────────────────────────────────── */
+let filteredPlt = 'all';
+let filteredData = [...REVIEWS];
+
+/* ── Init ─────────────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  renderKPI();
+  renderList(REVIEWS);
+  renderSidebar();
+  initTrend();
+});
+
+/* ── KPI ──────────────────────────────────────────────────────────── */
+function renderKPI() {
+  const total = REVIEWS.length;
+  const avg   = (REVIEWS.reduce((s,r)=>s+r.stars,0)/total).toFixed(1);
+  const noReply = REVIEWS.filter(r=>!r.replied).length;
+  const urgent = REVIEWS.filter(r=>!r.replied && r.stars<=2).length;
+  const pos = REVIEWS.filter(r=>r.sentiment==='pos').length;
+  const strip = document.getElementById('kpi-strip');
+  strip.innerHTML = `
+    <div class="rr-kpi-card"><div class="rr-kpi-val">${avg}</div><div class="rr-kpi-sub">Rating medio</div><div class="rr-kpi-delta up">▲ +0.2 vs mese scorso</div></div>
+    <div class="rr-kpi-card"><div class="rr-kpi-val">${total}</div><div class="rr-kpi-sub">Totale recensioni</div><div class="rr-kpi-delta up">▲ +8 questa settimana</div></div>
+    <div class="rr-kpi-card"><div class="rr-kpi-val">${noReply}</div><div class="rr-kpi-sub">Senza risposta</div><div class="rr-kpi-delta ${noReply>5?'dn':'neu'}">${noReply>5?'▼ da gestire':'OK'}</div></div>
+    <div class="rr-kpi-card"><div class="rr-kpi-val" style="color:var(--red)">${urgent}</div><div class="rr-kpi-sub">Urgenti (1-2★)</div><div class="rr-kpi-delta dn">⚠ risposta entro 24h</div></div>
+    <div class="rr-kpi-card"><div class="rr-kpi-val">${Math.round(pos/total*100)}%</div><div class="rr-kpi-sub">Sentiment positivo</div><div class="rr-kpi-delta up">▲ +3% vs trimestre</div></div>
+    <div class="rr-kpi-card"><div class="rr-kpi-val">${REVIEWS.filter(r=>r.replied).length}</div><div class="rr-kpi-sub">Risposte inviate</div><div class="rr-kpi-delta neu">${Math.round(REVIEWS.filter(r=>r.replied).length/total*100)}% response rate</div></div>
+  `;
+}
+
+/* ── Sidebar ──────────────────────────────────────────────────────── */
+function renderSidebar() {
+  // Platform breakdown
+  const platforms = {google:{name:'Google',bar:'plt-bar-google',total:0,sum:0},
+    tripadvisor:{name:'TripAdvisor',bar:'plt-bar-tripadvisor',total:0,sum:0},
+    thefork:{name:'TheFork',bar:'plt-bar-thefork',total:0,sum:0},
+    booking:{name:'Booking.com',bar:'plt-bar-booking',total:0,sum:0}};
+  REVIEWS.forEach(r=>{platforms[r.platform].total++;platforms[r.platform].sum+=r.stars});
+  const maxAvg=5;
+  let html='';
+  Object.entries(platforms).forEach(([k,p])=>{
+    const avg=p.total?( p.sum/p.total).toFixed(1):'—';
+    const pct=p.total?(p.sum/p.total/maxAvg*100):0;
+    html+=`<div class="rr-plt-row">
+      <span class="rr-plt-name">${p.name}</span>
+      <div class="rr-plt-bar-wrap"><div class="rr-plt-bar-fill ${p.bar}" style="width:${pct}%"></div></div>
+      <span class="rr-plt-score">${avg}</span></div>`;
+  });
+  document.getElementById('plt-breakdown').innerHTML=html;
+
+  // Keywords cloud
+  const kws = {
+    pos:['personale','colazione','staff','vista','suite','professionale','romantico','maître','sommelier','5 stelle'],
+    neg:['servizio lento','attesa','WiFi','guasto','disorganizzazione','rumore','deluso']
+  };
+  let cloud='';
+  kws.pos.forEach(k=>{cloud+=`<span class="cloud-kw ckw-pos">${k}</span>`});
+  kws.neg.forEach(k=>{cloud+=`<span class="cloud-kw ckw-neg">${k}</span>`});
+  document.getElementById('rr-cloud').innerHTML=cloud;
+
+  // Urgent list
+  const urgents = REVIEWS.filter(r=>!r.replied && r.stars<=2).slice(0,4);
+  const ul=document.getElementById('urgent-list');
+  if(!urgents.length){document.getElementById('urgent-panel').style.display='none';return;}
+  ul.innerHTML=urgents.map(r=>`
+    <div class="rr-urgent-item">
+      <div class="rr-urgent-meta">
+        <span class="rr-urgent-stars">${'⭐'.repeat(r.stars)}</span>
+        <span class="rr-urgent-age">${r.platform} · ${r.date}</span>
+      </div>
+      <div class="rr-urgent-snippet">${r.text.slice(0,90)}…</div>
+      <button class="rr-urgent-cta" onclick="scrollToReview('${r.id}')">Rispondi subito →</button>
+    </div>`).join('');
+}
+
+/* ── Trend ────────────────────────────────────────────────────────── */
+function initTrend() {
+  const months=['Gen','Feb','Mar','Apr','Mag','Giu'];
+  const scores=[4.0,4.1,4.2,4.0,4.3,4.3];
+  const max=5, min=3.5;
+  const barH=document.getElementById('rr-trend');
+  const lblH=document.getElementById('rr-trend-labels');
+  barH.innerHTML=scores.map((s,i)=>{
+    const pct=((s-min)/(max-min)*100);
+    return `<div class="rr-trend-bar" style="height:${pct}%" title="${months[i]}: ${s}⭐"></div>`;
+  }).join('');
+  lblH.innerHTML=months.map(m=>`<span class="rr-trend-lbl">${m}</span>`).join('');
+}
+
+/* ── List render ──────────────────────────────────────────────────── */
+function renderList(list) {
+  const el=document.getElementById('rr-list');
+  document.getElementById('rr-count').textContent=`${list.length} recensioni`;
+  if(!list.length){
+    el.innerHTML=`<div class="rr-empty"><div class="rr-empty-icon">🔍</div><div class="rr-empty-msg">Nessuna recensione trovata con questi filtri.</div></div>`;
+    return;
+  }
+  el.innerHTML=list.map(r=>reviewCard(r)).join('');
+}
+
+function reviewCard(r) {
+  const stars='⭐'.repeat(r.stars)+'☆'.repeat(5-r.stars);
+  const pltClass=`plt-${r.platform}`;
+  const pltName={google:'Google',tripadvisor:'TripAdvisor',thefork:'TheFork',booking:'Booking.com'}[r.platform];
+  const sentClass={pos:'sent-pos',neu:'sent-neu',neg:'sent-neg'}[r.sentiment];
+  const kwHtml=r.keywords.map(k=>{
+    const isNeg=['attesa','WiFi','guasto','disorganizzazione','rumore','deluso','servizio lento'].includes(k);
+    return `<span class="rr-kw ${isNeg?'neg':'pos'}">${k}</span>`;
+  }).join('');
+  const replySection=r.replied
+    ?`<div class="rr-reply-area open"><div class="rr-reply-label">✅ Risposta inviata</div><div style="font-size:12px;color:var(--txt2);line-height:1.7">${r.reply}</div></div>`
+    :`<div class="rr-reply-area" id="reply-area-${r.id}">
+        <div class="rr-reply-label">Risposta</div>
+        <textarea class="rr-reply-txt" id="reply-txt-${r.id}" placeholder="Scrivi la tua risposta..."></textarea>
+        <div class="rr-reply-actions">
+          <button class="btn btn-ghost btn-sm" onclick="closeReply('${r.id}')">Annulla</button>
+          <button class="btn btn-gold btn-sm" onclick="sendReply('${r.id}')">📤 Pubblica</button>
+        </div>
+      </div>`;
+  const urgentClass=(!r.replied&&r.stars<=2)?'urgent':'';
+  return `<div class="rr-card ${urgentClass}" id="card-${r.id}">
+    <div class="rr-card-top">
+      <div class="rr-card-meta">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="rr-sentiment-dot ${sentClass}"></div>
+          <span class="rr-author">${r.author}</span>
+        </div>
+        <span class="rr-date">${formatDate(r.date)}</span>
+      </div>
+      <div class="rr-card-right">
+        <span class="rr-stars">${stars}</span>
+        <span class="rr-platform-pill ${pltClass}">${pltName}</span>
+        ${!r.replied?'<span style="font-size:9px;color:var(--red);font-weight:700;font-family:var(--mono)">NON RISPOSTA</span>':''}
+      </div>
+    </div>
+    <div class="rr-body">"${r.text}"</div>
+    <div class="rr-keywords">${kwHtml}</div>
+    <div class="rr-card-actions">
+      ${!r.replied?`<button class="btn btn-gold btn-sm" onclick="aiReply('${r.id}')">✨ AI Reply</button>
+      <button class="btn btn-outline btn-sm" onclick="openReply('${r.id}')">✏️ Scrivi manualmente</button>`:
+      `<button class="btn btn-ghost btn-sm" onclick="editReply('${r.id}')">✏️ Modifica</button>`}
+      <button class="btn btn-ghost btn-sm" onclick="toggleFlag('${r.id}')">🚩 Segnala</button>
+    </div>
+    ${replySection}
+  </div>`;
+}
+
+/* ── AI Reply ─────────────────────────────────────────────────────── */
+async function aiReply(id) {
+  const r = REVIEWS.find(x=>x.id===id);
+  if(!r) return;
+  const btn = document.querySelector(`#card-${id} .btn-gold`);
+  if(btn){btn.innerHTML='<span class="spin-inline">⟳</span> Generando…';btn.disabled=true;}
+  openReply(id);
+  const ta=document.getElementById(`reply-txt-${id}`);
+  if(ta) ta.value='';
+
+  try {
+    const res = await fetch('/api/reviews/ai-reply', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        review_text: r.text,
+        platform: r.platform,
+        stars: r.stars,
+        author: r.author,
+        sentiment: r.sentiment,
+        keywords: r.keywords
+      })
+    });
+    if(!res.ok) throw new Error();
+    const data = await res.json();
+    if(ta) ta.value = data.reply || '';
+    showToast('✨ Risposta AI generata');
+  } catch(_) {
+    if(ta) ta.value = generateLocalReply(r);
+    showToast('✨ Risposta generata (offline)');
+  }
+  if(btn){btn.innerHTML='✨ AI Reply';btn.disabled=false;}
+}
+
+function generateLocalReply(r) {
+  const positive=[
+    `Grazie mille ${r.author} per la sua recensione! Siamo felici che abbia apprezzato il suo soggiorno. Il nostro team lavora ogni giorno per offrire un'esperienza indimenticabile. La aspettiamo presto!`,
+    `Gentile ${r.author}, la ringraziamo di cuore per le sue parole! È sempre un piacere sapere che i nostri ospiti vivono esperienze positive. Sarà nostra cura mantenere sempre questo standard.`,
+  ];
+  const negative=[
+    `Gentile ${r.author}, la ringraziamo per aver condiviso la sua esperienza. Siamo dispiaciuti che il soggiorno non abbia soddisfatto le sue aspettative. Abbiamo già preso in carico la sua segnalazione per migliorare il nostro servizio. La preghiamo di contattarci direttamente per trovare insieme una soluzione.`,
+    `Gentile ${r.author}, ci dispiace profondamente per l'inconveniente che ha riscontrato. I suoi commenti sono preziosi e ci aiutano a migliorare. Il responsabile si metterà in contatto con lei per risolvere la situazione.`,
+  ];
+  const neutral=[
+    `Grazie ${r.author} per la sua recensione. Prendiamo nota dei suoi suggerimenti e lavoreremo per migliorare i punti citati. Speriamo di poterla rivedere presto per offrirle un'esperienza ancora migliore.`,
+  ];
+  const pool = r.sentiment==='pos'?positive : r.sentiment==='neg'?negative:neutral;
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+
+/* ── Batch reply ──────────────────────────────────────────────────── */
+async function batchReply() {
+  const unanswered = filteredData.filter(r=>!r.replied);
+  if(!unanswered.length){showToast('✅ Tutte le recensioni hanno già una risposta!');return;}
+  showToast(`⟳ Generando ${unanswered.length} risposte AI…`);
+  for(const r of unanswered) {
+    r.reply = generateLocalReply(r);
+    r.replied = true;
+  }
+  setTimeout(()=>{renderList(filteredData);showToast(`✅ ${unanswered.length} risposte generate!`);},800);
+}
+
+/* ── Reply actions ────────────────────────────────────────────────── */
+function openReply(id){const a=document.getElementById(`reply-area-${id}`);if(a)a.classList.add('open')}
+function closeReply(id){const a=document.getElementById(`reply-area-${id}`);if(a)a.classList.remove('open')}
+function sendReply(id){
+  const r=REVIEWS.find(x=>x.id===id);
+  const ta=document.getElementById(`reply-txt-${id}`);
+  if(!ta||!ta.value.trim()){showToast('⚠ Scrivi una risposta prima di pubblicare');return;}
+  r.reply=ta.value; r.replied=true;
+  renderList(filteredData);
+  showToast('✅ Risposta pubblicata');
+}
+function editReply(id){
+  const r=REVIEWS.find(x=>x.id===id);
+  r.replied=false; r.reply='';
+  renderList(filteredData);
+}
+function toggleFlag(id){showToast('🚩 Recensione segnalata alla piattaforma');}
+function scrollToReview(id){const el=document.getElementById(`card-${id}`);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});}
+
+/* ── Filters ──────────────────────────────────────────────────────── */
+function filterPlt(plt) {
+  filteredPlt=plt;
+  document.querySelectorAll('.rr-tab').forEach(t=>t.classList.toggle('active',t.dataset.plt===plt));
+  applyFilters();
+}
+
+function applyFilters() {
+  const q=(document.getElementById('rr-search')?.value||'').toLowerCase();
+  const stars=document.getElementById('fil-stars')?.value||'';
+  const reply=document.getElementById('fil-reply')?.value||'';
+  const sent=document.getElementById('fil-sent')?.value||'';
+  filteredData = REVIEWS.filter(r=>{
+    if(filteredPlt!=='all'&&r.platform!==filteredPlt) return false;
+    if(stars&&r.stars!==parseInt(stars)) return false;
+    if(reply==='no'&&r.replied) return false;
+    if(reply==='yes'&&!r.replied) return false;
+    if(sent&&r.sentiment!==sent) return false;
+    if(q&&!r.text.toLowerCase().includes(q)&&!r.author.toLowerCase().includes(q)) return false;
+    return true;
+  });
+  renderList(filteredData);
+}
+
+/* ── Export ───────────────────────────────────────────────────────── */
+function exportCSV() {
+  const h='ID,Piattaforma,Autore,Stelle,Data,Sentiment,Risposta,Testo';
+  const rows=REVIEWS.map(r=>[r.id,r.platform,r.author,r.stars,r.date,r.sentiment,r.replied?'Sì':'No',`"${r.text.replace(/"/g,'""')}"`].join(','));
+  const blob=new Blob([[h,...rows].join('\n')],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='recensioni_bad360.csv';a.click();
+  URL.revokeObjectURL(url);
+  showToast('📥 Export CSV completato');
+}
+
+/* ── Helpers ──────────────────────────────────────────────────────── */
+function formatDate(d){const[y,m,day]=d.split('-');const months=['gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];return `${parseInt(day)} ${months[parseInt(m)-1]} ${y}`}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000)}
+</script>
+</body>
+</html>

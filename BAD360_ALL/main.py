@@ -47,13 +47,8 @@ from backend.shelf_life import (
     start_scheduler,
     stop_scheduler,
 )
-from backend.auth import router as auth_router
-from backend.morning_briefing import (
-    router as briefing_router,
-    start_briefing_scheduler,
-    stop_briefing_scheduler,
-)
-from backend.ai_agents import router as ai_agents_router
+from backend.bandi_hospitality import router as bandi_router
+from backend.reviews import router as reviews_router
 
 load_dotenv()
 
@@ -66,9 +61,9 @@ ALLOWED_ORIGINS   = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000,http://l
 
 # ─── App init ────────────────────────────────────────────────────────────────
 app = FastAPI(
-    title="BAD360.ai — Hospitality AI Platform API",
-    description="API backend per BAD360.ai — Suite modulare per Hotellerie, F&B, HACCP, SCM e Analytics",
-    version="4.1.0",
+    title="BAD.S Unified Platform API",
+    description="API backend per la piattaforma SaaS BAD.S — Hotellerie Intelligence & F&B Management",
+    version="2.0.0",
     docs_url="/api/docs",
     redoc_url="/api/redoc",
 )
@@ -86,9 +81,8 @@ app.include_router(scm_risk_router)
 app.include_router(nc_router)
 app.include_router(tracciabilita_router)
 app.include_router(shelf_life_router)
-app.include_router(auth_router)
-app.include_router(briefing_router)
-app.include_router(ai_agents_router)
+app.include_router(bandi_router)
+app.include_router(reviews_router)
 
 
 # ─── Pydantic Models ─────────────────────────────────────────────────────────
@@ -212,12 +206,21 @@ async def call_anthropic(
 
 # ─── Routes ──────────────────────────────────────────────────────────────────
 
+@app.get("/", response_class=HTMLResponse)
+async def serve_frontend():
+    """Serve il frontend HTML"""
+    html_path = os.path.join(os.path.dirname(__file__), "FBM_SaaS_B2C.html")
+    if not os.path.exists(html_path):
+        raise HTTPException(status_code=404, detail="Frontend HTML non trovato")
+    with open(html_path, encoding="utf-8") as f:
+        return HTMLResponse(content=f.read())
+
 @app.get("/api/health")
 async def health_check():
     """Health check endpoint"""
     return {
         "status": "ok",
-        "version": "4.1.0",
+        "version": "2.0.0",
         "timestamp": datetime.utcnow().isoformat(),
         "services": {
             "anthropic": bool(ANTHROPIC_API_KEY),
@@ -1957,20 +1960,17 @@ async def hk_cost_benchmark(stelle: int = 4):
 @app.on_event("startup")
 async def startup():
     print("=" * 60)
-    print("  BAD360.ai — Hospitality AI Platform v4.1.0")
+    print("  BAD.S Unified Platform API — v2.0.0")
     print(f"  Avviato: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
     print(f"  Anthropic API: {'✅ configurata' if ANTHROPIC_API_KEY else '❌ MANCANTE'}")
-    print(f"  Supabase: {'✅ configurato' if SUPABASE_URL else '⚠️  non configurato (modalità demo)'}")
-    print(f"  Frontend: BAD360_SPLIT/ — {len(os.listdir(_split_dir)) if os.path.isdir(_split_dir) else 0} moduli")
+    print(f"  Supabase: {'✅ configurato' if SUPABASE_URL else '⚠️  non configurato'}")
     print("=" * 60)
-    start_scheduler()          # Shelf Life — job giornaliero 07:00
-    start_briefing_scheduler() # Morning Briefing — job giornaliero 07:15
+    start_scheduler()  # Shelf Life — job giornaliero 07:00
 
 
 @app.on_event("shutdown")
 async def shutdown():
     stop_scheduler()
-    stop_briefing_scheduler()
 
 
 @app.get(
@@ -2171,13 +2171,6 @@ async def haccp_monthly_summary(hotel_id: str, anno: int, mese: int):
         "critici": len(critici),
         "zone_critiche": zone_critiche,
     }
-
-
-# ── Frontend statico — BAD360_SPLIT (deve stare DOPO tutte le route API) ───────
-# html=True abilita: GET / → index.html, GET /BAD360.html → BAD360.html, ecc.
-_split_dir = os.path.join(os.path.dirname(__file__), "BAD360_SPLIT")
-if os.path.isdir(_split_dir):
-    app.mount("/", StaticFiles(directory=_split_dir, html=True), name="frontend")
 
 
 if __name__ == "__main__":

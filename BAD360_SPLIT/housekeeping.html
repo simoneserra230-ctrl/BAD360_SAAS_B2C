@@ -3,244 +3,292 @@
 <head>
 <meta charset="UTF-8"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>BAD.S — Housekeeping</title>
+<title>BAD360.ai — Housekeeping</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{min-height:100vh;font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;background:var(--bg);color:var(--txt)}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:3px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(201,168,76,.2);border-radius:3px}
 
-.hk-root{min-height:100vh;background:var(--bg)}
+/* ─── SUBNAV ─── */
+.hk-nav{position:sticky;top:52px;z-index:20;background:var(--bg2);border-bottom:1px solid var(--line2);padding:0 20px;display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none}
+.hk-nav::-webkit-scrollbar{display:none}
+.hk-nav-group{display:flex;gap:4px;padding:8px 0}
+.hk-nav-sep{width:1px;height:28px;background:var(--line2);margin:8px 8px}
+.hk-btn{padding:6px 14px;border-radius:7px;border:1px solid transparent;background:transparent;color:var(--txt2);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
+.hk-btn:hover{background:rgba(201,168,76,.06);color:var(--txt)}
+.hk-btn.active{background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.3);color:var(--g)}
+.hk-btn-sm{font-size:11px;padding:5px 10px;color:var(--txt3)}
+.hk-btn-sm:hover{background:rgba(201,168,76,.06);color:var(--txt2)}
+.hk-btn-sm.active{background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.2);color:var(--g)}
+.hk-demo-badge{display:none;align-items:center;gap:5px;padding:4px 10px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:99px;font-size:10px;font-weight:700;color:var(--g);margin-left:auto}
 
-
-
-
-.hk-btn.active{background:rgba(155,111,232,.1);border-color:rgba(155,111,232,.3);color:#9b6fe8}
-
-.hk-page{display:none}.hk-page.active{display:block;animation:fadeUp .3s ease both}
+/* ─── LAYOUT ─── */
+.hk-page{display:none}.hk-page.active{display:block;animation:fadeUp .25s ease both}
 .hk-wrap{max-width:1200px;margin:0 auto;padding:24px 20px 80px}
 
-
+/* ─── CARDS ─── */
 .hk-card{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:20px;margin-bottom:14px}
-.hk-card-purple{border-color:rgba(155,111,232,.2);background:rgba(155,111,232,.03)}
+.hk-card-accent{border-color:rgba(201,168,76,.2);background:rgba(201,168,76,.04)}
 
-.hk-kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:18px}
-.hk-kpi{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px;text-align:center}
-.hk-kpi-val{font-size:1.8rem;font-weight:800;font-family:'DM Sans',sans-serif;line-height:1}
-.hk-kpi-lbl{font-size:11px;color:var(--txt3);margin-top:5px;font-weight:600}
+/* ─── KPI ─── */
+.hk-kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+.hk-kpi{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:16px;text-align:center}
+.hk-kpi-val{font-size:1.75rem;font-weight:800;font-family:'Syne',sans-serif;line-height:1}
+.hk-kpi-lbl{font-size:11px;color:var(--txt3);margin-top:5px;font-weight:600;letter-spacing:.4px}
 
+/* ─── TABLE ─── */
 .hk-table{width:100%;border-collapse:collapse}
-.hk-table th{background:rgba(155,111,232,.06);color:#9b6fe8;font-size:11px;font-weight:700;letter-spacing:.8px;padding:10px 14px;text-align:left;border-bottom:1px solid rgba(155,111,232,.15)}
+.hk-table th{background:rgba(201,168,76,.06);color:var(--g);font-size:11px;font-weight:700;letter-spacing:.8px;padding:10px 14px;text-align:left;border-bottom:1px solid rgba(201,168,76,.15);font-family:'Syne',sans-serif}
 .hk-table td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px;color:var(--txt2)}
 .hk-table tr:hover td{background:rgba(255,255,255,.02)}
 
+/* ─── BADGES ─── */
 .hk-badge{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:99px;font-size:10px;font-weight:700;border:1px solid}
-.hk-red{background:rgba(220,38,38,.1);color:#DC2626;border-color:rgba(220,38,38,.3)}
-.hk-orange{background:rgba(234,88,12,.1);color:#EA580C;border-color:rgba(234,88,12,.3)}
-.hk-amber{background:rgba(202,138,4,.1);color:#CA8A04;border-color:rgba(202,138,4,.3)}
-.hk-green{background:rgba(22,163,74,.1);color:#16A34A;border-color:rgba(22,163,74,.3)}
-.hk-blue{background:rgba(74,144,232,.1);color:#4a90e8;border-color:rgba(74,144,232,.3)}
-.hk-purple{background:rgba(155,111,232,.1);color:#9b6fe8;border-color:rgba(155,111,232,.3)}
+.hk-red{background:rgba(201,74,74,.1);color:var(--red);border-color:rgba(201,74,74,.3)}
+.hk-orange{background:rgba(212,128,58,.1);color:var(--orange);border-color:rgba(212,128,58,.3)}
+.hk-green{background:rgba(106,171,118,.1);color:var(--green);border-color:rgba(106,171,118,.3)}
+.hk-gold{background:rgba(201,168,76,.1);color:var(--g);border-color:rgba(201,168,76,.3)}
 .hk-muted{background:rgba(255,255,255,.05);color:var(--txt3);border-color:rgba(255,255,255,.08)}
 
+/* ─── PAGE HEADER ─── */
 .hk-page-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
-.hk-page-title{font-family:'DM Sans',sans-serif;font-size:1.4rem;font-weight:800;color:var(--txt)}
+.hk-page-title{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;color:var(--txt)}
 .hk-page-sub{font-size:12px;color:var(--txt3);margin-top:3px}
-.hk-refresh{padding:7px 14px;border-radius:8px;background:rgba(155,111,232,.1);border:1px solid rgba(155,111,232,.3);color:#9b6fe8;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s}
+.hk-refresh{padding:7px 14px;border-radius:8px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);color:var(--g);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s}
+.hk-refresh:hover{background:rgba(201,168,76,.18)}
 
-.hk-filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+/* ─── INPUTS ─── */
 .hk-input{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:8px 12px;color:var(--txt);font-size:12px;outline:none;font-family:inherit}
 .hk-input option{background:var(--bg2);color:var(--txt)}
 
-/* room grid */
-.hk-rooms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:14px}
-.hk-room-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:12px;text-align:center;cursor:pointer;transition:all .15s}
-.hk-room-card:hover{border-color:rgba(155,111,232,.3);transform:translateY(-2px)}
-.hk-room-num{font-family:'DM Sans',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:4px}
-.hk-room-type{font-size:10px;color:var(--txt3)}
+/* ─── BENCHMARK ─── */
+.hk-bench-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.hk-bench-val{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700}
 
-/* supplies alert */
-.hk-supply-alert{background:rgba(234,88,12,.08);border:1px solid rgba(234,88,12,.25);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:#EA580C}
-
-/* kpi benchmark */
-.hk-benchmark-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05)}
-.hk-benchmark-label{font-size:13px;color:var(--txt2)}
-.hk-benchmark-val{font-family:'DM Sans',sans-serif;font-size:1.2rem;font-weight:700}
-.hk-benchmark-ref{font-size:11px;color:var(--txt3)}
+/* ─── SUPPLY ALERT ─── */
+.hk-supply-alert{background:rgba(212,128,58,.08);border:1px solid rgba(212,128,58,.25);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:var(--orange)}
 </style>
-
 <link rel="stylesheet" href="bad360-ds.css">
+<script src="bad360-sdk.js"></script>
 </head>
 <body class="b360-module">
+
+<!-- TOPBAR -->
 <header class="b360-topbar" id="b360-topbar">
-<div class="b360-tb-l">
-<a href="index.html" class="b360-tb-back" title="Torna alla Suite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a>
-<a href="index.html" class="b360-tb-brand" tabindex="-1"><div class="b360-tb-logo">B360</div><span class="b360-tb-name">BAD<strong>360</strong>.ai</span></a>
-<span class="b360-tb-sep"></span>
-<span class="b360-tb-module" id="b360-page-label">Suite</span>
-</div>
-<div class="b360-tb-r">
-<span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.0</span>
-<button class="b360-tb-theme" id="b360-theme-btn" title="Cambia tema">&#9790;</button>
-</div>
+  <div class="b360-tb-l">
+    <a href="index.html" class="b360-tb-back" title="Suite">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </a>
+    <a href="index.html" class="b360-tb-brand" tabindex="-1">
+      <div class="b360-tb-logo">B360</div>
+      <span class="b360-tb-name">BAD<strong>360</strong>.ai</span>
+    </a>
+    <span class="b360-tb-sep"></span>
+    <span class="b360-tb-module" id="b360-page-label">Suite</span>
+  </div>
+  <div class="b360-tb-r">
+    <span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.1</span>
+    <button class="b360-tb-theme" id="b360-theme-btn" title="Tema">☽</button>
+  </div>
 </header>
-<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"&#9790;":"&#9788;";b.addEventListener("click",function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"&#9790;":"&#9788;";try{localStorage.setItem("bad360_theme",nt)}catch(e){}});}var lbl=document.getElementById("b360-page-label");if(lbl){var title=document.title.replace("BAD360.ai — ","").replace("BAD.S — ","").replace("BAD360 — ","");if(title&&title!==document.title)lbl.textContent=title;}});})()</script>
-<div class="hk-root">
-  <!-- ══════ PAGE: CAMERE ══════ -->
-  <div class="hk-page active" id="hk-page-rooms">
-    <div class="hk-wrap">
-      <div class="hk-page-hdr">
-        <div>
-          <div class="hk-page-title">🛏️ Status Camere</div>
-          <div class="hk-page-sub">Stato real-time — aggiornamento automatico ogni turno</div>
-        </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-          <select id="hk-filter-stato" class="hk-input" onchange="hkLoadRooms()">
-            <option value="">Tutti gli stati</option>
-            <option value="da_pulire">Da pulire</option>
-            <option value="in_pulizia">In pulizia</option>
-            <option value="pulita">Pulita</option>
-            <option value="ispezionata">Ispezionata</option>
-            <option value="fuori_servizio">Fuori servizio</option>
-          </select>
-          <button class="hk-refresh" onclick="hkLoadRooms()">↻ Aggiorna</button>
-        </div>
-      </div>
-      <div class="hk-kpi-grid" id="hk-kpi-rooms"></div>
-      <div class="hk-card" style="padding:0;overflow:hidden">
-        <div style="overflow-x:auto">
-          <table class="hk-table">
-            <thead><tr><th>Camera</th><th>Piano</th><th>Tipo</th><th>Stato HK</th><th>Occupazione</th><th>Priorità</th></tr></thead>
-            <tbody id="hk-rooms-tbody"><tr><td colspan="6" style="text-align:center;color:var(--txt3);padding:24px">Caricamento…</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"☽":"☀";b.addEventListener("click",function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"☽":"☀";try{localStorage.setItem("bad360_theme",nt)}catch(e){}});}var lbl=document.getElementById("b360-page-label");if(lbl){var title=document.title.replace("BAD360.ai — ","");if(title)lbl.textContent=title;}});})()</script>
+
+<!-- SUBNAV -->
+<nav class="hk-nav">
+  <div class="hk-nav-group">
+    <button class="hk-btn active" data-hkpage="rooms" onclick="hkNav('rooms')">🛏️ Camere</button>
+    <button class="hk-btn" data-hkpage="tasks" onclick="hkNav('tasks')">📋 Task</button>
+    <button class="hk-btn" data-hkpage="supplies" onclick="hkNav('supplies')">🧴 Forniture</button>
+    <button class="hk-btn" data-hkpage="laundry" onclick="hkNav('laundry')">👕 Lavanderia</button>
+    <button class="hk-btn" data-hkpage="kpi" onclick="hkNav('kpi')">📊 KPI</button>
   </div>
-
-  <!-- ══════ PAGE: TASK ══════ -->
-  <div class="hk-page" id="hk-page-tasks">
-    <div class="hk-wrap">
-      <div class="hk-page-hdr">
-        <div>
-          <div class="hk-page-title">📋 Task Giornalieri</div>
-          <div id="hk-task-date" class="hk-page-sub">Giornata in corso</div>
-        </div>
-        <button class="hk-refresh" onclick="hkLoadTasks()">↻ Aggiorna</button>
-      </div>
-      <div class="hk-kpi-grid" id="hk-kpi-tasks"></div>
-      <div class="hk-card" style="padding:0;overflow:hidden">
-        <div style="overflow-x:auto">
-          <table class="hk-table">
-            <thead><tr><th>Camera</th><th>Tipo</th><th>Stato</th><th>Priorità</th><th>Durata est.</th></tr></thead>
-            <tbody id="hk-tasks-tbody"><tr><td colspan="5" style="text-align:center;color:var(--txt3);padding:24px">Caricamento…</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+  <div class="hk-nav-sep"></div>
+  <div class="hk-nav-group">
+    <button class="hk-btn hk-btn-sm" data-hkpage="inspections" onclick="hkNav('inspections')">✅ Ispezioni</button>
+    <button class="hk-btn hk-btn-sm" data-hkpage="maintenance" onclick="hkNav('maintenance')">🔧 Manutenzione</button>
+    <button class="hk-btn hk-btn-sm" data-hkpage="staffperf" onclick="hkNav('staffperf')">🏆 Staff</button>
+    <button class="hk-btn hk-btn-sm" data-hkpage="lostfound" onclick="hkNav('lostfound')">📦 Lost&Found</button>
+    <button class="hk-btn hk-btn-sm" data-hkpage="minibar" onclick="hkNav('minibar')">🍫 Minibar</button>
+    <button class="hk-btn hk-btn-sm" data-hkpage="deepclean" onclick="hkNav('deepclean')">🧹 Deep Clean</button>
   </div>
+  <span class="hk-demo-badge" id="hk-demo-badge">⚡ Demo</span>
+</nav>
 
-  <!-- ══════ PAGE: FORNITURE ══════ -->
-  <div class="hk-page" id="hk-page-supplies">
-    <div class="hk-wrap">
-      <div class="hk-page-hdr">
-        <div>
-          <div class="hk-page-title">🧴 Forniture Housekeeping</div>
-          <div class="hk-page-sub">Giacenze e punti di riordino — gestione stock operativo</div>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-          <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:#8a8aaa;cursor:pointer">
-            <input type="checkbox" id="hk-solo-alert" onchange="hkLoadSupplies()" style="accent-color:#9b6fe8"> Solo alert
-          </label>
-          <button class="hk-refresh" onclick="hkLoadSupplies()">↻ Aggiorna</button>
-        </div>
+<!-- ══ CAMERE ══ -->
+<div class="hk-page active" id="hk-page-rooms">
+  <div class="hk-wrap">
+    <div class="hk-page-hdr">
+      <div>
+        <div class="hk-page-title">🛏️ Status Camere</div>
+        <div class="hk-page-sub">Stato real-time — aggiornamento automatico ogni turno</div>
       </div>
-      <div id="hk-supplies-alert-banner"></div>
-      <div class="hk-card" style="padding:0;overflow:hidden">
-        <div style="overflow-x:auto">
-          <table class="hk-table">
-            <thead><tr><th>Articolo</th><th>Cat.</th><th>Giacenza</th><th>Par Level</th><th>Riordino</th><th>Status</th></tr></thead>
-            <tbody id="hk-supplies-tbody"><tr><td colspan="6" style="text-align:center;color:var(--txt3);padding:24px">Caricamento…</td></tr></tbody>
-          </table>
-        </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <select id="hk-filter-stato" class="hk-input" onchange="hkLoadRooms()">
+          <option value="">Tutti gli stati</option>
+          <option value="da_pulire">Da pulire</option>
+          <option value="in_pulizia">In pulizia</option>
+          <option value="pulita">Pulita</option>
+          <option value="ispezionata">Ispezionata</option>
+          <option value="fuori_servizio">Fuori servizio</option>
+        </select>
+        <button class="hk-refresh" onclick="hkLoadRooms()">↻ Aggiorna</button>
       </div>
     </div>
-  </div>
-
-  <!-- ══════ PAGE: LAVANDERIA ══════ -->
-  <div class="hk-page" id="hk-page-laundry">
-    <div class="hk-wrap">
-      <div class="hk-page-hdr">
-        <div>
-          <div class="hk-page-title">👕 Lavanderia</div>
-          <div class="hk-page-sub">Cicli, costi e NC biancheria · EN 14065:2016</div>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-          <select id="hk-laundry-anno" class="hk-input" onchange="hkLoadLaundry()">
-            <option value="2026">2026</option><option value="2025">2025</option>
-          </select>
-          <select id="hk-laundry-mese" class="hk-input" onchange="hkLoadLaundry()">
-            <option value="4">Aprile</option><option value="3">Marzo</option>
-            <option value="2">Febbraio</option><option value="1">Gennaio</option>
-          </select>
-          <button class="hk-refresh" onclick="hkLoadLaundry()">↻ Aggiorna</button>
-        </div>
+    <div class="hk-kpi-grid" id="hk-kpi-rooms"></div>
+    <div class="hk-card" style="padding:0;overflow:hidden">
+      <div style="overflow-x:auto">
+        <table class="hk-table">
+          <thead><tr><th>Camera</th><th>Piano</th><th>Tipo</th><th>Stato HK</th><th>Occupazione</th><th>Priorità</th></tr></thead>
+          <tbody id="hk-rooms-tbody"><tr><td colspan="6" style="text-align:center;color:var(--txt3);padding:24px">Caricamento…</td></tr></tbody>
+        </table>
       </div>
-      <div class="hk-kpi-grid" id="hk-laundry-kpi"></div>
-      <div id="hk-laundry-detail"></div>
     </div>
-  </div>
-
-  <!-- ══════ PAGE: KPI ══════ -->
-  <div class="hk-page" id="hk-page-kpi">
-    <div class="hk-wrap">
-      <div class="hk-page-hdr">
-        <div>
-          <div class="hk-page-title">📊 KPI Housekeeping</div>
-          <div class="hk-page-sub">Benchmark operativo · camere/ora · NC rate · costo/camera</div>
-        </div>
-        <button class="hk-refresh" onclick="hkLoadKpi()">↻ Aggiorna</button>
-      </div>
-      <div class="hk-kpi-grid" id="hk-kpi-grid"></div>
-      <div id="hk-benchmark-card"></div>
-    </div>
-  <div class="hk-page" id="hk-page-inspections"><div class="hk-wrap" id="hk-inspections-c"></div></div>
-  <div class="hk-page" id="hk-page-maintenance"><div class="hk-wrap" id="hk-maintenance-c"></div></div>
-  <div class="hk-page" id="hk-page-staffperf"><div class="hk-wrap" id="hk-staffperf-c"></div></div>
-  <div class="hk-page" id="hk-page-lostfound"><div class="hk-wrap" id="hk-lostfound-c"></div></div>
-  <div class="hk-page" id="hk-page-minibar"><div class="hk-wrap" id="hk-minibar-c"></div></div>
-  <div class="hk-page" id="hk-page-deepclean"><div class="hk-wrap" id="hk-deepclean-c"></div></div>
-
   </div>
 </div>
+
+<!-- ══ TASK ══ -->
+<div class="hk-page" id="hk-page-tasks">
+  <div class="hk-wrap">
+    <div class="hk-page-hdr">
+      <div>
+        <div class="hk-page-title">📋 Task Giornalieri</div>
+        <div id="hk-task-date" class="hk-page-sub">Giornata in corso</div>
+      </div>
+      <button class="hk-refresh" onclick="hkLoadTasks()">↻ Aggiorna</button>
+    </div>
+    <div class="hk-kpi-grid" id="hk-kpi-tasks"></div>
+    <div class="hk-card" style="padding:0;overflow:hidden">
+      <div style="overflow-x:auto">
+        <table class="hk-table">
+          <thead><tr><th>Camera</th><th>Tipo</th><th>Stato</th><th>Priorità</th><th>Durata est.</th></tr></thead>
+          <tbody id="hk-tasks-tbody"><tr><td colspan="5" style="text-align:center;color:var(--txt3);padding:24px">Caricamento…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FORNITURE ══ -->
+<div class="hk-page" id="hk-page-supplies">
+  <div class="hk-wrap">
+    <div class="hk-page-hdr">
+      <div>
+        <div class="hk-page-title">🧴 Forniture Housekeeping</div>
+        <div class="hk-page-sub">Giacenze e punti di riordino — gestione stock operativo</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--txt2);cursor:pointer">
+          <input type="checkbox" id="hk-solo-alert" onchange="hkLoadSupplies()" style="accent-color:var(--g)"> Solo alert
+        </label>
+        <button class="hk-refresh" onclick="hkLoadSupplies()">↻ Aggiorna</button>
+      </div>
+    </div>
+    <div id="hk-supplies-alert-banner"></div>
+    <div class="hk-card" style="padding:0;overflow:hidden">
+      <div style="overflow-x:auto">
+        <table class="hk-table">
+          <thead><tr><th>Articolo</th><th>Cat.</th><th>Giacenza</th><th>Par Level</th><th>Riordino</th><th>Status</th></tr></thead>
+          <tbody id="hk-supplies-tbody"><tr><td colspan="6" style="text-align:center;color:var(--txt3);padding:24px">Caricamento…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LAVANDERIA ══ -->
+<div class="hk-page" id="hk-page-laundry">
+  <div class="hk-wrap">
+    <div class="hk-page-hdr">
+      <div>
+        <div class="hk-page-title">👕 Lavanderia</div>
+        <div class="hk-page-sub">Cicli, costi e NC biancheria · EN 14065:2016</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <select id="hk-laundry-anno" class="hk-input" onchange="hkLoadLaundry()">
+          <option value="2026">2026</option><option value="2025">2025</option>
+        </select>
+        <select id="hk-laundry-mese" class="hk-input" onchange="hkLoadLaundry()">
+          <option value="5">Maggio</option><option value="4">Aprile</option>
+          <option value="3">Marzo</option><option value="2">Febbraio</option><option value="1">Gennaio</option>
+        </select>
+        <button class="hk-refresh" onclick="hkLoadLaundry()">↻ Aggiorna</button>
+      </div>
+    </div>
+    <div class="hk-kpi-grid" id="hk-laundry-kpi"></div>
+    <div id="hk-laundry-detail"></div>
+  </div>
+</div>
+
+<!-- ══ KPI ══ -->
+<div class="hk-page" id="hk-page-kpi">
+  <div class="hk-wrap">
+    <div class="hk-page-hdr">
+      <div>
+        <div class="hk-page-title">📊 KPI Housekeeping</div>
+        <div class="hk-page-sub">Benchmark operativo · camere/ora · NC rate · costo/camera</div>
+      </div>
+      <button class="hk-refresh" onclick="hkLoadKpi()">↻ Aggiorna</button>
+    </div>
+    <div class="hk-kpi-grid" id="hk-kpi-grid"></div>
+    <div id="hk-benchmark-card"></div>
+  </div>
+</div>
+
+<!-- ══ EXTENDED MODULES ══ -->
+<div class="hk-page" id="hk-page-inspections"><div class="hk-wrap" id="hk-inspections-c"></div></div>
+<div class="hk-page" id="hk-page-maintenance"><div class="hk-wrap" id="hk-maintenance-c"></div></div>
+<div class="hk-page" id="hk-page-staffperf"><div class="hk-wrap" id="hk-staffperf-c"></div></div>
+<div class="hk-page" id="hk-page-lostfound"><div class="hk-wrap" id="hk-lostfound-c"></div></div>
+<div class="hk-page" id="hk-page-minibar"><div class="hk-wrap" id="hk-minibar-c"></div></div>
+<div class="hk-page" id="hk-page-deepclean"><div class="hk-wrap" id="hk-deepclean-c"></div></div>
 
 <script>
 const BADS_API_HK = window.location.origin;
 const BADS_HID_HK = (typeof localStorage !== 'undefined' && localStorage.getItem('hotel_id')) || 'demo';
 
+const G = 'var(--g)';
+const GREEN = 'var(--green)';
+const RED = 'var(--red)';
+const ORANGE = 'var(--orange)';
+
 function hkDate(d){ return d ? new Date(d).toLocaleDateString('it-IT') : '—'; }
-function hkKpi(val,lbl,icon,color='#9b6fe8'){
-  return `<div class="hk-kpi"><div style="font-size:20px">${icon}</div><div class="hk-kpi-val" style="color:${color}">${val}</div><div class="hk-kpi-lbl">${lbl}</div></div>`;
+
+function hkKpi(val, lbl, icon, color){
+  color = color || G;
+  return `<div class="hk-kpi"><div style="font-size:18px">${icon}</div><div class="hk-kpi-val" style="color:${color}">${val}</div><div class="hk-kpi-lbl">${lbl}</div></div>`;
 }
-function hkAlert(msg,type='error'){
-  const c=type==='ok'?'#22c97a':type==='warn'?'#e8a830':'#e03e50';
-  return `<div style="background:${c}18;border:1px solid ${c}44;border-radius:9px;padding:10px 14px;color:${c};font-size:13px">${msg}</div>`;
+
+function hkSetDemo(show){
+  const b = document.getElementById('hk-demo-badge');
+  if(b) b.style.display = show ? 'inline-flex' : 'none';
 }
+
 async function hkGet(path){
-  const r=await fetch(BADS_API_HK+path);
+  const r = await fetch(BADS_API_HK + path);
   if(!r.ok) throw new Error(r.status);
   return r.json();
 }
-function hkSetDemo(show){
-  const b=document.getElementById('hk-demo-badge');
-  if(b) b.style.display=show?'inline-flex':'none';
+
+function hkNav(p){
+  document.querySelectorAll('.hk-page').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.hk-btn').forEach(b => b.classList.toggle('active', b.dataset.hkpage === p));
+  const el = document.getElementById('hk-page-' + p);
+  if(el) el.classList.add('active');
+  const loaders = {
+    rooms: hkLoadRooms, tasks: hkLoadTasks, supplies: hkLoadSupplies,
+    laundry: hkLoadLaundry, kpi: hkLoadKpi,
+    inspections: renderHKInspections, maintenance: renderHKMaintenance,
+    staffperf: renderHKStaffPerf, lostfound: renderHKLostFound,
+    minibar: renderHKMinibar, deepclean: renderHKDeepClean
+  };
+  if(loaders[p]) loaders[p]();
 }
 
-// ── DEMO DATA ──────────────────────────────────────────────────
+/* ── DEMO DATA ── */
 const HK_DEMO = {
   rooms:{
     totale:42, da_pulire:8, in_pulizia:4, pulite:27, ispezionate:3,
@@ -258,7 +306,7 @@ const HK_DEMO = {
     ]
   },
   tasks:{
-    data:'2026-04-22',
+    data:'2026-05-28',
     riepilogo:{totale:18,completati:11,in_corso:4,da_fare:3},
     tasks:[
       {camera:'102',tipo:'partenza',stato:'in_corso',priorita:1,durata_stimata:45},
@@ -275,7 +323,7 @@ const HK_DEMO = {
     supplies:[
       {nome:'Shampoo 30ml mignon',categoria:'Cortesia',giacenza_attuale:180,par_level:400,punto_riordino:200,alert:true},
       {nome:'Conditioner 30ml mignon',categoria:'Cortesia',giacenza_attuale:210,par_level:400,punto_riordino:200,alert:false},
-      {nome:'Sapone solido avvoltolato',categoria:'Cortesia',giacenza_attuale:95,par_level:300,punto_riordino:150,alert:true},
+      {nome:'Sapone solido avvolto',categoria:'Cortesia',giacenza_attuale:95,par_level:300,punto_riordino:150,alert:true},
       {nome:'Detergente multiuso spray',categoria:'Sanificanti',giacenza_attuale:12,par_level:30,punto_riordino:15,alert:true},
       {nome:'Candeggina profumata 1L',categoria:'Sanificanti',giacenza_attuale:8,par_level:20,punto_riordino:10,alert:true},
       {nome:'Lenzuola 160×200 bianco',categoria:'Biancheria',giacenza_attuale:84,par_level:120,punto_riordino:60,alert:false},
@@ -284,14 +332,12 @@ const HK_DEMO = {
     ]
   },
   laundry:{
-    periodo:'Aprile 2026',
-    cicli_totali:127,pezzi_ritirati:2840,pezzi_ricevuti:2815,
-    tasso_scarto_pct:0.88,costo_totale_euro:1423.50,
-    nc_rilevate:2,costo_medio_ciclo:11.21,
-    nota:'2 NC per macchie non rimosse su lenzuola — in verifica con fornitore Laundry Express Hotel'
+    periodo:'Maggio 2026', cicli_totali:127, pezzi_ritirati:2840, pezzi_ricevuti:2815,
+    tasso_scarto_pct:0.88, costo_totale_euro:1423.50, nc_rilevate:2, costo_medio_ciclo:11.21,
+    nota:'2 NC per macchie non rimosse su lenzuola — in verifica con fornitore Laundry Express'
   },
   kpi:{
-    camere_ora:3.2,minuti_camera:19,nc_rate_pct:2.4,costo_camera:8.50,
+    camere_ora:3.2, minuti_camera:19, nc_rate_pct:2.4, costo_camera:8.50,
     benchmark:{
       camere_ora:{valore:3.2,target:3.5,diff:-0.3,unit:' cam/h'},
       nc_rate_pct:{valore:2.4,target:2.0,diff:0.4,unit:'%'},
@@ -301,164 +347,169 @@ const HK_DEMO = {
   }
 };
 
-const HK_STATO_COLOR={da_pulire:'#DC2626',in_pulizia:'#EA580C',pulita:'#22c97a',ispezionata:'#4a90e8',fuori_servizio:'var(--txt3)'};
-const HK_OCC_COLOR={libera:'#22c97a',occupata:'#9b6fe8',in_partenza:'#e8a830',bloccata:'#DC2626'};
-const HK_TASK_COLOR={completato:'#22c97a',in_corso:'#EA580C',assegnato:'#4a90e8',nc:'#DC2626'};
+/* status → color (CSS variables, not hex) */
+const HK_STATO_COLOR = {
+  da_pulire: 'var(--red)', in_pulizia: 'var(--orange)',
+  pulita: 'var(--green)', ispezionata: 'var(--g)', fuori_servizio: 'var(--txt3)'
+};
+const HK_OCC_COLOR = {
+  libera: 'var(--green)', occupata: 'var(--txt2)',
+  in_partenza: 'var(--orange)', bloccata: 'var(--red)'
+};
+const HK_TASK_COLOR = {
+  completato: 'var(--green)', in_corso: 'var(--orange)',
+  assegnato: 'var(--g)', nc: 'var(--red)'
+};
 
-function hkSwitchPage(p){
-  document.querySelectorAll('.hk-page').forEach(el=>el.classList.remove('active'));
-  document.querySelectorAll('.hk-btn').forEach(b=>b.classList.toggle('active',b.dataset.hkpage===p));
-  const el=document.getElementById('hk-page-'+p);
-  if(el) el.classList.add('active');
-  if(p==='rooms') hkLoadRooms();
-  else if(p==='tasks') hkLoadTasks();
-  else if(p==='supplies') hkLoadSupplies();
-  else if(p==='laundry') hkLoadLaundry();
-  else if(p==='kpi') hkLoadKpi();
-}
-
+/* ── CAMERE ── */
 async function hkLoadRooms(){
-  const tbody=document.getElementById('hk-rooms-tbody');
-  const kpi=document.getElementById('hk-kpi-rooms');
+  const tbody = document.getElementById('hk-rooms-tbody');
+  const kpi = document.getElementById('hk-kpi-rooms');
   if(!tbody) return;
-  let d, demo=false;
+  let d, demo = false;
   try{
-    const stato=document.getElementById('hk-filter-stato')?.value||'';
-    d=await hkGet(`/api/hk/rooms?hotel_id=${BADS_HID_HK}`+(stato?`&stato_hk=${stato}`:''));
-    if(!(d.rooms||[]).length){ d=HK_DEMO.rooms; demo=true; }
-  }catch(e){ d=HK_DEMO.rooms; demo=true; }
+    const stato = document.getElementById('hk-filter-stato')?.value || '';
+    d = await hkGet(`/api/hk/rooms?hotel_id=${BADS_HID_HK}`+(stato?`&stato_hk=${stato}`:''));
+    if(!(d.rooms||[]).length){ d = HK_DEMO.rooms; demo = true; }
+  }catch(e){ d = HK_DEMO.rooms; demo = true; }
   hkSetDemo(demo);
-  const statoFilt=document.getElementById('hk-filter-stato')?.value||'';
-  let rooms=d.rooms||[];
-  if(demo && statoFilt) rooms=rooms.filter(r=>r.stato_hk===statoFilt);
-  if(kpi) kpi.innerHTML=
-    hkKpi(d.totale||rooms.length,'Camere Totali','🛏️','#9b6fe8')+
-    hkKpi(d.da_pulire||0,'Da Pulire','🧹',d.da_pulire>0?'#DC2626':'#22c97a')+
-    hkKpi(d.in_pulizia||0,'In Pulizia','⚙️','#EA580C')+
-    hkKpi(d.pulite||0,'Pulite','✅','#22c97a')+
-    hkKpi(d.ispezionate||0,'Ispezionate','🔍','#4a90e8');
-  tbody.innerHTML=rooms.length?rooms.map(r=>`<tr>
+  const statoFilt = document.getElementById('hk-filter-stato')?.value || '';
+  let rooms = d.rooms || [];
+  if(demo && statoFilt) rooms = rooms.filter(r => r.stato_hk === statoFilt);
+  if(kpi) kpi.innerHTML =
+    hkKpi(d.totale||rooms.length, 'Camere Totali', '🛏️') +
+    hkKpi(d.da_pulire||0, 'Da Pulire', '🧹', (d.da_pulire||0)>0?RED:GREEN) +
+    hkKpi(d.in_pulizia||0, 'In Pulizia', '⚙️', ORANGE) +
+    hkKpi(d.pulite||0, 'Pulite', '✅', GREEN) +
+    hkKpi(d.ispezionate||0, 'Ispezionate', '🔍', G);
+  tbody.innerHTML = rooms.length ? rooms.map(r=>`<tr>
     <td><strong>${r.numero}</strong></td>
     <td style="color:var(--txt3)">${r.piano}° piano</td>
-    <td style="font-size:12px;color:#8a8aaa">${r.tipo||'—'}</td>
-    <td><span class="hk-badge" style="background:${HK_STATO_COLOR[r.stato_hk]||'var(--txt3)'}18;color:${HK_STATO_COLOR[r.stato_hk]||'var(--txt3)'};border-color:${HK_STATO_COLOR[r.stato_hk]||'var(--txt3)'}40">${r.stato_hk?.replace(/_/g,' ')||'—'}</span></td>
-    <td><span style="color:${HK_OCC_COLOR[r.stato_occupazione]||'var(--txt3)'};font-size:12px">${r.stato_occupazione?.replace(/_/g,' ')||'—'}</span></td>
-    <td><span style="color:${r.priorita===1?'#DC2626':'#4a90e8'}">${r.priorita===1?'🔴 Urgente':'🔵 Standard'}</span></td>
-  </tr>`).join('')
-  :`<tr><td colspan="6" style="text-align:center;color:var(--txt3);padding:30px">Nessuna camera trovata</td></tr>`;
+    <td style="font-size:12px;color:var(--txt3)">${r.tipo||'—'}</td>
+    <td><span class="hk-badge" style="background:${HK_STATO_COLOR[r.stato_hk]||'var(--txt3)'}1a;color:${HK_STATO_COLOR[r.stato_hk]||'var(--txt3)'};border-color:${HK_STATO_COLOR[r.stato_hk]||'var(--txt3)'}40">${(r.stato_hk||'').replace(/_/g,' ')||'—'}</span></td>
+    <td style="color:${HK_OCC_COLOR[r.stato_occupazione]||'var(--txt3)'};font-size:12px">${(r.stato_occupazione||'').replace(/_/g,' ')||'—'}</td>
+    <td><span style="color:${r.priorita===1?RED:G}">${r.priorita===1?'🔴 Urgente':'🟡 Standard'}</span></td>
+  </tr>`).join('') :
+  `<tr><td colspan="6" style="text-align:center;color:var(--txt3);padding:30px">Nessuna camera trovata</td></tr>`;
 }
 
+/* ── TASK ── */
 async function hkLoadTasks(){
-  const tbody=document.getElementById('hk-tasks-tbody');
-  const kpi=document.getElementById('hk-kpi-tasks');
-  const dateEl=document.getElementById('hk-task-date');
+  const tbody = document.getElementById('hk-tasks-tbody');
+  const kpi = document.getElementById('hk-kpi-tasks');
+  const dateEl = document.getElementById('hk-task-date');
   if(!tbody) return;
-  let d, demo=false;
+  let d, demo = false;
   try{
-    d=await hkGet(`/api/hk/tasks/daily?hotel_id=${BADS_HID_HK}`);
-    if(!(d.tasks||[]).length){ d=HK_DEMO.tasks; demo=true; }
-  }catch(e){ d=HK_DEMO.tasks; demo=true; }
+    d = await hkGet(`/api/hk/tasks/daily?hotel_id=${BADS_HID_HK}`);
+    if(!(d.tasks||[]).length){ d = HK_DEMO.tasks; demo = true; }
+  }catch(e){ d = HK_DEMO.tasks; demo = true; }
   hkSetDemo(demo);
-  const tasks=d.tasks||[];
-  if(dateEl) dateEl.textContent=`Giornata del ${hkDate(d.data)||'oggi'}`;
-  if(kpi) kpi.innerHTML=
-    hkKpi(d.riepilogo?.totale||tasks.length,'Task Totali','📋','#9b6fe8')+
-    hkKpi(d.riepilogo?.completati||0,'Completati','✅','#22c97a')+
-    hkKpi(d.riepilogo?.in_corso||0,'In Corso','⚙️','#EA580C')+
-    hkKpi(d.riepilogo?.da_fare||0,'Da Fare','🕐','#DC2626');
-  tbody.innerHTML=tasks.length?tasks.map(t=>`<tr>
+  const tasks = d.tasks || [];
+  if(dateEl) dateEl.textContent = `Giornata del ${hkDate(d.data)||'oggi'}`;
+  if(kpi) kpi.innerHTML =
+    hkKpi(d.riepilogo?.totale||tasks.length, 'Task Totali', '📋') +
+    hkKpi(d.riepilogo?.completati||0, 'Completati', '✅', GREEN) +
+    hkKpi(d.riepilogo?.in_corso||0, 'In Corso', '⚙️', ORANGE) +
+    hkKpi(d.riepilogo?.da_fare||0, 'Da Fare', '🕐', RED);
+  tbody.innerHTML = tasks.length ? tasks.map(t=>`<tr>
     <td><strong>${t.camera||'—'}</strong></td>
-    <td style="font-size:12px">${t.tipo?.replace(/_/g,' ')||'—'}</td>
-    <td><span class="hk-badge" style="background:${HK_TASK_COLOR[t.stato]||'var(--txt3)'}18;color:${HK_TASK_COLOR[t.stato]||'var(--txt3)'};border-color:${HK_TASK_COLOR[t.stato]||'var(--txt3)'}40">${t.stato?.replace(/_/g,' ')||'—'}</span></td>
-    <td><span style="color:${t.priorita===1?'#DC2626':'#4a90e8'}">${t.priorita===1?'🔴':'🔵'} P${t.priorita}</span></td>
-    <td style="font-family:'DM Mono',monospace;font-size:12px;color:#9b6fe8">${t.durata_stimata||'—'} min</td>
-  </tr>`).join('')
-  :`<tr><td colspan="5" style="text-align:center;color:var(--txt3);padding:30px">Nessun task oggi</td></tr>`;
+    <td style="font-size:12px">${(t.tipo||'').replace(/_/g,' ')||'—'}</td>
+    <td><span class="hk-badge" style="background:${HK_TASK_COLOR[t.stato]||'var(--txt3)'}1a;color:${HK_TASK_COLOR[t.stato]||'var(--txt3)'};border-color:${HK_TASK_COLOR[t.stato]||'var(--txt3)'}40">${(t.stato||'').replace(/_/g,' ')||'—'}</span></td>
+    <td><span style="color:${t.priorita===1?RED:G}">${t.priorita===1?'🔴':'🟡'} P${t.priorita}</span></td>
+    <td style="font-family:'DM Mono',monospace;font-size:12px;color:var(--g)">${t.durata_stimata||'—'} min</td>
+  </tr>`).join('') :
+  `<tr><td colspan="5" style="text-align:center;color:var(--txt3);padding:30px">Nessun task oggi</td></tr>`;
 }
 
+/* ── FORNITURE ── */
 async function hkLoadSupplies(){
-  const tbody=document.getElementById('hk-supplies-tbody');
-  const banner=document.getElementById('hk-supplies-alert-banner');
+  const tbody = document.getElementById('hk-supplies-tbody');
+  const banner = document.getElementById('hk-supplies-alert-banner');
   if(!tbody) return;
-  let d, demo=false;
+  let d, demo = false;
   try{
-    const soloAlert=document.getElementById('hk-solo-alert')?.checked||false;
-    d=await hkGet(`/api/hk/supplies?hotel_id=${BADS_HID_HK}&solo_alert=${soloAlert}`);
-    if(!(d.supplies||[]).length){ d=HK_DEMO.supplies; demo=true; }
-  }catch(e){ d=HK_DEMO.supplies; demo=true; }
+    const soloAlert = document.getElementById('hk-solo-alert')?.checked || false;
+    d = await hkGet(`/api/hk/supplies?hotel_id=${BADS_HID_HK}&solo_alert=${soloAlert}`);
+    if(!(d.supplies||[]).length){ d = HK_DEMO.supplies; demo = true; }
+  }catch(e){ d = HK_DEMO.supplies; demo = true; }
   hkSetDemo(demo);
-  const soloAlert=document.getElementById('hk-solo-alert')?.checked||false;
-  let supplies=d.supplies||[];
-  if(demo && soloAlert) supplies=supplies.filter(s=>s.alert);
-  if(banner && d.alert_count>0)
-    banner.innerHTML=`<div class="hk-supply-alert">⚠️ ${d.alert_count} articoli sotto il punto di riordino — riordinare subito</div>`;
-  else if(banner) banner.innerHTML='';
-  tbody.innerHTML=supplies.length?supplies.map(s=>{
-    const alert=s.alert||s.giacenza_attuale<=(s.punto_riordino||0);
+  const soloAlert = document.getElementById('hk-solo-alert')?.checked || false;
+  let supplies = d.supplies || [];
+  if(demo && soloAlert) supplies = supplies.filter(s => s.alert);
+  if(banner && (d.alert_count||0)>0)
+    banner.innerHTML = `<div class="hk-supply-alert">⚠️ ${d.alert_count} articoli sotto il punto di riordino — riordinare subito</div>`;
+  else if(banner) banner.innerHTML = '';
+  tbody.innerHTML = supplies.length ? supplies.map(s=>{
+    const alert = s.alert || s.giacenza_attuale <= (s.punto_riordino||0);
     return `<tr>
       <td><strong>${s.nome}</strong></td>
-      <td style="font-size:11px;color:#8a8aaa">${s.categoria||'—'}</td>
-      <td style="color:${alert?'#DC2626':'#22c97a'};font-weight:700">${s.giacenza_attuale}</td>
+      <td style="font-size:11px;color:var(--txt3)">${s.categoria||'—'}</td>
+      <td style="color:${alert?RED:GREEN};font-weight:700">${s.giacenza_attuale}</td>
       <td style="color:var(--txt3)">${s.par_level||'—'}</td>
       <td>${s.punto_riordino||'—'}</td>
       <td>${alert?'<span class="hk-badge hk-red">⚠️ ALERT</span>':'<span class="hk-badge hk-green">✅ OK</span>'}</td>
     </tr>`;
-  }).join(''):`<tr><td colspan="6" style="text-align:center;color:var(--txt3);padding:30px">Nessuna fornitura trovata</td></tr>`;
+  }).join('') :
+  `<tr><td colspan="6" style="text-align:center;color:var(--txt3);padding:30px">Nessuna fornitura trovata</td></tr>`;
 }
 
+/* ── LAVANDERIA ── */
 async function hkLoadLaundry(){
-  const kpi=document.getElementById('hk-laundry-kpi');
-  const detail=document.getElementById('hk-laundry-detail');
+  const kpi = document.getElementById('hk-laundry-kpi');
+  const detail = document.getElementById('hk-laundry-detail');
   if(!kpi) return;
-  const anno=document.getElementById('hk-laundry-anno')?.value||2026;
-  const mese=document.getElementById('hk-laundry-mese')?.value||4;
-  let d, demo=false;
+  const anno = document.getElementById('hk-laundry-anno')?.value || 2026;
+  const mese = document.getElementById('hk-laundry-mese')?.value || 5;
+  let d, demo = false;
   try{
-    d=await hkGet(`/api/hk/laundry/summary?hotel_id=${BADS_HID_HK}&anno=${anno}&mese=${mese}`);
-    if(!d.cicli_totali){ d=HK_DEMO.laundry; demo=true; }
-  }catch(e){ d=HK_DEMO.laundry; demo=true; }
+    d = await hkGet(`/api/hk/laundry/summary?hotel_id=${BADS_HID_HK}&anno=${anno}&mese=${mese}`);
+    if(!d.cicli_totali){ d = HK_DEMO.laundry; demo = true; }
+  }catch(e){ d = HK_DEMO.laundry; demo = true; }
   hkSetDemo(demo);
-  kpi.innerHTML=
-    hkKpi(d.cicli_totali||0,'Cicli Totali','🔄','#9b6fe8')+
-    hkKpi(d.pezzi_ritirati||0,'Pezzi Ritirati','📤','#4a90e8')+
-    hkKpi(d.pezzi_ricevuti||0,'Pezzi Ricevuti','📥','#22c97a')+
-    hkKpi((d.tasso_scarto_pct||0).toFixed(2)+'%','Tasso Scarto','🗑️',d.tasso_scarto_pct>2?'#DC2626':'#22c97a')+
-    hkKpi('€'+(d.costo_totale_euro||0).toFixed(2),'Costo Totale','💶','#e8a830')+
-    hkKpi(d.nc_rilevate||0,'NC Rilevate','⚠️',d.nc_rilevate>0?'#DC2626':'#22c97a');
-  if(detail) detail.innerHTML=`<div class="hk-card" style="font-size:13px;color:var(--txt2)">
-    <span style="color:#9b6fe8;font-weight:700">Periodo:</span> ${d.periodo} &nbsp;|&nbsp;
-    <span style="color:#9b6fe8;font-weight:700">Costo medio/ciclo:</span> €${(d.costo_medio_ciclo||0).toFixed(2)}
-    ${d.nota?`<div style="margin-top:8px;color:#e8a830;font-size:12px">⚠️ ${d.nota}</div>`:''}
+  kpi.innerHTML =
+    hkKpi(d.cicli_totali||0, 'Cicli Totali', '🔄') +
+    hkKpi(d.pezzi_ritirati||0, 'Pezzi Ritirati', '📤') +
+    hkKpi(d.pezzi_ricevuti||0, 'Pezzi Ricevuti', '📥', GREEN) +
+    hkKpi(((d.tasso_scarto_pct||0).toFixed(2))+'%', 'Tasso Scarto', '🗑️', (d.tasso_scarto_pct||0)>2?RED:GREEN) +
+    hkKpi('€'+(d.costo_totale_euro||0).toFixed(2), 'Costo Totale', '💶', ORANGE) +
+    hkKpi(d.nc_rilevate||0, 'NC Rilevate', '⚠️', (d.nc_rilevate||0)>0?RED:GREEN);
+  if(detail) detail.innerHTML = `<div class="hk-card hk-card-accent">
+    <div style="font-size:11px;font-weight:700;color:var(--g);letter-spacing:.8px;margin-bottom:10px">RIEPILOGO PERIODO</div>
+    <span style="color:var(--g);font-weight:700">Periodo:</span> <span style="color:var(--txt2)">${d.periodo}</span> &nbsp;·&nbsp;
+    <span style="color:var(--g);font-weight:700">Costo medio/ciclo:</span> <span style="color:var(--txt2)">€${(d.costo_medio_ciclo||0).toFixed(2)}</span>
+    ${d.nota?`<div style="margin-top:10px;color:var(--orange);font-size:12px">⚠️ ${d.nota}</div>`:''}
   </div>`;
 }
 
+/* ── KPI ── */
 async function hkLoadKpi(){
-  const grid=document.getElementById('hk-kpi-grid');
-  const bm=document.getElementById('hk-benchmark-card');
+  const grid = document.getElementById('hk-kpi-grid');
+  const bm = document.getElementById('hk-benchmark-card');
   if(!grid) return;
-  let d, demo=false;
+  let d, demo = false;
   try{
-    d=await hkGet(`/api/hk/kpi?hotel_id=${BADS_HID_HK}`);
-    if(!d.camere_ora){ d=HK_DEMO.kpi; demo=true; }
-  }catch(e){ d=HK_DEMO.kpi; demo=true; }
+    d = await hkGet(`/api/hk/kpi?hotel_id=${BADS_HID_HK}`);
+    if(!d.camere_ora){ d = HK_DEMO.kpi; demo = true; }
+  }catch(e){ d = HK_DEMO.kpi; demo = true; }
   hkSetDemo(demo);
-  grid.innerHTML=
-    hkKpi((d.camere_ora||0).toFixed(1),'Camere/Ora','⚡','#9b6fe8')+
-    hkKpi((d.minuti_camera||0).toFixed(0)+' min','Tempo/Camera','⏱️','#4a90e8')+
-    hkKpi((d.nc_rate_pct||0).toFixed(1)+'%','Tasso NC','⚠️',d.nc_rate_pct>5?'#DC2626':'#22c97a')+
-    hkKpi('€'+(d.costo_camera||0).toFixed(2),'Costo/Camera','💶','#e8a830');
+  grid.innerHTML =
+    hkKpi((d.camere_ora||0).toFixed(1), 'Camere/Ora', '⚡') +
+    hkKpi((d.minuti_camera||0).toFixed(0)+' min', 'Tempo/Camera', '⏱️', ORANGE) +
+    hkKpi((d.nc_rate_pct||0).toFixed(1)+'%', 'Tasso NC', '⚠️', (d.nc_rate_pct||0)>5?RED:GREEN) +
+    hkKpi('€'+(d.costo_camera||0).toFixed(2), 'Costo/Camera', '💶', ORANGE);
   if(bm && d.benchmark){
-    bm.innerHTML=`<div class="hk-card hk-card-purple">
-      <div style="font-size:11px;font-weight:700;color:#9b6fe8;letter-spacing:.8px;margin-bottom:14px">📊 BENCHMARK VS TARGET</div>
+    bm.innerHTML = `<div class="hk-card hk-card-accent">
+      <div style="font-size:11px;font-weight:700;color:var(--g);letter-spacing:.8px;margin-bottom:14px">📊 BENCHMARK VS TARGET</div>
       ${Object.entries(d.benchmark).map(([k,v])=>{
-        const ok=k==='nc_rate_pct'||k==='tempo_camera'?v.diff<=0:v.diff>=0;
-        const col=ok?'#22c97a':'#DC2626';
-        return `<div class="hk-benchmark-row">
-          <span class="hk-benchmark-label">${k.replace(/_/g,' ')}</span>
+        const ok = (k==='nc_rate_pct'||k==='tempo_camera') ? v.diff<=0 : v.diff>=0;
+        const col = ok ? 'var(--green)' : 'var(--red)';
+        return `<div class="hk-bench-row">
+          <span style="font-size:13px;color:var(--txt2)">${k.replace(/_/g,' ')}</span>
           <div style="text-align:right">
-            <span class="hk-benchmark-val" style="color:${col}">${v.valore}${v.unit}</span>
+            <span class="hk-bench-val" style="color:${col}">${v.valore}${v.unit}</span>
             <span style="font-size:11px;color:${col};margin-left:8px">${v.diff>0?'▲':v.diff<0?'▼':'—'}${Math.abs(v.diff)}${v.unit}</span>
-            <div class="hk-benchmark-ref">Target: ${v.target}${v.unit}</div>
+            <div style="font-size:11px;color:var(--txt3)">Target: ${v.target}${v.unit}</div>
           </div>
         </div>`;
       }).join('')}
@@ -466,73 +517,113 @@ async function hkLoadKpi(){
   }
 }
 
-document.addEventListener('DOMContentLoaded', ()=>{ hkLoadRooms(); });
-</script>
-<script>window.switchTab=window.switchTab||function(t){var m={bevmanager:'bevmanager.html',hotellerie:'hotellerie.html',housekeeping:'housekeeping.html',haccp:'haccp.html',nc:'nc.html',tracciabilita:'tracciabilita.html',shelflife:'shelflife.html',scmpro:'scmpro.html',shiftmanager:'shiftmanager.html',events:'events.html',hub:'hub.html',cert:'cert.html',consult:'consulenze.html',academy:'academy.html',norme:'norme.html',network:'network.html',barman:'barman.html'};var u=m[t];if(u){window.location.href=u}};
-// Housekeeping Advanced Modules
-const _hkOldSwitch = hkSwitchPage;
-hkSwitchPage = function(p) {
-  _hkOldSwitch(p);
-  const renderers = {inspections:renderHKInspections,maintenance:renderHKMaintenance,staffperf:renderHKStaffPerf,lostfound:renderHKLostFound,minibar:renderHKMinibar,deepclean:renderHKDeepClean};
-  if(renderers[p]) renderers[p]();
-};
-
+/* ── EXTENDED: ISPEZIONI ── */
 function renderHKInspections(){
-  const c=document.getElementById('hk-inspections-c');if(!c)return;
-  const rooms=[
+  const c = document.getElementById('hk-inspections-c'); if(!c) return;
+  const rooms = [
     {room:'101',type:'Standard',inspector:'Anna M.',score:95,issues:0,time:'12 min',status:'pass'},
     {room:'205',type:'Suite',inspector:'Marco L.',score:82,issues:2,time:'18 min',status:'pass'},
     {room:'312',type:'Standard',inspector:'Anna M.',score:68,issues:4,time:'15 min',status:'fail'},
     {room:'401',type:'Deluxe',inspector:'Sara P.',score:91,issues:1,time:'14 min',status:'pass'},
     {room:'503',type:'Suite',inspector:'Marco L.',score:97,issues:0,time:'20 min',status:'pass'},
   ];
-  c.innerHTML=`<div class="hk-page-hdr"><div><div class="hk-page-title">✅ Ispezioni Camere</div><div class="hk-page-sub">Checklist digitali con scoring e foto documentazione</div></div></div>
-  <div class="hk-kpi-grid">${[['Ispezionate oggi','12','#9b6fe8'],['Score medio','87%','#16a34a'],['Failed','2','#dc2626'],['Tempo medio','14 min','#4a90e8']].map(k=>'<div class="hk-kpi"><div class="hk-kpi-val" style="color:'+k[2]+'">'+k[1]+'</div><div class="hk-kpi-lbl">'+k[0]+'</div></div>').join('')}</div>
-  <div class="hk-card"><table class="hk-table"><thead><tr><th>Camera</th><th>Tipo</th><th>Ispettore</th><th>Score</th><th>Issues</th><th>Tempo</th><th>Esito</th></tr></thead><tbody>${rooms.map(r=>'<tr><td style="font-weight:700">'+r.room+'</td><td>'+r.type+'</td><td>'+r.inspector+'</td><td style="font-weight:700;color:'+(r.score>=90?'#16a34a':r.score>=75?'#ca8a04':'#dc2626')+'">'+r.score+'%</td><td>'+r.issues+'</td><td>'+r.time+'</td><td><span class="hk-badge '+(r.status==='pass'?'hk-green':'hk-red')+'">'+(r.status==='pass'?'✓ Pass':'✗ Fail')+'</span></td></tr>').join('')}</tbody></table></div>`;
+  c.innerHTML = `<div class="hk-page-hdr"><div><div class="hk-page-title">✅ Ispezioni Camere</div><div class="hk-page-sub">Checklist digitali con scoring e documentazione</div></div></div>
+  <div class="hk-kpi-grid">
+    ${hkKpi('12','Ispezionate oggi','🔍')}
+    ${hkKpi('87%','Score medio','📊',GREEN)}
+    ${hkKpi('2','Failed','✗',RED)}
+    ${hkKpi('14 min','Tempo medio','⏱️',ORANGE)}
+  </div>
+  <div class="hk-card" style="padding:0;overflow:hidden"><div style="overflow-x:auto"><table class="hk-table">
+    <thead><tr><th>Camera</th><th>Tipo</th><th>Ispettore</th><th>Score</th><th>Issues</th><th>Tempo</th><th>Esito</th></tr></thead>
+    <tbody>${rooms.map(r=>`<tr>
+      <td style="font-weight:700">${r.room}</td><td>${r.type}</td><td>${r.inspector}</td>
+      <td style="font-weight:700;color:${r.score>=90?GREEN:r.score>=75?ORANGE:RED}">${r.score}%</td>
+      <td>${r.issues}</td><td>${r.time}</td>
+      <td><span class="hk-badge ${r.status==='pass'?'hk-green':'hk-red'}">${r.status==='pass'?'✓ Pass':'✗ Fail'}</span></td>
+    </tr>`).join('')}</tbody>
+  </table></div></div>`;
 }
 
+/* ── EXTENDED: MANUTENZIONE ── */
 function renderHKMaintenance(){
-  const c=document.getElementById('hk-maintenance-c');if(!c)return;
-  const tickets=[
-    {id:'MNT-042',room:'312',issue:'Rubinetto bagno perde',priority:'alta',assigned:'Tecnico Marco',status:'in-progress',reported:'28/04'},
-    {id:'MNT-041',room:'205',issue:'Aria condizionata rumorosa',priority:'media',assigned:'Tecnico Luca',status:'scheduled',reported:'27/04'},
-    {id:'MNT-040',room:'401',issue:'Lampadina bruciata bagno',priority:'bassa',assigned:'—',status:'open',reported:'27/04'},
-    {id:'MNT-039',room:'103',issue:'Serratura porta balcone bloccata',priority:'alta',assigned:'Tecnico Marco',status:'completed',reported:'26/04'},
+  const c = document.getElementById('hk-maintenance-c'); if(!c) return;
+  const tickets = [
+    {id:'MNT-042',room:'312',issue:'Rubinetto bagno perde',priority:'alta',assigned:'Tecnico Marco',status:'in-progress',reported:'28/05'},
+    {id:'MNT-041',room:'205',issue:'Aria condizionata rumorosa',priority:'media',assigned:'Tecnico Luca',status:'scheduled',reported:'27/05'},
+    {id:'MNT-040',room:'401',issue:'Lampadina bruciata bagno',priority:'bassa',assigned:'—',status:'open',reported:'27/05'},
+    {id:'MNT-039',room:'103',issue:'Serratura porta balcone bloccata',priority:'alta',assigned:'Tecnico Marco',status:'completed',reported:'26/05'},
   ];
-  const sc={open:'#dc2626','in-progress':'#f59e0b',scheduled:'#4a90e8',completed:'#16a34a'};
-  c.innerHTML=`<div class="hk-page-hdr"><div><div class="hk-page-title">🔧 Segnalazioni Manutenzione</div><div class="hk-page-sub">Issue reporting e tracking — zero post-it</div></div></div>
-  <div class="hk-kpi-grid">${[['Ticket aperti','3','#dc2626'],['In corso','1','#f59e0b'],['Completati mese','18','#16a34a'],['Tempo medio','4.2h','#4a90e8']].map(k=>'<div class="hk-kpi"><div class="hk-kpi-val" style="color:'+k[2]+'">'+k[1]+'</div><div class="hk-kpi-lbl">'+k[0]+'</div></div>').join('')}</div>
-  ${tickets.map(t=>'<div class="hk-card" style="border-left:3px solid '+sc[t.status]+'"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px"><div><span style="font-family:\'DM Mono\',monospace;font-size:11px;color:var(--txt3)">'+t.id+'</span><div style="font-weight:700;margin-top:2px">🚪 '+t.room+' — '+t.issue+'</div><div style="font-size:12px;color:var(--txt3);margin-top:4px">👤 '+t.assigned+' · 📅 '+t.reported+' · ⚡ <span style="color:'+(t.priority==='alta'?'#dc2626':'#ca8a04')+'">'+t.priority+'</span></div></div><span class="hk-badge" style="background:'+sc[t.status]+'15;color:'+sc[t.status]+';border-color:'+sc[t.status]+'30">'+t.status+'</span></div></div>').join('')}`;
+  const sc = {open:RED,'in-progress':ORANGE,scheduled:G,completed:GREEN};
+  c.innerHTML = `<div class="hk-page-hdr"><div><div class="hk-page-title">🔧 Segnalazioni Manutenzione</div><div class="hk-page-sub">Issue reporting e tracking — zero post-it</div></div></div>
+  <div class="hk-kpi-grid">
+    ${hkKpi('3','Ticket aperti','🚨',RED)}
+    ${hkKpi('1','In corso','⚙️',ORANGE)}
+    ${hkKpi('18','Completati mese','✅',GREEN)}
+    ${hkKpi('4.2h','Tempo medio','⏱️',G)}
+  </div>
+  ${tickets.map(t=>`<div class="hk-card" style="border-left:3px solid ${sc[t.status]}">
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <div>
+        <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--txt3)">${t.id}</span>
+        <div style="font-weight:700;margin-top:2px">🚪 ${t.room} — ${t.issue}</div>
+        <div style="font-size:12px;color:var(--txt3);margin-top:4px">👤 ${t.assigned} · 📅 ${t.reported} · ⚡ <span style="color:${t.priority==='alta'?RED:ORANGE}">${t.priority}</span></div>
+      </div>
+      <span class="hk-badge" style="background:${sc[t.status]}1a;color:${sc[t.status]};border-color:${sc[t.status]}40">${t.status}</span>
+    </div>
+  </div>`).join('')}`;
 }
 
+/* ── EXTENDED: STAFF ── */
 function renderHKStaffPerf(){
-  const c=document.getElementById('hk-staffperf-c');if(!c)return;
-  const staff=[
+  const c = document.getElementById('hk-staffperf-c'); if(!c) return;
+  const staff = [
     {name:'Anna M.',rooms:8,avgTime:'28 min',score:94,reClean:0.5,badge:'🏆'},
     {name:'Maria G.',rooms:7,avgTime:'32 min',score:88,reClean:2.1,badge:'⭐'},
     {name:'Sara P.',rooms:6,avgTime:'35 min',score:82,reClean:4.5,badge:'📈'},
     {name:'Lucia R.',rooms:5,avgTime:'38 min',score:76,reClean:6.2,badge:'💪'},
   ];
-  c.innerHTML=`<div class="hk-page-hdr"><div><div class="hk-page-title">🏆 Staff Performance</div><div class="hk-page-sub">Tracking produttività e qualità per cameriera ai piani</div></div></div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px">${staff.map(s=>'<div class="hk-card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div style="font-size:16px;font-weight:700">'+s.badge+' '+s.name+'</div><div style="font-size:24px;font-weight:800;color:'+(s.score>=90?'#16a34a':s.score>=80?'#ca8a04':'#dc2626')+'">'+s.score+'</div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px"><div class="hk-kpi" style="padding:10px"><div style="font-weight:700;color:#9b6fe8">'+s.rooms+'</div><div class="hk-kpi-lbl">Camere/giorno</div></div><div class="hk-kpi" style="padding:10px"><div style="font-weight:700;color:#4a90e8">'+s.avgTime+'</div><div class="hk-kpi-lbl">Tempo medio</div></div><div class="hk-kpi" style="padding:10px"><div style="font-weight:700;color:'+(s.reClean<3?'#16a34a':'#dc2626')+'">'+s.reClean+'%</div><div class="hk-kpi-lbl">Re-clean rate</div></div></div></div>').join('')}</div>`;
+  c.innerHTML = `<div class="hk-page-hdr"><div><div class="hk-page-title">🏆 Staff Performance</div><div class="hk-page-sub">Produttività e qualità per cameriera ai piani</div></div></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px">
+  ${staff.map(s=>`<div class="hk-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div style="font-size:15px;font-weight:700">${s.badge} ${s.name}</div>
+      <div style="font-size:22px;font-weight:800;font-family:'Syne',sans-serif;color:${s.score>=90?GREEN:s.score>=80?ORANGE:RED}">${s.score}</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">
+      <div class="hk-kpi" style="padding:10px"><div style="font-weight:700;font-family:'Syne',sans-serif;color:var(--g)">${s.rooms}</div><div class="hk-kpi-lbl">Camere/giorno</div></div>
+      <div class="hk-kpi" style="padding:10px"><div style="font-weight:700;font-family:'Syne',sans-serif;color:var(--orange)">${s.avgTime}</div><div class="hk-kpi-lbl">Tempo medio</div></div>
+      <div class="hk-kpi" style="padding:10px;grid-column:span 2"><div style="font-weight:700;font-family:'Syne',sans-serif;color:${s.reClean<3?GREEN:RED}">${s.reClean}%</div><div class="hk-kpi-lbl">Re-clean rate</div></div>
+    </div>
+  </div>`).join('')}
+  </div>`;
 }
 
+/* ── EXTENDED: LOST & FOUND ── */
 function renderHKLostFound(){
-  const c=document.getElementById('hk-lostfound-c');if(!c)return;
-  const items=[
-    {id:'LF-089',item:'Caricatore iPhone',room:'312',found:'28/04',status:'stored',guest:'M. Rossi'},
-    {id:'LF-088',item:'Orecchini argento',room:'205',found:'27/04',status:'contacted',guest:'A. Mueller'},
-    {id:'LF-087',item:'Libro',room:'401',found:'26/04',status:'returned',guest:'P. Johnson'},
-    {id:'LF-086',item:'Occhiali da sole',room:'103',found:'25/04',status:'stored',guest:'Sconosciuto'},
+  const c = document.getElementById('hk-lostfound-c'); if(!c) return;
+  const items = [
+    {id:'LF-089',item:'Caricatore iPhone',room:'312',found:'28/05',status:'stored',guest:'M. Rossi'},
+    {id:'LF-088',item:'Orecchini argento',room:'205',found:'27/05',status:'contacted',guest:'A. Mueller'},
+    {id:'LF-087',item:'Libro',room:'401',found:'26/05',status:'returned',guest:'P. Johnson'},
+    {id:'LF-086',item:'Occhiali da sole',room:'103',found:'25/05',status:'stored',guest:'Sconosciuto'},
   ];
-  const sc={stored:'#f59e0b',contacted:'#4a90e8',returned:'#16a34a',disposed:'var(--txt3)'};
-  c.innerHTML=`<div class="hk-page-hdr"><div><div class="hk-page-title">📦 Lost & Found</div><div class="hk-page-sub">Registro oggetti smarriti con tracking restituzione</div></div></div>
-  <div class="hk-card"><table class="hk-table"><thead><tr><th>ID</th><th>Oggetto</th><th>Camera</th><th>Data</th><th>Ospite</th><th>Status</th></tr></thead><tbody>${items.map(i=>'<tr><td style="font-family:\'DM Mono\',monospace;font-size:11px">'+i.id+'</td><td style="font-weight:600">'+i.item+'</td><td>'+i.room+'</td><td>'+i.found+'</td><td>'+i.guest+'</td><td><span class="hk-badge" style="background:'+sc[i.status]+'15;color:'+sc[i.status]+';border-color:'+sc[i.status]+'30">'+i.status+'</span></td></tr>').join('')}</tbody></table></div>`;
+  const sc = {stored:ORANGE,contacted:G,returned:GREEN,disposed:'var(--txt3)'};
+  c.innerHTML = `<div class="hk-page-hdr"><div><div class="hk-page-title">📦 Lost & Found</div><div class="hk-page-sub">Registro oggetti smarriti con tracking restituzione</div></div></div>
+  <div class="hk-card" style="padding:0;overflow:hidden"><div style="overflow-x:auto"><table class="hk-table">
+    <thead><tr><th>ID</th><th>Oggetto</th><th>Camera</th><th>Data</th><th>Ospite</th><th>Status</th></tr></thead>
+    <tbody>${items.map(i=>`<tr>
+      <td style="font-family:'DM Mono',monospace;font-size:11px">${i.id}</td>
+      <td style="font-weight:600">${i.item}</td><td>${i.room}</td><td>${i.found}</td><td>${i.guest}</td>
+      <td><span class="hk-badge" style="background:${sc[i.status]}1a;color:${sc[i.status]};border-color:${sc[i.status]}40">${i.status}</span></td>
+    </tr>`).join('')}</tbody>
+  </table></div></div>`;
 }
 
+/* ── EXTENDED: MINIBAR ── */
 function renderHKMinibar(){
-  const c=document.getElementById('hk-minibar-c');if(!c)return;
-  const items=[
+  const c = document.getElementById('hk-minibar-c'); if(!c) return;
+  const items = [
     {name:'Acqua naturale 50cl',stock:48,par:60,price:3,consumed:12},
     {name:'Acqua frizzante 50cl',stock:35,par:40,price:3,consumed:8},
     {name:'Coca-Cola 33cl',stock:22,par:30,price:4,consumed:15},
@@ -541,26 +632,56 @@ function renderHKMinibar(){
     {name:'Snack mix',stock:30,par:40,price:5,consumed:10},
     {name:'Cioccolato',stock:25,par:30,price:4,consumed:8},
   ];
-  const totalRev=items.reduce((a,i)=>a+i.consumed*i.price,0);
-  c.innerHTML=`<div class="hk-page-hdr"><div><div class="hk-page-title">🍫 Minibar Management</div><div class="hk-page-sub">Inventario, consumi e revenue minibar</div></div></div>
-  <div class="hk-kpi-grid">${[['Revenue mese','€'+totalRev,'#16a34a'],['Articoli sotto par',items.filter(i=>i.stock<i.par).length,'#dc2626'],['Consumo medio/camera','€8.40','#4a90e8']].map(k=>'<div class="hk-kpi"><div class="hk-kpi-val" style="color:'+k[2]+'">'+k[1]+'</div><div class="hk-kpi-lbl">'+k[0]+'</div></div>').join('')}</div>
-  <div class="hk-card"><table class="hk-table"><thead><tr><th>Articolo</th><th>Stock</th><th>Par</th><th>Δ</th><th>Consumati</th><th>Revenue</th></tr></thead><tbody>${items.map(i=>{const delta=i.stock-i.par;return'<tr><td style="font-weight:600">'+i.name+'</td><td>'+i.stock+'</td><td>'+i.par+'</td><td style="color:'+(delta<0?'#dc2626':'#16a34a')+';font-weight:700">'+(delta>=0?'+':'')+delta+'</td><td>'+i.consumed+'</td><td style="font-weight:600">€'+(i.consumed*i.price)+'</td></tr>'}).join('')}</tbody></table></div>`;
+  const totalRev = items.reduce((a,i) => a+i.consumed*i.price, 0);
+  c.innerHTML = `<div class="hk-page-hdr"><div><div class="hk-page-title">🍫 Minibar Management</div><div class="hk-page-sub">Inventario, consumi e revenue minibar</div></div></div>
+  <div class="hk-kpi-grid">
+    ${hkKpi('€'+totalRev,'Revenue mese','💰',GREEN)}
+    ${hkKpi(items.filter(i=>i.stock<i.par).length,'Articoli sotto par','⚠️',RED)}
+    ${hkKpi('€8.40','Consumo medio/cam','🛏️',G)}
+  </div>
+  <div class="hk-card" style="padding:0;overflow:hidden"><div style="overflow-x:auto"><table class="hk-table">
+    <thead><tr><th>Articolo</th><th>Stock</th><th>Par</th><th>Δ</th><th>Consumati</th><th>Revenue</th></tr></thead>
+    <tbody>${items.map(i=>{
+      const delta = i.stock-i.par;
+      return `<tr><td style="font-weight:600">${i.name}</td><td>${i.stock}</td><td>${i.par}</td>
+      <td style="color:${delta<0?RED:GREEN};font-weight:700">${delta>=0?'+':''}${delta}</td>
+      <td>${i.consumed}</td><td style="font-weight:600">€${i.consumed*i.price}</td></tr>`;
+    }).join('')}</tbody>
+  </table></div></div>`;
 }
 
+/* ── EXTENDED: DEEP CLEAN ── */
 function renderHKDeepClean(){
-  const c=document.getElementById('hk-deepclean-c');if(!c)return;
-  const schedule=[
-    {room:'101',type:'Standard',lastDeep:'15/03/2026',nextDeep:'15/06/2026',daysLeft:42,status:'ok'},
-    {room:'205',type:'Suite',lastDeep:'01/02/2026',nextDeep:'01/05/2026',daysLeft:-3,status:'overdue'},
-    {room:'312',type:'Standard',lastDeep:'20/03/2026',nextDeep:'20/06/2026',daysLeft:47,status:'ok'},
-    {room:'401',type:'Deluxe',lastDeep:'10/04/2026',nextDeep:'10/07/2026',daysLeft:67,status:'ok'},
-    {room:'503',type:'Suite',lastDeep:'28/01/2026',nextDeep:'28/04/2026',daysLeft:-6,status:'overdue'},
+  const c = document.getElementById('hk-deepclean-c'); if(!c) return;
+  const schedule = [
+    {room:'101',type:'Standard',lastDeep:'15/03/2026',nextDeep:'15/06/2026',daysLeft:18,status:'ok'},
+    {room:'205',type:'Suite',lastDeep:'01/02/2026',nextDeep:'01/05/2026',daysLeft:-27,status:'overdue'},
+    {room:'312',type:'Standard',lastDeep:'20/03/2026',nextDeep:'20/06/2026',daysLeft:23,status:'ok'},
+    {room:'401',type:'Deluxe',lastDeep:'10/04/2026',nextDeep:'10/07/2026',daysLeft:43,status:'ok'},
+    {room:'503',type:'Suite',lastDeep:'28/01/2026',nextDeep:'28/04/2026',daysLeft:-30,status:'overdue'},
   ];
-  c.innerHTML=`<div class="hk-page-hdr"><div><div class="hk-page-title">🧹 Deep Cleaning Scheduler</div><div class="hk-page-sub">Programmazione pulizie profonde trimestrali</div></div></div>
-  <div class="hk-kpi-grid">${[['Scadute',schedule.filter(s=>s.status==='overdue').length,'#dc2626'],['Prossime 30gg',schedule.filter(s=>s.daysLeft>0&&s.daysLeft<=30).length,'#f59e0b'],['In regola',schedule.filter(s=>s.daysLeft>30).length,'#16a34a']].map(k=>'<div class="hk-kpi"><div class="hk-kpi-val" style="color:'+k[2]+'">'+k[1]+'</div><div class="hk-kpi-lbl">'+k[0]+'</div></div>').join('')}</div>
-  <div class="hk-card"><table class="hk-table"><thead><tr><th>Camera</th><th>Tipo</th><th>Ultima deep</th><th>Prossima</th><th>Giorni</th><th>Status</th></tr></thead><tbody>${schedule.map(s=>'<tr><td style="font-weight:700">'+s.room+'</td><td>'+s.type+'</td><td>'+s.lastDeep+'</td><td>'+s.nextDeep+'</td><td style="color:'+(s.daysLeft<0?'#dc2626':s.daysLeft<30?'#ca8a04':'#16a34a')+';font-weight:700">'+s.daysLeft+'</td><td><span class="hk-badge '+(s.status==='overdue'?'hk-red':'hk-green')+'">'+(s.status==='overdue'?'⚠️ Scaduta':'✓ OK')+'</span></td></tr>').join('')}</tbody></table></div>`;
+  c.innerHTML = `<div class="hk-page-hdr"><div><div class="hk-page-title">🧹 Deep Cleaning Scheduler</div><div class="hk-page-sub">Programmazione pulizie profonde trimestrali</div></div></div>
+  <div class="hk-kpi-grid">
+    ${hkKpi(schedule.filter(s=>s.status==='overdue').length,'Scadute','⚠️',RED)}
+    ${hkKpi(schedule.filter(s=>s.daysLeft>0&&s.daysLeft<=30).length,'Prossime 30gg','📅',ORANGE)}
+    ${hkKpi(schedule.filter(s=>s.daysLeft>30).length,'In regola','✅',GREEN)}
+  </div>
+  <div class="hk-card" style="padding:0;overflow:hidden"><div style="overflow-x:auto"><table class="hk-table">
+    <thead><tr><th>Camera</th><th>Tipo</th><th>Ultima deep</th><th>Prossima</th><th>Giorni</th><th>Status</th></tr></thead>
+    <tbody>${schedule.map(s=>`<tr>
+      <td style="font-weight:700">${s.room}</td><td>${s.type}</td><td>${s.lastDeep}</td><td>${s.nextDeep}</td>
+      <td style="color:${s.daysLeft<0?RED:s.daysLeft<30?ORANGE:GREEN};font-weight:700">${s.daysLeft}</td>
+      <td><span class="hk-badge ${s.status==='overdue'?'hk-red':'hk-green'}">${s.status==='overdue'?'⚠️ Scaduta':'✓ OK'}</span></td>
+    </tr>`).join('')}</tbody>
+  </table></div></div>`;
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+  hkLoadRooms();
+  if (typeof B360 !== 'undefined') {
+    B360.mountAIWidget('general', 'Hotel Baia Sardinia · Housekeeping Manager');
+  }
+});
 </script>
 </body>
 </html>

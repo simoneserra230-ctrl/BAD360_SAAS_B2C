@@ -3,128 +3,146 @@
 <head>
 <meta charset="UTF-8"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>BAD.S — Academy</title>
+<title>BAD360.ai — Academy</title>
 <style>
-:root{
-  --bg:#f0f3f8;--bg2:#e8ecf3;--bg3:#dde3ed;--bg5:#f7f9fc;--canvas:#ffffff;
-  --border:rgba(30,50,100,.10);--border2:rgba(30,50,100,.16);
-  --text:#1a2540;--text2:#5a6a8a;--text3:#94a3b8;
-  --blue:#2563eb;--blue-dim:rgba(37,99,235,.08);--blue-glow:rgba(37,99,235,.15);
-  --green:#16a34a;--green-dim:rgba(22,163,74,.09);
-  --amber:#d97706;--amber-dim:rgba(217,119,6,.09);
-  --red:#dc2626;
-  --gold:#d97706;--gold2:#f59e0b;--gold-dim:rgba(217,119,6,.09);
-  --purple:#7c3aed;--purple-dim:rgba(124,58,237,.09);
-  --font:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
-  --r:12px;--r2:8px;
-  --shadow-xs:0 1px 3px rgba(15,30,70,.08),0 1px 2px rgba(15,30,70,.05);
-  --shadow-sm:0 2px 8px rgba(15,30,70,.10),0 1px 3px rgba(15,30,70,.06);
-  --shadow-md:0 4px 20px rgba(15,30,70,.12),0 2px 8px rgba(15,30,70,.07);
-}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
-body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 70% 50% at 10% 0%,rgba(37,99,235,.04) 0%,transparent 55%),radial-gradient(ellipse 50% 40% at 90% 100%,rgba(124,58,237,.03) 0%,transparent 50%)}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:rgba(30,50,100,.18);border-radius:3px}
 
-.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:36px 24px 80px}
-.page-hdr{padding:40px 0 32px;border-bottom:1px solid var(--border);margin-bottom:32px}
-.overline{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--purple);margin-bottom:10px}
-.page-title{font-family:'DM Sans',sans-serif;font-size:clamp(1.8rem,4vw,2.5rem);font-weight:900;line-height:1.1;margin-bottom:12px}
-.page-title em{font-style:italic;color:var(--blue)}
-.page-sub{font-size:14px;color:var(--text2);max-width:560px;line-height:1.7;margin-bottom:20px}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 24px 72px}
+.page-hdr{padding:32px 0 24px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.overline{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--g);margin-bottom:10px}
+.page-title{font-family:'Syne',sans-serif;font-size:clamp(1.7rem,4vw,2.4rem);font-weight:800;line-height:1.1;margin-bottom:10px}
+.page-title em{font-style:italic;color:var(--g);font-family:'Playfair Display',serif}
+.page-sub{font-size:13.5px;color:var(--txt2);max-width:560px;line-height:1.7;margin-bottom:18px}
 
-/* ── Stats strip ── */
-.stats-strip{display:flex;gap:24px;flex-wrap:wrap;margin-bottom:32px}
+/* stats strip */
+.stats-strip{display:flex;gap:28px;flex-wrap:wrap}
 .stat{text-align:center}
-.stat-val{font-family:'DM Sans',sans-serif;font-size:1.8rem;font-weight:700;color:var(--blue)}
-.stat-lbl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3)}
+.stat-val{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--g)}
+.stat-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--txt3)}
 
-/* ── Filters ── */
-.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;align-items:center;justify-content:space-between}
+/* toolbar */
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;align-items:center;justify-content:space-between}
 .filter-group{display:flex;gap:6px;flex-wrap:wrap}
-.filter-btn{padding:7px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid var(--border2);background:var(--canvas);color:var(--text2);font-family:var(--font);transition:all .15s}
-.filter-btn.active,.filter-btn:hover{background:var(--blue-dim);border-color:rgba(37,99,235,.3);color:var(--blue)}
-.filter-btn.level-base.active{background:var(--green-dim);border-color:rgba(22,163,74,.3);color:var(--green)}
-.filter-btn.level-adv.active{background:var(--amber-dim);border-color:rgba(217,119,6,.3);color:var(--amber)}
-.filter-btn.level-pro.active{background:var(--gold-dim);border-color:rgba(217,119,6,.3);color:var(--gold)}
-.results-count{font-size:13px;color:var(--text3);white-space:nowrap}
+.filter-btn{padding:6px 15px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid var(--line2);background:transparent;color:var(--txt2);font-family:var(--font);transition:all .15s}
+.filter-btn.active,.filter-btn:hover{background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.35);color:var(--g)}
+.filter-btn.level-base.active{background:rgba(106,171,118,.08);border-color:rgba(106,171,118,.3);color:var(--green)}
+.filter-btn.level-adv.active{background:rgba(212,128,58,.08);border-color:rgba(212,128,58,.3);color:var(--orange)}
+.filter-btn.level-pro.active{background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.35);color:var(--g)}
+.results-count{font-size:13px;color:var(--txt3);white-space:nowrap}
 
-/* ── Academy grid ── */
-.academy-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
-.academy-card{background:var(--canvas);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:all .25s;box-shadow:var(--shadow-xs);animation:fadeUp .4s ease both;display:flex;flex-direction:column}
-.academy-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:var(--shadow-md)}
-.academy-header{padding:20px 22px 16px;border-bottom:1px solid var(--border)}
-.academy-level{display:inline-flex;align-items:center;gap:5px;margin-bottom:10px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
+/* academy grid */
+.academy-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+.academy-card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:all .25s;animation:fadeUp .4s ease both;display:flex;flex-direction:column}
+.academy-card:hover{border-color:rgba(201,168,76,.25);transform:translateY(-2px)}
+.academy-header{padding:18px 20px 14px;border-bottom:1px solid var(--line)}
+.academy-level{display:inline-flex;align-items:center;gap:5px;margin-bottom:9px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
 .level-base{color:var(--green)}
-.level-adv{color:var(--amber)}
-.level-pro{color:var(--gold)}
-.academy-icon-title{display:flex;align-items:flex-start;gap:12px}
-.academy-title{font-family:'DM Sans',sans-serif;font-size:1.05rem;font-weight:700;color:var(--text);line-height:1.3}
-.academy-body{padding:16px 22px;flex:1}
-.academy-meta{display:flex;gap:14px;font-size:11.5px;color:var(--text2);margin-bottom:10px}
-.academy-desc{font-size:12.5px;color:var(--text2);line-height:1.6;margin-bottom:10px}
-.academy-credits{font-size:11px;color:var(--green);margin-bottom:10px;font-weight:600}
+.level-adv{color:var(--orange)}
+.level-pro{color:var(--g)}
+.academy-icon-title{display:flex;align-items:flex-start;gap:11px}
+.academy-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;line-height:1.3}
+.academy-body{padding:14px 20px;flex:1}
+.academy-meta{display:flex;gap:14px;font-size:11.5px;color:var(--txt2);margin-bottom:9px}
+.academy-desc{font-size:12.5px;color:var(--txt2);line-height:1.55;margin-bottom:9px}
+.academy-credits{font-size:11px;color:var(--green);margin-bottom:9px;font-weight:600}
 .academy-tags{display:flex;gap:4px;flex-wrap:wrap}
-.academy-footer{padding:14px 22px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.academy-footer{padding:12px 20px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
 .badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700}
-.badge-muted{background:var(--bg3);color:var(--text3);border:1px solid var(--border2)}
+.badge-muted{background:var(--bg3);color:var(--txt3);border:1px solid var(--line2)}
 
-/* ── Btns ── */
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:var(--r2);font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:var(--font);transition:all .18s}
-.btn-gold{background:linear-gradient(135deg,var(--gold),var(--amber));color:#fff}
-.btn-gold:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(217,119,6,.25)}
-.btn-sm{padding:7px 14px;font-size:12px}
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid;font-family:var(--font);transition:all .18s}
+.btn-gold{background:rgba(201,168,76,.14);border-color:rgba(201,168,76,.35);color:var(--g)}
+.btn-gold:hover{background:rgba(201,168,76,.22);transform:translateY(-1px)}
+.btn-outline{background:transparent;border-color:var(--line2);color:var(--txt2)}
+.btn-outline:hover{border-color:rgba(201,168,76,.3);color:var(--g)}
+.btn-sm{padding:6px 14px;font-size:11.5px}
 
-/* ── Modal ── */
-.modal-overlay{position:fixed;inset:0;background:rgba(10,20,50,.45);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px}
+/* sections */
+.sec-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--g);margin-bottom:6px;margin-top:36px}
+.sec-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:4px}
+.sec-sub{font-size:12.5px;color:var(--txt2);margin-bottom:18px}
+
+/* paths */
+.paths-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-bottom:28px}
+.path-card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px;position:relative;overflow:hidden;border-top:3px solid var(--path-color,var(--g))}
+.path-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:3px}
+.path-meta{font-size:11px;color:var(--txt2);margin-bottom:10px}
+.path-pct{font-size:22px;font-weight:800;color:var(--path-color,var(--g));font-family:'Syne',sans-serif}
+.path-bar{height:5px;background:var(--line2);border-radius:3px;margin-bottom:10px;overflow:hidden}
+.path-bar-fill{height:100%;border-radius:3px;background:var(--path-color,var(--g))}
+.path-skills{display:flex;flex-wrap:wrap;gap:4px}
+.path-skill{font-size:10px;padding:2px 7px;border-radius:100px;border:1px solid}
+
+/* progress */
+.prog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:24px}
+.prog-card{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:14px;text-align:center}
+.prog-val{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;margin-bottom:4px}
+.prog-lbl{font-size:11px;color:var(--txt3)}
+
+/* certs */
+.cert-item{background:var(--bg2);border:1px solid rgba(201,168,76,.18);border-radius:12px;padding:16px;margin-bottom:9px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.cert-name{font-weight:700;font-size:14px;font-family:'Syne',sans-serif}
+.cert-code{font-size:11px;color:var(--txt3);font-family:var(--mono)}
+
+/* webinars */
+.webinar-item{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.webinar-date{min-width:64px;text-align:center}
+.webinar-day{font-size:18px;font-weight:800;color:var(--g);font-family:'Syne',sans-serif}
+.webinar-month{font-size:11px;color:var(--txt2)}
+.webinar-time{font-size:11px;color:var(--blue,#4f8ef7)}
+.webinar-title{font-weight:700;font-size:13.5px;flex:1;min-width:200px}
+.webinar-speaker{font-size:12px;color:var(--txt2)}
+
+/* modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(6,6,10,.7);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px}
 .modal-overlay.open{display:flex}
-.modal-box{background:var(--canvas);border-radius:var(--r);padding:32px;max-width:540px;width:100%;box-shadow:var(--shadow-md);animation:fadeUp .25s ease both;position:relative}
-.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--bg3);border:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--text2);font-family:var(--font)}
-.modal-title{font-family:'DM Sans',sans-serif;font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:4px}
-.modal-sub{font-size:13px;color:var(--text2);margin-bottom:18px}
-.field{margin-bottom:12px}
-.field label{display:block;font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text3);margin-bottom:5px}
-.input{width:100%;background:var(--bg5);border:1.5px solid var(--border2);border-radius:var(--r2);padding:9px 13px;color:var(--text);font-size:13px;outline:none;font-family:var(--font);transition:border-color .15s}
-.input:focus{border-color:var(--blue)}
+.modal-box{background:var(--bg2);border:1px solid var(--line2);border-radius:14px;padding:28px;max-width:520px;width:100%;animation:fadeUp .2s ease both;position:relative}
+.modal-close{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:50%;background:var(--bg3);border:1px solid var(--line2);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;color:var(--txt2);font-family:var(--font)}
+.modal-title{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:700;margin-bottom:4px}
+.modal-sub{font-size:13px;color:var(--txt2);margin-bottom:16px}
+.field{margin-bottom:11px}
+.field label{display:block;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--txt3);margin-bottom:4px}
+.input{width:100%;background:var(--bg3);border:1.5px solid var(--line2);border-radius:8px;padding:8px 12px;color:var(--txt);font-size:13px;outline:none;font-family:var(--font);transition:border-color .15s}
+.input:focus{border-color:rgba(201,168,76,.5)}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
-/* ── Empty state ── */
-.empty{text-align:center;padding:60px 20px;color:var(--text3)}
-.empty-icon{font-size:40px;margin-bottom:12px}
-.empty-text{font-size:14px}
-
-/* ── Toast ── */
-.toast{position:fixed;bottom:24px;right:24px;background:var(--text);color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;opacity:0;transform:translateY(10px);transition:all .3s}
+/* toast */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid rgba(201,168,76,.3);color:var(--g);padding:11px 18px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;opacity:0;transform:translateY(8px);transition:all .3s}
 .toast.show{opacity:1;transform:none}
 </style>
-
 <link rel="stylesheet" href="bad360-ds.css">
+<script src="bad360-sdk.js"></script>
 </head>
 <body class="b360-module">
 <header class="b360-topbar" id="b360-topbar">
-<div class="b360-tb-l">
-<a href="index.html" class="b360-tb-back" title="Torna alla Suite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a>
-<a href="index.html" class="b360-tb-brand" tabindex="-1"><div class="b360-tb-logo">B360</div><span class="b360-tb-name">BAD<strong>360</strong>.ai</span></a>
-<span class="b360-tb-sep"></span>
-<span class="b360-tb-module" id="b360-page-label">Suite</span>
-</div>
-<div class="b360-tb-r">
-<span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.0</span>
-<button class="b360-tb-theme" id="b360-theme-btn" title="Cambia tema">&#9790;</button>
-</div>
+  <div class="b360-tb-l">
+    <a href="index.html" class="b360-tb-back" title="Suite">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </a>
+    <a href="index.html" class="b360-tb-brand" tabindex="-1">
+      <div class="b360-tb-logo">B360</div>
+      <span class="b360-tb-name">BAD<strong>360</strong>.ai</span>
+    </a>
+    <span class="b360-tb-sep"></span>
+    <span class="b360-tb-module" id="b360-page-label">Suite</span>
+  </div>
+  <div class="b360-tb-r">
+    <span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.1</span>
+    <button class="b360-tb-theme" id="b360-theme-btn" title="Tema">☽</button>
+  </div>
 </header>
-<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"&#9790;":"&#9788;";b.addEventListener("click",function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"&#9790;":"&#9788;";try{localStorage.setItem("bad360_theme",nt)}catch(e){}});}var lbl=document.getElementById("b360-page-label");if(lbl){var title=document.title.replace("BAD360.ai — ","").replace("BAD.S — ","").replace("BAD360 — ","");if(title&&title!==document.title)lbl.textContent=title;}});})()</script>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"☽":"☀";b.addEventListener("click",function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"☽":"☀";try{localStorage.setItem("bad360_theme",nt)}catch(e){}});}var lbl=document.getElementById("b360-page-label");if(lbl){var title=document.title.replace("BAD360.ai — ","");if(title)lbl.textContent=title;}});})()</script>
 
 <div class="wrap" id="page-academy">
 
-  <!-- Header -->
   <div class="page-hdr">
     <div class="overline">🎓 Formazione Professionale</div>
-    <div class="page-title">BAD.S <em>Academy</em></div>
+    <div class="page-title">BAD360 <em>Academy</em></div>
     <div class="page-sub">Corsi certificati per professionisti dell'hospitality. Da HACCP obbligatorio a Revenue Management avanzato, con attestati riconosciuti da enti accreditati.</div>
     <div class="stats-strip">
       <div class="stat"><div class="stat-val">9</div><div class="stat-lbl">Corsi attivi</div></div>
@@ -134,7 +152,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
     </div>
   </div>
 
-  <!-- Toolbar filtri -->
   <div class="toolbar">
     <div class="filter-group">
       <button class="filter-btn active" onclick="filterLevel('all',this)">Tutti i livelli</button>
@@ -145,8 +162,33 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
     <div class="results-count" id="results-count"></div>
   </div>
 
-  <!-- Grid corsi -->
   <div class="academy-grid" id="academy-grid"></div>
+
+  <!-- Learning paths -->
+  <div class="sec-label">Percorsi</div>
+  <div class="sec-title">Percorsi Formativi</div>
+  <div class="sec-sub">Itinerari guidati per specializzazione professionale</div>
+  <div class="paths-grid" id="paths-grid"></div>
+
+  <!-- Progress -->
+  <div class="sec-label">Il tuo profilo</div>
+  <div class="sec-title">Il Tuo Progresso</div>
+  <div class="prog-grid">
+    <div class="prog-card"><div class="prog-val" style="color:var(--g)">6</div><div class="prog-lbl">Corsi completati</div></div>
+    <div class="prog-card"><div class="prog-val" style="color:var(--orange)">3</div><div class="prog-lbl">In corso</div></div>
+    <div class="prog-card"><div class="prog-val" style="color:var(--g)">42h</div><div class="prog-lbl">Ore formazione</div></div>
+    <div class="prog-card"><div class="prog-val" style="color:var(--green)">2</div><div class="prog-lbl">Certificati</div></div>
+  </div>
+
+  <!-- Certificates -->
+  <div class="sec-label">Credenziali</div>
+  <div class="sec-title">Certificati Ottenuti</div>
+  <div id="certs-content"></div>
+
+  <!-- Webinar calendar -->
+  <div class="sec-label">Agenda</div>
+  <div class="sec-title">Prossimi Webinar & Live</div>
+  <div id="webinars-content"></div>
 
 </div>
 
@@ -160,45 +202,18 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 
 <div class="toast" id="toast"></div>
 
-
-  <!-- ═══ LEARNING PATHS ═══ -->
-  <section style="margin-top:32px" id="sec-paths">
-    <h2 style="font-family:'DM Sans',sans-serif;font-size:1.2rem;color:#f0f4ff;margin-bottom:14px">🎯 Percorsi Formativi</h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:24px" id="paths-grid"></div>
-  </section>
-
-  <!-- ═══ PROGRESS TRACKER ═══ -->
-  <section style="margin-top:8px" id="sec-progress">
-    <h2 style="font-family:'DM Sans',sans-serif;font-size:1.2rem;color:#f0f4ff;margin-bottom:14px">📊 Il Tuo Progresso</h2>
-    <div id="progress-content"></div>
-  </section>
-
-  <!-- ═══ CERTIFICATES ═══ -->
-  <section style="margin-top:24px" id="sec-certs">
-    <h2 style="font-family:'DM Sans',sans-serif;font-size:1.2rem;color:#f0f4ff;margin-bottom:14px">🏅 Certificati Ottenuti</h2>
-    <div id="certs-content"></div>
-  </section>
-
-  <!-- ═══ WEBINAR CALENDAR ═══ -->
-  <section style="margin-top:24px;margin-bottom:32px" id="sec-webinars">
-    <h2 style="font-family:'DM Sans',sans-serif;font-size:1.2rem;color:#f0f4ff;margin-bottom:14px">📅 Prossimi Webinar & Live</h2>
-    <div id="webinars-content"></div>
-  </section>
-
 <script>
 const COURSES=[
   {level:'base',icon:'🛡️',title:'HACCP — Operatori Settore Alimentare',desc:'Corso obbligatorio per OSA. Pericoli biologici, chimici, fisici. I 7 principi HACCP. Sanificazione. Temperatura. Tracciabilità. Piano HACCP in pratica.',hours:8,credits:'Attestato HACCP valido D.Lgs.193/2007',partner:'Formazione Accreditata MIUR',price:'€ 89',tags:['HACCP','OSA','Obbligatorio']},
-  {level:'adv',icon:'🌿',title:'Internal Auditor ISO 14001:2015',desc:'Metodologia di audit ambientale secondo ISO 19011. Pianificazione, conduzione, reporting audit SGA. Esercitazioni pratiche su casi reali dell'hospitality.',hours:16,credits:'Certificato Auditor ISO 14001',partner:'ACCREDIA Partner',price:'€ 320',tags:['ISO14001','Audit','SGA']},
-  {level:'pro',icon:'⚡',title:'Energy Manager Certificato (ISO 50001)',desc:'Formazione Energy Manager ex D.Lgs. 102/2014. Diagnosi energetica, gestione SGE, calcolo KPI energetici, accesso TEE-Certificati Bianchi. Case study hotel 4 stelle.',hours:40,credits:'Titolo Energy Manager FIRE',partner:'FIRE — Federazione Italiana per l'uso Razionale dell'Energia',price:'€ 890',tags:['ISO50001','Energy Manager','FIRE']},
+  {level:'adv',icon:'🌿',title:'Internal Auditor ISO 14001:2015',desc:'Metodologia di audit ambientale secondo ISO 19011. Pianificazione, conduzione, reporting audit SGA. Esercitazioni pratiche su casi reali dell\'hospitality.',hours:16,credits:'Certificato Auditor ISO 14001',partner:'ACCREDIA Partner',price:'€ 320',tags:['ISO14001','Audit','SGA']},
+  {level:'pro',icon:'⚡',title:'Energy Manager Certificato (ISO 50001)',desc:'Formazione Energy Manager ex D.Lgs. 102/2014. Diagnosi energetica, gestione SGE, calcolo KPI energetici, accesso TEE-Certificati Bianchi. Case study hotel 4 stelle.',hours:40,credits:'Titolo Energy Manager FIRE',partner:'FIRE — Federazione Italiana per l\'uso Razionale dell\'Energia',price:'€ 890',tags:['ISO50001','Energy Manager','FIRE']},
   {level:'adv',icon:'📊',title:'Revenue Management Hospitality Avanzato',desc:'Pricing dinamico, segmentazione, gestione OTA, displacement analysis, forecasting, total revenue management. Excel + RMS reali. Workshop hands-on.',hours:20,credits:'Certificato Revenue Manager',partner:'HSMAI Italia',price:'€ 450',tags:['Revenue','OTA','Hospitality']},
   {level:'base',icon:'🔑',title:'Green Key — Responsabile Ambientale Struttura',desc:'Criteri Green Key per hotel e ristoranti. Compilazione dossier candidatura, gestione audit FEE Italia. Piano azioni ambientali efficace e monitoraggio.',hours:12,credits:'Certificato Green Key Ambassador',partner:'FEE Italia',price:'€ 220',tags:['GreenKey','Sostenibilità','FEE']},
   {level:'pro',icon:'🇪🇺',title:'EMAS III — Verificatore e Redazione DA',desc:'Iter completo registrazione EMAS: analisi ambientale iniziale, KPI Allegato IV Reg. 1221/2009, redazione Dichiarazione Ambientale, gestione rapporto ISPRA.',hours:32,credits:'Qualifica Referente EMAS',partner:'ISPRA / ACCREDIA',price:'€ 690',tags:['EMAS','ISPRA','DA']},
   {level:'adv',icon:'🍷',title:'Wine & Beverage Management Professionale',desc:'Costruzione wine list coerente con concept, gestione cantina e inventario, analisi costi, formazione degustazione, abbinamenti enogastronomici, marginalità.',hours:24,credits:'Diploma Beverage Manager',partner:'AIS — Associazione Italiana Sommelier',price:'€ 380',tags:['Wine','Beverage','Sommelier']},
   {level:'base',icon:'🤝',title:'Soft Skills Leadership per F&B Manager',desc:'Gestione del team in cucina e sala, comunicazione efficace, conflict management, motivazione, feedback costruttivo, gestione turni e performance.',hours:8,credits:'Certificato Leadership Skills',partner:'Confindustria Alberghi',price:'€ 150',tags:['Leadership','HR','Soft Skills']},
-  {level:'pro',icon:'🏗️',title:'Pre-Opening Hotel & Restaurant Masterclass',desc:'Dalla progettazione all'inaugurazione: selezione fornitori, costruzione team, sviluppo SOP, soft opening, gestione crisi iniziale. Case study reali.',hours:48,credits:'Master Pre-Opening Manager',partner:'Federalberghi Academy',price:'€ 1.200',tags:['Pre-Opening','Operativo','Master']},
+  {level:'pro',icon:'🏗️',title:'Pre-Opening Hotel & Restaurant Masterclass',desc:'Dalla progettazione all\'inaugurazione: selezione fornitori, costruzione team, sviluppo SOP, soft opening, gestione crisi iniziale. Case study reali.',hours:48,credits:'Master Pre-Opening Manager',partner:'Federalberghi Academy',price:'€ 1.200',tags:['Pre-Opening','Operativo','Master']},
 ];
-
-let currentLevel='all';
 
 const LEVEL_LABEL={base:'● BASE',adv:'◈ AVANZATO',pro:'◆ PROFESSIONALE'};
 
@@ -207,9 +222,9 @@ function renderAcademy(level){
   const count=document.getElementById('results-count');
   if(!grid) return;
   const filtered=level==='all'?COURSES:COURSES.filter(c=>c.level===level);
-  if(count) count.textContent=filtered.length+' corso'+(filtered.length!==1?'i')+' trovati';
+  if(count) count.textContent=filtered.length+' corso'+(filtered.length!==1?'i':'')+' trovati';
   if(!filtered.length){
-    grid.innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="empty-icon">🎓</div><div class="empty-text">Nessun corso per questo livello</div></div>`;
+    grid.innerHTML=`<div style="text-align:center;padding:50px;color:var(--txt3);grid-column:1/-1"><div style="font-size:36px;margin-bottom:10px">🎓</div><div>Nessun corso per questo livello</div></div>`;
     return;
   }
   grid.innerHTML=filtered.map((c,i)=>`
@@ -217,28 +232,24 @@ function renderAcademy(level){
       <div class="academy-header">
         <div class="academy-level level-${c.level}">${LEVEL_LABEL[c.level]}</div>
         <div class="academy-icon-title">
-          <span style="font-size:30px;flex-shrink:0">${c.icon}</span>
+          <span style="font-size:28px;flex-shrink:0">${c.icon}</span>
           <div class="academy-title">${c.title}</div>
         </div>
       </div>
       <div class="academy-body">
-        <div class="academy-meta">
-          <span>⏱ ${c.hours}h</span>
-          <span>🏛️ ${c.partner.split('—')[0].trim()}</span>
-        </div>
+        <div class="academy-meta"><span>⏱ ${c.hours}h</span><span>🏛️ ${c.partner.split('—')[0].trim()}</span></div>
         <div class="academy-desc">${c.desc}</div>
         <div class="academy-credits">🎓 ${c.credits}</div>
         <div class="academy-tags">${c.tags.map(t=>`<span class="badge badge-muted">${t}</span>`).join('')}</div>
       </div>
       <div class="academy-footer">
-        <div style="font-family:var(--mono);font-size:1.1rem;color:var(--gold);font-weight:700">${c.price}</div>
+        <div style="font-family:var(--mono);font-size:1.1rem;color:var(--g);font-weight:700">${c.price}</div>
         <button class="btn btn-gold btn-sm" onclick="openEnrollModal(${COURSES.indexOf(c)})">Iscriviti →</button>
       </div>
     </div>`).join('');
 }
 
 function filterLevel(level,btn){
-  currentLevel=level;
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   if(btn) btn.classList.add('active');
   renderAcademy(level);
@@ -247,34 +258,34 @@ function filterLevel(level,btn){
 function openEnrollModal(idx){
   const c=COURSES[idx];
   document.getElementById('modal-content').innerHTML=`
-    <div style="font-size:36px;margin-bottom:10px">${c.icon}</div>
+    <div style="font-size:34px;margin-bottom:10px">${c.icon}</div>
     <div class="modal-title">${c.title}</div>
     <div class="modal-sub">${c.partner} · ⏱ ${c.hours}h</div>
-    <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap">
-      <div style="padding:10px 16px;background:var(--gold-dim);border-radius:8px;border:1px solid rgba(217,119,6,.2)">
-        <div style="font-size:10px;color:var(--text3);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">Quota</div>
-        <div style="font-family:var(--mono);font-size:1.1rem;color:var(--gold);font-weight:700">${c.price}</div>
+    <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+      <div style="padding:10px 16px;background:rgba(201,168,76,.08);border-radius:8px;border:1px solid rgba(201,168,76,.2)">
+        <div style="font-size:10px;color:var(--txt3);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">Quota</div>
+        <div style="font-family:var(--mono);font-size:1.1rem;color:var(--g);font-weight:700">${c.price}</div>
       </div>
-      <div style="padding:10px 16px;background:var(--green-dim);border-radius:8px;border:1px solid rgba(22,163,74,.2)">
-        <div style="font-size:10px;color:var(--text3);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">Credenziale</div>
-        <div style="font-size:12px;font-weight:700;color:var(--green)">${c.credits.split(' ')[0]+' '+c.credits.split(' ')[1]}</div>
+      <div style="padding:10px 16px;background:rgba(106,171,118,.08);border-radius:8px;border:1px solid rgba(106,171,118,.2)">
+        <div style="font-size:10px;color:var(--txt3);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">Credenziale</div>
+        <div style="font-size:12px;font-weight:700;color:var(--green)">${c.credits.split(' ').slice(0,3).join(' ')}</div>
       </div>
     </div>
-    <div class="form-grid" style="margin-bottom:12px">
+    <div class="form-grid" style="margin-bottom:10px">
       <div class="field"><label>Nome & Cognome</label><input class="input" placeholder="Mario Rossi" id="enroll-nome"></div>
       <div class="field"><label>Struttura</label><input class="input" placeholder="Hotel..." id="enroll-str"></div>
       <div class="field"><label>Email</label><input class="input" type="email" placeholder="info@hotel.it" id="enroll-email"></div>
       <div class="field"><label>Telefono</label><input class="input" placeholder="+39..." id="enroll-tel"></div>
     </div>
-    <div class="field" style="margin-bottom:16px"><label>Preferenza data</label>
+    <div class="field" style="margin-bottom:14px"><label>Preferenza data</label>
       <select class="input" id="enroll-data" style="cursor:pointer">
-        <option>Maggio 2025 — Milano</option><option>Giugno 2025 — Roma</option>
-        <option>Settembre 2025 — Online</option><option>Da concordare</option>
+        <option>Giugno 2026 — Milano</option><option>Luglio 2026 — Roma</option>
+        <option>Settembre 2026 — Online</option><option>Da concordare</option>
       </select>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <button class="btn btn-gold" onclick="submitEnroll('${c.title.slice(0,30)}')">🎓 Conferma Iscrizione</button>
-      <button class="btn" style="background:transparent;color:var(--text2);border:1.5px solid var(--border2)" onclick="closeModal()">Chiudi</button>
+      <button class="btn btn-outline" onclick="closeModal()">Chiudi</button>
     </div>`;
   document.getElementById('modal-overlay').classList.add('open');
 }
@@ -294,40 +305,168 @@ function showToast(msg){
   setTimeout(()=>t.classList.remove('show'),3800);
 }
 
-document.addEventListener('DOMContentLoaded',()=>renderAcademy('all'));
-</script>
-<script>
-window.switchTab=window.switchTab||function(t){var m={bevmanager:'bevmanager.html',hotellerie:'hotellerie.html',housekeeping:'housekeeping.html',haccp:'haccp.html',nc:'nc.html',tracciabilita:'tracciabilita.html',shelflife:'shelflife.html',scmpro:'scmpro.html',shiftmanager:'shiftmanager.html',events:'events.html',hub:'hub.html',cert:'cert.html',consult:'consulenze.html',academy:'academy.html',norme:'norme.html',network:'network.html',barman:'barman.html',frontoffice:'BAD360.html#frontoffice',revenue:'BAD360.html#revenue',iotmonitor:'BAD360.html#iotmonitor',demand:'BAD360.html#demand',supplier:'BAD360.html#supplier',possync:'BAD360.html#possync',bidashboard:'BAD360.html#bidashboard',bandi360:'BAD360.html#bandi360',iso22005adv:'BAD360.html#iso22005adv',procurement:'BAD360.html#procurement',haccp2:'BAD360.html#haccp2'};var u=m[t];if(u){if(u.indexOf('#')!==-1)sessionStorage.setItem('bad360_tab',t);window.location.href=u}};
+// Learning paths
+const PATHS=[
+  {name:'HACCP Specialist',icon:'🛡️',courses:5,completed:3,hours:24,color:'#c94a4a',skills:['HACCP Base','Allergeni','CCP Monitor','Audit Interno','ISO 22000']},
+  {name:'F&B Manager',icon:'🍸',courses:6,completed:2,hours:32,color:'#C9A84C',skills:['Beverage Mgmt','Food Cost','Menu Engineering','Wine Expert','Barman Skills','Leadership']},
+  {name:'Revenue Expert',icon:'📈',courses:4,completed:1,hours:18,color:'#4f8ef7',skills:['Revenue Base','Dynamic Pricing','Forecasting','Competitive Analysis']},
+  {name:'Sustainability Leader',icon:'🌿',courses:4,completed:0,hours:20,color:'#6aab76',skills:['ISO 14001','Ecolabel UE','Green Key','ESG Reporting']},
+];
 
-// Academy Advanced Modules
-(function(){
-  const PATHS = [
-    {name:'HACCP Specialist',icon:'🛡️',courses:5,completed:3,hours:24,color:'#e03e50',skills:['HACCP Base','Allergeni','CCP Monitor','Audit Interno','ISO 22000']},
-    {name:'F&B Manager',icon:'🍸',courses:6,completed:2,hours:32,color:'#f5a623',skills:['Beverage Mgmt','Food Cost','Menu Engineering','Wine Expert','Barman Skills','Leadership']},
-    {name:'Revenue Expert',icon:'📈',courses:4,completed:1,hours:18,color:'#4f8ef7',skills:['Revenue Base','Dynamic Pricing','Forecasting','Competitive Analysis']},
-    {name:'Sustainability Leader',icon:'🌿',courses:4,completed:0,hours:20,color:'#16a34a',skills:['ISO 14001','Ecolabel UE','Green Key','ESG Reporting']},
-  ];
+function renderPaths(){
   const pg=document.getElementById('paths-grid');
-  if(pg) pg.innerHTML=PATHS.map(p=>`<div style="background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:20px;border-top:3px solid ${p.color}"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px"><div><div style="font-size:20px;margin-bottom:4px">${p.icon}</div><div style="font-weight:700;font-size:15px;color:#f0f4ff">${p.name}</div><div style="font-size:11px;color:#5a6882">${p.courses} corsi · ${p.hours}h · ${p.completed}/${p.courses} completati</div></div><div style="font-size:24px;font-weight:800;color:${p.color}">${Math.round(p.completed/p.courses*100)}%</div></div><div style="height:6px;background:rgba(255,255,255,.05);border-radius:3px;margin-bottom:12px;overflow:hidden"><div style="height:100%;width:${(p.completed/p.courses)*100}%;background:${p.color};border-radius:3px"></div></div><div style="display:flex;flex-wrap:wrap;gap:4px">${p.skills.map((s,i)=>`<span style="font-size:10px;padding:2px 8px;border-radius:100px;background:${i<p.completed?p.color+'15':'rgba(255,255,255,.04)'};color:${i<p.completed?p.color:'#5a6882'};border:1px solid ${i<p.completed?p.color+'30':'rgba(255,255,255,.06)'}">${i<p.completed?'✓ ':''} ${s}</span>`).join('')}</div></div>`).join('');
+  if(!pg) return;
+  pg.innerHTML=PATHS.map(p=>`
+    <div class="path-card" style="--path-color:${p.color}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+        <div>
+          <div style="font-size:20px;margin-bottom:3px">${p.icon}</div>
+          <div class="path-name">${p.name}</div>
+          <div class="path-meta">${p.courses} corsi · ${p.hours}h · ${p.completed}/${p.courses} completati</div>
+        </div>
+        <div class="path-pct">${Math.round(p.completed/p.courses*100)}%</div>
+      </div>
+      <div class="path-bar"><div class="path-bar-fill" style="width:${(p.completed/p.courses)*100}%"></div></div>
+      <div class="path-skills">${p.skills.map((s,i)=>`<span class="path-skill" style="font-size:10px;padding:2px 8px;border-radius:100px;background:${i<p.completed?p.color+'20':'rgba(255,255,255,.04)'};color:${i<p.completed?p.color:'var(--txt3)'};border-color:${i<p.completed?p.color+'40':'var(--line)'}">${i<p.completed?'✓ ':''} ${s}</span>`).join('')}</div>
+    </div>`).join('');
+}
 
-  const pc=document.getElementById('progress-content');
-  if(pc) pc.innerHTML=`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:16px"><div style="background:rgba(79,142,247,.06);border:1px solid rgba(79,142,247,.15);border-radius:12px;padding:16px;text-align:center"><div style="font-size:28px;font-weight:800;color:#4f8ef7">6</div><div style="font-size:11px;color:#5a6882">Corsi completati</div></div><div style="background:rgba(245,166,35,.06);border:1px solid rgba(245,166,35,.15);border-radius:12px;padding:16px;text-align:center"><div style="font-size:28px;font-weight:800;color:#f5a623">3</div><div style="font-size:11px;color:#5a6882">In corso</div></div><div style="background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.15);border-radius:12px;padding:16px;text-align:center"><div style="font-size:28px;font-weight:800;color:#a78bfa">42h</div><div style="font-size:11px;color:#5a6882">Ore formazione</div></div><div style="background:rgba(22,163,74,.06);border:1px solid rgba(22,163,74,.15);border-radius:12px;padding:16px;text-align:center"><div style="font-size:28px;font-weight:800;color:#16a34a">2</div><div style="font-size:11px;color:#5a6882">Certificati</div></div></div>`;
-
+function renderCerts(){
   const cc=document.getElementById('certs-content');
-  if(cc) cc.innerHTML=[
+  if(!cc) return;
+  const CERTS=[
     {name:'HACCP Base — Sicurezza Alimentare',date:'15/03/2026',code:'BAD360-HACCP-2026-042',valid:'15/03/2029'},
     {name:'Allergeni — Reg. UE 1169/2011',date:'20/01/2026',code:'BAD360-ALL-2026-018',valid:'20/01/2029'},
-  ].map(c=>`<div style="background:linear-gradient(135deg,rgba(245,166,35,.04),rgba(167,139,250,.04));border:1px solid rgba(245,166,35,.15);border-radius:14px;padding:18px;margin-bottom:10px;display:flex;align-items:center;gap:14px;flex-wrap:wrap"><div style="font-size:28px">🏅</div><div style="flex:1;min-width:200px"><div style="font-weight:700;color:#f0f4ff;font-size:14px">${c.name}</div><div style="font-size:11px;color:#5a6882;margin-top:2px;font-family:'DM Mono',monospace">${c.code}</div></div><div style="text-align:right;font-size:12px;color:#5a6882"><div>Rilasciato: ${c.date}</div><div>Valido fino: ${c.valid}</div></div><button style="background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.2);border-radius:8px;padding:6px 14px;color:#f5a623;font-size:11px;cursor:pointer;font-family:inherit;white-space:nowrap" onclick="this.textContent='📄 PDF scaricato'">Scarica PDF</button></div>`).join('');
+  ];
+  cc.innerHTML=CERTS.map(c=>`
+    <div class="cert-item">
+      <div style="font-size:26px">🏅</div>
+      <div style="flex:1;min-width:200px">
+        <div class="cert-name">${c.name}</div>
+        <div class="cert-code">${c.code}</div>
+      </div>
+      <div style="text-align:right;font-size:12px;color:var(--txt2);min-width:110px">
+        <div>Rilasciato: ${c.date}</div>
+        <div>Valido fino: ${c.valid}</div>
+      </div>
+      <button class="btn btn-gold btn-sm" onclick="this.textContent='📄 PDF scaricato'">Scarica PDF</button>
+    </div>`).join('');
+}
 
+function renderWebinars(){
   const wc=document.getElementById('webinars-content');
-  if(wc) wc.innerHTML=[
-    {title:'HACCP 2026: Novità normative e best practice',date:'12 Mag 2026',time:'15:00',speaker:'Dott. Mario Ferrara',spots:45,type:'Live'},
-    {title:'Revenue Management per boutique hotel',date:'19 Mag 2026',time:'10:00',speaker:'Prof. Andrea Sanna',spots:30,type:'Webinar'},
-    {title:'Sostenibilità in cucina: zero waste',date:'26 Mag 2026',time:'14:00',speaker:'Chef Giulia Melis',spots:60,type:'Workshop'},
-    {title:'AI nel Food & Beverage',date:'02 Giu 2026',time:'11:00',speaker:'Ing. Paolo Lai',spots:50,type:'Live'},
-  ].map(w=>`<div style="background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:16px;margin-bottom:8px;display:flex;align-items:center;gap:14px;flex-wrap:wrap"><div style="min-width:70px;text-align:center"><div style="font-size:18px;font-weight:800;color:#f5a623">${w.date.split(' ')[0]}</div><div style="font-size:11px;color:#5a6882">${w.date.split(' ').slice(1).join(' ')}</div><div style="font-size:11px;color:#4f8ef7">${w.time}</div></div><div style="flex:1;min-width:200px"><div style="font-weight:700;font-size:14px;color:#f0f4ff">${w.title}</div><div style="font-size:12px;color:#5a6882;margin-top:2px">🎤 ${w.speaker} · ${w.spots} posti · <span style="color:${w.type==='Live'?'#e03e50':'#4f8ef7'}">${w.type}</span></div></div><button style="background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.2);border-radius:8px;padding:8px 16px;color:#f5a623;font-size:12px;cursor:pointer;font-family:inherit;font-weight:600;white-space:nowrap" onclick="this.textContent='✅ Iscritto!'">Iscriviti</button></div>`).join('');
-})();
+  if(!wc) return;
+  const WEBINARS=[
+    {title:'HACCP 2026: Novità normative e best practice',date:'12 Mag',year:'2026',time:'15:00',speaker:'Dott. Mario Ferrara',spots:45,type:'Live'},
+    {title:'Revenue Management per boutique hotel',date:'19 Mag',year:'2026',time:'10:00',speaker:'Prof. Andrea Sanna',spots:30,type:'Webinar'},
+    {title:'Sostenibilità in cucina: zero waste',date:'26 Mag',year:'2026',time:'14:00',speaker:'Chef Giulia Melis',spots:60,type:'Workshop'},
+    {title:'AI nel Food & Beverage',date:'02 Giu',year:'2026',time:'11:00',speaker:'Ing. Paolo Lai',spots:50,type:'Live'},
+  ];
+  wc.innerHTML=WEBINARS.map(w=>`
+    <div class="webinar-item">
+      <div class="webinar-date">
+        <div class="webinar-day">${w.date.split(' ')[0]}</div>
+        <div class="webinar-month">${w.date.split(' ')[1]} ${w.year}</div>
+        <div class="webinar-time">${w.time}</div>
+      </div>
+      <div style="flex:1;min-width:200px">
+        <div class="webinar-title">${w.title}</div>
+        <div class="webinar-speaker">🎤 ${w.speaker} · ${w.spots} posti · <span style="color:${w.type==='Live'?'var(--red)':'var(--g)'}">${w.type}</span></div>
+      </div>
+      <button class="btn btn-gold btn-sm" onclick="this.textContent='✅ Iscritto!'">Iscriviti</button>
+    </div>`).join('');
+}
 
+document.addEventListener('DOMContentLoaded',()=>{
+  renderAcademy('all');
+  renderPaths();
+  renderCerts();
+  renderWebinars();
+  if(typeof B360!=='undefined') B360.mountAIWidget('general','BAD360.ai Academy · Corsi Barman · FIB');
+});
+</script>
+
+<!-- AI TUTOR WIDGET (C9.4) -->
+<style>
+#tutor-btn{position:fixed;bottom:28px;right:28px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--gd));border:none;cursor:pointer;font-size:22px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(201,168,76,.4);z-index:9999;transition:transform .18s}
+#tutor-btn:hover{transform:scale(1.08)}
+#tutor-panel{position:fixed;bottom:98px;right:28px;width:360px;background:var(--bg2);border:1px solid rgba(201,168,76,.25);border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,.5);z-index:9998;display:none;flex-direction:column;overflow:hidden;animation:fadeUp .25s ease both}
+#tutor-panel.open{display:flex}
+.tutor-head{background:rgba(201,168,76,.1);padding:14px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(201,168,76,.15)}
+.tutor-head-title{font-family:var(--heading);font-size:14px;font-weight:700;flex:1}
+.tutor-messages{flex:1;max-height:260px;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px}
+.tutor-msg-ai{background:var(--bg3);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:12px;line-height:1.6;color:var(--txt2);align-self:flex-start;max-width:90%}
+.tutor-msg-user{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:9px 12px;font-size:12px;line-height:1.6;color:var(--txt);align-self:flex-end;max-width:90%}
+.tutor-chips{padding:8px 14px;display:flex;flex-wrap:wrap;gap:5px;border-top:1px solid var(--line)}
+.tutor-chip{background:var(--bg3);border:1px solid var(--line);border-radius:20px;padding:4px 11px;font-size:10px;cursor:pointer;color:var(--txt2);transition:all .14s}
+.tutor-chip:hover{border-color:rgba(201,168,76,.3);color:var(--g)}
+.tutor-input-row{padding:10px 14px;border-top:1px solid var(--line);display:flex;gap:7px}
+#tutor-input{flex:1;background:var(--bg3);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:12px;color:var(--txt);font-family:var(--font)}
+#tutor-input:focus{border-color:rgba(201,168,76,.35)}
+#tutor-send{background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:7px;padding:7px 13px;font-size:12px;font-weight:700;color:var(--g);cursor:pointer}
+</style>
+
+<button id="tutor-btn" onclick="toggleTutor()" title="AI Tutor BAD360">🎓</button>
+<div id="tutor-panel">
+  <div class="tutor-head">
+    <div style="width:36px;height:36px;border-radius:50%;background:rgba(201,168,76,.15);display:flex;align-items:center;justify-content:center;font-size:18px">🎓</div>
+    <div class="tutor-head-title">AI Tutor BAD360</div>
+    <button onclick="toggleTutor()" style="background:none;border:none;font-size:16px;color:var(--txt3);cursor:pointer;line-height:1">×</button>
+  </div>
+  <div class="tutor-messages" id="tutor-messages">
+    <div class="tutor-msg-ai">Ciao! Sono il tuo AI Tutor specializzato in hospitality, barmanship e gestione F&B. 🍸<br><br>Come posso aiutarti oggi?</div>
+  </div>
+  <div class="tutor-chips" id="tutor-chips">
+    <button class="tutor-chip" onclick="tutorAsk('Come si prepara un Negroni IBA?')">🍊 Cocktail IBA</button>
+    <button class="tutor-chip" onclick="tutorAsk('Regole HACCP in cucina')">🛡️ HACCP</button>
+    <button class="tutor-chip" onclick="tutorAsk('Come gestire un reclamo ospite?')">⭐ Gestione clienti</button>
+    <button class="tutor-chip" onclick="tutorAsk('Cos\'è il revenue management?')">📈 Revenue</button>
+  </div>
+  <div class="tutor-input-row">
+    <input id="tutor-input" placeholder="Fai una domanda al tutor…" onkeydown="if(event.key==='Enter')tutorAsk()">
+    <button id="tutor-send" onclick="tutorAsk()">→</button>
+  </div>
+</div>
+
+<script>
+const TUTOR_KB = {
+  'negroni': 'Il Negroni IBA si prepara con: 3cl Gin, 3cl Campari, 3cl Vermouth Rosso. Metodo: build on ice in bicchiere old fashioned. Guarnire con scorza d\'arancia. È un cocktail prebuildato, agitato non shakerato.',
+  'cosmopolitan': 'Il Cosmopolitan: 4cl Vodka Citrus, 1.5cl Triple Sec, 1.5cl Succo di lime fresco, 3cl Succo di mirtillo. Shakerato, servito in coppa cocktail, guarnire con scorza di lime.',
+  'mojito': 'Il Mojito: 4.5cl Rum bianco, 2cl Succo di lime, 6 foglie di menta, 2 cucchiaini di zucchero bianco, soda water. Pestare menta con lime e zucchero, aggiungere rum, ghiaccio, colmare con soda.',
+  'haccp': 'HACCP (Hazard Analysis Critical Control Points): sistema preventivo per la sicurezza alimentare. I 7 principi: 1) Analisi dei pericoli, 2) Identificazione CCP, 3) Stabilire limiti critici, 4) Sistema di monitoraggio, 5) Azioni correttive, 6) Verifica, 7) Documentazione. Obbligatorio per legge in Italia (D.Lgs. 193/2007).',
+  'reclamo': 'Gestione reclamo ospite — metodo HEARD: H=Hear (ascolta), E=Empathize (empatizza), A=Apologize (scusati), R=Resolve (risolvi), D=Diagnose (previeni). Non difenderti mai, non interrompere, offri una soluzione concreta entro le prime 5 minuti.',
+  'revenue': 'Revenue Management: tecnica di pricing dinamico per massimizzare i ricavi. KPI chiave: RevPAR (Revenue per Available Room), ADR (Average Daily Rate), Occupancy Rate. Principio: vendere la camera giusta, al cliente giusto, al momento giusto, al prezzo giusto.',
+  'upselling': 'Upselling in hospitality: proporre al cliente una versione superiore o add-on al momento della prenotazione o del check-in. Esempi: upgrade camera, early check-in, late check-out, pacchetti spa, cena romantica. Aumenta il ricavo medio per camera del 15-25%.',
+  'allergeni': 'I 14 allergeni obbligatori per legge (Reg. UE 1169/2011): cereali con glutine, crostacei, uova, pesce, arachidi, soia, latte, frutta a guscio, sedano, senape, sesamo, anidride solforosa/solfiti, lupini, molluschi. Obbligo di indicazione in menù e comunicazione scritta.',
+  'ias': 'ISO 22000 è lo standard internazionale per i sistemi di gestione della sicurezza alimentare. Integra i principi HACCP con i requisiti di un sistema di gestione. Copre l\'intera filiera alimentare ("dalla fattoria alla tavola").',
+};
+
+function toggleTutor(){
+  const p=document.getElementById('tutor-panel');
+  p.classList.toggle('open');
+  if(p.classList.contains('open')) document.getElementById('tutor-input')?.focus();
+}
+
+async function tutorAsk(preset){
+  const input = document.getElementById('tutor-input');
+  const messages = document.getElementById('tutor-messages');
+  const q = preset || input?.value?.trim();
+  if(!q || !messages) return;
+  if(input) input.value='';
+
+  messages.innerHTML += `<div class="tutor-msg-user">${q}</div>`;
+  messages.innerHTML += `<div class="tutor-msg-ai" id="tutor-typing">⏳ elaborazione…</div>`;
+  messages.scrollTop = messages.scrollHeight;
+
+  await new Promise(r=>setTimeout(r,500));
+
+  const key = Object.keys(TUTOR_KB).find(k=>q.toLowerCase().includes(k));
+  const answer = key ? TUTOR_KB[key] : `Ottima domanda su "${q}"! Per questa tipologia di argomento hospitality, ti consiglio di: 1) Consultare il materiale del corso corrispondente, 2) Chiedere al docente durante la prossima sessione live, 3) Praticare con simulazioni pratiche in struttura. Hai bisogno di approfondire qualcosa di specifico?`;
+
+  const typing = document.getElementById('tutor-typing');
+  if(typing) typing.outerHTML = `<div class="tutor-msg-ai">${answer.replace(/\n/g,'<br>')}</div>`;
+  messages.scrollTop = messages.scrollHeight;
+}
 </script>
 </body>
 </html>

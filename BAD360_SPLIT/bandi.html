@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BAD360.ai — Bandi & Finanza Agevolata</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+
+.wrap{max-width:1200px;margin:0 auto;padding:28px 20px 80px}
+.page-hdr{padding:32px 0 24px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.overline{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--g);margin-bottom:10px}
+.page-title{font-family:'Syne',sans-serif;font-size:clamp(1.7rem,4vw,2.5rem);font-weight:800;line-height:1.1;margin-bottom:10px}
+.page-title em{font-style:italic;font-family:'Playfair Display',serif;color:var(--g)}
+.page-sub{font-size:13.5px;color:var(--txt2);max-width:600px;line-height:1.7}
+.hdr-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;border:1px solid;font-family:var(--font);transition:all .18s}
+.btn-gold{background:rgba(201,168,76,.14);border-color:rgba(201,168,76,.35);color:var(--g)}
+.btn-gold:hover{background:rgba(201,168,76,.22);transform:translateY(-1px)}
+.btn-outline{background:transparent;border-color:var(--line2);color:var(--txt2)}
+.btn-outline:hover{border-color:rgba(201,168,76,.3);color:var(--g)}
+.btn-xs{padding:5px 12px;font-size:11px;border-radius:6px}
+.btn-sm{padding:7px 14px;font-size:12px}
+
+/* KPI strip */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:32px}
+.kpi-card{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:14px;text-align:center;animation:fadeUp .4s ease both}
+.kpi-val{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--g);line-height:1;margin-bottom:4px}
+.kpi-lbl{font-size:10px;font-weight:600;letter-spacing:1.5px;color:var(--txt3);text-transform:uppercase}
+
+/* Layout two-col */
+.main-layout{display:grid;grid-template-columns:300px 1fr;gap:20px;align-items:start}
+@media(max-width:900px){.main-layout{grid-template-columns:1fr}}
+
+/* Profile panel */
+.panel{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:20px;position:sticky;top:20px}
+.panel-title{font-family:'Syne',sans-serif;font-size:13.5px;font-weight:700;margin-bottom:4px;color:var(--txt)}
+.panel-sub{font-size:11.5px;color:var(--txt2);margin-bottom:18px;line-height:1.5}
+.field{margin-bottom:13px}
+.field label{display:block;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--txt3);margin-bottom:4px}
+.input{width:100%;background:var(--bg3);border:1.5px solid var(--line2);border-radius:8px;padding:8px 11px;color:var(--txt);font-size:12.5px;outline:none;font-family:var(--font);transition:border-color .15s}
+.input:focus{border-color:rgba(201,168,76,.5)}
+select.input{cursor:pointer}
+.score-preview{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:14px;margin-top:4px;text-align:center}
+.score-big{font-family:'Syne',sans-serif;font-size:40px;font-weight:800;color:var(--g);line-height:1;margin-bottom:4px}
+.score-label{font-size:11px;color:var(--txt2)}
+.match-bar{height:5px;border-radius:3px;background:var(--bg3);overflow:hidden;margin:6px 0}
+.match-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#8B6914,#C9A84C,#F0D78A);transition:width .6s ease}
+.divider{border:none;border-top:1px solid var(--line);margin:16px 0}
+
+/* Results area */
+.results-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.results-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--txt)}
+.results-count{font-size:12px;color:var(--txt3);font-family:var(--mono)}
+
+/* Filter row */
+.filter-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
+.filter-btn{padding:6px 14px;border-radius:20px;font-size:11.5px;font-weight:600;cursor:pointer;border:1.5px solid var(--line2);background:transparent;color:var(--txt2);font-family:var(--font);transition:all .15s;display:flex;align-items:center;gap:4px}
+.filter-btn.active,.filter-btn:hover{border-color:rgba(201,168,76,.4);color:var(--g);background:rgba(201,168,76,.07)}
+.filter-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+
+/* Sort bar */
+.sort-bar{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.sort-label{font-size:11px;color:var(--txt3)}
+.sort-btn{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--line2);background:transparent;color:var(--txt2);font-family:var(--font);transition:all .12s}
+.sort-btn.active{border-color:rgba(201,168,76,.35);color:var(--g);background:rgba(201,168,76,.07)}
+
+/* Grant card */
+.grants-grid{display:flex;flex-direction:column;gap:10px}
+.grant-card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px;transition:all .22s;animation:fadeUp .4s ease both;cursor:pointer}
+.grant-card:hover{border-color:rgba(201,168,76,.25);transform:translateY(-1px);box-shadow:0 4px 20px rgba(201,168,76,.06)}
+.grant-card.favorited{border-color:rgba(201,168,76,.3);background:rgba(201,168,76,.03)}
+.gc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.gc-badges{display:flex;gap:5px;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.3px}
+.b-pnrr{background:rgba(74,144,226,.12);color:#5E9FF2;border:1px solid rgba(74,144,226,.22)}
+.b-fesr{background:rgba(106,171,118,.1);color:var(--green);border:1px solid rgba(106,171,118,.22)}
+.b-naz{background:rgba(201,168,76,.1);color:var(--g);border:1px solid rgba(201,168,76,.22)}
+.b-reg{background:rgba(212,128,58,.1);color:var(--orange);border:1px solid rgba(212,128,58,.22)}
+.b-ci{background:rgba(155,100,225,.1);color:#B07FE0;border:1px solid rgba(155,100,225,.22)}
+.b-muted{background:var(--bg3);color:var(--txt3);border:1px solid var(--line2)}
+.b-hotel{background:rgba(201,168,76,.07);color:var(--g);border:1px solid rgba(201,168,76,.18)}
+
+.gc-score-wrap{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.gc-score{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--g);line-height:1}
+.gc-score-lbl{font-size:9px;color:var(--txt3);font-weight:600;letter-spacing:1px;text-transform:uppercase}
+.gc-score-bar{width:50px;height:4px;border-radius:2px;background:var(--bg3);overflow:hidden;margin-top:3px}
+.gc-score-fill{height:100%;border-radius:2px;transition:width .5s ease}
+
+.grant-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:5px;color:var(--txt);line-height:1.3}
+.grant-ente{font-size:12px;color:var(--txt2);margin-bottom:8px}
+.grant-desc{font-size:12.5px;color:var(--txt2);line-height:1.6;margin-bottom:12px}
+.gc-meta{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px}
+.gc-meta-item{display:flex;align-items:center;gap:5px}
+.gc-meta-label{font-size:10px;color:var(--txt3);font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.gc-meta-val{font-family:var(--mono);font-size:12.5px;color:var(--txt);font-weight:600}
+.gc-meta-val.big{color:var(--g);font-size:14px}
+.gc-actions{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:4px}
+.gc-reason{font-size:11px;color:var(--txt3);font-style:italic}
+
+.fav-btn{background:transparent;border:1px solid var(--line2);border-radius:6px;padding:5px 8px;cursor:pointer;font-size:14px;transition:all .15s}
+.fav-btn:hover,.fav-btn.active{border-color:rgba(201,168,76,.4);background:rgba(201,168,76,.08)}
+
+/* Scadenza colors */
+.scad-ok{color:var(--green)}
+.scad-soon{color:var(--orange)}
+.scad-open{color:var(--g)}
+.scad-closed{color:var(--txt3);text-decoration:line-through}
+
+/* Detail modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(6,6,10,.78);backdrop-filter:blur(5px);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--bg2);border:1px solid var(--line2);border-radius:14px;padding:0;max-width:680px;width:100%;max-height:90vh;overflow-y:auto;animation:fadeUp .22s ease both;position:relative}
+.modal-hdr{padding:22px 24px 18px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg2);z-index:2;display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.modal-close{width:32px;height:32px;border-radius:50%;background:var(--bg3);border:1px solid var(--line2);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;color:var(--txt2);font-family:var(--font);flex-shrink:0}
+.modal-body{padding:22px 24px}
+.modal-section{margin-bottom:20px}
+.modal-section-title{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:500px){.info-grid{grid-template-columns:1fr}}
+.info-item{background:var(--bg3);border-radius:8px;padding:12px}
+.info-item-lbl{font-size:10px;color:var(--txt3);font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px}
+.info-item-val{font-size:14px;font-weight:700;color:var(--txt);font-family:'Syne',sans-serif}
+.info-item-val.gold{color:var(--g)}
+.req-list{list-style:none}
+.req-list li{font-size:13px;color:var(--txt2);line-height:1.6;padding:4px 0 4px 18px;position:relative;border-bottom:1px solid var(--line)}
+.req-list li:last-child{border-bottom:none}
+.req-list li::before{content:"✦";position:absolute;left:0;color:var(--g);font-size:9px;top:6px}
+
+/* AI Advisor panel */
+.ai-panel{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:20px;margin-top:20px}
+.ai-panel-hdr{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.ai-dot{width:8px;height:8px;border-radius:50%;background:var(--g);animation:pulse 2s infinite;flex-shrink:0}
+.ai-title{font-family:'Syne',sans-serif;font-size:13.5px;font-weight:700;color:var(--txt)}
+.ai-msgs{max-height:260px;overflow-y:auto;margin-bottom:12px;display:flex;flex-direction:column;gap:8px}
+.ai-msg{padding:10px 13px;border-radius:10px;font-size:13px;line-height:1.6;max-width:92%}
+.ai-msg.user{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);color:var(--txt);align-self:flex-end}
+.ai-msg.assistant{background:var(--bg3);border:1px solid var(--line2);color:var(--txt2);align-self:flex-start}
+.ai-input-row{display:flex;gap:8px}
+.ai-input{flex:1;background:var(--bg3);border:1.5px solid var(--line2);border-radius:8px;padding:9px 13px;color:var(--txt);font-size:13px;outline:none;font-family:var(--font);transition:border-color .15s}
+.ai-input:focus{border-color:rgba(201,168,76,.5)}
+.ai-send{padding:9px 16px;background:rgba(201,168,76,.14);border:1px solid rgba(201,168,76,.35);border-radius:8px;color:var(--g);font-weight:700;font-size:13px;cursor:pointer;font-family:var(--font);transition:all .15s;white-space:nowrap}
+.ai-send:hover{background:rgba(201,168,76,.22)}
+.ai-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.ai-chip{padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:600;cursor:pointer;border:1px solid var(--line2);background:transparent;color:var(--txt2);font-family:var(--font);transition:all .15s}
+.ai-chip:hover{border-color:rgba(201,168,76,.35);color:var(--g);background:rgba(201,168,76,.07)}
+.ai-thinking{opacity:.6;font-style:italic;animation:pulse 1.5s infinite}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid rgba(201,168,76,.3);color:var(--g);padding:11px 18px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;opacity:0;transform:translateY(8px);transition:all .3s}
+.toast.show{opacity:1;transform:none}
+
+/* Empty state */
+.empty-state{text-align:center;padding:48px 20px;color:var(--txt2)}
+.empty-icon{font-size:40px;margin-bottom:12px}
+.empty-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--txt);margin-bottom:6px}
+.empty-sub{font-size:12.5px;line-height:1.6}
+</style>
+<link rel="stylesheet" href="bad360-ds.css">
+<script src="bad360-sdk.js"></script>
+</head>
+<body class="b360-module">
+<header class="b360-topbar" id="b360-topbar">
+  <div class="b360-tb-l">
+    <a href="hub.html" class="b360-tb-back" title="Hub">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </a>
+    <a href="index.html" class="b360-tb-brand" tabindex="-1">
+      <div class="b360-tb-logo">B360</div>
+      <span class="b360-tb-name">BAD<strong>360</strong>.ai</span>
+    </a>
+    <span class="b360-tb-sep"></span>
+    <span class="b360-tb-module" id="b360-page-label">Bandi & Finanza</span>
+  </div>
+  <div class="b360-tb-r">
+    <span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.1</span>
+    <button class="b360-tb-theme" id="b360-theme-btn" title="Tema">☽</button>
+  </div>
+</header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"☽":"☀";b.addEventListener("click",function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"☽":"☀";try{localStorage.setItem("bad360_theme",nt)}catch(e){}});}});})()</script>
+
+<div class="wrap">
+
+  <!-- Header -->
+  <div class="page-hdr">
+    <div class="overline">💶 Finanza Agevolata · Powered by BA.IA</div>
+    <div class="page-title">Bandi & Incentivi<br>per <em>Hotel, Ristoranti & Bar</em></div>
+    <div class="page-sub">Match intelligente tra il profilo della tua struttura e i bandi attivi: PNRR, FESR 2021-2027, fondi nazionali, agevolazioni regionali, crediti d'imposta. Aggiornati mensilmente.</div>
+    <div class="hdr-actions">
+      <button class="btn btn-gold" onclick="scrollToProfile()">✦ Aggiorna profilo struttura</button>
+      <button class="btn btn-outline" onclick="showFavorites()">★ Salvati (0)</button>
+      <button class="btn btn-outline" onclick="exportList()">↓ Esporta lista</button>
+    </div>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-strip">
+    <div class="kpi-card"><div class="kpi-val" id="kpi-totale">23</div><div class="kpi-lbl">Bandi disponibili</div></div>
+    <div class="kpi-card"><div class="kpi-val" id="kpi-match">—</div><div class="kpi-lbl">% match medio</div></div>
+    <div class="kpi-card"><div class="kpi-val">€ 2,3M</div><div class="kpi-lbl">Plafond max accessibile</div></div>
+    <div class="kpi-card"><div class="kpi-val" id="kpi-scad">6</div><div class="kpi-lbl">Scadono in 90 gg</div></div>
+    <div class="kpi-card"><div class="kpi-val">9</div><div class="kpi-lbl">Regioni coperte</div></div>
+    <div class="kpi-card"><div class="kpi-val">LIVE</div><div class="kpi-lbl">Aggiornamento bandi</div></div>
+  </div>
+
+  <!-- Two-col layout -->
+  <div class="main-layout">
+
+    <!-- LEFT — Profile panel -->
+    <div id="profile-anchor">
+      <div class="panel">
+        <div class="panel-title">Profilo Struttura</div>
+        <div class="panel-sub">Compila il profilo per ottenere il match score personalizzato</div>
+
+        <div class="field">
+          <label>Tipo struttura</label>
+          <select class="input" id="p-tipo" onchange="runMatch()">
+            <option value="">— Seleziona —</option>
+            <option value="hotel">Hotel / Albergo</option>
+            <option value="ristorante">Ristorante</option>
+            <option value="bar">Bar / Caffetteria</option>
+            <option value="resort">Resort / Spa</option>
+            <option value="agriturismo">Agriturismo</option>
+            <option value="beb">B&B / Affittacamere</option>
+            <option value="pizzeria">Pizzeria</option>
+            <option value="pub">Pub / Birreria</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Regione</label>
+          <select class="input" id="p-regione" onchange="runMatch()">
+            <option value="">Tutte le regioni</option>
+            <option>Abruzzo</option><option>Basilicata</option><option>Calabria</option>
+            <option>Campania</option><option>Emilia-Romagna</option><option>Friuli-Venezia Giulia</option>
+            <option>Lazio</option><option>Liguria</option><option>Lombardia</option>
+            <option>Marche</option><option>Molise</option><option>Piemonte</option>
+            <option>Puglia</option><option>Sardegna</option><option>Sicilia</option>
+            <option>Toscana</option><option>Trentino-Alto Adige</option><option>Umbria</option>
+            <option>Valle d'Aosta</option><option>Veneto</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Dimensione (dipendenti)</label>
+          <select class="input" id="p-dim" onchange="runMatch()">
+            <option value="">— Seleziona —</option>
+            <option value="micro">Micro (1-9)</option>
+            <option value="piccola">Piccola (10-49)</option>
+            <option value="media">Media (50-249)</option>
+            <option value="grande">Grande (250+)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>ATECO principale</label>
+          <select class="input" id="p-ateco" onchange="runMatch()">
+            <option value="">— Seleziona —</option>
+            <option value="55.10">55.10 — Alberghi e strutture ricettive simili</option>
+            <option value="55.20">55.20 — Alloggi per vacanze, villaggi turistici</option>
+            <option value="55.30">55.30 — Aree di campeggio e aree attrezzate</option>
+            <option value="55.90">55.90 — Altri alloggi (B&B, ostelli, affittacamere)</option>
+            <option value="56.10">56.10 — Ristoranti e attività di ristorazione mobile</option>
+            <option value="56.21">56.21 — Fornitura di pasti preparati (catering)</option>
+            <option value="56.30">56.30 — Bar e altri esercizi simili senza cucina</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Fatturato annuo (€)</label>
+          <select class="input" id="p-fatturato" onchange="runMatch()">
+            <option value="">— Seleziona —</option>
+            <option value="50k">Fino a € 50.000</option>
+            <option value="200k">€ 50.000 – 200.000</option>
+            <option value="500k">€ 200.000 – 500.000</option>
+            <option value="2m">€ 500.000 – 2.000.000</option>
+            <option value="10m">€ 2.000.000 – 10.000.000</option>
+            <option value="10m+">Oltre € 10.000.000</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Obiettivo principale</label>
+          <select class="input" id="p-obiettivo" onchange="runMatch()">
+            <option value="">— Seleziona —</option>
+            <option value="energia">Efficienza energetica</option>
+            <option value="digital">Digitalizzazione</option>
+            <option value="green">Sostenibilità / Green</option>
+            <option value="formazione">Formazione personale</option>
+            <option value="ristrutturazione">Ristrutturazione / Ammodernamento</option>
+            <option value="internazionalizzazione">Internazionalizzazione</option>
+            <option value="liquidita">Liquidità / Finanziamenti</option>
+            <option value="nuova_apertura">Nuova apertura</option>
+          </select>
+        </div>
+
+        <hr class="divider">
+
+        <div class="score-preview">
+          <div class="score-big" id="global-score">—</div>
+          <div class="match-bar"><div class="match-fill" id="global-bar" style="width:0%"></div></div>
+          <div class="score-label" id="score-label">Compila il profilo per il match</div>
+        </div>
+
+        <button class="btn btn-gold" style="width:100%;justify-content:center;margin-top:14px" onclick="runMatch()">
+          ✦ Calcola match
+        </button>
+        <button class="btn btn-outline btn-sm" style="width:100%;justify-content:center;margin-top:8px" onclick="resetProfile()">
+          Azzera profilo
+        </button>
+      </div>
+
+      <!-- AI Advisor -->
+      <div class="ai-panel" style="margin-top:14px">
+        <div class="ai-panel-hdr">
+          <div class="ai-dot"></div>
+          <div class="ai-title">AI Advisor Finanza</div>
+        </div>
+        <div class="ai-chips">
+          <button class="ai-chip" onclick="askAI('Quali bandi PNRR sono attivi per hotel nel 2026?')">PNRR hotel 2026</button>
+          <button class="ai-chip" onclick="askAI('Come funziona Transizione 5.0 per ristoranti?')">Transizione 5.0</button>
+          <button class="ai-chip" onclick="askAI('Bandi regionali per bar e caffetterie')">Bandi regionali bar</button>
+          <button class="ai-chip" onclick="askAI('Requisiti per accedere ai fondi FESR turismo')">Requisiti FESR</button>
+        </div>
+        <div class="ai-msgs" id="ai-msgs">
+          <div class="ai-msg assistant">Ciao! Sono l'AI Advisor specializzata in finanza agevolata per l'hospitality italiana. Dimmi quale bando vuoi approfondire o qual è la tua esigenza.</div>
+        </div>
+        <div class="ai-input-row">
+          <input type="text" class="ai-input" id="ai-input" placeholder="Es: bandi efficienza energetica hotel…" onkeydown="if(event.key==='Enter')sendAI()">
+          <button class="ai-send" onclick="sendAI()">✦ Invia</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT — Grants list -->
+    <div>
+      <!-- Filters -->
+      <div class="filter-row">
+        <button class="filter-btn active" onclick="setFilter('all',this)"><span class="filter-dot"></span> Tutti</button>
+        <button class="filter-btn" onclick="setFilter('pnrr',this)"><span class="filter-dot" style="background:#5E9FF2"></span> PNRR</button>
+        <button class="filter-btn" onclick="setFilter('fesr',this)"><span class="filter-dot" style="background:var(--green)"></span> FESR</button>
+        <button class="filter-btn" onclick="setFilter('nazionale',this)"><span class="filter-dot" style="background:var(--g)"></span> Nazionale</button>
+        <button class="filter-btn" onclick="setFilter('regionale',this)"><span class="filter-dot" style="background:var(--orange)"></span> Regionale</button>
+        <button class="filter-btn" onclick="setFilter('credito_imposta',this)"><span class="filter-dot" style="background:#B07FE0"></span> Credito Imposta</button>
+        <button class="filter-btn" onclick="setFilter('favorites',this)">★ Salvati</button>
+      </div>
+
+      <div class="sort-bar">
+        <span class="sort-label">Ordina per:</span>
+        <button class="sort-btn active" onclick="setSort('score',this)">Match score</button>
+        <button class="sort-btn" onclick="setSort('importo',this)">Importo</button>
+        <button class="sort-btn" onclick="setSort('scadenza',this)">Scadenza</button>
+        <button class="sort-btn" onclick="setSort('nome',this)">Nome A-Z</button>
+      </div>
+
+      <div class="results-header">
+        <div class="results-title" id="results-title">Tutti i bandi attivi</div>
+        <div class="results-count" id="results-count">23 risultati</div>
+      </div>
+
+      <div class="grants-grid" id="grants-grid">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+  </div><!-- end main-layout -->
+
+</div><!-- end wrap -->
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <div style="flex:1">
+        <div id="modal-badges" style="margin-bottom:8px"></div>
+        <div style="font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;color:var(--txt);line-height:1.3" id="modal-title">—</div>
+        <div style="font-size:12px;color:var(--txt2);margin-top:4px" id="modal-ente">—</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body">—</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── DATASET BANDI ─────────────────────────────────────────────────────────────
+const BANDI = [
+  {
+    id:'t5',name:'Transizione 5.0 — Credito d\'Imposta Efficienza Energetica',
+    ente:'MIMIT / GSE',tipo:'credito_imposta',
+    settori:['hotel','ristorante','bar','resort','agriturismo','beb','pizzeria','pub'],
+    regioni:[],ateco:['55.10','55.20','55.30','55.90','56.10','56.21','56.30'],
+    importo_max:50000000,contributo_pct:45,
+    scadenza:'2025-12-31',stato:'aperto',
+    desc:'Credito d\'imposta fino al 45% per investimenti in beni strumentali che producono risparmio energetico ≥3% struttura o ≥10% processo. Cumulabile con Industria 4.0.',
+    obiettivi:['energia','digital'],dim:['micro','piccola','media','grande'],
+    requisiti:['Riduzione consumi energetici ≥3% (struttura) o ≥10% (processo produttivo)','Beni strumentali nuovi materiali e immateriali','Perizia tecnica asseverata da un ingegnere abilitato','Comunicazione preventiva a GSE','No fatturato < € 10.000 (ultimi 2 esercizi)'],
+    link:'https://www.mimit.gov.it/transizione-5',
+    note:'Incentivo cumulabile con Sabatini Verde e credito R&S.'
+  },
+  {
+    id:'ind4',name:'Industria 4.0 — Credito d\'Imposta Beni Strumentali',
+    ente:'MIMIT / Agenzia delle Entrate',tipo:'credito_imposta',
+    settori:['hotel','ristorante','bar','resort','agriturismo','beb','pizzeria','pub'],
+    regioni:[],ateco:['55.10','55.20','55.30','55.90','56.10','56.21','56.30'],
+    importo_max:20000000,contributo_pct:20,
+    scadenza:'aperto',stato:'aperto',
+    desc:'Credito d\'imposta per l\'acquisto di beni strumentali nuovi: macchinari cucina, impianti, attrezzature bar, sistemi POS e software gestionali. Aliquota variabile in base alla tipologia del bene.',
+    obiettivi:['digital','ristrutturazione'],dim:['micro','piccola','media','grande'],
+    requisiti:['Beni strumentali nuovi destinati a strutture produttive in Italia','Interconnessione al sistema aziendale (beni 4.0)','Fattura con separato acquisto del diritto','Dichiarazione resa dal legale rappresentante o perizia tecnica (beni >300.000€)'],
+    link:'https://www.mimit.gov.it/industria-4',
+    note:'Sportello sempre aperto, da indicare nella dichiarazione dei redditi.'
+  },
+  {
+    id:'pnrr_tur',name:'PNRR M1C3 — Turismo 4.0 & Digitalizzazione',
+    ente:'Ministero del Turismo / ENIT',tipo:'pnrr',
+    settori:['hotel','resort','agriturismo','beb'],
+    regioni:[],ateco:['55.10','55.20','55.30','55.90'],
+    importo_max:500000,contributo_pct:80,
+    scadenza:'2026-06-30',stato:'aperto',
+    desc:'Finanziamenti a fondo perduto fino a €500.000 per la digitalizzazione delle strutture ricettive. Priorità a PMS, channel manager, booking engine, CRM e sistemi di revenue management.',
+    obiettivi:['digital'],dim:['piccola','media'],
+    requisiti:['Struttura ricettiva regolarmente classificata','Almeno 5 camere/unità abitative','Investimenti in tecnologie digitali certificate','Presentazione tramite portale MiTur','Piano investimenti digitale approvato'],
+    link:'https://www.turismo.gov.it/pnrr',
+    note:'Prossima apertura sportello prevista Q3 2026.'
+  },
+  {
+    id:'fnt',name:'Fondo Nazionale Turismo — Contributi PMI Ricettive',
+    ente:'Ministero del Turismo',tipo:'nazionale',
+    settori:['hotel','resort','agriturismo','beb'],
+    regioni:[],ateco:['55.10','55.20','55.30','55.90'],
+    importo_max:300000,contributo_pct:50,
+    scadenza:'2026-09-30',stato:'aperto',
+    desc:'Contributi a fondo perduto per PMI del settore ricettivo: ammodernamento strutture, efficienza energetica, accessibilità, sicurezza, formazione. Senza obbligo di co-investimento.',
+    obiettivi:['ristrutturazione','green','formazione'],dim:['micro','piccola','media'],
+    requisiti:['PMI classificata secondo Raccomandazione CE 2003/361','Codice ATECO 55.xx','Struttura attiva da almeno 24 mesi','Nessuna procedura concorsuale in corso','Piano di investimento con relazione tecnica'],
+    link:'https://www.turismo.gov.it/fondi',
+    note:'Priorità assoluta a strutture del Mezzogiorno e isole.'
+  },
+  {
+    id:'sabatini_g',name:'Nuova Sabatini Verde — Macchinari Green',
+    ente:'MIMIT / Mediocredito Centrale',tipo:'nazionale',
+    settori:['hotel','ristorante','bar','resort','agriturismo','beb','pizzeria','pub'],
+    regioni:[],ateco:['55.10','55.20','55.30','55.90','56.10','56.21','56.30'],
+    importo_max:4000000,contributo_pct:4.5,
+    scadenza:'aperto',stato:'aperto',
+    desc:'Contributo a parziale copertura degli interessi su finanziamenti bancari per l\'acquisto di macchinari, attrezzature e impianti a basso impatto ambientale. Tasso agevolato 4,5% "green" vs 3,575% standard.',
+    obiettivi:['green','energia','ristrutturazione'],dim:['micro','piccola','media'],
+    requisiti:['Fatturato annuo ≤ €250 milioni','Acquisto beni strumentali nuovi certificati "green"','Finanziamento bancario a copertura (minimo 20% investimento)','Bene ubicato in struttura italiana','Domanda tramite banca/intermediario finanziario a MCC'],
+    link:'https://www.mimit.gov.it/sabatini',
+    note:'Cumulabile con credito d\'imposta Industria 4.0.'
+  },
+  {
+    id:'formazione4',name:'Credito d\'Imposta Formazione 4.0',
+    ente:'Agenzia delle Entrate / MIMIT',tipo:'credito_imposta',
+    settori:['hotel','ristorante','bar','resort','agriturismo','beb','pizzeria','pub'],
+    regioni:[],ateco:['55.10','55.20','55.30','55.90','56.10','56.21','56.30'],
+    importo_max:300000,contributo_pct:50,
+    scadenza:'aperto',stato:'aperto',
+    desc:'Credito d\'imposta fino al 70% delle spese per formazione del personale dipendente su: digital marketing, revenue management, POS, sistemi gestionali, sostenibilità, HACCP avanzato, lingue straniere.',
+    obiettivi:['formazione','digital'],dim:['micro','piccola','media','grande'],
+    requisiti:['Dipendenti impiegati in attività 4.0 (anche turistico-ricettive)','Accordo sindacale o ETS per formazione individuale ≤300h','Documentazione delle attività formative (registro presenze)','Spese sostenute tramite banca'],
+    link:'https://www.agenziaentrate.gov.it/formazione-4',
+    note:'Aliquota 50% piccole, 40% medie, 30% grandi imprese.'
+  },
+  {
+    id:'fesr_tur_lom',name:'FESR 2021-2027 Lombardia — Turismo Sostenibile',
+    ente:'Regione Lombardia / SICI',tipo:'fesr',
+    settori:['hotel','ristorante','resort','agriturismo'],
+    regioni:['Lombardia'],ateco:['55.10','55.20','56.10'],
+    importo_max:500000,contributo_pct:50,
+    scadenza:'2026-03-31',stato:'aperto',
+    desc:'Fondi europei FESR per strutture ricettive lombarde: sostenibilità ambientale, accessibilità, digitalizzazione, qualità servizi. Contributi a fondo perduto, quota co-finanziamento 50%.',
+    obiettivi:['green','digital','ristrutturazione'],dim:['micro','piccola','media'],
+    requisiti:['Sede e attività in Regione Lombardia','PMI del settore turistico-ricettivo','Investimento minimo € 20.000','Piano di sostenibilità documentato','Iscrizione CCIAA Lombardia'],
+    link:'https://www.regione.lombardia.it/fesr',
+    note:'Prossimo bando previsto Q2 2026.'
+  },
+  {
+    id:'fesr_tur_sic',name:'FESR 2021-2027 Sicilia — Hospitalité & Turismo',
+    ente:'Regione Siciliana / Assessorato Turismo',tipo:'fesr',
+    settori:['hotel','ristorante','resort','agriturismo','beb'],
+    regioni:['Sicilia'],ateco:['55.10','55.20','55.90','56.10'],
+    importo_max:400000,contributo_pct:65,
+    scadenza:'2026-06-30',stato:'aperto',
+    desc:'Regime de minimis e aiuti FESR per turismo e ospitalità siciliana. Priorità alle aree rurali, isole minori e strutture eco-certificate. Co-finanziamento 35% beneficiario.',
+    obiettivi:['green','ristrutturazione','digital'],dim:['micro','piccola','media'],
+    requisiti:['Localizzazione in Sicilia','Iscrizione CCIAA Siciliana','Intervento minimo € 15.000','Regolarità contributiva DURC','Nessun aiuto di stato ricevuto oltre regime de minimis'],
+    link:'https://www.regione.sicilia.it/turismo',
+    note:'Aliquota 65% nelle aree depresse.'
+  },
+  {
+    id:'fesr_tur_sar',name:'FESR Sardegna — Turismo & Ospitalità Sostenibile',
+    ente:'Regione Sardegna / SFIRS',tipo:'fesr',
+    settori:['hotel','resort','agriturismo','beb'],
+    regioni:['Sardegna'],ateco:['55.10','55.20','55.90'],
+    importo_max:600000,contributo_pct:60,
+    scadenza:'2026-04-30',stato:'aperto',
+    desc:'Finanziamenti a fondo perduto per strutture ricettive sarde: ammodernamento, efficienza energetica, accessibilità, prolungamento stagione turistica, certificazioni qualità.',
+    obiettivi:['ristrutturazione','green','energia'],dim:['micro','piccola','media'],
+    requisiti:['Struttura in Sardegna','CCIAA iscrizione Sardegna','Almeno 3 anni di attività','Piano di business e piano investimenti','Contributo proprio ≥40%'],
+    link:'https://www.regione.sardegna.it/turismo',
+    note:'Attenzione ai bandi PICS specifici per aree rurali.'
+  },
+  {
+    id:'fesr_tur_cam',name:'FESR Campania — Incentivi Turismo Costa e Entroterra',
+    ente:'Regione Campania / Sviluppo Campania',tipo:'fesr',
+    settori:['hotel','ristorante','resort','agriturismo','pizzeria'],
+    regioni:['Campania'],ateco:['55.10','55.20','56.10'],
+    importo_max:400000,contributo_pct:60,
+    scadenza:'2026-05-31',stato:'aperto',
+    desc:'Aiuti FESR per strutture turistiche campane: investimenti in qualità, sostenibilità, digitale. Bonus aggiuntivo per strutture nelle aree interne e parchi nazionali.',
+    obiettivi:['ristrutturazione','digital','green'],dim:['micro','piccola','media'],
+    requisiti:['Sede operativa in Campania','Iscrizione Camera di Commercio','Regolarità fiscale e contributiva','Piano degli investimenti certificato','Intervento minimo € 10.000'],
+    link:'https://www.regione.campania.it/fesr',
+    note:'Punteggio premiale per strutture nelle isole (Capri, Ischia, Procida).'
+  },
+  {
+    id:'fesr_tur_ven',name:'FESR Veneto — Turismo Attrattivo e Digitale',
+    ente:'Regione Veneto / Veneto Sviluppo',tipo:'fesr',
+    settori:['hotel','ristorante','resort','agriturismo','beb'],
+    regioni:['Veneto'],ateco:['55.10','55.20','56.10','56.21'],
+    importo_max:350000,contributo_pct:50,
+    scadenza:'2026-07-31',stato:'aperto',
+    desc:'Contributi per ammodernamento strutture ricettive e ristorative venete. Focus su digitalizzazione, accessibilità, sostenibilità ambientale e formazione.',
+    obiettivi:['digital','green','formazione','ristrutturazione'],dim:['micro','piccola','media'],
+    requisiti:['Localizzazione operativa in Veneto','ATECO 55 o 56','Investimento ≥ € 5.000','Documentazione tecnica e preventivi','Iscrizione albo imprenditori turistici'],
+    link:'https://www.regione.veneto.it/fesr-turismo',
+    note:'Bonus per strutture con certificazione Green Key o Ecolabel UE.'
+  },
+  {
+    id:'fesr_tur_tos',name:'FESR Toscana — Turismo Qualità e Identità',
+    ente:'Regione Toscana / Fidi Toscana',tipo:'fesr',
+    settori:['hotel','ristorante','resort','agriturismo','beb','pizzeria'],
+    regioni:['Toscana'],ateco:['55.10','55.20','55.90','56.10'],
+    importo_max:300000,contributo_pct:55,
+    scadenza:'2026-08-31',stato:'aperto',
+    desc:'Sostegno FESR a PMI turistiche toscane per valorizzazione identità territoriale, eno-gastronomia, accessibilità e sostenibilità. Punteggio premiale per produzioni DOP/IGP.',
+    obiettivi:['ristrutturazione','green','digital'],dim:['micro','piccola','media'],
+    requisiti:['Sede in Toscana','Settore ATECO 55 o 56','Business plan triennale','Almeno 2 anni di attività','Nessuna procedura fallimentare'],
+    link:'https://www.regione.toscana.it/fesr',
+    note:'Bonus per chi aderisce al Marchio Turismo Toscana.'
+  },
+  {
+    id:'decontrib_sud',name:'Decontribuzione Sud — Assunzioni Turismo',
+    ente:'INPS / Ministero Lavoro',tipo:'nazionale',
+    settori:['hotel','ristorante','bar','resort','agriturismo','beb','pizzeria','pub'],
+    regioni:['Campania','Basilicata','Calabria','Puglia','Sicilia','Sardegna','Abruzzo','Molise'],
+    ateco:['55.10','55.20','55.90','56.10','56.30'],
+    importo_max:0,contributo_pct:30,
+    scadenza:'2029-12-31',stato:'aperto',
+    desc:'Esonero contributivo del 30% per nuove assunzioni a tempo indeterminato e determinato (≥12 mesi) in strutture localizzate nel Mezzogiorno. Applicabile a tutta la forza lavoro esistente.',
+    obiettivi:['formazione','liquidita'],dim:['micro','piccola','media','grande'],
+    requisiti:['Struttura ubicata nelle regioni del Mezzogiorno','Contratto di lavoro dipendente','DURC regolare','Nessuna riduzione di personale nei 6 mesi precedenti','Domanda tramite INPS (Portale Decontribuzione)'],
+    link:'https://www.inps.it/decontribuzione-sud',
+    note:'Valida fino al 2029. Cumulabile con altri incentivi assunzione.'
+  },
+  {
+    id:'simest_export',name:'SIMEST — Digitalizzazione Export Servizi Turistici',
+    ente:'SIMEST / CDP',tipo:'nazionale',
+    settori:['hotel','resort','agriturismo'],
+    regioni:[],ateco:['55.10','55.20'],
+    importo_max:300000,contributo_pct:40,
+    scadenza:'2026-12-31',stato:'aperto',
+    desc:'Co-finanziamento agevolato (tasso 0%) per PMI che vogliono internazionalizzare i propri servizi turistici: presenza su OTA internazionali, certificazioni qualità estere, fiere turismo, portali multilingue.',
+    obiettivi:['internazionalizzazione','digital'],dim:['piccola','media','grande'],
+    requisiti:['PMI con fatturato export ≥ 10% o interesse a svilupparlo','Struttura ricettiva classificata','Iscrizione CCIAA','Piano export approvato','Almeno 2 anni di attività documentati'],
+    link:'https://www.simest.it/turismo',
+    note:'Quota a fondo perduto 25% per imprese femminili o del Mezzogiorno.'
+  },
+  {
+    id:'ecobonus_hotel',name:'Ecobonus & Sismabonus — Ristrutturazione Strutture Ricettive',
+    ente:'Agenzia delle Entrate',tipo:'credito_imposta',
+    settori:['hotel','resort','agriturismo','beb'],
+    regioni:[],ateco:['55.10','55.20','55.90'],
+    importo_max:96000,contributo_pct:65,
+    scadenza:'2025-12-31',stato:'aperto',
+    desc:'Detrazioni fiscali 65-85% per riqualificazione energetica e sismica di immobili ad uso ricettivo. Cessione del credito alle banche previo visto di conformità.',
+    obiettivi:['energia','ristrutturazione'],dim:['micro','piccola','media','grande'],
+    requisiti:['Immobile a uso ricettivo in Italia','Interventi di efficienza energetica certificati','Asseverazione tecnica e DURC dell\'immobile','Documentazione ENEA entro 90 gg dalla fine lavori','Comunicazione preventiva all\'Agenzia Entrate'],
+    link:'https://www.agenziaentrate.gov.it/ecobonus',
+    note:'In attesa di proroga per il 2026.'
+  },
+  {
+    id:'green_key',name:'Green Key Hotel — Finanziamento Certificazione',
+    ente:'Legambiente / MASE',tipo:'nazionale',
+    settori:['hotel','resort','agriturismo','beb'],
+    regioni:[],ateco:['55.10','55.20','55.90'],
+    importo_max:15000,contributo_pct:50,
+    scadenza:'2026-06-30',stato:'aperto',
+    desc:'Contributi per l\'ottenimento e il mantenimento della certificazione Green Key (FEE Italia): audit ambientale, consulenza, formazione staff, materiali comunicazione sostenibilità.',
+    obiettivi:['green'],dim:['micro','piccola','media'],
+    requisiti:['Struttura ricettiva con un minimo di 5 camere','Impegno documentato al miglioramento ambientale','Gestione dei rifiuti certificata','Programma risparmio idrico ed energetico','Domanda alla FEE Italia con documentazione'],
+    link:'https://www.greenkeyitalia.it',
+    note:'Certificazione riconosciuta da GSTC e Booking.com.'
+  },
+  {
+    id:'zes_sud',name:'ZES Unica Mezzogiorno — Credito Imposta Investimenti',
+    ente:'Struttura di Missione ZES / MIMIT',tipo:'credito_imposta',
+    settori:['hotel','ristorante','resort','agriturismo'],
+    regioni:['Campania','Basilicata','Calabria','Puglia','Sicilia','Sardegna','Abruzzo','Molise'],
+    ateco:['55.10','55.20','56.10'],
+    importo_max:100000000,contributo_pct:60,
+    scadenza:'2025-12-31',stato:'aperto',
+    desc:'Credito d\'imposta per acquisto beni strumentali destinati a strutture turistiche nelle ZES del Mezzogiorno. Aliquota fino al 60% per le micro-imprese nelle aree più svantaggiate.',
+    obiettivi:['ristrutturazione','digital','energia'],dim:['micro','piccola','media','grande'],
+    requisiti:['Struttura produttiva ubicata in ZES Unica Mezzogiorno','Acquisizione beni strumentali nuovi','Mantenimento attività per almeno 5 anni','Comunicazione preventiva all\'Agenzia Entrate'],
+    link:'https://www.governo.it/zes',
+    note:'Cumulabile con altri incentivi entro massimale aiuti di Stato.'
+  },
+  {
+    id:'pnrr_fiere',name:'PNRR — Turismo Fieristico e Promo Internazionale',
+    ente:'ENIT / Ministero del Turismo',tipo:'pnrr',
+    settori:['hotel','resort'],
+    regioni:[],ateco:['55.10','55.20'],
+    importo_max:50000,contributo_pct:70,
+    scadenza:'2026-10-31',stato:'aperto',
+    desc:'Supporto a strutture ricettive per partecipazione a fiere internazionali del turismo (ITB Berlin, WTM London, Fitur Madrid), incoming tour operator, roadshow e promozione brand territoriale.',
+    obiettivi:['internazionalizzazione'],dim:['piccola','media','grande'],
+    requisiti:['Hotel classificato ≥ 3 stelle o resort','Iscrizione regolare registro imprese','Piano di partecipazione fieristica','Costi documentati','Preventivo operatore fieristico'],
+    link:'https://www.enit.it/pnrr-fiere',
+    note:'Rimborso spese su rendiconto entro 60 gg dall\'evento.'
+  },
+  {
+    id:'haccp_form',name:'Fondo Paritetico Turismo — Formazione HACCP e Sicurezza',
+    ente:'For.Te / Confcommercio FIPE',tipo:'nazionale',
+    settori:['ristorante','bar','hotel','pizzeria','pub'],
+    regioni:[],ateco:['56.10','56.30','55.10','56.21'],
+    importo_max:20000,contributo_pct:100,
+    scadenza:'aperto',stato:'aperto',
+    desc:'Formazione finanziata al 100% tramite fondi interprofessionali For.Te: HACCP obbligatorio, sicurezza sul lavoro D.Lgs. 81/2008, food allergy, gestionale F&B, soft skill per il turismo.',
+    obiettivi:['formazione'],dim:['micro','piccola','media'],
+    requisiti:['Impresa aderente a For.Te o For.Turismo (iscrizione gratuita)','Dipendenti da formare con contratto CCNL Turismo','Piano formativo annuale','Rendiconto ore formazione svolte'],
+    link:'https://www.forte.net/formazione-finanziata',
+    note:'Domanda semestrale. Massimo 80h/dipendente/anno.'
+  },
+  {
+    id:'cdp_turismo',name:'CDP — Finanziamento Turismo Sostenibile',
+    ente:'Cassa Depositi e Prestiti',tipo:'nazionale',
+    settori:['hotel','resort','agriturismo'],
+    regioni:[],ateco:['55.10','55.20'],
+    importo_max:25000000,contributo_pct:0,
+    scadenza:'aperto',stato:'aperto',
+    desc:'Finanziamenti a tasso agevolato (sotto mercato) per investimenti di medio-lungo periodo nel turismo italiano: ristrutturazioni significative, nuove costruzioni, cambi di destinazione d\'uso a uso ricettivo.',
+    obiettivi:['ristrutturazione','nuova_apertura','liquidita'],dim:['media','grande'],
+    requisiti:['Progetto di investimento significativo ≥ €500.000','Business plan triennale con analisi di mercato','Rating creditizio adeguato','Garanzie reali o fidejussorie','Delibera dell\'organo amministrativo'],
+    link:'https://www.cdp.it/turismo',
+    note:'Tasso fisso agevolato o variabile indicizzato BCE.'
+  },
+  {
+    id:'pnrr_ristorazione',name:'PNRR — Mense e Ristorazione Collettiva Green',
+    ente:'MIPAAF / Ministero del Turismo',tipo:'pnrr',
+    settori:['ristorante','pizzeria'],
+    regioni:[],ateco:['56.10','56.21'],
+    importo_max:200000,contributo_pct:60,
+    scadenza:'2026-03-31',stato:'aperto',
+    desc:'Incentivi per trasformazione digitale e green della ristorazione: menù digitali, sistemi anti-spreco, compostaggio, acquisto prodotti bio certificati, riduzione plastica monouso.',
+    obiettivi:['green','digital'],dim:['piccola','media'],
+    requisiti:['Ristorante con ATECO 56.10 o mensa scolastica/aziendale','Piano anti-spreco certificato','Almeno il 30% ingredienti da filiera locale o biologica','Documentazione dei rifiuti organici','Rendiconto semestrale'],
+    link:'https://www.mipaaf.gov.it/pnrr-ristorazione',
+    note:'Punteggio premiale per ristoranti con menù a KM zero.'
+  },
+  {
+    id:'reg_lazio_bar',name:'Regione Lazio — Sostegno a Bar, Locali e Pubblici Esercizi',
+    ente:'Regione Lazio / Lazio Crea',tipo:'regionale',
+    settori:['bar','ristorante','pub','pizzeria'],
+    regioni:['Lazio'],ateco:['56.10','56.30'],
+    importo_max:100000,contributo_pct:50,
+    scadenza:'2026-02-28',stato:'aperto',
+    desc:'Contributi a fondo perduto per pubblici esercizi del Lazio: ristrutturazione, ammodernamento attrezzature, adeguamento normativo, accessibilità, spazi esterni.',
+    obiettivi:['ristrutturazione','digital'],dim:['micro','piccola'],
+    requisiti:['Licenza pubblica esercizio in Lazio','Iscrizione CCIAA Lazio','Investimento tra €5.000 e €100.000','Regolarità fiscale e previdenziale','Non beneficiario dello stesso contributo negli ultimi 3 anni'],
+    link:'https://www.lazioinnova.it/bandi',
+    note:'Punteggio premiale per attività in centri storici.'
+  },
+  {
+    id:'fondo_garanzia',name:'Fondo di Garanzia PMI — Hospitality',
+    ente:'MCC / Mediocredito Centrale',tipo:'nazionale',
+    settori:['hotel','ristorante','bar','resort','agriturismo','beb','pizzeria','pub'],
+    regioni:[],ateco:['55.10','55.20','55.90','56.10','56.21','56.30'],
+    importo_max:5000000,contributo_pct:0,
+    scadenza:'aperto',stato:'aperto',
+    desc:'Garanzia pubblica gratuita (fino all\'80%) su finanziamenti bancari alle PMI del turismo. Riduce il costo del denaro e permette accesso al credito anche senza garanzie reali. Sportello aperto 365 gg/anno.',
+    obiettivi:['liquidita','ristrutturazione','nuova_apertura'],dim:['micro','piccola','media'],
+    requisiti:['PMI con codice ATECO dei settori ammessi','Rating non negativo (fascia 1-5)','Richiesta tramite banca/intermediario','Nessuna procedura concorsuale in corso','Regolarità DURC e carichi fiscali'],
+    link:'https://www.fondidigaranzia.it',
+    note:'Garanzia gratuita per micro-imprese nel Mezzogiorno.'
+  },
+];
+
+// ── State ────────────────────────────────────────────────────────────────────
+let currentFilter = 'all';
+let currentSort = 'score';
+let favorites = new Set(JSON.parse(localStorage.getItem('bad360_bandi_fav') || '[]'));
+let profile = {};
+
+// ── Score computation ─────────────────────────────────────────────────────────
+function computeScore(bando, p) {
+  if (!p.tipo) return { score: 0, reasons: [] };
+  let score = 0;
+  const reasons = [];
+
+  // Tipo struttura match (35 pts)
+  if (bando.settori.includes(p.tipo)) {
+    score += 35;
+    reasons.push('Tipo struttura compatibile');
+  } else {
+    const broad = { hotel:['resort','beb'], ristorante:['pizzeria'], bar:['pub'], pizzeria:['ristorante'], pub:['bar'], resort:['hotel'] };
+    if ((broad[p.tipo]||[]).some(t => bando.settori.includes(t))) {
+      score += 18;
+      reasons.push('Struttura simile compatibile');
+    }
+  }
+
+  // Regione match (20 pts)
+  if (bando.regioni.length === 0) {
+    score += 20;
+    reasons.push('Valido su tutto il territorio nazionale');
+  } else if (p.regione && bando.regioni.includes(p.regione)) {
+    score += 20;
+    reasons.push('Copre la tua regione');
+  }
+
+  // ATECO match (20 pts)
+  if (p.ateco && bando.ateco.includes(p.ateco)) {
+    score += 20;
+    reasons.push('ATECO perfettamente compatibile');
+  } else if (p.ateco) {
+    const pfx = p.ateco.split('.')[0];
+    if (bando.ateco.some(a => a.split('.')[0] === pfx)) {
+      score += 10;
+      reasons.push('Settore ATECO compatibile');
+    }
+  }
+
+  // Dimensione match (10 pts)
+  if (!p.dim || bando.dim.includes(p.dim)) {
+    score += 10;
+    reasons.push('Dimensione aziendale ammessa');
+  }
+
+  // Obiettivo match (15 pts)
+  if (p.obiettivo && bando.obiettivi.includes(p.obiettivo)) {
+    score += 15;
+    reasons.push('Corrisponde al tuo obiettivo prioritario');
+  }
+
+  // Scadenza check (cap score if expired)
+  if (bando.scadenza !== 'aperto') {
+    try {
+      const d = new Date(bando.scadenza);
+      if (d < new Date()) score = Math.floor(score * 0.2);
+    } catch(e){}
+  }
+
+  return { score: Math.min(100, score), reasons };
+}
+
+function runMatch() {
+  profile = {
+    tipo: document.getElementById('p-tipo').value,
+    regione: document.getElementById('p-regione').value,
+    dim: document.getElementById('p-dim').value,
+    ateco: document.getElementById('p-ateco').value,
+    fatturato: document.getElementById('p-fatturato').value,
+    obiettivo: document.getElementById('p-obiettivo').value,
+  };
+
+  const scored = BANDI.map(b => ({ ...b, ...computeScore(b, profile) }));
+
+  if (profile.tipo) {
+    const avg = Math.round(scored.filter(b => b.score > 0).reduce((s, b) => s + b.score, 0) / scored.filter(b => b.score > 0).length || 0);
+    document.getElementById('global-score').textContent = avg + '%';
+    document.getElementById('global-bar').style.width = avg + '%';
+    const lbl = avg >= 80 ? 'Ottimo match — alta compatibilità' :
+                avg >= 60 ? 'Buon match — molti bandi accessibili' :
+                avg >= 40 ? 'Match discreto — verifica requisiti' :
+                            'Match basso — aggiungi dettagli';
+    document.getElementById('score-label').textContent = lbl;
+    document.getElementById('kpi-match').textContent = avg + '%';
+  }
+
+  renderGrants(scored);
+}
+
+// ── Rendering ─────────────────────────────────────────────────────────────────
+function getScoreColor(score) {
+  if (score >= 80) return '#6aab76';
+  if (score >= 60) return '#C9A84C';
+  if (score >= 40) return '#D4803A';
+  return '#8a7a5a';
+}
+
+function getScadenzaClass(s) {
+  if (s === 'aperto') return 'scad-open';
+  try {
+    const d = new Date(s), now = new Date();
+    const diff = (d - now) / 86400000;
+    if (diff < 0) return 'scad-closed';
+    if (diff < 60) return 'scad-soon';
+    return 'scad-ok';
+  } catch(e){ return ''; }
+}
+
+function formatScadenza(s) {
+  if (s === 'aperto') return 'Sportello aperto';
+  try {
+    const d = new Date(s);
+    if (d < new Date()) return 'Scaduto';
+    return d.toLocaleDateString('it-IT', {day:'2-digit',month:'short',year:'numeric'});
+  } catch(e){ return s; }
+}
+
+function formatImporto(v) {
+  if (v === 0) return 'Garanzia pubblica';
+  if (v >= 1000000) return '€ ' + (v/1000000).toLocaleString('it-IT',{maximumFractionDigits:1}) + ' M';
+  if (v >= 1000) return '€ ' + (v/1000).toLocaleString('it-IT',{maximumFractionDigits:0}) + ' k';
+  return '€ ' + v.toLocaleString('it-IT');
+}
+
+function tipoBadge(tipo) {
+  const map = {
+    pnrr: '<span class="badge b-pnrr">PNRR</span>',
+    fesr: '<span class="badge b-fesr">FESR EU</span>',
+    nazionale: '<span class="badge b-naz">Nazionale</span>',
+    regionale: '<span class="badge b-reg">Regionale</span>',
+    credito_imposta: '<span class="badge b-ci">Credito Imposta</span>',
+  };
+  return map[tipo] || '';
+}
+
+function renderGrants(list) {
+  // Apply filter
+  let filtered = list.filter(b => {
+    if (currentFilter === 'favorites') return favorites.has(b.id);
+    if (currentFilter === 'all') return true;
+    return b.tipo === currentFilter;
+  });
+
+  // Sort
+  filtered.sort((a, b) => {
+    if (currentSort === 'score') return (b.score || 0) - (a.score || 0);
+    if (currentSort === 'importo') return b.importo_max - a.importo_max;
+    if (currentSort === 'nome') return a.name.localeCompare(b.name);
+    if (currentSort === 'scadenza') {
+      const ta = a.scadenza === 'aperto' ? '9999' : a.scadenza;
+      const tb = b.scadenza === 'aperto' ? '9999' : b.scadenza;
+      return ta.localeCompare(tb);
+    }
+    return 0;
+  });
+
+  document.getElementById('results-count').textContent = filtered.length + ' risultati';
+  const grid = document.getElementById('grants-grid');
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">🔍</div>
+      <div class="empty-title">Nessun bando trovato</div>
+      <div class="empty-sub">Prova a cambiare il filtro o azzerare il profilo</div>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map((b, i) => {
+    const isFav = favorites.has(b.id);
+    const sc = b.score || 0;
+    const scoreColor = getScoreColor(sc);
+    const regLabel = b.regioni.length ? b.regioni.join(', ') : 'Nazionale';
+
+    return `<div class="grant-card${isFav?' favorited':''}" style="animation-delay:${i*.03}s" onclick="openDetail('${b.id}')">
+      <div class="gc-top">
+        <div class="gc-badges">
+          ${tipoBadge(b.tipo)}
+          ${b.regioni.length ? `<span class="badge b-reg">${regLabel}</span>` : ''}
+          ${b.scadenza==='aperto'?'<span class="badge b-hotel">Sportello aperto</span>':''}
+        </div>
+        <div class="gc-score-wrap" onclick="event.stopPropagation()">
+          <div>
+            <div style="font-size:9px;color:var(--txt3);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">MATCH</div>
+            <div class="gc-score" style="color:${sc>0?scoreColor:'var(--txt3)'}">${sc>0?sc+'%':'—'}</div>
+            <div class="gc-score-bar"><div class="gc-score-fill" style="width:${sc}%;background:${scoreColor}"></div></div>
+          </div>
+          <button class="fav-btn${isFav?' active':''}" onclick="event.stopPropagation();toggleFav('${b.id}',this)" title="${isFav?'Rimuovi dai salvati':'Salva bando'}">
+            ${isFav?'★':'☆'}
+          </button>
+        </div>
+      </div>
+
+      <div class="grant-name">${b.name}</div>
+      <div class="grant-ente">${b.ente}</div>
+      <div class="grant-desc">${b.desc.slice(0,160)}…</div>
+
+      <div class="gc-meta">
+        <div class="gc-meta-item">
+          <div>
+            <div class="gc-meta-label">Importo max</div>
+            <div class="gc-meta-val big">${formatImporto(b.importo_max)}</div>
+          </div>
+        </div>
+        <div class="gc-meta-item">
+          <div>
+            <div class="gc-meta-label">Agevolazione</div>
+            <div class="gc-meta-val">${b.contributo_pct>0?b.contributo_pct+'%':'—'}</div>
+          </div>
+        </div>
+        <div class="gc-meta-item">
+          <div>
+            <div class="gc-meta-label">Scadenza</div>
+            <div class="gc-meta-val ${getScadenzaClass(b.scadenza)}">${formatScadenza(b.scadenza)}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gc-actions">
+        ${sc>0 && b.reasons && b.reasons.length ? `<div class="gc-reason">✦ ${b.reasons[0]}</div>` : '<div></div>'}
+        <button class="btn btn-gold btn-xs" onclick="event.stopPropagation();openDetail('${b.id}')">Dettaglio →</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Filter / Sort ─────────────────────────────────────────────────────────────
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  runMatch();
+  const titles = {all:'Tutti i bandi attivi',pnrr:'Bandi PNRR',fesr:'Fondi FESR Europei',
+    nazionale:'Bandi Nazionali',regionale:'Bandi Regionali',credito_imposta:'Crediti d\'Imposta',favorites:'Bandi Salvati'};
+  document.getElementById('results-title').textContent = titles[f] || 'Bandi';
+}
+
+function setSort(s, btn) {
+  currentSort = s;
+  document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  runMatch();
+}
+
+// ── Favorites ─────────────────────────────────────────────────────────────────
+function toggleFav(id, btn) {
+  if (favorites.has(id)) {
+    favorites.delete(id);
+    btn.textContent = '☆';
+    btn.classList.remove('active');
+    btn.closest('.grant-card').classList.remove('favorited');
+    showToast('Bando rimosso dai salvati');
+  } else {
+    favorites.add(id);
+    btn.textContent = '★';
+    btn.classList.add('active');
+    btn.closest('.grant-card').classList.add('favorited');
+    showToast('Bando salvato ★');
+  }
+  localStorage.setItem('bad360_bandi_fav', JSON.stringify([...favorites]));
+  document.querySelector('[onclick="showFavorites()"]').textContent = `★ Salvati (${favorites.size})`;
+}
+
+function showFavorites() { setFilter('favorites', null); }
+
+// ── Detail modal ─────────────────────────────────────────────────────────────
+function openDetail(id) {
+  const b = BANDI.find(x => x.id === id);
+  if (!b) return;
+  const sc = (BANDI.map(x=>({...x,...computeScore(x,profile)})).find(x=>x.id===id)||{}).score || 0;
+
+  document.getElementById('modal-badges').innerHTML = tipoBadge(b.tipo) + (b.regioni.length?` <span class="badge b-reg">${b.regioni.join(', ')}</span>`:'');
+  document.getElementById('modal-title').textContent = b.name;
+  document.getElementById('modal-ente').textContent = b.ente;
+
+  document.getElementById('modal-body').innerHTML = `
+    <div class="modal-section">
+      <div class="modal-section-title">Descrizione</div>
+      <p style="font-size:13.5px;color:var(--txt2);line-height:1.75">${b.desc}</p>
+      ${b.note?`<div style="margin-top:10px;padding:9px 12px;background:rgba(201,168,76,.06);border-radius:8px;border-left:2px solid rgba(201,168,76,.4);font-size:12px;color:var(--txt2)">💡 ${b.note}</div>`:''}
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">Dati chiave</div>
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-item-lbl">Importo massimo</div>
+          <div class="info-item-val gold">${formatImporto(b.importo_max)}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-item-lbl">Agevolazione</div>
+          <div class="info-item-val gold">${b.contributo_pct>0?b.contributo_pct+'%':'Garanzia'}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-item-lbl">Scadenza</div>
+          <div class="info-item-val ${getScadenzaClass(b.scadenza)}">${formatScadenza(b.scadenza)}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-item-lbl">Match score</div>
+          <div class="info-item-val" style="color:${getScoreColor(sc)}">${sc>0?sc+'% — compatibile':'Compila profilo'}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-item-lbl">Territorio</div>
+          <div class="info-item-val">${b.regioni.length?b.regioni.join(', '):'Tutta Italia'}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-item-lbl">ATECO ammessi</div>
+          <div class="info-item-val" style="font-size:12px">${b.ateco.join(', ')}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">Requisiti principali</div>
+      <ul class="req-list">
+        ${b.requisiti.map(r=>`<li>${r}</li>`).join('')}
+      </ul>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">Azioni</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <a href="${b.link}" target="_blank" rel="noopener" class="btn btn-gold btn-sm" onclick="event.stopPropagation()">🔗 Vai al bando ufficiale</a>
+        <button class="btn btn-outline btn-sm" onclick="askAIAbout('${b.name.replace(/'/g,"\\'")}');closeModal()">💬 Chiedi all'AI Advisor</button>
+        <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();toggleFavById('${b.id}');closeModal()">
+          ${favorites.has(b.id)?'★ Rimuovi dai salvati':'☆ Salva bando'}
+        </button>
+      </div>
+    </div>`;
+
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+function toggleFavById(id) {
+  const btn = { textContent:'', classList:{has:()=>false,add:()=>{},remove:()=>{}} };
+  toggleFav(id, btn);
+  runMatch();
+}
+
+// ── AI Advisor ─────────────────────────────────────────────────────────────────
+const AI_BASE_URL = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? '' : '';
+
+const AI_ANSWERS = {
+  'pnrr':['I principali bandi PNRR attivi per hotel nel 2026 sono:\n\n• **PNRR M1C3 Turismo 4.0** — fino a €500.000 per digitalizzazione strutture ricettive, sportello aperto fino a giugno 2026\n• **PNRR Fiere & Promo Internazionale** — rimborso spese fiere fino a €50.000 per hotel 3+ stelle\n\nKeep in mind: il PNRR ha scadenze rigide, pianifica la domanda almeno 60 gg prima. Vuoi che approfondisca i requisiti per uno specifico bando?'],
+  'transizione':'Transizione 5.0 è il credito d\'imposta più importante del 2025-2026 per l\'hospitality!\n\n**Come funziona per ristoranti:**\n• Credito fino al 45% su investimenti in beni strumentali\n• Requisito: riduzione consumi energetici ≥10% del processo produttivo (es. cucina, frigoriferi industriali)\n• I forni pizza combinati, le celle frigorifere A+++, i sistemi di gestione energia per cucine industriali sono tutti eleggibili\n\n**Step operativi:**\n1. Perizia tecnica asseverata da ingegnere abilitato\n2. Comunicazione preventiva a GSE\n3. Acquisto bene\n4. Compensazione in F24 in 3 rate annuali\n\nBudget consigliato per la perizia: €2.000-5.000. ROI tipico: 12-18 mesi.',
+  'fesr':'I fondi FESR 2021-2027 per bar e caffetterie variano molto per regione:\n\n**Aperti ora:**\n• Sicilia (65%) — per strutture nelle aree rurali\n• Campania (60%) — bonus per isole\n• Toscana (55%) — bonus per DOP/IGP\n\n**Come accedere:**\nOgni regione ha il proprio portale. Generalmente:\n1. Registrazione sul portale regionale\n2. Presentazione domanda con piano investimenti\n3. Istruttoria (60-120 gg)\n4. Erogazione su rendiconto\n\n⚠️ I bandi FESR aprono e chiudono rapidamente. Attiva gli alert su LazioCrea, LombardiaSport, CampaniaFEHR.',
+  'requisiti':'I requisiti generali per i fondi FESR turismo sono:\n\n✓ PMI definita ai sensi della Raccomandazione CE 2003/361 (<250 dipendenti, fatturato <€50M)\n✓ Iscrizione CCIAA attiva\n✓ DURC regolare (posizione previdenziale in regola)\n✓ Regolarità fiscale (nessun debito iscritto a ruolo)\n✓ Nessuna procedura concorsuale in corso\n✓ Sede operativa nella regione del bando\n✓ Piano investimenti dettagliato con preventivi\n\n**Errori comuni da evitare:**\n• Spese già avviate prima della domanda\n• Preventivi non datati o non firmati\n• DURC scaduto al momento del rendiconto',
+};
+
+function askAI(question) {
+  document.getElementById('ai-input').value = question;
+  sendAI();
+}
+
+function askAIAbout(bandoName) {
+  document.getElementById('ai-input').value = `Dimmi tutto su: ${bandoName}`;
+  sendAI();
+}
+
+async function sendAI() {
+  const input = document.getElementById('ai-input');
+  const q = input.value.trim();
+  if (!q) return;
+
+  const msgs = document.getElementById('ai-msgs');
+  msgs.innerHTML += `<div class="ai-msg user">${q}</div>`;
+  msgs.innerHTML += `<div class="ai-msg assistant ai-thinking" id="ai-thinking">…</div>`;
+  msgs.scrollTop = msgs.scrollHeight;
+  input.value = '';
+
+  // Try backend first, fallback to local answers
+  let answer = null;
+  try {
+    const resp = await fetch('/api/bandi/ai-advisor', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        query: q,
+        context: profile.tipo ? `Struttura: ${profile.tipo}, Regione: ${profile.regione||'n/d'}, ATECO: ${profile.ateco||'n/d'}` : null,
+      }),
+    });
+    if (resp.ok) {
+      const data = await resp.json();
+      answer = data.answer;
+    }
+  } catch(e) {}
+
+  // Fallback: local keyword matching
+  if (!answer) {
+    const ql = q.toLowerCase();
+    if (ql.includes('pnrr')) answer = AI_ANSWERS['pnrr'][0];
+    else if (ql.includes('transizione 5') || ql.includes('transizione5')) answer = AI_ANSWERS['transizione'];
+    else if (ql.includes('fesr') || ql.includes('bar') || ql.includes('regionale')) answer = AI_ANSWERS['fesr'];
+    else if (ql.includes('requisit') || ql.includes('requisito')) answer = AI_ANSWERS['requisiti'];
+    else {
+      // Match by bando name
+      const bMatch = BANDI.find(b => q.toLowerCase().includes(b.name.toLowerCase().slice(0,20)));
+      if (bMatch) {
+        answer = `**${bMatch.name}**\n\nEnte: ${bMatch.ente}\nImporto: ${formatImporto(bMatch.importo_max)}\nAgevolazione: ${bMatch.contributo_pct>0?bMatch.contributo_pct+'%':'Garanzia pubblica'}\nScadenza: ${formatScadenza(bMatch.scadenza)}\n\n${bMatch.desc}\n\n**Requisiti principali:**\n${bMatch.requisiti.slice(0,3).map(r=>'• '+r).join('\n')}\n\n${bMatch.note||''}`;
+      } else {
+        answer = `Ho cercato "${q}" nel database bandi hospitality. Posso aiutarti con:\n\n• Dettagli su Transizione 5.0 per hotel/ristoranti\n• Fondi FESR regionali attivi nel 2026\n• Requisiti PNRR per strutture ricettive\n• Differenze tra credito d'imposta e fondo perduto\n• Come presentare domanda Nuova Sabatini\n\nProva a specificare: tipo struttura, regione e obiettivo!`;
+      }
+    }
+  }
+
+  const thinking = document.getElementById('ai-thinking');
+  if (thinking) {
+    thinking.classList.remove('ai-thinking');
+    thinking.id = '';
+    thinking.innerHTML = answer.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+  }
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+// ── Utilities ─────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function scrollToProfile() {
+  document.getElementById('profile-anchor').scrollIntoView({behavior:'smooth'});
+}
+
+function resetProfile() {
+  ['p-tipo','p-regione','p-dim','p-ateco','p-fatturato','p-obiettivo'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  profile = {};
+  document.getElementById('global-score').textContent = '—';
+  document.getElementById('global-bar').style.width = '0%';
+  document.getElementById('score-label').textContent = 'Compila il profilo per il match';
+  document.getElementById('kpi-match').textContent = '—';
+  runMatch();
+}
+
+function exportList() {
+  const lines = ['Nome bando,Ente,Tipo,Importo max,Agevolazione %,Scadenza,Territorio,Link'];
+  BANDI.forEach(b => {
+    lines.push([
+      `"${b.name}"`, `"${b.ente}"`, b.tipo,
+      b.importo_max, b.contributo_pct,
+      b.scadenza, `"${b.regioni.length?b.regioni.join(';'):'Nazionale'}"`,
+      b.link
+    ].join(','));
+  });
+  const blob = new Blob([lines.join('\n')], {type:'text/csv;charset=utf-8;'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'bandi_hospitality_bad360.csv';
+  a.click();
+  showToast('Lista esportata in CSV ✓');
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  // Update fav count button
+  document.querySelector('[onclick="showFavorites()"]').textContent = `★ Salvati (${favorites.size})`;
+  // Count expiring soon
+  const soon = BANDI.filter(b => {
+    if (b.scadenza === 'aperto') return false;
+    try { const d = new Date(b.scadenza); return (d-new Date())/86400000 < 90 && d > new Date(); } catch(e){ return false; }
+  }).length;
+  document.getElementById('kpi-scad').textContent = soon;
+
+  // Initial render without profile
+  const unscored = BANDI.map(b => ({...b, score:0}));
+  renderGrants(unscored);
+
+  if (typeof B360 !== 'undefined') B360.mountAIWidget('general','BAD360.ai Bandi & Finanza Agevolata');
+});
+</script>
+</body>
+</html>

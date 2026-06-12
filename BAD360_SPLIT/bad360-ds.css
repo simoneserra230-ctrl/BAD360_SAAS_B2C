@@ -686,6 +686,28 @@ main {
 }
 
 /* ─────────────────────────────────────────────────────────────────────
+   PRINT STYLES — compatible with B360.printPage() and window.print()
+───────────────────────────────────────────────────────────────────── */
+@media print {
+  .b360-topbar,
+  [class*="-subnav"],
+  #b360-ai-widget,
+  .b360-user-pill,
+  [class*="toast"] {
+    display: none !important;
+  }
+  body {
+    background: #fff !important;
+    color: #111 !important;
+    padding-top: 0 !important;
+  }
+  [class*="-page"]:not(.active) { display: none !important; }
+  table { border-collapse: collapse; width: 100%; font-size: 11px; }
+  th { background: #f5f0e8 !important; color: #333 !important; padding: 7px 10px; border-bottom: 2px solid #C9A84C; }
+  td { padding: 6px 10px; border-bottom: 1px solid #e5dcc8; }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
    NOISE TEXTURE — warm dark grain
 ───────────────────────────────────────────────────────────────────── */
 body.b360-module::before {

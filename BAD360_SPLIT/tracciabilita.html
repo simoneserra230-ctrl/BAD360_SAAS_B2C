@@ -3,1566 +3,613 @@
 <head>
 <meta charset="UTF-8"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>BAD.S — Tracciabilità</title>
+<title>BAD360.ai — Tracciabilità</title>
 <style>
-/* ═══════════════════════════════════════════════════════════════════════
-   BAD.S F&B SUITE — DESIGN SYSTEM v8
-   Direction: Professional Light — Istituzionale / Gestionale
-   Fonts: DM Sans (ui) · DM Mono (mono) · BAD360 DS v4.0
-═══════════════════════════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;background:var(--bg);color:var(--txt);font-family:var(--font);font-size:14px;-webkit-font-smoothing:antialiased}
+button{cursor:pointer;font-family:var(--font);border:none;outline:none;transition:all .18s}
+input,select,textarea{font-family:var(--font);outline:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+.trc-wrap{max-width:1300px;margin:0 auto;padding:26px 24px 80px;position:relative;z-index:1}
+
+.trc-subnav{display:flex;gap:3px;flex-wrap:wrap;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:6px;margin-bottom:22px;position:sticky;top:52px;z-index:20}
+.trc-btn{display:flex;align-items:center;gap:6px;background:transparent;color:var(--txt2);border:1px solid transparent;border-radius:7px;padding:6px 13px;font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer;transition:all .16s}
+.trc-btn.active{background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.3);color:var(--g)}
+.trc-btn:hover:not(.active){background:var(--bg3);color:var(--txt)}
 
-:root {
-  /* ── Surfaces ── */
-  --bg:     #f0f3f8;
-  --bg2:    #e8ecf3;
-  --bg3:    #dde3ed;
-  --bg4:    #ffffff;
-  --bg5:    #f7f9fc;
-  --canvas: #ffffff;
-
-  /* ── Glass / card ── */
-  --glass:        rgba(255,255,255,.75);
-  --glass-hover:  rgba(255,255,255,.92);
-  --glass-active: rgba(255,255,255,1);
-
-  /* ── Borders ── */
-  --border:  rgba(30,50,100,.10);
-  --border2: rgba(30,50,100,.16);
-  --border3: rgba(30,50,100,.24);
-
-  /* ── Text ── */
-  --text:  #1a2540;
-  --text2: #5a6a8a;
-  --text3: #94a3b8;
-  --text4: #c8d3e8;
-
-  /* ── Brand accent: institutional blue ── */
-  --blue:      #2563eb;
-  --blue2:     #3b82f6;
-  --blue3:     #1d4ed8;
-  --blue-dim:  rgba(37,99,235,.08);
-  --blue-glow: rgba(37,99,235,.15);
-
-  /* ── Functional palette (minimal) ── */
-  --green:     #16a34a;
-  --green-dim: rgba(22,163,74,.09);
-  --amber:     #d97706;
-  --amber-dim: rgba(217,119,6,.09);
-  --red:       #dc2626;
-  --red-dim:   rgba(220,38,38,.09);
-  --slate:     #64748b;
-  --slate-dim: rgba(100,116,139,.09);
-
-  /* ── Legacy aliases for compatibility ── */
-  --gold:   #d97706;
-  --gold2:  #f59e0b;
-  --gold3:  #b45309;
-  --gold-dim:  rgba(217,119,6,.09);
-  --gold-glow: rgba(217,119,6,.15);
-  --teal:   #0891b2;
-  --teal-dim:  rgba(8,145,178,.09);
-  --purple: #7c3aed;
-  --purple-dim:rgba(124,58,237,.09);
-
-  /* ── Typography ── */
-  --font:  'DM Sans', sans-serif;
-  --serif: 'DM Sans', sans-serif;
-  --mono:  'DM Mono', monospace;
-
-  /* ── Geometry ── */
-  --r:  12px;
-  --r2:  8px;
-  --r3: 999px;
-
-  /* ── Elevation ── */
-  --shadow-xs: 0 1px 3px rgba(15,30,70,.08), 0 1px 2px rgba(15,30,70,.05);
-  --shadow-sm: 0 2px 8px rgba(15,30,70,.10), 0 1px 3px rgba(15,30,70,.06);
-  --shadow-md: 0 4px 20px rgba(15,30,70,.12), 0 2px 8px rgba(15,30,70,.07);
-  --shadow-lg: 0 10px 40px rgba(15,30,70,.14), 0 4px 16px rgba(15,30,70,.08);
-  --shadow-gold: 0 0 20px rgba(217,119,6,.12);
-}
-
-/* ── Reset ─────────────────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing:border-box; margin:0; padding:0 }
-html { scroll-behavior:smooth }
-html, body {
-  min-height:100vh;
-  background:var(--bg);
-  color:var(--text);
-  font-family:var(--font);
-  font-size:14px;
-  line-height:1.6;
-  -webkit-font-smoothing:antialiased;
-}
-
-/* ── Subtle grid background ── */
-body::before {
-  content:'';
-  position:fixed; inset:0; z-index:0; pointer-events:none;
-  background:
-    radial-gradient(ellipse 70% 50% at 10% 0%,  rgba(37,99,235,.04) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 40% at 90% 100%,rgba(8,145,178,.03)  0%, transparent 50%);
-}
-body::after {
-  content:'';
-  position:fixed; inset:0; z-index:0; pointer-events:none;
-  opacity:.25;
-  background-image:
-    linear-gradient(rgba(30,50,100,.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(30,50,100,.035) 1px, transparent 1px);
-  background-size:48px 48px;
-}
-
-/* ── Scrollbars ── */
-::-webkit-scrollbar            { width:5px; height:5px }
-::-webkit-scrollbar-track      { background:transparent }
-::-webkit-scrollbar-thumb      { background:rgba(30,50,100,.18); border-radius:3px }
-::-webkit-scrollbar-thumb:hover{ background:rgba(30,50,100,.30) }
-
-/* ── Base ── */
-button { cursor:pointer; font-family:var(--font); border:none; outline:none; transition:all .18s }
-input, select, textarea { font-family:var(--font); outline:none }
-a { color:var(--blue); text-decoration:none }
-*:focus-visible { outline:2px solid var(--blue); outline-offset:2px; border-radius:4px }
-
-/* ── Keyframes ── */
-@keyframes fadeUp  { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:none} }
-@keyframes fadeIn  { from{opacity:0} to{opacity:1} }
-@keyframes shimmer { 0%{background-position:-250% center} 100%{background-position:250% center} }
-@keyframes pulse   { 0%,100%{opacity:1} 50%{opacity:.4} }
-@keyframes dot     { 0%,80%,100%{transform:scale(.55);opacity:.25} 40%{transform:scale(1);opacity:1} }
-@keyframes spin    { to{transform:rotate(360deg)} }
-.fade-up { animation:fadeUp .4s cubic-bezier(.16,1,.3,1) both }
-
-/* ═══════════════════════════════════════════════════════════════════════
-   HEADER
-═══════════════════════════════════════════════════════════════════════ */
-#header {
-  position:sticky; top:0; z-index:100;
-  background:rgba(26,37,64,.97);
-  backdrop-filter:blur(24px) saturate(180%);
-  -webkit-backdrop-filter:blur(24px) saturate(180%);
-  border-bottom:1px solid rgba(255,255,255,.07);
-}
-#header::before {
-  content:''; position:absolute; top:0; left:0; right:0; height:2px;
-  background:linear-gradient(90deg, #2563eb 0%, #3b82f6 40%, #0891b2 100%);
-  opacity:.8;
-}
-
-
-
-
-
-
-
-
-
-
-/* ── Main nav ── */
-
-
-
-
-
-
-
-.tab-icon { font-size:14px }
-
-.haccp-tab.active::after { background:#dc2626!important }
-.haccp-tab::after        { background:#dc2626!important }
-.bmp-tab.active::after   { background:#d97706!important }
-.bmp-tab::after          { background:#d97706!important }
-
-/* ═══════════════════════════════════════════════════════════════════════
-   LAYOUT
-═══════════════════════════════════════════════════════════════════════ */
-#content {
-  max-width:1380px; margin:0 auto;
-  padding:26px 28px 100px;
-  position:relative; z-index:1;
-}
-.page { display:none }
-.page.active { display:block }
-
-/* ═══════════════════════════════════════════════════════════════════════
-   SUB-NAVIGATION
-═══════════════════════════════════════════════════════════════════════ */
-.manager-subnav {
-  display:flex; gap:3px; flex-wrap:wrap;
-  background:var(--canvas);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  padding:6px;
-  margin-bottom:22px;
-  box-shadow:var(--shadow-xs);
-}
-.subtab-btn {
-  display:flex; align-items:center; gap:6px;
-  background:transparent; color:var(--text3);
-  border:1px solid transparent; border-radius:7px;
-  padding:6px 12px; font-size:12px; font-weight:600;
-  white-space:nowrap; cursor:pointer; transition:all .16s;
-  font-family:var(--font);
-}
-.subtab-btn span { font-size:13px }
-.subtab-btn.active {
-  background:var(--blue-dim);
-  border-color:rgba(37,99,235,.2);
-  color:var(--blue);
-}
-.subtab-btn:hover:not(.active) { background:var(--bg); color:var(--text2) }
-
-.bev-subpage  { display:none }
-.shift-subpage{ display:none }
-.bev-subpage.active  { display:block }
-.shift-subpage.active{ display:block }
-
-#shift-subnav-inner .subtab-btn.active {
-  background:rgba(124,58,237,.08);
-  border-color:rgba(124,58,237,.2);
-  color:var(--purple);
-}
-
-/* ── Subnav groups ── */
-.subnav-group {
-  display:flex; align-items:center; gap:6px;
-  padding:4px 6px 3px; margin-top:4px; width:100%;
-  border-bottom:1px solid var(--border); margin-bottom:2px;
-}
-.subnav-group:first-child { margin-top:1px }
-.subnav-group-label {
-  font-family:var(--mono); font-size:8px; letter-spacing:2px;
-  color:var(--text3); text-transform:uppercase; font-weight:600;
-  white-space:nowrap; padding:0 2px; flex-shrink:0;
-}
-.subnav-group-line { flex:1; height:1px; background:linear-gradient(90deg, var(--border), transparent) }
-
-/* ═══════════════════════════════════════════════════════════════════════
-   MANAGER HEADER
-═══════════════════════════════════════════════════════════════════════ */
-.manager-header {
-  display:flex; align-items:center; gap:18px;
-  margin-bottom:20px; padding:18px 22px;
-  background:var(--canvas); border:1px solid var(--border);
-  border-radius:var(--r); box-shadow:var(--shadow-xs);
-  position:relative; overflow:hidden;
-}
-.manager-header::before {
-  content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
-  background:linear-gradient(180deg, var(--blue) 0%, var(--teal) 100%);
-}
-.manager-header-icon {
-  width:48px; height:48px; border-radius:14px; flex-shrink:0;
-  background:linear-gradient(145deg, #3b82f6, #1d4ed8);
-  display:flex; align-items:center; justify-content:center; font-size:20px;
-  box-shadow:var(--shadow-sm);
-}
-.manager-header-text h1 {
-  font-family:var(--serif); font-size:22px; font-weight:800;
-  letter-spacing:-.4px; color:var(--text);
-}
-.manager-header-text p { font-size:11.5px; color:var(--text2); margin-top:3px; font-weight:500 }
-
-/* ── Section title ── */
-.section-title { display:flex; align-items:flex-start; gap:14px; margin-bottom:20px }
-.section-bar {
-  width:3px; flex-shrink:0; height:30px; margin-top:3px;
-  background:linear-gradient(180deg, var(--blue) 0%, transparent 100%);
-  border-radius:2px;
-}
-.section-title h2 {
-  font-family:var(--serif); font-size:20px; font-weight:800;
-  letter-spacing:-.3px; color:var(--text);
-}
-.section-title p { font-size:12px; color:var(--text2); margin-top:4px; line-height:1.65 }
-
-/* ═══════════════════════════════════════════════════════════════════════
-   CARDS
-═══════════════════════════════════════════════════════════════════════ */
-.card {
-  background:var(--canvas);
-  border:1px solid var(--border);
-  border-radius:var(--r); padding:22px;
-  box-shadow:var(--shadow-xs);
-  transition:border-color .2s, box-shadow .2s;
-  position:relative; overflow:hidden;
-}
-.card:hover { border-color:var(--border2); box-shadow:var(--shadow-sm) }
-.card-accent { position:absolute; top:0; left:0; right:0; height:2px; z-index:1 }
-
-/* ═══════════════════════════════════════════════════════════════════════
-   GRID
-═══════════════════════════════════════════════════════════════════════ */
-.grid2  { display:grid; grid-template-columns:1fr 1fr; gap:16px }
-.grid3  { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px }
-.grid4  { display:grid; grid-template-columns:repeat(4,1fr); gap:14px }
-.grid21 { display:grid; grid-template-columns:2fr 1fr; gap:16px }
-@media(max-width:960px) { .grid4{grid-template-columns:1fr 1fr} .grid21{grid-template-columns:1fr} }
-@media(max-width:660px) { .grid2,.grid3{grid-template-columns:1fr} .grid4{grid-template-columns:1fr 1fr} }
-
-/* ═══════════════════════════════════════════════════════════════════════
-   KPI
-═══════════════════════════════════════════════════════════════════════ */
-.kpi-label { font-family:var(--mono); font-size:9px; letter-spacing:2px; color:var(--text3); text-transform:uppercase; margin-bottom:9px }
-.kpi-value { font-family:var(--serif); font-size:32px; font-weight:800; letter-spacing:-.7px; line-height:1; margin-bottom:6px }
-.kpi-sub   { font-size:12px; color:var(--text2) }
-.kpi-note  { font-family:var(--mono); font-size:9px; color:var(--text3); margin-top:10px; padding-top:10px; border-top:1px solid var(--border) }
-.kpi-delta { font-family:var(--mono); font-size:10px; font-weight:700; margin-top:4px }
-
-/* ═══════════════════════════════════════════════════════════════════════
-   BUTTONS
-═══════════════════════════════════════════════════════════════════════ */
-.btn {
-  display:inline-flex; align-items:center; gap:7px;
-  padding:9px 17px; border-radius:var(--r2);
-  font-weight:700; font-size:13px; transition:all .18s;
-}
-.btn-gold {
-  background:linear-gradient(135deg, var(--blue), var(--blue3));
-  color:#fff; box-shadow:0 2px 8px var(--blue-glow);
-}
-.btn-gold:hover { transform:translateY(-1px); box-shadow:0 5px 16px var(--blue-glow) }
-.btn-gold:active { transform:none }
-.btn-outline {
-  background:var(--canvas); color:var(--text2);
-  border:1px solid var(--border2);
-}
-.btn-outline:hover { border-color:var(--blue); color:var(--blue); background:var(--blue-dim) }
-.btn-danger {
-  background:var(--red-dim); color:var(--red); border:1px solid rgba(220,38,38,.2);
-}
-.btn-danger:hover { background:rgba(220,38,38,.15) }
-.btn-sm   { padding:5px 11px; font-size:11.5px }
-.btn-icon { padding:7px; border-radius:9px; font-size:15px }
-
-/* ═══════════════════════════════════════════════════════════════════════
-   ALERTS
-═══════════════════════════════════════════════════════════════════════ */
-.alert {
-  display:flex; align-items:center; gap:12px;
-  padding:11px 16px; border-radius:var(--r2); margin-bottom:10px; font-size:13px;
-}
-.alert-red    { background:var(--red-dim);   border:1px solid rgba(220,38,38,.2) }
-.alert-yellow { background:var(--amber-dim); border:1px solid rgba(217,119,6,.2) }
-.alert-green  { background:var(--green-dim); border:1px solid rgba(22,163,74,.2) }
-.alert-dot    { width:6px; height:6px; border-radius:50%; flex-shrink:0 }
-.dot-red      { background:var(--red) }
-.dot-yellow   { background:var(--amber) }
-.dot-green    { background:var(--green) }
-
-/* ═══════════════════════════════════════════════════════════════════════
-   PILLS / BADGES
-═══════════════════════════════════════════════════════════════════════ */
-.pill {
-  display:inline-flex; align-items:center;
-  padding:2px 9px; border-radius:var(--r3);
-  font-family:var(--mono); font-size:9.5px; font-weight:600; letter-spacing:.6px;
-}
-.pill-blue   { background:var(--blue-dim);  color:var(--blue);  border:1px solid rgba(37,99,235,.2) }
-.pill-gold   { background:var(--amber-dim); color:var(--amber); border:1px solid rgba(217,119,6,.2) }
-.pill-green  { background:var(--green-dim); color:var(--green); border:1px solid rgba(22,163,74,.2) }
-.pill-red    { background:var(--red-dim);   color:var(--red);   border:1px solid rgba(220,38,38,.2) }
-.pill-teal   { background:var(--teal-dim);  color:var(--teal);  border:1px solid rgba(8,145,178,.2) }
-.pill-slate  { background:var(--slate-dim); color:var(--slate); border:1px solid rgba(100,116,139,.2) }
-
-/* ═══════════════════════════════════════════════════════════════════════
-   TABLES
-═══════════════════════════════════════════════════════════════════════ */
-.table-wrap { overflow-x:auto; border-radius:var(--r2); border:1px solid var(--border); box-shadow:var(--shadow-xs) }
-table { width:100%; border-collapse:collapse; font-size:12.5px; background:var(--canvas) }
-thead tr { background:var(--bg5); border-bottom:1px solid var(--border) }
-thead th {
-  padding:10px 14px; color:var(--text3); text-align:left;
-  font-family:var(--mono); font-size:9px; letter-spacing:1.5px;
-  font-weight:600; white-space:nowrap; text-transform:uppercase;
-}
-tbody tr { border-bottom:1px solid var(--border); transition:background .1s }
-tbody tr:hover { background:var(--bg5) }
-tbody td { padding:11px 14px; vertical-align:middle }
-tbody tr:last-child { border-bottom:none }
-
-/* ═══════════════════════════════════════════════════════════════════════
-   FORMS
-═══════════════════════════════════════════════════════════════════════ */
-.field { margin-bottom:15px }
-.field label {
-  display:block; font-family:var(--mono); font-size:9px;
-  letter-spacing:1.5px; color:var(--text3); margin-bottom:7px; text-transform:uppercase;
-}
-.field input, .field select, .field textarea {
-  width:100%; background:var(--bg5); border:1px solid var(--border);
-  border-radius:var(--r2); padding:9px 13px;
-  color:var(--text); font-size:13px;
-  transition:border-color .15s, box-shadow .15s;
-}
-.field input:focus, .field select:focus, .field textarea:focus {
-  border-color:rgba(37,99,235,.4); background:var(--canvas);
-  box-shadow:0 0 0 3px rgba(37,99,235,.07);
-}
-.field-hint { font-size:10.5px; color:var(--text3); margin-top:5px }
-
-/* ═══════════════════════════════════════════════════════════════════════
-   MODALS
-═══════════════════════════════════════════════════════════════════════ */
-.overlay {
-  position:fixed; inset:0; background:rgba(15,25,60,.55);
-  z-index:500; display:flex; align-items:center; justify-content:center;
-  padding:20px; backdrop-filter:blur(8px); animation:fadeIn .2s ease;
-}
-.modal {
-  background:var(--canvas); border:1px solid var(--border2);
-  border-radius:18px; padding:28px; width:100%; max-width:560px;
-  max-height:90vh; overflow-y:auto;
-  box-shadow:var(--shadow-lg);
-  animation:fadeUp .28s cubic-bezier(.16,1,.3,1);
-  position:relative;
-}
-.modal::before {
-  content:''; position:absolute; top:0; left:0; right:0; height:3px;
-  background:linear-gradient(90deg, var(--blue), var(--teal));
-  border-radius:18px 18px 0 0;
-}
-.modal-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:22px }
-.modal-title { font-family:var(--serif); font-size:19px; font-weight:800; letter-spacing:-.3px }
-.modal-close {
-  background:var(--bg); border:1px solid var(--border); color:var(--text2);
-  width:32px; height:32px; border-radius:9px; font-size:16px;
-  display:flex; align-items:center; justify-content:center;
-}
-.modal-close:hover { color:var(--text); border-color:var(--border2) }
-.form-grid2 { display:grid; grid-template-columns:1fr 1fr; gap:0 16px }
-.full { grid-column:1/-1 }
-
-/* ── AI Chat ── */
-.chat-wrap     { display:flex; flex-direction:column; height:530px }
-.chat-messages { flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:14px; padding-bottom:8px }
-.msg           { max-width:90%; border-radius:var(--r) }
-.msg-assistant { align-self:flex-start; background:var(--bg5); border:1px solid var(--border); padding:14px 18px }
-.msg-user      { align-self:flex-end; background:var(--blue-dim); border:1px solid rgba(37,99,235,.18); padding:12px 17px }
-.msg-header    { display:flex; align-items:center; gap:7px; margin-bottom:8px }
-.msg-name      { font-family:var(--mono); font-size:9px; color:var(--blue); letter-spacing:1.2px; font-weight:700 }
-.msg-text      { font-size:13.5px; line-height:1.75; color:var(--text) }
-.msg-text strong { color:var(--blue) }
-.chat-input-wrap { border-top:1px solid var(--border); padding-top:14px; margin-top:10px }
-.quick-btns    { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px }
-.quick-btn     { background:var(--bg5); border:1px solid var(--border); color:var(--text2); border-radius:var(--r3); padding:5px 12px; font-size:11px }
-.quick-btn:hover { border-color:var(--blue); color:var(--blue); background:var(--blue-dim) }
-.chat-row      { display:flex; gap:8px }
-.chat-input    { flex:1; background:var(--bg5); border:1px solid var(--border); border-radius:var(--r2); padding:10px 13px; color:var(--text); font-size:13px }
-.chat-input:focus { border-color:rgba(37,99,235,.35) }
-.thinking-dots { display:flex; gap:5px; padding:12px 16px; align-items:center }
-.thinking-dots span { width:7px; height:7px; border-radius:50%; background:var(--blue); display:inline-block }
-.thinking-dots span:nth-child(1) { animation:dot 1.4s 0s infinite }
-.thinking-dots span:nth-child(2) { animation:dot 1.4s .16s infinite }
-.thinking-dots span:nth-child(3) { animation:dot 1.4s .32s infinite }
-
-/* ── Toast ── */
-#toast {
-  position:fixed; bottom:32px; left:50%;
-  transform:translateX(-50%) translateY(14px);
-  background:rgba(26,37,64,.97);
-  border:1px solid rgba(22,163,74,.35);
-  color:#4ade80; font-weight:700; font-size:12px; font-family:var(--mono);
-  padding:10px 22px; border-radius:var(--r3); z-index:9999;
-  box-shadow:var(--shadow-md); white-space:nowrap; pointer-events:none; opacity:0;
-  transition:all .28s cubic-bezier(.16,1,.3,1);
-  backdrop-filter:blur(16px); letter-spacing:.3px;
-}
-#toast.show { opacity:1; transform:translateX(-50%) translateY(0) }
-#toast.err  { border-color:rgba(220,38,38,.35); color:#f87171 }
-
-/* ── Progress ── */
-.progress-bar  { height:4px; background:var(--border); border-radius:3px; overflow:hidden; margin:6px 0 }
-.progress-fill { height:100%; border-radius:3px; transition:width .6s cubic-bezier(.16,1,.3,1) }
-
-/* ── Warn / API badges ── */
-.warn-badge {
-  display:inline-flex; align-items:center; gap:6px;
-  background:var(--red-dim); color:var(--red); border:1px solid rgba(220,38,38,.2);
-  border-radius:var(--r3); padding:5px 12px; font-size:10.5px; font-weight:700;
-  cursor:pointer; animation:pulse 2.5s infinite;
-}
-.api-badge {
-  display:inline-flex; align-items:center; gap:6px;
-  background:var(--amber-dim); color:var(--amber); border:1px solid rgba(217,119,6,.2);
-  border-radius:var(--r3); padding:5px 12px; font-size:10.5px; font-weight:700; cursor:pointer;
-}
-
-/* ── Charts ── */
-.chart-box { width:100%; background:var(--bg5); border-radius:var(--r2); position:relative; overflow:hidden }
-canvas { display:block; width:100%!important }
-
-/* ── Misc ── */
-.divider    { height:1px; background:var(--border); margin:20px 0 }
-.info-box   { background:var(--blue-dim); border:1px solid rgba(37,99,235,.15); border-radius:var(--r2); padding:14px 18px; font-size:12.5px; color:var(--text2); line-height:1.7 }
-.info-box strong { color:var(--blue) }
-.action-row { display:flex; justify-content:flex-end; gap:10px; margin-top:20px; padding-top:16px; border-top:1px solid var(--border) }
-.tag        { display:inline-flex; align-items:center; gap:4px; padding:3px 9px; border-radius:var(--r3); font-family:var(--mono); font-size:9.5px; font-weight:600 }
-
-/* ── Events / Preventivo ── */
-.prev-grid  { display:grid; grid-template-columns:1fr 80px 68px 100px; gap:5px 12px; align-items:center }
-.prev-h     { font-family:var(--mono); font-size:9px; letter-spacing:1.2px; color:var(--text3); text-transform:uppercase; padding-bottom:9px; border-bottom:1px solid var(--border) }
-.prev-label { font-size:13px; color:var(--text) }
-.prev-total { font-family:var(--mono); font-size:13px; color:var(--blue); font-weight:700; text-align:right }
-.prev-num   { background:var(--bg5); border:1px solid var(--border); border-radius:7px; padding:7px 8px; color:var(--text); font-family:var(--mono); font-size:12px; text-align:right; width:100%; transition:border-color .15s }
-.prev-num:focus { border-color:rgba(37,99,235,.35) }
-.rbox       { background:var(--bg5); border:1px solid var(--border); border-radius:var(--r2); padding:18px; text-align:center }
-.rbox-label { font-family:var(--mono); font-size:9.5px; letter-spacing:1.2px; color:var(--text3); text-transform:uppercase; margin-bottom:8px }
-.rbox-val   { font-family:var(--serif); font-size:28px; font-weight:800; letter-spacing:-.5px; line-height:1 }
-.rbox-sub   { font-size:11px; color:var(--text2); margin-top:5px }
-.sum-row    { display:flex; justify-content:space-between; align-items:center; padding:7px 0; font-size:13px; border-bottom:1px solid var(--border) }
-.sum-row:last-child { border-bottom:none }
-.sum-row.total { font-size:14px; padding-top:12px; margin-top:5px; border-top:2px solid var(--border2); border-bottom:none; font-weight:700 }
-.sum-key { color:var(--text2) } .sum-val-ev { color:var(--text) }
-.ev-divider { height:1px; background:var(--border); margin:16px 0 }
-.ls-tbl     { width:100%; border-collapse:collapse; font-size:12.5px; background:var(--canvas) }
-.ls-tbl th  { font-family:var(--mono); font-size:9px; letter-spacing:1.2px; color:var(--text3); text-transform:uppercase; padding:8px 12px; text-align:right; border-bottom:1px solid var(--border); background:var(--bg5) }
-.ls-tbl th:first-child { text-align:left }
-.ls-tbl td  { padding:9px 12px; border-bottom:1px solid var(--border); text-align:right; vertical-align:middle }
-.ls-tbl td:first-child { text-align:left; color:var(--text) }
-.ls-tbl tr:hover td { background:var(--bg5) }
-.ls-tbl tfoot td { background:var(--blue-dim); color:var(--blue); font-weight:700; border-top:2px solid var(--border2) }
-.ls-num  { width:52px; padding:5px 7px; text-align:right; font-size:12px; background:var(--bg5); border:1px solid var(--border); border-radius:6px; color:var(--text); font-family:var(--mono) }
-.ls-num:focus { border-color:rgba(37,99,235,.35) }
-.ls-range { width:60px; accent-color:var(--blue); vertical-align:middle }
-.shop-item { display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-bottom:1px solid var(--border); font-size:13px }
-.shop-item:last-child { border-bottom:none }
-.client-row { display:grid; grid-template-columns:1fr auto auto auto; align-items:center; gap:10px; padding:12px 18px; border-bottom:1px solid var(--border); transition:background .1s }
-.client-row:hover { background:var(--bg5) }
-.ev-client-name { font-family:var(--serif); font-size:15px; font-weight:700; cursor:pointer; color:var(--text); transition:color .15s }
-.ev-client-name:hover { color:var(--blue) }
-.ev-client-meta { font-size:11.5px; color:var(--text2); margin-top:2px }
-.crm-badge { display:inline-block; font-family:var(--mono); font-size:9px; letter-spacing:.8px; text-transform:uppercase; padding:2px 9px; border:1px solid; border-radius:5px }
-.cb-lead       { border-color:var(--border2); color:var(--text3) }
-.cb-preventivo { border-color:rgba(217,119,6,.35); color:var(--amber) }
-.cb-followup   { border-color:rgba(37,99,235,.35); color:var(--blue) }
-.cb-chiuso     { border-color:rgba(22,163,74,.35);  color:var(--green) }
-.cb-perso      { border-color:rgba(220,38,38,.35);  color:var(--red) }
-.reminder-pill { display:flex; gap:10px; align-items:flex-start; padding:10px 14px; background:var(--bg5); border-left:2px solid var(--amber); border-radius:0 9px 9px 0; margin-bottom:8px; font-size:12.5px }
-.reminder-pill.urgent { border-left-color:var(--red) }
-.haccp-tab.active       { color:#fff!important }
-.haccp-tab:not(.active) { color:rgba(255,255,255,.45)!important }
-.bmp-tab.active         { color:#fff!important }
-.bmp-tab:not(.active)   { color:rgba(255,255,255,.45)!important }
-
-/* BCG */
-.bcg-card  { border-radius:var(--r2); padding:14px; text-align:center }
-.bcg-label { font-family:var(--mono); font-size:10px; letter-spacing:1.5px; font-weight:700; margin-bottom:3px }
-.bcg-desc  { font-size:10.5px; color:var(--text2); line-height:1.6 }
-
-/* Live preview */
-.live-preview { display:grid; grid-template-columns:1fr 1fr; gap:10px; background:var(--bg5); border-radius:var(--r2); border:1px solid var(--border); padding:16px; margin-bottom:18px }
-.lp-item label { font-family:var(--mono); font-size:9px; color:var(--text3); letter-spacing:1px; display:block; margin-bottom:4px }
-.lp-item span  { font-family:var(--mono); font-size:20px; font-weight:500 }
-
-/* ═══════════════════════════════════════════════════════════════════════
-   BARMAN PLATFORM — self-contained (unchanged structure)
-═══════════════════════════════════════════════════════════════════════ */
-#page-barman-wrapper { display:none }
-#page-barman-wrapper * { box-sizing:border-box }
-.bmp-root { min-height:calc(100vh - 74px); background:#0a0a0a; color:#f0e6c8; font-family:'DM Sans',Georgia,serif }
-.bmp-nav { display:flex; gap:4px; padding:0 20px; background:rgba(15,11,5,.95); border-bottom:1px solid rgba(232,184,75,.1); overflow-x:auto; scrollbar-width:none }
-.bmp-nav::-webkit-scrollbar { display:none }
-.bmp-navbtn { background:transparent; border:1px solid transparent; border-radius:8px; padding:10px 18px; color:#5a4a3a; font-weight:700; font-size:13px; cursor:pointer; font-family:'DM Sans',Georgia,serif; white-space:nowrap; transition:all .2s; flex-shrink:0 }
-.bmp-navbtn.active { background:rgba(232,184,75,.1); border-color:rgba(232,184,75,.2); color:#E8B84B }
-.bmp-navbtn:hover:not(.active) { color:#c8a860 }
-.bmp-page { display:none; min-height:calc(100vh - 110px) }
-.bmp-page.active { display:block }
-.bmp-hero { min-height:90vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:80px 20px 60px; position:relative; overflow:hidden; text-align:center }
-.bmp-hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 80% 60% at 50% 0%,#1a0e00 0%,#0a0a0a 60%); z-index:0 }
-.bmp-hero-grid { position:absolute; inset:0; opacity:.04; background-image:repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(232,184,75,1) 40px,rgba(232,184,75,1) 41px),repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(232,184,75,1) 40px,rgba(232,184,75,1) 41px); z-index:1; pointer-events:none }
-.bmp-hero-content { position:relative; z-index:2; max-width:760px; width:100% }
-.bmp-hero-pill { display:inline-flex; align-items:center; gap:8px; background:rgba(232,184,75,.08); border:1px solid rgba(232,184,75,.2); border-radius:30px; padding:6px 18px; margin-bottom:32px; font-size:12px; letter-spacing:2px; color:#E8B84B; text-transform:uppercase }
-.bmp-h1 { font-family:'DM Sans',sans-serif; font-size:clamp(2.4rem,6vw,5rem); color:#f0e6c8; margin:0 0 16px; line-height:1.1; font-weight:800 }
-.bmp-h1 span { color:#E8B84B }
-.bmp-hero-sub { font-size:17px; color:#8a7a6a; margin-bottom:44px; line-height:1.7; font-family:'DM Sans',Georgia,serif }
-.bmp-searchbox { background:rgba(20,15,8,.9); backdrop-filter:blur(20px); border:1px solid rgba(232,184,75,.2); border-radius:16px; padding:8px; display:flex; gap:8px; flex-wrap:wrap; box-shadow:0 20px 60px rgba(0,0,0,.5); margin-bottom:40px }
-.bmp-searchfield { flex:1 1 160px; display:flex; align-items:center; gap:10px; background:rgba(255,255,255,.03); border:1px solid rgba(232,184,75,.1); border-radius:10px; padding:10px 16px }
-.bmp-searchfield input { border:none; background:transparent; color:#f0e6c8; font-size:14px; outline:none; width:100%; font-family:'DM Sans',Georgia,serif }
-.bmp-searchfield input::placeholder { color:#3a3020 }
-.bmp-btn-gold { background:linear-gradient(135deg,#E8B84B,#c8941f); border:none; border-radius:10px; padding:12px 28px; color:#0a0a0a; font-weight:800; font-size:14px; cursor:pointer; font-family:'DM Sans',Georgia,serif; letter-spacing:.5px; white-space:nowrap; box-shadow:0 4px 20px rgba(232,184,75,.3); transition:opacity .2s }
-.bmp-btn-gold:hover { opacity:.88 }
-.bmp-trust-stats { display:flex; gap:32px; justify-content:center; flex-wrap:wrap }
-.bmp-trust-num   { font-size:22px; font-family:'DM Sans',sans-serif; font-weight:700; color:#E8B84B }
-.bmp-trust-label { font-size:11px; color:#5a4a3a; letter-spacing:1px; text-transform:uppercase; margin-top:2px }
-.bmp-featured { text-align:center; padding:0 20px 60px; position:relative; z-index:2 }
-.bmp-featured-label { color:#5a4a3a; font-size:12px; letter-spacing:2px; text-transform:uppercase; margin-bottom:20px }
-.bmp-featured-cards { display:flex; gap:16px; justify-content:center; flex-wrap:wrap }
-.bmp-mini-card { background:rgba(20,15,8,.8); border:1px solid rgba(232,184,75,.15); border-radius:12px; padding:14px 20px; display:flex; align-items:center; gap:12px; cursor:pointer; transition:all .2s; backdrop-filter:blur(10px) }
-.bmp-mini-card:hover { border-color:rgba(232,184,75,.4); transform:translateY(-2px) }
-.bmp-search-wrap { max-width:1100px; margin:0 auto; padding:30px 20px 60px }
-.bmp-filters { display:flex; gap:12px; flex-wrap:wrap; background:rgba(20,15,8,.8); border:1px solid rgba(232,184,75,.15); border-radius:12px; padding:16px; margin-bottom:28px }
-.bmp-filters input,.bmp-filters select { background:rgba(255,255,255,.05); border:1px solid rgba(232,184,75,.1); border-radius:8px; padding:8px 14px; color:#f0e6c8; font-size:13px; outline:none; font-family:'DM Sans',Georgia,serif; cursor:pointer }
-.bmp-filters input { flex:1 1 200px }
-.bmp-filters select option { background:#1a1005; color:#f0e6c8 }
-.bmp-filter-toggle { display:flex; align-items:center; gap:8px; color:#8a7a6a; font-size:13px; cursor:pointer; user-select:none }
-.bmp-filter-toggle input { width:auto; cursor:pointer; accent-color:#E8B84B }
-.bmp-barmen-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px }
-.bmp-barman-card { background:rgba(20,15,8,.8); border:1px solid rgba(232,184,75,.12); border-radius:14px; padding:20px; transition:all .2s; cursor:pointer }
-.bmp-barman-card:hover { border-color:rgba(232,184,75,.35); transform:translateY(-3px); box-shadow:0 12px 40px rgba(0,0,0,.4) }
-.bmp-avatar { border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'DM Sans',sans-serif; color:#e8d5a3; font-weight:700; border:2px solid rgba(232,184,75,.4); flex-shrink:0; position:relative }
-.bmp-badge-dot { position:absolute; bottom:-2px; right:-2px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:1.5px solid #0a0a0a }
-.bmp-badge-pill { display:inline-flex; align-items:center; gap:4px; border-radius:20px; padding:3px 10px; font-size:11px; font-weight:700; letter-spacing:.5px; white-space:nowrap; border:1px solid }
-.bmp-avail-on  { background:rgba(30,160,80,.1);  border:1px solid rgba(30,160,80,.3);  color:#30c060; border-radius:20px; padding:3px 12px; font-size:11px }
-.bmp-avail-off { background:rgba(160,80,30,.1);  border:1px solid rgba(160,80,30,.3);  color:#c06030; border-radius:20px; padding:3px 12px; font-size:11px }
-.bmp-stars { color:#E8B84B; letter-spacing:1px }
-.bmp-profile-wrap { max-width:900px; margin:0 auto; padding:30px 20px 60px }
-.bmp-profile-header { background:rgba(20,15,8,.9); border:1px solid rgba(232,184,75,.15); border-radius:16px; padding:28px; margin-bottom:20px; display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start }
-.bmp-profile-stats { display:flex; gap:24px; flex-wrap:wrap }
-.bmp-stat-box  { text-align:center }
-.bmp-stat-val  { color:#E8B84B; font-size:22px; font-family:'DM Sans',sans-serif; font-weight:700 }
-.bmp-stat-label{ color:#5a4a3a; font-size:11px }
-.bmp-tab-bar   { display:flex; gap:4px; background:rgba(20,15,8,.8); border:1px solid rgba(232,184,75,.1); border-radius:12px; padding:6px; margin-bottom:20px }
-.bmp-tab-item  { flex:1; background:transparent; border:1px solid transparent; border-radius:8px; padding:10px 0; color:#5a4a3a; font-weight:700; font-size:13px; cursor:pointer; font-family:'DM Sans',Georgia,serif; transition:all .2s }
-.bmp-tab-item.active { background:rgba(232,184,75,.12); border-color:rgba(232,184,75,.25); color:#E8B84B }
-.bmp-tab-content { background:rgba(20,15,8,.8); border:1px solid rgba(232,184,75,.12); border-radius:14px; padding:24px }
-.bmp-tag       { background:rgba(232,184,75,.08); border:1px solid rgba(232,184,75,.2); border-radius:20px; padding:6px 16px; color:#c8a860; font-size:13px; display:inline-block; margin:4px }
-.bmp-event-tag { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); border-radius:20px; padding:6px 16px; color:#8a7a6a; font-size:13px; display:inline-block; margin:4px }
-.bmp-review-item { border-bottom:1px solid rgba(232,184,75,.08); padding-bottom:20px; margin-bottom:20px }
-.bmp-review-item:last-child { border-bottom:none; padding-bottom:0; margin-bottom:0 }
-.bmp-chat-wrap { max-width:680px; margin:0 auto; padding:20px; display:flex; flex-direction:column }
-.bmp-chat-header { display:flex; align-items:center; gap:14px; background:rgba(20,15,8,.9); border:1px solid rgba(232,184,75,.15); border-radius:14px 14px 0 0; padding:16px }
-.bmp-messages { flex:1; background:rgba(15,11,5,.95); border:1px solid rgba(232,184,75,.1); padding:20px 16px; min-height:380px; max-height:460px; overflow-y:auto; display:flex; flex-direction:column; gap:12px }
-.bmp-msg-wrap { display:flex }
-.bmp-msg-wrap.user  { justify-content:flex-end }
-.bmp-msg-wrap.barman{ justify-content:flex-start }
-.bmp-msg       { max-width:70%; padding:10px 14px; font-size:13px; line-height:1.5 }
-.bmp-msg.user  { background:linear-gradient(135deg,#E8B84B,#c8941f); color:#0a0a0a; border-radius:14px 14px 0 14px }
-.bmp-msg.barman{ background:rgba(255,255,255,.05); border:1px solid rgba(232,184,75,.1); color:#e0d0b0; border-radius:14px 14px 14px 0 }
-.bmp-msg-time  { font-size:11px; color:#3a3030; margin-top:4px }
-.bmp-chat-footer { display:flex; gap:10px; background:rgba(20,15,8,.9); border:1px solid rgba(232,184,75,.15); border-radius:0 0 14px 14px; padding:14px }
-.bmp-chat-input { flex:1; background:rgba(255,255,255,.05); border:1px solid rgba(232,184,75,.1); border-radius:10px; padding:10px 14px; color:#f0e6c8; font-size:13px; outline:none; font-family:'DM Sans',Georgia,serif }
-.bmp-chat-input:focus { border-color:rgba(232,184,75,.3) }
-.bmp-send-btn  { background:linear-gradient(135deg,#E8B84B,#c8941f); border:none; border-radius:10px; width:44px; height:44px; cursor:pointer; font-size:18px; color:#0a0a0a; display:flex; align-items:center; justify-content:center }
-.bmp-dash-wrap { max-width:900px; margin:0 auto; padding:30px 20px 60px }
-.bmp-dash-kpi-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:16px; margin-bottom:28px }
-.bmp-kpi-card  { background:rgba(20,15,8,.8); border:1px solid rgba(232,184,75,.12); border-radius:12px; padding:20px; text-align:center }
-.bmp-kpi-val   { font-size:26px; font-family:'DM Sans',sans-serif; color:#E8B84B; font-weight:700 }
-.bmp-kpi-lbl   { font-size:12px; color:#5a4a3a; margin-top:4px }
-.bmp-bookings-list { background:rgba(20,15,8,.8); border:1px solid rgba(232,184,75,.12); border-radius:14px; overflow:hidden }
-.bmp-booking-row { display:flex; align-items:center; gap:16px; padding:20px 24px; border-bottom:1px solid rgba(232,184,75,.06); flex-wrap:wrap }
-.bmp-booking-row:last-child { border-bottom:none }
-.bmp-status    { border-radius:20px; padding:4px 14px; font-size:12px; font-weight:600; border:1px solid }
-.bmp-modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.85); display:flex; align-items:center; justify-content:center; z-index:600; padding:20px }
-.bmp-modal     { background:#0f0b05; border:1px solid rgba(232,184,75,.2); border-radius:20px; padding:32px; max-width:520px; width:100%; max-height:90vh; overflow-y:auto }
-.bmp-modal-step-bar { display:flex; gap:6px; margin-bottom:28px }
-.bmp-modal-step { flex:1; height:3px; border-radius:2px; transition:background .3s }
-.bmp-btn-back  { background:rgba(255,255,255,.05); border:1px solid rgba(232,184,75,.1); border-radius:10px; padding:13px; color:#8a7a6a; font-weight:700; font-size:14px; cursor:pointer; font-family:'DM Sans',Georgia,serif; flex:1 }
-.bmp-field-label { display:block; color:#8a7a6a; font-size:13px; margin-bottom:6px }
-.bmp-field-input { width:100%; background:rgba(255,255,255,.05); border:1px solid rgba(232,184,75,.15); border-radius:8px; padding:10px 14px; color:#f0e6c8; font-size:14px; outline:none; font-family:'DM Sans',Georgia,serif; box-sizing:border-box }
-.bmp-field-input:focus { border-color:rgba(232,184,75,.3) }
-.bmp-ar-menu-btn { display:flex; align-items:center; width:100%; background:transparent; border:none; border-bottom:1px solid rgba(232,184,75,.06); padding:13px 16px; color:#5a4a3a; font-size:13px; font-weight:600; cursor:pointer; font-family:'DM Sans',Georgia,serif; text-align:left; transition:all .2s; gap:6px }
-.bmp-ar-menu-btn:last-child { border-bottom:none }
-.bmp-ar-menu-btn.active { background:rgba(232,184,75,.08); color:#E8B84B }
-.bmp-ar-menu-btn:hover:not(.active) { background:rgba(255,255,255,.03); color:#c8a860 }
-.bmp-inbox-row { display:flex; gap:12px; padding:14px 16px; border-bottom:1px solid rgba(232,184,75,.06); cursor:pointer; transition:background .15s; align-items:flex-start }
-.bmp-inbox-row:hover { background:rgba(232,184,75,.04) }
-.bmp-inbox-row.active { background:rgba(232,184,75,.08); border-left:2px solid #E8B84B }
-.bmp-inbox-row.unread .bmp-inbox-name    { color:#f0e6c8; font-weight:700 }
-.bmp-inbox-row.unread .bmp-inbox-preview { color:#8a7a6a }
-.bmp-inbox-name    { color:#c8a860; font-size:14px; font-weight:600; font-family:'DM Sans',sans-serif }
-.bmp-inbox-preview { color:#5a4a3a; font-size:12px; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:240px }
-.bmp-inbox-time    { color:#3a3020; font-size:11px; white-space:nowrap; margin-left:auto }
-.bmp-unread-dot    { width:8px; height:8px; border-radius:50%; background:#E8B84B; flex-shrink:0; margin-top:5px }
-.bmp-footer        { background:rgba(10,10,10,.95); border-top:1px solid rgba(232,184,75,.08); padding:40px 24px; text-align:center }
-
-
-/* ═══════════════════════════════════════════════════════════════════════
-   PRO HUB STYLES — Hospitality Intelligence Module
-═══════════════════════════════════════════════════════════════════════ */
-.grid-2  { display:grid; grid-template-columns:1fr 1fr; gap:20px }
-.grid-3  { display:grid; grid-template-columns:repeat(3,1fr); gap:20px }
-.grid-4c { display:grid; grid-template-columns:repeat(4,1fr); gap:16px }
-.grid-auto { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:20px }
-@media(max-width:900px) { .grid-2,.grid-3,.grid-4c { grid-template-columns:1fr } }
-.hub-stitle { font-family:'DM Sans',sans-serif; font-size:1.4rem; font-weight:700; color:var(--text) }
-.section-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:24px; flex-wrap:wrap }
-.hub-hero { padding:60px 0 48px; position:relative }
-.hub-hero-inner { max-width:700px }
-.hub-hero-tag { display:inline-flex; align-items:center; gap:8px; background:var(--blue-dim); border:1px solid var(--blue-glow); border-radius:20px; padding:6px 16px; margin-bottom:20px }
-.hub-hero-tag span { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--blue) }
-.hub-hero h1 { font-family:'DM Sans',sans-serif; font-size:clamp(2rem,5vw,3.2rem); font-weight:900; line-height:1.1; margin-bottom:18px; color:var(--text) }
-.hub-hero h1 em { font-style:italic; color:var(--blue) }
-.hub-hero p { font-size:15px; color:var(--text2); line-height:1.8; margin-bottom:28px; max-width:550px }
-.metric-strip { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin-bottom:48px }
-.metric { background:var(--canvas); border:1px solid var(--border); border-radius:var(--r); padding:16px; text-align:center; box-shadow:var(--shadow-xs) }
-.metric-val { font-family:'DM Sans',sans-serif; font-size:28px; font-weight:700; color:var(--blue); line-height:1; margin-bottom:6px }
-.metric-lbl { font-size:11px; font-weight:600; letter-spacing:1.5px; color:var(--text2); text-transform:uppercase }
-.feature-card { background:var(--canvas); border:1px solid var(--border); border-radius:var(--r); padding:24px; cursor:pointer; transition:all .2s; display:flex; flex-direction:column; gap:12px; box-shadow:var(--shadow-xs) }
-.feature-card:hover { border-color:var(--blue); box-shadow:var(--shadow-sm); transform:translateY(-2px) }
-.feature-icon { font-size:32px }
-.feature-title { font-family:'DM Sans',sans-serif; font-size:16px; font-weight:700; color:var(--text) }
-.feature-desc { font-size:13px; color:var(--text2); line-height:1.6 }
-.feature-link { font-size:12px; font-weight:700; color:var(--blue); margin-top:auto }
-.news-card { background:var(--canvas); border:1px solid var(--border); border-radius:var(--r); padding:22px; transition:border-color .2s; box-shadow:var(--shadow-xs) }
-.news-card:hover { border-color:var(--border2) }
-.news-title { font-family:'DM Sans',sans-serif; font-size:1.05rem; font-weight:700; color:var(--text); margin-bottom:8px; line-height:1.4 }
-.news-excerpt { font-size:12.5px; color:var(--text2); line-height:1.6; margin-bottom:14px }
-.news-meta { font-size:11px; color:var(--text3) }
-.expert-card { background:var(--canvas); border:1px solid var(--border); border-radius:var(--r); padding:22px; display:flex; gap:16px; transition:all .2s; box-shadow:var(--shadow-xs) }
-.expert-card:hover { border-color:var(--border2) }
-.expert-avatar { width:54px; height:54px; border-radius:50%; flex-shrink:0; background:linear-gradient(135deg,var(--blue),var(--blue2)); display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:700; color:#fff; font-family:'DM Sans',sans-serif }
-.expert-name { font-size:14px; font-weight:700; color:var(--text); margin-bottom:2px }
-.expert-title-c { font-size:12px; color:var(--text2); margin-bottom:8px }
-.stars { color:var(--gold); font-size:12px; letter-spacing:1px }
-.consult-card { background:var(--canvas); border:1px solid var(--border); border-radius:var(--r); overflow:hidden; transition:all .25s; cursor:pointer; box-shadow:var(--shadow-xs) }
-.consult-card:hover { border-color:var(--border2); transform:translateY(-3px); box-shadow:var(--shadow-md) }
-.consult-img { height:160px; display:flex; align-items:center; justify-content:center; font-size:60px; position:relative }
-.consult-body { padding:20px }
-.consult-title { font-family:'DM Sans',sans-serif; font-size:1.1rem; font-weight:700; color:var(--text); margin-bottom:6px }
-.consult-desc { font-size:12.5px; color:var(--text2); line-height:1.6; margin-bottom:14px }
-.consult-meta { display:flex; align-items:center; justify-content:space-between }
-.consult-price { font-family:var(--mono); font-size:14px; color:var(--gold); font-weight:600 }
-.academy-card { background:var(--canvas); border:1px solid var(--border); border-radius:var(--r); overflow:hidden; transition:all .25s; box-shadow:var(--shadow-xs) }
-.academy-card:hover { border-color:var(--border2); transform:translateY(-2px) }
-.academy-header { padding:20px 22px 16px; border-bottom:1px solid var(--border) }
-.academy-level { display:inline-flex; align-items:center; gap:5px; margin-bottom:10px; font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase }
-.level-base { color:var(--green) } .level-adv { color:var(--amber) } .level-pro { color:var(--gold) }
-.academy-title { font-family:'DM Sans',sans-serif; font-size:1.05rem; font-weight:700; color:var(--text); line-height:1.3 }
-.academy-body { padding:16px 22px }
-.academy-meta { display:flex; gap:14px; font-size:11.5px; color:var(--text2); margin-bottom:12px }
-.academy-footer { padding:16px 22px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between }
-.badge { display:inline-flex; align-items:center; gap:4px; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:700 }
-.badge-gold  { background:rgba(217,119,6,.10);  color:var(--gold);  border:1px solid rgba(217,119,6,.25) }
-.badge-green { background:var(--green-dim);      color:var(--green); border:1px solid rgba(22,163,74,.3) }
-.badge-red   { background:var(--red-dim);        color:var(--red);   border:1px solid rgba(220,38,38,.3) }
-.badge-amber { background:var(--amber-dim);      color:var(--amber); border:1px solid rgba(217,119,6,.3) }
-.badge-blue  { background:var(--blue-dim);       color:var(--blue);  border:1px solid rgba(37,99,235,.25) }
-.badge-muted { background:var(--bg3);            color:var(--text3); border:1px solid var(--border2) }
-.hub-subnav { display:flex; gap:4px; flex-wrap:wrap; padding:16px 0; margin-bottom:24px; border-bottom:1px solid var(--border2) }
-.hub-subnav-btn { display:flex; align-items:center; gap:6px; padding:8px 16px; border-radius:8px; border:1px solid transparent; background:transparent; color:var(--text2); font-family:var(--font); font-size:12.5px; font-weight:600; cursor:pointer; transition:all .18s; white-space:nowrap }
-.hub-subnav-btn:hover { background:var(--blue-dim); color:var(--text) }
-.hub-subnav-btn.active { background:var(--blue-dim); border-color:rgba(37,99,235,.2); color:var(--blue) }
-.cert-hero { background:var(--bg5); border:1px solid var(--border); border-radius:var(--r); padding:28px 32px; margin-bottom:24px; display:flex; align-items:flex-start; gap:24px; box-shadow:var(--shadow-xs) }
-.cert-icon-lg { font-size:48px; line-height:1; flex-shrink:0 }
-.cert-norm { font-family:var(--mono); font-size:10px; color:var(--blue); letter-spacing:1px; margin-bottom:6px }
-.cert-name { font-family:'DM Sans',sans-serif; font-size:1.5rem; font-weight:700; color:var(--text); margin-bottom:8px }
-.cert-desc { font-size:13px; color:var(--text2); line-height:1.7; margin-bottom:12px }
-.check-item { display:flex; align-items:flex-start; gap:12px; padding:12px 16px; background:var(--canvas); border:1px solid var(--border); border-radius:var(--r2); margin-bottom:8px; cursor:pointer; transition:all .15s }
-.check-item:hover { border-color:var(--blue); background:var(--bg5) }
-.check-item.done { background:var(--green-dim); border-color:rgba(22,163,74,.2) }
-.check-box { width:20px; height:20px; border-radius:5px; flex-shrink:0; border:2px solid var(--border3); background:var(--canvas); display:flex; align-items:center; justify-content:center; font-size:11px; margin-top:1px; transition:all .15s }
-.check-item.done .check-box { background:var(--green); border-color:var(--green); color:#fff }
-.check-text { flex:1 }
-.check-req { font-size:12.5px; font-weight:600; color:var(--text); margin-bottom:3px }
-.check-cap { font-size:11px; color:var(--text2); line-height:1.5 }
-.check-ref { font-family:var(--mono); font-size:10px; color:var(--blue); margin-top:4px }
-.check-crit { font-size:10px; font-weight:700; padding:2px 7px; border-radius:4px; margin-left:auto; flex-shrink:0; align-self:flex-start }
-.crit-M { background:var(--red-dim); color:var(--red) }
-.crit-R { background:var(--amber-dim); color:var(--amber) }
-.crit-O { background:var(--blue-dim); color:var(--blue) }
-.gap-section { margin-bottom:16px }
-.gap-label { display:flex; justify-content:space-between; margin-bottom:6px; font-size:12px; font-weight:600; color:var(--text) }
-.gap-bar { height:10px; background:var(--bg2); border-radius:5px; overflow:hidden }
-.gap-fill { height:100%; border-radius:5px; transition:width .8s cubic-bezier(.16,1,.3,1) }
-.cert-mini { background:var(--canvas); border:1px solid var(--border); border-radius:var(--r2); padding:16px 20px; cursor:pointer; transition:all .2s; display:flex; align-items:center; gap:14px; box-shadow:var(--shadow-xs) }
-.cert-mini:hover { border-color:var(--blue); background:var(--bg5) }
-.cert-mini-icon { font-size:28px; flex-shrink:0 }
-.cert-mini-norm { font-family:var(--mono); font-size:10px; color:var(--blue); letter-spacing:.5px }
-.cert-mini-name { font-size:13px; font-weight:700; color:var(--text) }
-.progress-bar { height:6px; background:var(--bg3); border-radius:3px; overflow:hidden }
-.progress-fill { height:100%; border-radius:3px; transition:width .6s cubic-bezier(.16,1,.3,1) }
-.hub-input { background:var(--canvas); border:1px solid var(--border2); border-radius:var(--r2); padding:10px 14px; color:var(--text); font-family:var(--font); font-size:13px; transition:border-color .2s; outline:none }
-.hub-input:focus { border-color:var(--blue) }
-.btn-blue { background:linear-gradient(135deg,var(--blue),var(--blue3)); color:#fff; box-shadow:0 2px 8px var(--blue-glow) }
-.btn-blue:hover { transform:translateY(-1px); box-shadow:0 5px 16px var(--blue-glow) }
-.btn-xs { padding:5px 10px; font-size:11px }
-#cert-pages .cert-subpage { display:none }
-#cert-pages .cert-subpage.active { display:block }
-.label { font-size:11px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:var(--text3) }
-.overline { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--gold) }
-</style>
-
-<link rel="stylesheet" href="bad360-ds.css">
-</head>
-
-<body class="b360-module">
-<header class="b360-topbar" id="b360-topbar">
-<div class="b360-tb-l">
-<a href="index.html" class="b360-tb-back" title="Torna alla Suite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a>
-<a href="index.html" class="b360-tb-brand" tabindex="-1"><div class="b360-tb-logo">B360</div><span class="b360-tb-name">BAD<strong>360</strong>.ai</span></a>
-<span class="b360-tb-sep"></span>
-<span class="b360-tb-module" id="b360-page-label">Suite</span>
-</div>
-<div class="b360-tb-r">
-<span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.0</span>
-<button class="b360-tb-theme" id="b360-theme-btn" title="Cambia tema">&#9790;</button>
-</div>
-</header>
-<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"&#9790;":"&#9788;";b.addEventListener("click",function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"&#9790;":"&#9788;";try{localStorage.setItem("bad360_theme",nt)}catch(e){}});}var lbl=document.getElementById("b360-page-label");if(lbl){var title=document.title.replace("BAD360.ai — ","").replace("BAD.S — ","").replace("BAD360 — ","");if(title&&title!==document.title)lbl.textContent=title;}});})()</script>
-    
-
-<div id="content">
-
-<div id="page-tracciabilita-wrapper" style="display:block">
-<style>
-.trc-root{min-height:100vh;background:#07090f;color:#e8e8f0;font-family:'DM Sans',sans-serif;font-size:14px}
-.trc-wrap{max-width:1200px;margin:0 auto;padding:28px 20px 80px}
-
-/* ── nav ── */
-
-
-
-
-
-
-/* ── pages ── */
 .trc-page{display:none}.trc-page.active{display:block}
 
-/* ── cards ── */
-.trc-card{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:22px;margin-bottom:16px}
-.trc-card-green{border-color:rgba(34,201,122,.2);background:rgba(34,201,122,.03)}
-.trc-card-amber{border-color:rgba(232,168,48,.2);background:rgba(232,168,48,.03)}
-.trc-card-red  {border-color:rgba(220,38,38,.2);background:rgba(220,38,38,.03)}
-.trc-card-blue {border-color:rgba(74,144,232,.2);background:rgba(74,144,232,.03)}
+.trc-hdr{display:flex;align-items:center;gap:16px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin-bottom:20px;position:relative;overflow:hidden}
+.trc-hdr::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--g) 0%,var(--gd) 100%)}
+.trc-hdr-icon{width:46px;height:46px;border-radius:12px;flex-shrink:0;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.25);display:flex;align-items:center;justify-content:center;font-size:20px}
+.trc-hdr h1{font-family:var(--heading);font-size:20px;font-weight:800;color:var(--txt)}
+.trc-hdr p{font-size:11.5px;color:var(--txt2);margin-top:3px}
+.trc-demo{display:inline-flex;align-items:center;gap:5px;background:rgba(212,128,58,.1);border:1px solid rgba(212,128,58,.25);border-radius:99px;padding:3px 10px;font-size:10px;font-weight:700;color:var(--orange);margin-left:10px}
 
-/* ── KPI grid ── */
-.trc-kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:12px;margin-bottom:20px}
-.trc-kpi{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px;text-align:center;transition:border-color .2s}
-.trc-kpi:hover{border-color:rgba(255,255,255,.14)}
-.trc-kpi-icon{font-size:22px;margin-bottom:6px}
-.trc-kpi-val{font-size:1.7rem;font-weight:800;font-family:'DM Sans',sans-serif;line-height:1}
-.trc-kpi-lbl{font-size:10px;color:#5a5a7a;margin-top:5px;text-transform:uppercase;letter-spacing:.6px}
-.trc-kpi-sub{font-size:10px;color:#3d3d5a;margin-top:3px}
+.trc-kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:20px}
+.trc-kpi{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:16px;text-align:center;transition:border-color .18s}
+.trc-kpi:hover{border-color:var(--line2)}
+.trc-kpi-icon{font-size:20px;margin-bottom:6px}
+.trc-kpi-val{font-size:1.6rem;font-weight:800;font-family:var(--heading);color:var(--g);line-height:1}
+.trc-kpi-lbl{font-size:10px;color:var(--txt3);margin-top:5px;text-transform:uppercase;letter-spacing:.6px;font-family:var(--mono)}
 
-/* ── table ── */
-.trc-table{width:100%;border-collapse:collapse}
-.trc-table th{background:rgba(34,201,122,.06);color:#22c97a;font-size:10px;font-weight:700;letter-spacing:.8px;padding:10px 14px;text-align:left;border-bottom:1px solid rgba(34,201,122,.12);white-space:nowrap}
-.trc-table td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px;color:#c8c8e0;vertical-align:middle}
-.trc-table tbody tr:hover{background:rgba(255,255,255,.02)}
+.trc-card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:14px;transition:border-color .18s}
+.trc-card:hover{border-color:var(--line2)}
+.trc-card-ok{border-left:3px solid var(--green)}
+.trc-card-warn{border-left:3px solid var(--orange)}
+.trc-card-err{border-left:3px solid var(--red)}
+
+.trc-table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--line)}
+.trc-table{width:100%;border-collapse:collapse;font-size:12.5px;background:var(--bg2)}
+.trc-table thead tr{background:var(--bg3);border-bottom:1px solid var(--line2)}
+.trc-table th{padding:10px 14px;color:var(--g);font-family:var(--mono);font-size:9px;letter-spacing:1.5px;font-weight:700;text-transform:uppercase;white-space:nowrap}
+.trc-table td{padding:10px 14px;border-bottom:1px solid var(--line);color:var(--txt);vertical-align:middle}
+.trc-table tbody tr:hover td{background:rgba(201,168,76,.04)}
 .trc-table tbody tr:last-child td{border-bottom:none}
 
-/* ── badges ── */
-.trc-badge{display:inline-block;border-radius:6px;padding:2px 9px;font-size:10px;font-weight:700}
-.trc-badge-green{background:rgba(34,201,122,.1);color:#22c97a;border:1px solid rgba(34,201,122,.2)}
-.trc-badge-amber{background:rgba(232,168,48,.1);color:#e8a830;border:1px solid rgba(232,168,48,.2)}
-.trc-badge-red  {background:rgba(220,38,38,.1); color:#e03e50;border:1px solid rgba(220,38,38,.2)}
-.trc-badge-blue {background:rgba(74,144,232,.1);color:#4a90e8;border:1px solid rgba(74,144,232,.2)}
-.trc-badge-gray {background:rgba(255,255,255,.05);color:#5a5a7a;border:1px solid rgba(255,255,255,.08)}
+.tbadge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:99px;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.5px}
+.tbg-ok  {background:rgba(106,171,118,.1);color:var(--green);border:1px solid rgba(106,171,118,.25)}
+.tbg-warn{background:rgba(212,128,58,.1); color:var(--orange);border:1px solid rgba(212,128,58,.25)}
+.tbg-err {background:rgba(201,74,74,.1);  color:var(--red);   border:1px solid rgba(201,74,74,.25)}
+.tbg-gold{background:rgba(201,168,76,.1); color:var(--g);     border:1px solid rgba(201,168,76,.25)}
+.tbg-dim {background:var(--bg3);          color:var(--txt3);  border:1px solid var(--line2)}
 
-/* ── inputs ── */
-.trc-input{padding:9px 13px;border-radius:10px;border:1px solid rgba(34,201,122,.25);background:#0d0f1a;color:#e8e8f0;font-size:13px;font-family:inherit;outline:none;transition:border-color .2s}
-.trc-input:focus{border-color:rgba(34,201,122,.5)}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-weight:700;font-size:12.5px;transition:all .18s;cursor:pointer}
+.btn-gold{background:linear-gradient(135deg,var(--gd),var(--g));color:#06060A;border:none}
+.btn-gold:hover{opacity:.9;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:var(--txt2);border:1px solid var(--line2)}
+.btn-outline:hover{border-color:var(--g);color:var(--g);background:rgba(201,168,76,.06)}
+.btn-sm{padding:5px 11px;font-size:11.5px}
+.btn-danger{background:rgba(201,74,74,.08);color:var(--red);border:1px solid rgba(201,74,74,.2)}
+.btn-danger:hover{background:rgba(201,74,74,.15)}
 
+.trc-chain-node{padding:14px 18px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;transition:border-color .18s}
+.trc-chain-node:hover{border-color:var(--line2)}
+.trc-chain-node-ok{border-color:rgba(106,171,118,.3);background:rgba(106,171,118,.04)}
+.trc-chain-node-warn{border-color:rgba(212,128,58,.3);background:rgba(212,128,58,.04)}
+.trc-chain-line{width:2px;height:20px;background:linear-gradient(rgba(201,168,76,.4),rgba(201,168,76,.1));margin:0 auto}
 
+.trc-timeline{position:relative;padding-left:24px}
+.trc-timeline::before{content:'';position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:rgba(201,168,76,.18)}
+.trc-tl-item{position:relative;padding:0 0 18px}
+.trc-tl-dot{position:absolute;left:-20px;top:4px;width:10px;height:10px;border-radius:50%;border:2px solid var(--g);background:var(--bg)}
+.trc-tl-dot.warn{border-color:var(--orange)}
+.trc-tl-dot.err{border-color:var(--red)}
+.trc-tl-time{font-size:10px;color:var(--txt3);font-family:var(--mono);margin-bottom:3px}
+.trc-tl-text{font-size:13px;color:var(--txt)}
 
+.trc-input{background:var(--bg3);border:1.5px solid var(--line2);border-radius:8px;padding:8px 13px;color:var(--txt);font-size:13px;font-family:var(--font);transition:border-color .15s;width:100%}
+.trc-input:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(201,168,76,.1)}
 
+.trc-recall-alert{display:flex;align-items:center;gap:12px;background:rgba(201,74,74,.08);border:1px solid rgba(201,74,74,.25);border-radius:10px;padding:14px 18px;margin-bottom:16px}
+.trc-recall-dot{width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0;animation:pulse 1.5s infinite}
 
-/* ── page header ── */
-.trc-page-hdr{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:22px}
-.trc-page-title{font-size:1.35rem;font-weight:800;font-family:'DM Sans',sans-serif;color:#e8e8f0}
-.trc-page-sub{color:#5a5a7a;font-size:12px;margin-top:3px}
+.trc-sec-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--g);margin-bottom:6px;font-family:var(--mono)}
+.trc-sec-title{font-family:var(--heading);font-size:1.1rem;font-weight:700;margin-bottom:14px}
+.trc-grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.trc-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+@media(max-width:860px){.trc-grid2,.trc-grid3{grid-template-columns:1fr}}
 
-/* ── demo badge ── */
-.trc-demo-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(232,168,48,.1);border:1px solid rgba(232,168,48,.25);border-radius:99px;padding:3px 10px;font-size:10px;font-weight:700;color:#e8a830;margin-left:10px}
-
-/* ── supply chain ── */
-.trc-chain{display:flex;flex-direction:column;gap:0}
-.trc-chain-node{position:relative;padding:14px 18px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;margin-bottom:0}
-.trc-chain-line{width:2px;height:20px;background:linear-gradient(rgba(34,201,122,.4),rgba(34,201,122,.1));margin:0 auto}
-.trc-chain-node.node-ok{border-color:rgba(34,201,122,.25);background:rgba(34,201,122,.04)}
-.trc-chain-node.node-warn{border-color:rgba(232,168,48,.25);background:rgba(232,168,48,.03)}
-
-/* ── timeline ── */
-.trc-timeline{position:relative;padding-left:26px}
-.trc-timeline::before{content:'';position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:rgba(34,201,122,.15)}
-.trc-timeline-item{position:relative;padding:0 0 18px}
-.trc-timeline-dot{position:absolute;left:-22px;top:4px;width:10px;height:10px;border-radius:50%;border:2px solid #22c97a;background:#07090f}
-.trc-timeline-dot.dot-warn{border-color:#e8a830}
-.trc-timeline-dot.dot-red{border-color:#e03e50}
-.trc-timeline-time{font-size:10px;color:#5a5a7a;font-family:'DM Mono',monospace;margin-bottom:3px}
-.trc-timeline-text{font-size:13px;color:#c8c8e0}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid rgba(201,168,76,.3);color:var(--g);padding:11px 18px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;opacity:0;transform:translateY(8px);transition:all .3s}
+.toast.show{opacity:1;transform:none}
 </style>
+<link rel="stylesheet" href="bad360-ds.css">
+<script src="bad360-sdk.js"></script>
+</head>
+<body class="b360-module">
 
-<div class="trc-root">
-  <!-- ── Sub-nav ── -->
-  
-  <!-- ════════════════════════════════════════════════
-       PAGE: DASHBOARD
-  ════════════════════════════════════════════════ -->
+<header class="b360-topbar" id="b360-topbar">
+  <div class="b360-tb-l">
+    <a href="index.html" class="b360-tb-back" title="Suite">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </a>
+    <a href="index.html" class="b360-tb-brand" tabindex="-1">
+      <div class="b360-tb-logo">B360</div>
+      <span class="b360-tb-name">BAD<strong>360</strong>.ai</span>
+    </a>
+    <span class="b360-tb-sep"></span>
+    <span class="b360-tb-module" id="b360-page-label">Suite</span>
+  </div>
+  <div class="b360-tb-r">
+    <span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.1</span>
+    <button class="b360-tb-theme" id="b360-theme-btn" title="Tema">☽</button>
+  </div>
+</header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"☽":"☀";b.addEventListener("click",function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"☽":"☀";try{localStorage.setItem("bad360_theme",nt)}catch(e){}});}var lbl=document.getElementById("b360-page-label");if(lbl){var title=document.title.replace("BAD360.ai — ","");if(title)lbl.textContent=title;}});})()</script>
+
+<div class="trc-wrap">
+  <nav class="trc-subnav" id="trc-subnav">
+    <button class="trc-btn active" data-trcpage="dashboard"   onclick="trcNav('dashboard')">📊 Dashboard</button>
+    <button class="trc-btn"        data-trcpage="lotti"       onclick="trcNav('lotti')">📦 Lotti</button>
+    <button class="trc-btn"        data-trcpage="filiera"     onclick="trcNav('filiera')">🔗 Filiera</button>
+    <button class="trc-btn"        data-trcpage="ddt"         onclick="trcNav('ddt')">📋 DDT</button>
+    <button class="trc-btn"        data-trcpage="recall"      onclick="trcNav('recall')">🚨 Recall</button>
+    <button class="trc-btn"        data-trcpage="certificati" onclick="trcNav('certificati')">🏅 Certificati</button>
+  </nav>
+
+  <!-- DASHBOARD -->
   <div class="trc-page active" id="trc-page-dashboard">
-    <div class="trc-wrap">
-      <div class="trc-page-hdr">
-        <div>
-          <div class="trc-page-title">🔍 Tracciabilità ISO 22005
-            <span class="trc-demo-pill" id="trc-demo-badge" style="display:none">⚡ Demo</span>
-          </div>
-          <div class="trc-page-sub">Reg. CE 178/2002 — Rintracciabilità filiera alimentare · D.Lgs 193/2007</div>
-        </div>
-        <button class="trc-btn-refresh" onclick="trcLoadDashboard()">↻ Aggiorna</button>
+    <div class="trc-hdr">
+      <div class="trc-hdr-icon">🔍</div>
+      <div>
+        <h1>Tracciabilità ISO 22005 <span class="trc-demo" id="trc-demo-badge" style="display:none">⚡ Demo</span></h1>
+        <p>Reg. CE 178/2002 · ISO 22005:2007 · D.Lgs 193/2007 — Rintracciabilità filiera alimentare</p>
       </div>
-
-      <!-- KPI grid -->
-      <div class="trc-kpi-grid" id="trc-kpi-grid"></div>
-
-      <!-- Two-column: top ingredienti + conformità trend -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
-        <div class="trc-card trc-card-green" id="trc-top-ingredienti">
-          <div style="font-size:11px;font-weight:700;color:#22c97a;letter-spacing:.8px;margin-bottom:14px">📦 INGREDIENTI PIÙ MOVIMENTATI</div>
-          <div id="trc-top-list"></div>
-        </div>
-        <div class="trc-card trc-card-blue">
-          <div style="font-size:11px;font-weight:700;color:#4a90e8;letter-spacing:.8px;margin-bottom:14px">📊 CONFORMITÀ FILIERA</div>
-          <div id="trc-conformita-detail"></div>
-        </div>
+      <div style="margin-left:auto;display:flex;gap:8px">
+        <button class="btn btn-outline btn-sm" onclick="trcLoadDemo()">⚡ Carica Demo</button>
+        <button class="btn btn-gold btn-sm" onclick="showToast('Connessione API in corso… ✦')">↻ Aggiorna</button>
       </div>
-
-      <!-- Ultimi lotti ricevuti -->
-      <div class="trc-card">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-          <div style="font-size:11px;font-weight:700;color:#5a5a7a;letter-spacing:.8px">ULTIMI LOTTI RICEVUTI</div>
-          <button class="trc-btn-refresh" onclick="trcSwitchPage('lotti')" style="font-size:11px">Vedi tutti →</button>
-        </div>
-        <div style="overflow-x:auto">
-          <table class="trc-table" id="trc-last-lotti-table">
-            <thead><tr>
-              <th>Codice Lotto</th><th>Descrizione</th><th>Qta</th><th>Scadenza</th><th>Stato</th>
-            </tr></thead>
-            <tbody id="trc-last-lotti-tbody"></tbody>
-          </table>
-        </div>
+    </div>
+    <div class="trc-kpi-grid">
+      <div class="trc-kpi"><div class="trc-kpi-icon">📦</div><div class="trc-kpi-val" id="kpi-lotti">—</div><div class="trc-kpi-lbl">Lotti Attivi</div></div>
+      <div class="trc-kpi"><div class="trc-kpi-icon">✅</div><div class="trc-kpi-val" id="kpi-conformi">—</div><div class="trc-kpi-lbl">Conformi</div></div>
+      <div class="trc-kpi"><div class="trc-kpi-icon">⚠️</div><div class="trc-kpi-val" id="kpi-warn" style="color:var(--orange)">—</div><div class="trc-kpi-lbl">Warning</div></div>
+      <div class="trc-kpi"><div class="trc-kpi-icon">🚨</div><div class="trc-kpi-val" id="kpi-nc" style="color:var(--red)">—</div><div class="trc-kpi-lbl">Non Conformi</div></div>
+      <div class="trc-kpi"><div class="trc-kpi-icon">📋</div><div class="trc-kpi-val" id="kpi-ddt">—</div><div class="trc-kpi-lbl">DDT Mese</div></div>
+      <div class="trc-kpi"><div class="trc-kpi-icon">🏭</div><div class="trc-kpi-val" id="kpi-fornitori">—</div><div class="trc-kpi-lbl">Fornitori</div></div>
+    </div>
+    <div class="trc-grid2">
+      <div>
+        <div class="trc-sec-label">Attività Recente</div>
+        <div class="trc-sec-title">Timeline Tracciabilità</div>
+        <div class="trc-card"><div class="trc-timeline" id="trc-timeline"></div></div>
+      </div>
+      <div>
+        <div class="trc-sec-label">Alert Attivi</div>
+        <div class="trc-sec-title">Non Conformità Filiera</div>
+        <div id="trc-alerts"></div>
       </div>
     </div>
   </div>
 
-  <!-- ════════════════════════════════════════════════
-       PAGE: LOTTI
-  ════════════════════════════════════════════════ -->
+  <!-- LOTTI -->
   <div class="trc-page" id="trc-page-lotti">
-    <div class="trc-wrap">
-      <div class="trc-page-hdr">
-        <div>
-          <div class="trc-page-title">📦 Registro Lotti</div>
-          <div class="trc-page-sub">Tutti i lotti attivi in magazzino — metodo FEFO/FIFO</div>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-          <select id="trc-lotti-cat" class="trc-input" style="width:auto" onchange="trcLoadLotti()">
-            <option value="">Tutte le categorie</option>
-            <option>Latticini</option>
-            <option>Salumi</option>
-            <option>Ortofrutta</option>
-            <option>Pesce</option>
-            <option>Farine</option>
-            <option>Condimenti</option>
-            <option>Erbe aromatiche</option>
-            <option>Carne</option>
-            <option>Vini &amp; Spirits</option>
-          </select>
-          <button class="trc-btn-refresh" onclick="trcLoadLotti()">↻ Aggiorna</button>
+    <div class="trc-hdr">
+      <div class="trc-hdr-icon">📦</div>
+      <div><h1>Gestione Lotti</h1><p>Registrazione e monitoraggio lotti alimentari con codice ISO</p></div>
+      <div style="margin-left:auto;display:flex;gap:8px">
+        <input class="trc-input" style="width:220px" id="lotti-search" placeholder="Cerca lotto…" oninput="renderLotti()">
+        <button class="btn btn-outline btn-sm" onclick="exportLottiCSV()">↓ CSV</button>
+        <button class="btn btn-gold btn-sm" onclick="openNuovoLotto()">+ Nuovo Lotto</button>
+      </div>
+    </div>
+    <div class="trc-table-wrap">
+      <table class="trc-table">
+        <thead><tr><th>Codice Lotto</th><th>Prodotto</th><th>Fornitore</th><th>Data Carico</th><th>Scadenza</th><th>Qtà</th><th>Origine</th><th>Stato</th><th></th></tr></thead>
+        <tbody id="lotti-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- FILIERA -->
+  <div class="trc-page" id="trc-page-filiera">
+    <div class="trc-hdr">
+      <div class="trc-hdr-icon">🔗</div>
+      <div><h1>Mappa Filiera</h1><p>Catena di approvvigionamento — dal produttore al piatto</p></div>
+    </div>
+    <div style="margin-bottom:16px">
+      <select class="trc-input" id="filiera-select" style="max-width:320px" onchange="renderFiliera()">
+        <option value="branzino">🐟 Branzino fresco — Pescheria Costa Rei</option>
+        <option value="cannonau">🍷 Cannonau DOC — Cantine Argiolas</option>
+        <option value="gin">🍸 Gin Monkey 47 — Viacomm Spirits</option>
+        <option value="ricotta">🧀 Ricotta di pecora — Az. Agr. Milis</option>
+      </select>
+    </div>
+    <div id="filiera-chain" style="display:flex;flex-direction:column;gap:0"></div>
+  </div>
+
+  <!-- DDT -->
+  <div class="trc-page" id="trc-page-ddt">
+    <div class="trc-hdr">
+      <div class="trc-hdr-icon">📋</div>
+      <div><h1>Documenti di Trasporto</h1><p>DDT, bolle di accompagnamento e registrazione carichi</p></div>
+      <div style="margin-left:auto;display:flex;gap:8px">
+        <button class="btn btn-outline btn-sm" onclick="exportDDTCSV()">↓ CSV DDT</button>
+        <button class="btn btn-gold btn-sm" onclick="openUploadDDT()">📁 Upload DDT</button>
+      </div>
+    </div>
+    <div class="trc-kpi-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:18px">
+      <div class="trc-kpi"><div class="trc-kpi-val">14</div><div class="trc-kpi-lbl">DDT Mese</div></div>
+      <div class="trc-kpi"><div class="trc-kpi-val" style="color:var(--green)">12</div><div class="trc-kpi-lbl">Verificati</div></div>
+      <div class="trc-kpi"><div class="trc-kpi-val" style="color:var(--orange)">1</div><div class="trc-kpi-lbl">Warning</div></div>
+      <div class="trc-kpi"><div class="trc-kpi-val" style="color:var(--red)">1</div><div class="trc-kpi-lbl">Non Conformi</div></div>
+    </div>
+    <div class="trc-table-wrap">
+      <table class="trc-table">
+        <thead><tr><th>N° DDT</th><th>Data</th><th>Fornitore</th><th>Prodotti</th><th>Peso</th><th>Temp Arrivo</th><th>Verifica</th><th>Note</th></tr></thead>
+        <tbody id="ddt-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- RECALL -->
+  <div class="trc-page" id="trc-page-recall">
+    <div class="trc-hdr">
+      <div class="trc-hdr-icon">🚨</div>
+      <div><h1>Gestione Recall</h1><p>Allerte alimentari UE, simulazioni ritiro e gestione crisi</p></div>
+    </div>
+    <div class="trc-recall-alert">
+      <div class="trc-recall-dot"></div>
+      <div style="flex:1">
+        <strong style="font-size:13px">⚠️ RASFF Alert 2025.1234</strong>
+        <span style="font-size:12px;color:var(--txt2);margin-left:10px">Presenza Listeria in prodotti ittici — zona Tirreno · 28 Mag 2026</span>
+      </div>
+      <button class="btn btn-danger btn-sm">Verifica Stock</button>
+    </div>
+    <div class="trc-grid2">
+      <div>
+        <div class="trc-sec-label">Simulazione Ritiro</div>
+        <div class="trc-sec-title">Traccia per Lotto</div>
+        <div class="trc-card">
+          <div style="margin-bottom:12px">
+            <label style="font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt3);display:block;margin-bottom:5px">Codice Lotto</label>
+            <div style="display:flex;gap:8px">
+              <input class="trc-input" id="recall-lotto-input" placeholder="Es. LOT-2025-0041" style="flex:1">
+              <button class="btn btn-gold" onclick="simulaRecall()">Traccia</button>
+            </div>
+          </div>
+          <div id="recall-result"></div>
         </div>
       </div>
-      <div class="trc-card" style="padding:0;overflow:hidden">
-        <div style="overflow-x:auto">
-          <table class="trc-table">
-            <thead><tr>
-              <th>Codice Lotto</th><th>Descrizione</th><th>Categoria</th>
-              <th>Qta Ricevuta</th><th>Qta Rimanente</th>
-              <th>Consegna</th><th>Scadenza / TMC</th>
-              <th>Fornitore</th><th>Metodo</th>
-            </tr></thead>
-            <tbody id="trc-lotti-tbody">
-              <tr><td colspan="9" style="text-align:center;color:#5a5a7a;padding:30px">Caricamento...</td></tr>
-            </tbody>
-          </table>
-        </div>
+      <div>
+        <div class="trc-sec-label">Storico Alert</div>
+        <div class="trc-sec-title">Allerte Gestite</div>
+        <div id="recall-history"></div>
       </div>
     </div>
   </div>
 
-  <!-- ════════════════════════════════════════════════
-       PAGE: SCADENZE
-  ════════════════════════════════════════════════ -->
-  <div class="trc-page" id="trc-page-scadenze">
-    <div class="trc-wrap">
-      <div class="trc-page-hdr">
-        <div>
-          <div class="trc-page-title">⏰ Allerta Scadenze</div>
-          <div class="trc-page-sub">Lotti in scadenza nel periodo selezionato</div>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <label style="font-size:12px;color:#5a5a7a">Giorni:</label>
-          <input type="number" id="trc-giorni" value="7" min="1" max="90"
-            class="trc-input" style="width:70px">
-          <button class="trc-btn-action" onclick="trcLoadScadenze()">🔍 Cerca</button>
-        </div>
-      </div>
-
-      <!-- Summary strip -->
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px" id="trc-scad-summary"></div>
-
-      <div id="trc-scadenze-list"></div>
+  <!-- CERTIFICATI -->
+  <div class="trc-page" id="trc-page-certificati">
+    <div class="trc-hdr">
+      <div class="trc-hdr-icon">🏅</div>
+      <div><h1>Certificazioni Filiera</h1><p>Documenti, scadenze e compliance fornitori</p></div>
     </div>
+    <div class="trc-grid3" id="cert-grid"></div>
   </div>
-
-  <!-- ════════════════════════════════════════════════
-       PAGE: MOVIMENTI
-  ════════════════════════════════════════════════ -->
-  <div class="trc-page" id="trc-page-movimenti">
-    <div class="trc-wrap">
-      <div class="trc-page-hdr">
-        <div>
-          <div class="trc-page-title">🔄 Registro Movimenti</div>
-          <div class="trc-page-sub">Log di entrate, uscite e utilizzi in cucina</div>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-          <select id="trc-mov-tipo" class="trc-input" style="width:auto" onchange="trcLoadMovimenti()">
-            <option value="">Tutti i movimenti</option>
-            <option value="carico">Carico (entrata)</option>
-            <option value="scarico">Scarico (utilizzo)</option>
-            <option value="rettifica">Rettifica inventario</option>
-            <option value="recall">Recall / Ritiro</option>
-          </select>
-          <button class="trc-btn-refresh" onclick="trcLoadMovimenti()">↻ Aggiorna</button>
-        </div>
-      </div>
-
-      <div class="trc-card" style="padding:0;overflow:hidden">
-        <div style="overflow-x:auto">
-          <table class="trc-table">
-            <thead><tr>
-              <th>Timestamp</th><th>Tipo</th><th>Codice Lotto</th><th>Descrizione</th>
-              <th>Qta</th><th>Operatore</th><th>Destinazione / Note</th>
-            </tr></thead>
-            <tbody id="trc-mov-tbody">
-              <tr><td colspan="7" style="text-align:center;color:#5a5a7a;padding:30px">Caricamento...</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ════════════════════════════════════════════════
-       PAGE: TRACCIA LOTTO
-  ════════════════════════════════════════════════ -->
-  <div class="trc-page" id="trc-page-traccia">
-    <div class="trc-wrap" style="max-width:820px">
-      <div class="trc-page-hdr">
-        <div>
-          <div class="trc-page-title">🔍 Traccia Lotto Bidirezionale</div>
-          <div class="trc-page-sub">Risalita a monte (fornitore) e discesa a valle (piatti serviti)</div>
-        </div>
-      </div>
-      <div class="trc-card" style="margin-bottom:16px">
-        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-          <input id="trc-search-codice" placeholder="Es. LOT-2026-04-0041"
-            class="trc-input" style="flex:1;min-width:220px"
-            onkeydown="if(event.key==='Enter')trcTraccia()">
-          <button class="trc-btn-action" onclick="trcTraccia()">🔍 Traccia</button>
-          <button class="trc-btn-refresh" onclick="document.getElementById('trc-search-codice').value='LOT-2026-04-0041';trcTraccia()">Demo</button>
-        </div>
-        <div style="font-size:11px;color:#3d3d5a;margin-top:10px">
-          💡 Prova con: <code style="color:#22c97a">LOT-2026-04-0041</code> · <code style="color:#22c97a">LOT-2026-04-0027</code> · <code style="color:#22c97a">LOT-2026-04-0033</code>
-        </div>
-      </div>
-      <div id="trc-traccia-result"></div>
-    </div>
-  </div>
-
-</div><!-- /.trc-root -->
-</div><!-- /#page-tracciabilita-wrapper -->
-
 </div>
 
+<div class="toast" id="toast"></div>
 <script>
-// ═══════════════════════════════════════════════════════════
-//  TRACCIABILITÀ — shared helpers
-// ═══════════════════════════════════════════════════════════
-const BADS_API = window.location.origin;
-const BADS_HID = (typeof localStorage !== 'undefined' && localStorage.getItem('hotel_id')) || 'demo';
-
-function badsDate(d){ return d ? new Date(d).toLocaleDateString('it-IT') : '—'; }
-function badsKpi(val, lbl, icon, color='#22c97a', sub=''){
-  return `<div class="trc-kpi">
-    <div class="trc-kpi-icon">${icon}</div>
-    <div class="trc-kpi-val" style="color:${color}">${val}</div>
-    <div class="trc-kpi-lbl">${lbl}</div>
-    ${sub?`<div class="trc-kpi-sub">${sub}</div>`:''}
-  </div>`;
-}
-function badsAlert(msg, type='error'){
-  const c=type==='ok'?'#22c97a':type==='warn'?'#e8a830':'#e03e50';
-  return `<div style="background:${c}18;border:1px solid ${c}44;border-radius:10px;padding:12px 16px;color:${c};font-size:13px">${msg}</div>`;
-}
-// Guard: use parent app's badsGet if already defined (when embedded in scmpro.html)
-if(typeof badsGet === 'undefined'){
-  window.badsGet = async function(path){
-    const r = await fetch(BADS_API + path);
-    if(!r.ok) throw new Error(r.status);
-    return r.json();
-  };
-}
-const TRC_DEMO = {
-  kpi:{
-    lotti_attivi:47, lotti_in_scadenza:3, ritiri_attivi:0,
-    conformita_pct:98.2, movimenti_oggi:12, fornitori_coinvolti:8
-  },
-  top_ingredienti:[
-    {descrizione:'Mozzarella di Bufala DOP', count:18, cat:'Latticini'},
-    {descrizione:'Prosciutto Crudo Parma 24M', count:15, cat:'Salumi'},
-    {descrizione:'Olio EVO Siciliano',         count:12, cat:'Condimenti'},
-    {descrizione:'Pomodori San Marzano DOP',   count:10, cat:'Ortofrutta'},
-    {descrizione:'Gamberi rossi di Mazara',    count:8,  cat:'Pesce'},
+const LOTTI=[
+  {id:'LOT-2025-0041',prodotto:'Branzino fresco intero',fornitore:'Pescheria Costa Rei',carico:'2026-05-28',scad:'2026-06-02',qty:'18 kg',origine:'🇮🇹 MAR Sardegna',stato:'ok'},
+  {id:'LOT-2025-0040',prodotto:'Polpo verace',fornitore:'Coop. Pescatori Oristano',carico:'2026-05-27',scad:'2026-06-01',qty:'12 kg',origine:'🇮🇹 MAR Sardegna',stato:'ok'},
+  {id:'LOT-2025-0039',prodotto:'Ricotta di pecora DOP',fornitore:'Az. Agr. Milis',carico:'2026-05-25',scad:'2026-06-05',qty:'8 kg',origine:'🇮🇹 Oristano',stato:'ok'},
+  {id:'LOT-2025-0038',prodotto:'Nduja artigianale',fornitore:'Salumificio Calabria 1920',carico:'2026-05-20',scad:'2026-07-20',qty:'5 kg',origine:'🇮🇹 Calabria',stato:'warn'},
+  {id:'LOT-2025-0037',prodotto:'Cannonau Rosso DOC',fornitore:'Cantine Argiolas',carico:'2026-05-15',scad:'2029-01-01',qty:'36 bt',origine:'🇮🇹 Serdiana (CA)',stato:'ok'},
+  {id:'LOT-2025-0036',prodotto:'Gin Monkey 47',fornitore:'Viacomm Spirits Srl',carico:'2026-05-10',scad:'2030-01-01',qty:'12 bt',origine:'🇩🇪 Germania',stato:'ok'},
+  {id:'LOT-2025-0035',prodotto:'Rum Zacapa 23 Solera',fornitore:'Diageo Italia Srl',carico:'2026-05-10',scad:'2030-01-01',qty:'6 bt',origine:'🇬🇹 Guatemala',stato:'ok'},
+  {id:'LOT-2025-0034',prodotto:'Acciughe sotto sale',fornitore:'Coop. Mar Ligure',carico:'2026-05-05',scad:'2026-11-05',qty:'3 kg',origine:'🇮🇹 Liguria',stato:'nc'},
+];
+const DDT_DATA=[
+  {num:'DDT-2025-0187',data:'2026-05-28',fornitore:'Pescheria Costa Rei',prodotti:'Branzino, Polpo',peso:'30 kg',temp:'+2°C',verifica:'ok',note:''},
+  {num:'DDT-2025-0186',data:'2026-05-27',fornitore:'Az. Agr. Milis',prodotti:'Ricotta, Formaggio',peso:'8 kg',temp:'+4°C',verifica:'ok',note:''},
+  {num:'DDT-2025-0185',data:'2026-05-25',fornitore:'Cantine Argiolas',prodotti:'Cannonau DOC',peso:'27 kg',temp:'Amb.',verifica:'ok',note:''},
+  {num:'DDT-2025-0184',data:'2026-05-20',fornitore:'Salumificio Calabria 1920',prodotti:'Nduja, Salame',peso:'7 kg',temp:'+8°C',verifica:'warn',note:'Temperatura alta — monitorare'},
+  {num:'DDT-2025-0183',data:'2026-05-15',fornitore:'Viacomm Spirits Srl',prodotti:'Gin, Rum, Whisky',peso:'22 kg',temp:'Amb.',verifica:'ok',note:''},
+  {num:'DDT-2025-0182',data:'2026-05-10',fornitore:'Coop. Mar Ligure',prodotti:'Acciughe sotto sale',peso:'3 kg',temp:'+3°C',verifica:'nc',note:'Etichetta origine mancante — avviata NC'},
+];
+const TIMELINE_DATA=[
+  {time:'2026-05-28 10:14',text:'Carico LOT-2025-0041 — Branzino fresco 18 kg · DDT-0187 verificato',tipo:'ok'},
+  {time:'2026-05-27 09:32',text:'Carico LOT-2025-0040 — Polpo verace 12 kg · temperatura conforme',tipo:'ok'},
+  {time:'2026-05-25 11:05',text:'Allerta RASFF 2025.1234 ricevuta — verifica stock ittico avviata',tipo:'warn'},
+  {time:'2026-05-20 16:22',text:'Temperatura DDT-0184 fuori range (+8°C) — avviso responsabile qualità',tipo:'warn'},
+  {time:'2026-05-10 14:10',text:'NC LOT-2025-0034 — Acciughe: etichetta origine assente — blocco',tipo:'err'},
+  {time:'2026-05-05 08:47',text:'Audit ISO 22005 superato — conformità 97%',tipo:'ok'},
+];
+const ALERTS_DATA=[
+  {tit:'LOT-2025-0034 — Acciughe',desc:'Etichetta origine mancante. Blocco temporaneo fino a regolarizzazione fornitore.',tipo:'err'},
+  {tit:'LOT-2025-0038 — Nduja',desc:'DDT-0184: temperatura +8°C alla consegna. Monitoraggio in corso.',tipo:'warn'},
+  {tit:'RASFF 2025.1234',desc:'Alert europeo Listeria su prodotti ittici. Stock verificato — nessun lotto coinvolto.',tipo:'warn'},
+];
+const FILIERA_DATA={
+  branzino:[
+    {icn:'🎣',step:'Produttore',nome:'Coop. Pescatori Cagliari',det:'Pesca giornaliera — Mar Sardegna',stato:'ok'},
+    {icn:'❄️',step:'Trasporto Refrigerato',nome:'Logistics Freschi Srl',det:'Catena freddo 0–4°C · GPS tracking',stato:'ok'},
+    {icn:'🏭',step:'Fornitore Locale',nome:'Pescheria Costa Rei',det:'Controllo qualità + IFS Food',stato:'ok'},
+    {icn:'📦',step:'Carico Hotel',nome:'Hotel Baia Sardinia',det:'DDT-0187 · Temp. arrivo +2°C ✅',stato:'ok'},
+    {icn:'🍽️',step:'Cucina / Servizio',nome:'Ristorante La Terrazza',det:'HACCP CCP3 — cottura 75°C',stato:'ok'},
   ],
-  lotti:[
-    {codice_lotto:'LOT-2026-04-0041',descrizione:'Mozzarella di Bufala DOP',categoria:'Latticini',quantita_ricevuta:25,quantita_rimanente:18,unita_misura:'kg',data_consegna:'2026-04-15',data_scadenza:'2026-04-25',fornitore:'Caseificio Vannulo',metodo_rotazione:'FEFO',ddt_numero:'DDT-2660'},
-    {codice_lotto:'LOT-2026-04-0039',descrizione:'Prosciutto Crudo Parma 24M',categoria:'Salumi',quantita_ricevuta:8,quantita_rimanente:6.5,unita_misura:'kg',data_consegna:'2026-04-12',data_scadenza:'2026-10-12',fornitore:'Salumificio Bertoni',metodo_rotazione:'FEFO',ddt_numero:'DDT-2655'},
-    {codice_lotto:'LOT-2026-04-0038',descrizione:'Pomodori San Marzano DOP',categoria:'Ortofrutta',quantita_ricevuta:30,quantita_rimanente:22,unita_misura:'kg',data_consegna:'2026-04-14',data_scadenza:'2026-04-28',fornitore:'Azienda Agricola Sorrentino',metodo_rotazione:'FIFO',ddt_numero:'DDT-2653'},
-    {codice_lotto:'LOT-2026-04-0035',descrizione:'Olio EVO Siciliano',categoria:'Condimenti',quantita_ricevuta:10,quantita_rimanente:9,unita_misura:'L',data_consegna:'2026-04-10',data_scadenza:'2027-04-10',fornitore:'Frantoi Cutrera',metodo_rotazione:'FIFO',ddt_numero:'DDT-2648'},
-    {codice_lotto:'LOT-2026-04-0033',descrizione:'Basilico fresco biologico',categoria:'Erbe aromatiche',quantita_ricevuta:2,quantita_rimanente:1.2,unita_misura:'kg',data_consegna:'2026-04-18',data_scadenza:'2026-04-22',fornitore:'Ortofrutticola Napoli',metodo_rotazione:'FIFO',ddt_numero:'DDT-2645'},
-    {codice_lotto:'LOT-2026-04-0029',descrizione:'Burro francese 82% m.g.',categoria:'Latticini',quantita_ricevuta:5,quantita_rimanente:3.8,unita_misura:'kg',data_consegna:'2026-04-08',data_scadenza:'2026-04-30',fornitore:'Elle & Vire Professionnel',metodo_rotazione:'FEFO',ddt_numero:'DDT-2639'},
-    {codice_lotto:'LOT-2026-04-0027',descrizione:'Gamberi rossi di Mazara del Vallo',categoria:'Pesce',quantita_ricevuta:8,quantita_rimanente:5.5,unita_misura:'kg',data_consegna:'2026-04-16',data_scadenza:'2026-04-24',fornitore:'Pesca Azzurra Srl',metodo_rotazione:'FEFO',ddt_numero:'DDT-2637'},
-    {codice_lotto:'LOT-2026-04-0025',descrizione:'Farina 00 Molino Caputo',categoria:'Farine',quantita_ricevuta:50,quantita_rimanente:42,unita_misura:'kg',data_consegna:'2026-04-01',data_scadenza:'2026-10-01',fornitore:'Antimo Caputo Srl',metodo_rotazione:'FIFO',ddt_numero:'DDT-2631'},
-    {codice_lotto:'LOT-2026-04-0022',descrizione:'Parmigiano Reggiano DOP 36M',categoria:'Latticini',quantita_ricevuta:4,quantita_rimanente:3.2,unita_misura:'kg',data_consegna:'2026-04-05',data_scadenza:'2026-07-05',fornitore:'Consorzio PR Reggiano',metodo_rotazione:'FEFO',ddt_numero:'DDT-2628'},
-    {codice_lotto:'LOT-2026-04-0018',descrizione:'Vitello da latte certificato',categoria:'Carne',quantita_ricevuta:12,quantita_rimanente:7,unita_misura:'kg',data_consegna:'2026-04-17',data_scadenza:'2026-04-23',fornitore:'Macelleria Brero',metodo_rotazione:'FEFO',ddt_numero:'DDT-2622'},
+  cannonau:[
+    {icn:'🌿',step:'Vigneto',nome:'Tenuta Argiolas — Serdiana',det:'DOC Cannonau di Sardegna · 38 ha',stato:'ok'},
+    {icn:'🍇',step:'Vinificazione',nome:'Cantine Argiolas',det:'Vendemmia manuale — vasca acciaio',stato:'ok'},
+    {icn:'🚛',step:'Distribuzione',nome:'Cevico Group Italia',det:'Trasporto temperato 12–18°C',stato:'ok'},
+    {icn:'🍾',step:'Magazzino Hotel',nome:'Hotel Baia Sardinia',det:'Cantina a 14°C · 36 bottiglie',stato:'ok'},
+    {icn:'🍷',step:'Servizio',nome:'Sommelier Restaurant',det:'FIFO rigoroso · 150 ml/coppa',stato:'ok'},
   ],
-  movimenti:[
-    {ts:'2026-04-21 12:34',tipo:'scarico',codice:'LOT-2026-04-0041',descrizione:'Mozzarella di Bufala DOP',qta:'-0.8 kg',operatore:'Chef Marco R.',note:'Antipasto caprese (8 coperti)'},
-    {ts:'2026-04-21 11:15',tipo:'scarico',codice:'LOT-2026-04-0027',descrizione:'Gamberi rossi di Mazara',qta:'-1.2 kg',operatore:'Chef Marco R.',note:'Crudi — degustazione pranzo'},
-    {ts:'2026-04-21 10:02',tipo:'carico', codice:'LOT-2026-04-0041',descrizione:'Mozzarella di Bufala DOP',qta:'+25 kg', operatore:'Magazzino',note:'Ricevuto da Caseificio Vannulo · DDT-2660'},
-    {ts:'2026-04-21 09:45',tipo:'carico', codice:'LOT-2026-04-0027',descrizione:'Gamberi rossi di Mazara',qta:'+8 kg',  operatore:'Magazzino',note:'Ricevuto da Pesca Azzurra · DDT-2637'},
-    {ts:'2026-04-20 19:12',tipo:'scarico',codice:'LOT-2026-04-0039',descrizione:'Prosciutto Crudo Parma',qta:'-0.5 kg', operatore:'Chef Sara C.',note:'Aperitivo — degustazione tagliere'},
-    {ts:'2026-04-20 18:00',tipo:'scarico',codice:'LOT-2026-04-0033',descrizione:'Basilico fresco biologico',qta:'-0.3 kg',operatore:'Sous-chef Luigi B.',note:'Pesto artigianale — prep serale'},
-    {ts:'2026-04-20 12:30',tipo:'scarico',codice:'LOT-2026-04-0029',descrizione:'Burro francese 82%',qta:'-0.2 kg',      operatore:'Chef Sara C.',note:'Pasta risottata — servizio pranzo'},
-    {ts:'2026-04-20 08:00',tipo:'rettifica',codice:'LOT-2026-04-0025',descrizione:'Farina 00 Molino Caputo',qta:'-8 kg',  operatore:'Inventario',note:'Rettifica inventario settimanale'},
-    {ts:'2026-04-19 19:30',tipo:'scarico',codice:'LOT-2026-04-0018',descrizione:'Vitello da latte',qta:'-1.5 kg',         operatore:'Chef Marco R.',note:'Scaloppine al limone — cena'},
-    {ts:'2026-04-19 10:00',tipo:'carico', codice:'LOT-2026-04-0018',descrizione:'Vitello da latte certificato',qta:'+12 kg',operatore:'Magazzino',note:'Ricevuto da Macelleria Brero · DDT-2622'},
+  gin:[
+    {icn:'🌲',step:'Distilleria',nome:'Black Forest Distillery — DE',det:'47 botaniche · acqua Black Forest',stato:'ok'},
+    {icn:'✈️',step:'Import',nome:'Diageo Italia Srl',det:'Dogana + certificato conformità UE',stato:'ok'},
+    {icn:'🚛',step:'Distributore',nome:'Viacomm Spirits Srl',det:'Deposito climate-controlled Milano',stato:'ok'},
+    {icn:'📦',step:'Bar Hotel',nome:'Hotel Baia Sardinia',det:'LOT-2025-0036 · 12 bottiglie',stato:'ok'},
+    {icn:'🍸',step:'F&B Bar',nome:'Barman / Events',det:'FIFO · 4 cl per cocktail',stato:'ok'},
   ],
-  traccia:{
-    'LOT-2026-04-0041':{
-      lotto:{codice_lotto:'LOT-2026-04-0041',descrizione:'Mozzarella di Bufala DOP',categoria:'Latticini',quantita_ricevuta:25,quantita_rimanente:18,unita_misura:'kg',data_consegna:'2026-04-15',data_scadenza:'2026-04-25',fornitore:'Caseificio Vannulo',metodo_rotazione:'FEFO',ddt_numero:'DDT-2660',certificazioni:['DOP','ISO 22000','HACCP'],lotto_fornitore:'CV-2026-0341'},
-      movimenti:[
-        {ts:'2026-04-21 12:34',tipo:'scarico',qta:'-0.8 kg',operatore:'Chef Marco R.',note:'Antipasto caprese — 8 coperti'},
-        {ts:'2026-04-21 10:02',tipo:'carico', qta:'+25 kg',  operatore:'Magazzino',   note:'Ricevuto · DDT-2660'},
-      ],
-      ricette:['Antipasto Caprese','Insalata Tricolore','Pizza Margherita DOP']
-    },
-    'LOT-2026-04-0027':{
-      lotto:{codice_lotto:'LOT-2026-04-0027',descrizione:'Gamberi rossi di Mazara del Vallo',categoria:'Pesce',quantita_ricevuta:8,quantita_rimanente:5.5,unita_misura:'kg',data_consegna:'2026-04-16',data_scadenza:'2026-04-24',fornitore:'Pesca Azzurra Srl',metodo_rotazione:'FEFO',ddt_numero:'DDT-2637',certificazioni:['MSC','HACCP'],lotto_fornitore:'PA-60-2026-716'},
-      movimenti:[
-        {ts:'2026-04-21 11:15',tipo:'scarico',qta:'-1.2 kg',operatore:'Chef Marco R.',note:'Crudi — degustazione pranzo'},
-        {ts:'2026-04-21 09:45',tipo:'carico', qta:'+8 kg',   operatore:'Magazzino',   note:'Ricevuto · DDT-2637'},
-      ],
-      ricette:['Gamberi rossi crudi','Spaghetti allo scoglio','Carpaccio di mare']
-    },
-    'LOT-2026-04-0033':{
-      lotto:{codice_lotto:'LOT-2026-04-0033',descrizione:'Basilico fresco biologico',categoria:'Erbe aromatiche',quantita_ricevuta:2,quantita_rimanente:1.2,unita_misura:'kg',data_consegna:'2026-04-18',data_scadenza:'2026-04-22',fornitore:'Ortofrutticola Napoli',metodo_rotazione:'FIFO',ddt_numero:'DDT-2645',certificazioni:['BIO','HACCP'],lotto_fornitore:'ON-B-2026-88'},
-      movimenti:[
-        {ts:'2026-04-20 18:00',tipo:'scarico',qta:'-0.3 kg',operatore:'Sous-chef Luigi B.',note:'Pesto artigianale'},
-        {ts:'2026-04-18 09:10',tipo:'carico', qta:'+2 kg',   operatore:'Magazzino',       note:'Ricevuto · DDT-2645'},
-      ],
-      ricette:['Pesto artigianale','Bruschetta al basilico','Pizza Margherita DOP']
-    },
-  }
+  ricotta:[
+    {icn:'🐑',step:'Allevamento',nome:'Az. Agr. Milis — Oristano',det:'Pecora sarda DOP · pascolo brado',stato:'ok'},
+    {icn:'🧈',step:'Caseificio',nome:'Caseificio Milis',det:'Pastorizzazione 72°C · controllo pH',stato:'ok'},
+    {icn:'🚐',step:'Consegna Diretta',nome:'Furgone refrigerato',det:'Temperatura +2°C',stato:'ok'},
+    {icn:'📦',step:'Cucina Hotel',nome:'Hotel Baia Sardinia',det:'DDT-0186 conforme · 8 kg',stato:'ok'},
+    {icn:'🍮',step:'Preparazione',nome:'Pasticceria / Antipasti',det:'HACCP CCP1 — conservazione 2–4°C',stato:'ok'},
+  ],
 };
+const RECALL_HISTORY=[
+  {data:'2026-05-25',lotto:'N/A (RASFF 2025.1234)',prodotto:'Ittico — Alert europeo',esito:'Nessun lotto coinvolto',stato:'ok'},
+  {data:'2026-04-10',lotto:'LOT-2025-0021',prodotto:'Pecorino — residui antibiotici',esito:'5 kg ritirati e smaltiti',stato:'warn'},
+  {data:'2026-02-18',lotto:'LOT-2025-0007',prodotto:'Salmone — controllo etichettatura',esito:'Regolarizzato dal fornitore',stato:'ok'},
+];
+const CERT_DATA=[
+  {icon:'🏭',nome:'Pescheria Costa Rei',cert:'GSSI + BRC Food',scad:'2026-12-31',stato:'ok',score:94},
+  {icon:'🌿',nome:'Az. Agr. Milis',cert:'Bio EU + HACCP',scad:'2026-09-30',stato:'ok',score:98},
+  {icon:'🍷',nome:'Cantine Argiolas',cert:'ISO 22000 + DOC Sardegna',scad:'2027-03-15',stato:'ok',score:91},
+  {icon:'🥩',nome:'Salumificio Calabria 1920',cert:'IFS Food + HACCP',scad:'2026-06-15',stato:'warn',score:72},
+  {icon:'🐟',nome:'Coop. Mar Ligure',cert:'MSC + HACCP',scad:'2025-12-01',stato:'err',score:45},
+  {icon:'🥃',nome:'Viacomm Spirits Srl',cert:'ISO 9001',scad:'2027-01-10',stato:'ok',score:88},
+];
 
-// ── Module switcher ────────────────────────────────────────
-function trcSwitchPage(p){
-  document.querySelectorAll('.trc-page').forEach(el=>el.classList.remove('active'));
-  document.querySelectorAll(');
-  const el = document.getElementById('trc-page-'+p);
-  if(el) el.classList.add('active');
-  if(p==='lotti')     trcLoadLotti();
-  else if(p==='scadenze')   trcLoadScadenze();
-  else if(p==='movimenti')  trcLoadMovimenti();
-}
-
-// ── Helpers ────────────────────────────────────────────────
-function trcDaysToExpiry(dateStr){
-  if(!dateStr) return null;
-  const diff = (new Date(dateStr) - new Date()) / 86400000;
-  return Math.ceil(diff);
-}
-function trcExpiryColor(days){
-  if(days === null) return '#5a5a7a';
-  if(days < 0)  return '#7F1D1D';
-  if(days <= 2) return '#DC2626';
-  if(days <= 7) return '#EA580C';
-  if(days <= 14)return '#CA8A04';
-  return '#22c97a';
-}
-function trcExpiryLabel(days){
-  if(days === null) return '—';
-  if(days < 0)  return 'SCADUTO';
-  if(days === 0) return 'OGGI';
-  if(days === 1) return '1 giorno';
-  return days+' giorni';
-}
-function trcMovBadge(tipo){
-  const map={carico:'trc-badge-green',scarico:'trc-badge-amber',rettifica:'trc-badge-blue',recall:'trc-badge-red'};
-  return `<span class="trc-badge ${map[tipo]||'trc-badge-gray'}">${tipo.toUpperCase()}</span>`;
-}
-function trcSetDemo(show){
-  const b = document.getElementById('trc-demo-badge');
-  if(b) b.style.display = show ? 'inline-flex' : 'none';
+function trcNav(page){
+  document.querySelectorAll('.trc-page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.trc-btn').forEach(b=>b.classList.toggle('active',b.dataset.trcpage===page));
+  document.getElementById('trc-page-'+page).classList.add('active');
+  if(page==='lotti')renderLotti();
+  if(page==='filiera')renderFiliera();
+  if(page==='ddt')renderDDT();
+  if(page==='recall')renderRecall();
+  if(page==='certificati')renderCert();
 }
 
-// ════════════════════════════════════════════════
-//  DASHBOARD
-// ════════════════════════════════════════════════
-async function trcLoadDashboard(){
-  const grid   = document.getElementById('trc-kpi-grid');
-  const topList= document.getElementById('trc-top-list');
-  const confDet= document.getElementById('trc-conformita-detail');
-  const tbody  = document.getElementById('trc-last-lotti-tbody');
-  if(!grid) return;
+function trcLoadDemo(){
+  document.getElementById('trc-demo-badge').style.display='';
+  document.getElementById('kpi-lotti').textContent=LOTTI.length;
+  document.getElementById('kpi-conformi').textContent=LOTTI.filter(l=>l.stato==='ok').length;
+  document.getElementById('kpi-warn').textContent=LOTTI.filter(l=>l.stato==='warn').length;
+  document.getElementById('kpi-nc').textContent=LOTTI.filter(l=>l.stato==='nc').length;
+  document.getElementById('kpi-ddt').textContent=DDT_DATA.length;
+  document.getElementById('kpi-fornitori').textContent=6;
+  renderTimeline(); renderAlerts(); renderLotti();
+  showToast('Dati demo caricati — ISO 22005 Tracciabilità ✦');
+}
 
-  let demo = false;
-  let kpi, top, lotti;
+function renderTimeline(){
+  const el=document.getElementById('trc-timeline');
+  if(!el)return;
+  el.innerHTML=TIMELINE_DATA.map(t=>`
+    <div class="trc-tl-item">
+      <div class="trc-tl-dot ${t.tipo==='warn'?'warn':t.tipo==='err'?'err':''}"></div>
+      <div class="trc-tl-time">${t.time}</div>
+      <div class="trc-tl-text">${t.text}</div>
+    </div>`).join('');
+}
 
-  try {
-    const d = await badsGet(`/api/tracciabilita/dashboard?hotel_id=${BADS_HID}`);
-    kpi   = d.kpi || TRC_DEMO.kpi;
-    top   = d.kpi?.top_ingredienti || TRC_DEMO.top_ingredienti;
-    lotti = TRC_DEMO.lotti.slice(0,5);
-  } catch(e) {
-    kpi   = TRC_DEMO.kpi;
-    top   = TRC_DEMO.top_ingredienti;
-    lotti = TRC_DEMO.lotti.slice(0,5);
-    demo  = true;
+function renderAlerts(){
+  const el=document.getElementById('trc-alerts');
+  if(!el)return;
+  const cls={err:'trc-card-err',warn:'trc-card-warn'};
+  el.innerHTML=ALERTS_DATA.map(a=>`
+    <div class="trc-card ${cls[a.tipo]||''}">
+      <div style="font-weight:700;font-size:13.5px;font-family:var(--heading);margin-bottom:5px">${a.tit}</div>
+      <div style="font-size:12px;color:var(--txt2);line-height:1.6">${a.desc}</div>
+    </div>`).join('');
+}
+
+function renderLotti(){
+  const q=(document.getElementById('lotti-search')?.value||'').toLowerCase();
+  const data=q?LOTTI.filter(l=>l.id.toLowerCase().includes(q)||l.prodotto.toLowerCase().includes(q)||l.fornitore.toLowerCase().includes(q)):LOTTI;
+  const STATO={ok:'<span class="tbadge tbg-ok">Conforme</span>',warn:'<span class="tbadge tbg-warn">Warning</span>',nc:'<span class="tbadge tbg-err">NC</span>'};
+  document.getElementById('lotti-tbody').innerHTML=data.map(l=>`
+    <tr>
+      <td><span style="font-family:var(--mono);color:var(--g)">${l.id}</span></td>
+      <td style="font-weight:600">${l.prodotto}</td>
+      <td style="color:var(--txt2)">${l.fornitore}</td>
+      <td style="font-family:var(--mono);font-size:11px">${l.carico}</td>
+      <td style="font-family:var(--mono);font-size:11px;color:${l.stato==='nc'?'var(--red)':'inherit'}">${l.scad}</td>
+      <td style="font-family:var(--mono)">${l.qty}</td>
+      <td style="font-size:12px">${l.origine}</td>
+      <td>${STATO[l.stato]||''}</td>
+      <td><button class="btn btn-outline btn-sm" onclick="showLottoDetail(${JSON.stringify(l).replace(/"/g,'&quot;')})">→</button></td>
+    </tr>`).join('');
+}
+
+function renderFiliera(){
+  const key=document.getElementById('filiera-select')?.value||'branzino';
+  const nodes=FILIERA_DATA[key]||[];
+  const el=document.getElementById('filiera-chain');
+  if(!el)return;
+  el.innerHTML=nodes.map((n,i)=>`
+    ${i>0?'<div class="trc-chain-line"></div>':''}
+    <div class="trc-chain-node trc-chain-node-${n.stato}">
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:24px;flex-shrink:0">${n.icn}</span>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
+            <span style="font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g)">${n.step}</span>
+            <span class="tbadge tbg-${n.stato==='ok'?'ok':'warn'}">✓ ${n.stato==='ok'?'Conforme':'Verifica'}</span>
+          </div>
+          <div style="font-weight:700;font-size:14px;font-family:var(--heading)">${n.nome}</div>
+          <div style="font-size:12px;color:var(--txt2);margin-top:2px">${n.det}</div>
+        </div>
+        <span style="font-size:20px">${n.stato==='ok'?'✅':'⚠️'}</span>
+      </div>
+    </div>`).join('');
+}
+
+function renderDDT(){
+  const BADGE={ok:'<span class="tbadge tbg-ok">✅ OK</span>',warn:'<span class="tbadge tbg-warn">⚠️ Temp alta</span>',nc:'<span class="tbadge tbg-err">❌ NC</span>'};
+  document.getElementById('ddt-tbody').innerHTML=DDT_DATA.map(d=>`
+    <tr>
+      <td><span style="font-family:var(--mono);color:var(--g)">${d.num}</span></td>
+      <td style="font-family:var(--mono);font-size:11px">${d.data}</td>
+      <td style="font-weight:600">${d.fornitore}</td>
+      <td style="color:var(--txt2);font-size:12px">${d.prodotti}</td>
+      <td style="font-family:var(--mono)">${d.peso}</td>
+      <td style="font-family:var(--mono)">${d.temp}</td>
+      <td>${BADGE[d.verifica]||d.verifica}</td>
+      <td style="font-size:11.5px;color:var(--txt3)">${d.note}</td>
+    </tr>`).join('');
+}
+
+function renderRecall(){
+  const hist=document.getElementById('recall-history');
+  if(!hist)return;
+  const STATO={ok:'<span class="tbadge tbg-ok">Risolto</span>',warn:'<span class="tbadge tbg-warn">Gestito</span>'};
+  hist.innerHTML=RECALL_HISTORY.map(r=>`
+    <div class="trc-card" style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:6px">
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--txt3)">${r.data}</div>
+          <div style="font-weight:700;font-size:13px;margin:3px 0">${r.prodotto}</div>
+          <div style="font-size:11.5px;color:var(--txt2)">Lotto: ${r.lotto}</div>
+        </div>
+        ${STATO[r.stato]||''}
+      </div>
+      <div style="font-size:12px;color:var(--txt2);margin-top:8px;padding-top:8px;border-top:1px solid var(--line)">${r.esito}</div>
+    </div>`).join('');
+}
+
+function simulaRecall(){
+  const val=document.getElementById('recall-lotto-input')?.value?.trim();
+  const res=document.getElementById('recall-result');
+  if(!res)return;
+  if(!val){res.innerHTML='<p style="color:var(--txt3);font-size:12px">Inserisci un codice lotto</p>';return;}
+  const lotto=LOTTI.find(l=>l.id.toLowerCase()===val.toLowerCase());
+  if(!lotto){
+    res.innerHTML=`<div class="trc-card trc-card-ok"><strong style="color:var(--green)">✅ Lotto non in magazzino</strong><br><span style="font-size:12px;color:var(--txt2)">Nessun prodotto con questo codice — nessun ritiro necessario.</span></div>`;
+    return;
   }
-
-  trcSetDemo(demo);
-
-  grid.innerHTML =
-    badsKpi(kpi.lotti_attivi,        'Lotti Attivi',           '📦', '#22c97a') +
-    badsKpi(kpi.lotti_in_scadenza,   'In Scadenza ≤7gg',       '⏰', kpi.lotti_in_scadenza>0?'#EA580C':'#22c97a', kpi.lotti_in_scadenza>0?'⚠ Verifica':'OK') +
-    badsKpi(kpi.ritiri_attivi,       'Recall Attivi',          '🚨', kpi.ritiri_attivi>0?'#DC2626':'#22c97a', kpi.ritiri_attivi===0?'Nessuno':'Urgente') +
-    badsKpi((kpi.conformita_pct||100)+'%', 'Conformità Filiera','✅', '#22c97a') +
-    badsKpi(kpi.movimenti_oggi,      'Movimenti Oggi',         '🔄', '#4a90e8') +
-    badsKpi(kpi.fornitori_coinvolti, 'Fornitori Attivi',       '🏭', '#9b6fe8');
-
-  // Top ingredienti
-  const maxCount = Math.max(...top.map(i=>i.count));
-  topList.innerHTML = top.map(i=>`
-    <div style="margin-bottom:12px">
-      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
-        <span style="color:#c8c8e0">${i.descrizione}</span>
-        <span style="color:#22c97a;font-weight:700">${i.count} mov.</span>
+  const MSG={ok:'Conforme — nessuna azione',warn:'Warning — monitoraggio consigliato',nc:'NON CONFORME — ritiro immediato'};
+  const CLS={ok:'trc-card-ok',warn:'trc-card-warn',nc:'trc-card-err'};
+  res.innerHTML=`
+    <div class="trc-card ${CLS[lotto.stato]}">
+      <div style="font-weight:700;font-size:14px;font-family:var(--heading);margin-bottom:8px">${lotto.prodotto}</div>
+      <div style="font-size:12px;color:var(--txt2);line-height:1.8">
+        <div>Fornitore: <strong>${lotto.fornitore}</strong></div>
+        <div>Carico: ${lotto.carico} · Scadenza: ${lotto.scad} · ${lotto.qty}</div>
+        <div>Origine: ${lotto.origine}</div>
       </div>
-      <div style="height:4px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden">
-        <div style="height:100%;width:${Math.round(i.count/maxCount*100)}%;background:linear-gradient(90deg,#22c97a,#15a060);border-radius:99px"></div>
+      <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-weight:700;font-size:13px">${MSG[lotto.stato]}</div>
+    </div>`;
+}
+
+function renderCert(){
+  const el=document.getElementById('cert-grid');
+  if(!el)return;
+  el.innerHTML=CERT_DATA.map(c=>{
+    const col=c.stato==='ok'?'var(--green)':c.stato==='warn'?'var(--orange)':'var(--red)';
+    return `
+    <div class="trc-card" style="border-top:3px solid ${col}">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <span style="font-size:26px">${c.icon}</span>
+        <div style="flex:1">
+          <div style="font-weight:700;font-size:14px;font-family:var(--heading)">${c.nome}</div>
+          <div style="font-size:11px;color:var(--txt3);font-family:var(--mono)">${c.cert}</div>
+        </div>
+        <span class="tbadge tbg-${c.stato==='ok'?'ok':c.stato==='warn'?'warn':'err'}">${c.stato==='ok'?'Valido':c.stato==='warn'?'In scadenza':'Scaduto'}</span>
       </div>
-    </div>`).join('');
-
-  // Conformità detail
-  const items = [
-    {label:'Documentazione DDT',       val:100, ok:true},
-    {label:'Temperature di trasporto', val:97,  ok:true},
-    {label:'Certificazioni fornitore', val:100, ok:true},
-    {label:'Etichettatura lotti',      val:94,  ok:true},
-    {label:'Scadenze rispettate',      val:98,  ok:true},
-  ];
-  confDet.innerHTML = items.map(it=>`
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05)">
-      <span style="font-size:12px;color:#c8c8e0">${it.label}</span>
-      <span style="font-weight:700;color:${it.ok?'#22c97a':'#e03e50'};font-size:12px">${it.val}%</span>
-    </div>`).join('');
-
-  // Ultimi lotti
-  tbody.innerHTML = lotti.map(l=>{
-    const days = trcDaysToExpiry(l.data_scadenza);
-    const col  = trcExpiryColor(days);
-    const lbl  = trcExpiryLabel(days);
-    return `<tr>
-      <td><code style="color:#22c97a;font-size:11px">${l.codice_lotto}</code></td>
-      <td style="font-weight:500">${l.descrizione}</td>
-      <td>${l.quantita_rimanente||l.quantita_ricevuta} ${l.unita_misura}</td>
-      <td><span style="color:${col};font-weight:700">${badsDate(l.data_scadenza)}</span>
-          <span style="font-size:10px;color:${col};margin-left:5px">(${lbl})</span></td>
-      <td><span class="trc-badge ${days!==null&&days<0?'trc-badge-red':days!==null&&days<=7?'trc-badge-amber':'trc-badge-green'}">${days!==null&&days<0?'SCADUTO':days!==null&&days<=7?'IN SCADENZA':'OK'}</span></td>
-    </tr>`;
+      <div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--txt2);margin-bottom:10px">
+        <span>Scadenza: <strong>${c.scad}</strong></span>
+        <span>Score: <strong style="color:${col}">${c.score}%</strong></span>
+      </div>
+      <div style="height:6px;background:var(--bg3);border-radius:3px;overflow:hidden">
+        <div style="height:100%;width:${c.score}%;background:${col};border-radius:3px;transition:width .6s"></div>
+      </div>
+    </div>`;
   }).join('');
 }
 
-// ════════════════════════════════════════════════
-//  LOTTI
-// ════════════════════════════════════════════════
-async function trcLoadLotti(){
-  const tbody = document.getElementById('trc-lotti-tbody');
-  if(!tbody) return;
-  const catFilter = document.getElementById('trc-lotti-cat')?.value || '';
-  tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;color:#5a5a7a;padding:24px">Caricamento…</td></tr>`;
-
-  let lotti, demo = false;
-  try {
-    const d = await badsGet(`/api/tracciabilita/lotti?hotel_id=${BADS_HID}`);
-    lotti = d.lotti || d || [];
-    if(!Array.isArray(lotti)) lotti = TRC_DEMO.lotti;
-  } catch(e) {
-    lotti = TRC_DEMO.lotti;
-    demo = true;
-  }
-
-  trcSetDemo(demo);
-
-  if(catFilter) lotti = lotti.filter(l=>l.categoria===catFilter);
-
-  tbody.innerHTML = lotti.length ? lotti.map(l=>{
-    const days = trcDaysToExpiry(l.data_scadenza);
-    const col  = trcExpiryColor(days);
-    return `<tr>
-      <td><code style="color:#22c97a;font-size:11px;cursor:pointer" onclick="trcSwitchPage('traccia');setTimeout(()=>{document.getElementById('trc-search-codice').value='${l.codice_lotto}';trcTraccia();},80)">${l.codice_lotto}</code></td>
-      <td style="font-weight:500;color:#e8e8f0">${l.descrizione}</td>
-      <td><span class="trc-badge trc-badge-gray">${l.categoria}</span></td>
-      <td>${l.quantita_ricevuta} ${l.unita_misura}</td>
-      <td style="color:#22c97a">${l.quantita_rimanente||l.quantita_ricevuta} ${l.unita_misura}</td>
-      <td style="color:#5a5a7a;font-size:12px">${badsDate(l.data_consegna)}</td>
-      <td><span style="color:${col};font-weight:700">${badsDate(l.data_scadenza)}</span>
-          <span style="font-size:10px;color:${col};display:block">${trcExpiryLabel(days)}</span></td>
-      <td style="font-size:12px;color:#c8c8e0">${l.fornitore||'—'}</td>
-      <td><span class="trc-badge ${l.metodo_rotazione==='FEFO'?'trc-badge-blue':'trc-badge-gray'}">${l.metodo_rotazione||'FIFO'}</span></td>
-    </tr>`;
-  }).join('')
-  : `<tr><td colspan="9" style="text-align:center;color:#5a5a7a;padding:30px">Nessun lotto${catFilter?' per categoria "'+catFilter+'"':''}</td></tr>`;
+function showLottoDetail(l){
+  if(typeof B360==='undefined'){alert(l.id+'\n'+l.prodotto);return;}
+  const STATO_MAP={ok:'✅ Conforme',warn:'⚠️ Warning',nc:'❌ Non Conforme'};
+  B360.modal({
+    title:'📦 Lotto '+l.id,
+    body:`<div style="font-size:13px;line-height:1.9;color:var(--txt2)">
+      <div><strong style="color:var(--g)">Prodotto:</strong> ${l.prodotto}</div>
+      <div><strong style="color:var(--g)">Fornitore:</strong> ${l.fornitore}</div>
+      <div><strong style="color:var(--g)">Carico:</strong> ${l.carico} · Scad. ${l.scad}</div>
+      <div><strong style="color:var(--g)">Quantità:</strong> ${l.qty}</div>
+      <div><strong style="color:var(--g)">Origine:</strong> ${l.origine}</div>
+      <div><strong style="color:var(--g)">Stato:</strong> ${STATO_MAP[l.stato]||l.stato}</div>
+    </div>
+    <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(201,168,76,.1);display:flex;gap:8px">
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('b360-sdk-modal').remove();document.getElementById('recall-lotto-input').value='${l.id}';trcNav('recall');simulaRecall()">🚨 Simula Recall</button>
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('b360-sdk-modal').remove();trcNav('filiera')">🔗 Filiera</button>
+    </div>`,
+  });
 }
 
-// ════════════════════════════════════════════════
-//  SCADENZE
-// ════════════════════════════════════════════════
-async function trcLoadScadenze(){
-  const list   = document.getElementById('trc-scadenze-list');
-  const sumEl  = document.getElementById('trc-scad-summary');
-  if(!list) return;
-  const giorni = parseInt(document.getElementById('trc-giorni')?.value || 7);
-  list.innerHTML = `<div style="color:#5a5a7a;padding:20px">Ricerca in corso…</div>`;
-
-  let lotti, demo = false;
-  try {
-    const d = await badsGet(`/api/tracciabilita/allerta-scadenze?hotel_id=${BADS_HID}&giorni=${giorni}`);
-    lotti = d.lotti || d || [];
-    if(!Array.isArray(lotti)) lotti = [];
-  } catch(e) {
-    demo = true;
-    lotti = TRC_DEMO.lotti.filter(l=>{
-      const days = trcDaysToExpiry(l.data_scadenza);
-      return days !== null && days <= giorni;
-    }).map(l=>({...l, giorni_alla_scadenza: trcDaysToExpiry(l.data_scadenza)}));
-  }
-
-  trcSetDemo(demo);
-
-  // Summary strip
-  const scaduti  = lotti.filter(l=>l.giorni_alla_scadenza<0).length;
-  const critici  = lotti.filter(l=>l.giorni_alla_scadenza>=0&&l.giorni_alla_scadenza<=2).length;
-  const attenzione=lotti.filter(l=>l.giorni_alla_scadenza>2&&l.giorni_alla_scadenza<=giorni).length;
-  if(sumEl) sumEl.innerHTML = [
-    ['🚨 Scaduti',    scaduti,   '#DC2626'],
-    ['⚠️ Critici ≤2gg',critici,  '#EA580C'],
-    ['⏰ Attenzione', attenzione,'#CA8A04'],
-  ].map(([lbl,cnt,col])=>`<div class="trc-kpi">
-    <div class="trc-kpi-val" style="color:${col}">${cnt}</div>
-    <div class="trc-kpi-lbl">${lbl}</div>
-  </div>`).join('');
-
-  if(!lotti.length){
-    list.innerHTML = badsAlert(`✅ Nessun lotto in scadenza entro ${giorni} giorni`, 'ok');
-    return;
-  }
-
-  list.innerHTML = lotti
-    .sort((a,b)=>a.giorni_alla_scadenza-b.giorni_alla_scadenza)
-    .map(l=>{
-      const gg = l.giorni_alla_scadenza;
-      const col = trcExpiryColor(gg);
-      return `<div style="background:${col}10;border:1px solid ${col}30;border-radius:12px;padding:16px 20px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-        <div>
-          <div style="font-weight:700;color:#e8e8f0;font-size:14px">${l.descrizione||l.codice_lotto}</div>
-          <div style="font-size:12px;color:#5a5a7a;margin-top:4px">
-            <code style="color:#22c97a">${l.codice_lotto}</code> &nbsp;·&nbsp;
-            ${l.categoria||'—'} &nbsp;·&nbsp;
-            ${l.quantita_rimanente||l.quantita_ricevuta||0} ${l.unita_misura||''}
-          </div>
-          <div style="font-size:11px;color:#5a5a7a;margin-top:3px">Fornitore: ${l.fornitore||'—'}</div>
-        </div>
-        <div style="text-align:right;flex-shrink:0">
-          <div style="color:${col};font-size:1.5rem;font-weight:800;font-family:'DM Sans',sans-serif">${trcExpiryLabel(gg).toUpperCase()}</div>
-          <div style="font-size:11px;color:#5a5a7a">${badsDate(l.data_scadenza)}</div>
-          <span class="trc-badge ${gg<0?'trc-badge-red':gg<=2?'trc-badge-red':gg<=7?'trc-badge-amber':'trc-badge-gray'}" style="margin-top:4px;display:inline-block">
-            ${gg<0?'SCADUTO':gg<=2?'CRITICO':gg<=7?'ATTENZIONE':'MONITORARE'}
-          </span>
-        </div>
-      </div>`;
-    }).join('');
-}
-
-// ════════════════════════════════════════════════
-//  MOVIMENTI
-// ════════════════════════════════════════════════
-async function trcLoadMovimenti(){
-  const tbody = document.getElementById('trc-mov-tbody');
-  if(!tbody) return;
-  const tipoFilter = document.getElementById('trc-mov-tipo')?.value || '';
-  tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:#5a5a7a;padding:24px">Caricamento…</td></tr>`;
-
-  let movimenti, demo = false;
-  try {
-    const d = await badsGet(`/api/tracciabilita/movimenti?hotel_id=${BADS_HID}${tipoFilter?'&tipo='+tipoFilter:''}`);
-    movimenti = d.movimenti || d || [];
-    if(!Array.isArray(movimenti)) movimenti = TRC_DEMO.movimenti;
-  } catch(e) {
-    movimenti = TRC_DEMO.movimenti;
-    demo = true;
-  }
-
-  trcSetDemo(demo);
-
-  if(tipoFilter) movimenti = movimenti.filter(m=>m.tipo===tipoFilter);
-
-  tbody.innerHTML = movimenti.length ? movimenti.map(m=>`<tr>
-    <td style="font-family:'DM Mono',monospace;font-size:11px;color:#5a5a7a;white-space:nowrap">${m.ts}</td>
-    <td>${trcMovBadge(m.tipo)}</td>
-    <td><code style="color:#22c97a;font-size:11px;cursor:pointer" onclick="trcSwitchPage('traccia');setTimeout(()=>{document.getElementById('trc-search-codice').value='${m.codice}';trcTraccia();},80)">${m.codice}</code></td>
-    <td style="color:#e8e8f0">${m.descrizione}</td>
-    <td style="font-weight:700;color:${m.tipo==='carico'?'#22c97a':'#e8a830'}">${m.qta}</td>
-    <td style="font-size:12px;color:#c8c8e0">${m.operatore}</td>
-    <td style="font-size:12px;color:#5a5a7a;max-width:200px">${m.note||'—'}</td>
-  </tr>`).join('')
-  : `<tr><td colspan="7" style="text-align:center;color:#5a5a7a;padding:30px">Nessun movimento${tipoFilter?' per tipo "'+tipoFilter+'"':''}</td></tr>`;
-}
-
-// ════════════════════════════════════════════════
-//  TRACCIA LOTTO
-// ════════════════════════════════════════════════
-async function trcTraccia(){
-  const result = document.getElementById('trc-traccia-result');
-  const codice = document.getElementById('trc-search-codice')?.value?.trim();
-  if(!codice){ result.innerHTML = badsAlert('Inserisci un codice lotto'); return; }
-  result.innerHTML = `<div style="color:#5a5a7a;padding:20px">Ricerca in corso…</div>`;
-
-  let data, demo = false;
-
-  try {
-    const d = await badsGet(`/api/tracciabilita/lotto/${encodeURIComponent(codice)}?hotel_id=${BADS_HID}`);
-    data = { lotto: d.lotto||d, movimenti: d.movimenti||[], ricette: d.ricette||[] };
-  } catch(e) {
-    const found = TRC_DEMO.traccia[codice];
-    if(found){ data = found; demo = true; }
-    else {
-      // try partial match
-      const key = Object.keys(TRC_DEMO.traccia).find(k=>k.toLowerCase()===codice.toLowerCase());
-      if(key){ data = TRC_DEMO.traccia[key]; demo = true; }
-      else {
-        result.innerHTML = badsAlert(`Lotto "${codice}" non trovato — prova LOT-2026-04-0041`);
-        return;
-      }
+function openNuovoLotto(){
+  if(typeof B360==='undefined'){showToast('SDK non caricato');return;}
+  B360.modal({
+    title:'+ Nuovo Lotto',
+    fields:[
+      {id:'id',label:'Codice Lotto',type:'text',placeholder:'Es. LOT-2026-0042'},
+      {id:'prodotto',label:'Prodotto',type:'text',placeholder:'Es. Polpo verace'},
+      {id:'fornitore',label:'Fornitore',type:'text',placeholder:'Es. Pescheria Costa Rei'},
+      {id:'scad',label:'Scadenza',type:'date'},
+      {id:'qty',label:'Quantità',type:'text',placeholder:'Es. 12 kg'},
+      {id:'origine',label:'Origine',type:'text',placeholder:'Es. 🇮🇹 MAR Sardegna'},
+    ],
+    onConfirm(v){
+      if(!v.id||!v.prodotto){document.getElementById('b360m-err').style.display='block';document.getElementById('b360m-err').textContent='Codice e prodotto obbligatori';return false;}
+      LOTTI.unshift({id:v.id,prodotto:v.prodotto,fornitore:v.fornitore||'—',carico:new Date().toISOString().slice(0,10),scad:v.scad||'—',qty:v.qty||'—',origine:v.origine||'—',stato:'ok'});
+      renderLotti();
+      if(typeof B360!=='undefined')B360.storeSet('trc_lotti',LOTTI.slice(0,50));
+      showToast('✅ Lotto registrato: '+v.id);
     }
-  }
-
-  trcSetDemo(demo);
-
-  const l    = data.lotto;
-  const movs = data.movimenti || [];
-  const ricette = data.ricette || [];
-  const days = trcDaysToExpiry(l.data_scadenza||l.data_tmc);
-  const col  = trcExpiryColor(days);
-
-  result.innerHTML = `
-  <!-- Header lotto -->
-  <div class="trc-card trc-card-green" style="margin-bottom:12px">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px">
-      <div>
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-          <code style="font-size:14px;font-weight:800;color:#22c97a">${l.codice_lotto}</code>
-          <span class="trc-badge ${days!==null&&days<0?'trc-badge-red':days!==null&&days<=7?'trc-badge-amber':'trc-badge-green'}">${days!==null&&days<0?'SCADUTO':days!==null&&days<=7?'IN SCADENZA':'CONFORME'}</span>
-          ${(l.certificazioni||[]).map(c=>`<span class="trc-badge trc-badge-blue">${c}</span>`).join('')}
-        </div>
-        <div style="font-size:15px;font-weight:700;color:#e8e8f0">${l.descrizione}</div>
-        <div style="font-size:12px;color:#5a5a7a;margin-top:4px">${l.categoria} · Metodo: ${l.metodo_rotazione}</div>
-      </div>
-      <div style="text-align:right">
-        <div style="color:${col};font-size:1.3rem;font-weight:800;font-family:'DM Sans',sans-serif">${trcExpiryLabel(days).toUpperCase()}</div>
-        <div style="font-size:11px;color:#5a5a7a">${badsDate(l.data_scadenza||l.data_tmc)}</div>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid rgba(34,201,122,.1)">
-      ${[
-        ['Fornitore',    l.fornitore||'—'],
-        ['Lotto fornitore', l.lotto_fornitore||'—'],
-        ['DDT',          l.ddt_numero||'—'],
-        ['Data consegna',badsDate(l.data_consegna)],
-        ['Qta ricevuta', `${l.quantita_ricevuta} ${l.unita_misura}`],
-        ['Qta rimanente',`${l.quantita_rimanente||l.quantita_ricevuta} ${l.unita_misura}`],
-      ].map(([k,v])=>`<div style="background:rgba(255,255,255,.03);border-radius:8px;padding:10px 12px">
-        <div style="font-size:10px;color:#5a5a7a;text-transform:uppercase;letter-spacing:.5px">${k}</div>
-        <div style="font-size:13px;color:#c8c8e0;font-weight:500;margin-top:3px">${v}</div>
-      </div>`).join('')}
-    </div>
-  </div>
-
-  <!-- Supply chain -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
-
-    <!-- A monte: fornitore -->
-    <div class="trc-card" style="padding:18px">
-      <div style="font-size:11px;font-weight:700;color:#22c97a;letter-spacing:.8px;margin-bottom:14px">⬆ A MONTE — ORIGINE</div>
-      <div class="trc-chain">
-        <div class="trc-chain-node node-ok">
-          <div style="font-size:11px;color:#5a5a7a;margin-bottom:3px">🏭 FORNITORE</div>
-          <div style="font-weight:700;color:#e8e8f0">${l.fornitore}</div>
-          <div style="font-size:11px;color:#5a5a7a;margin-top:3px">Lotto: ${l.lotto_fornitore||'—'}</div>
-        </div>
-        <div class="trc-chain-line"></div>
-        <div class="trc-chain-node node-ok">
-          <div style="font-size:11px;color:#5a5a7a;margin-bottom:3px">🚛 TRASPORTO / DDT</div>
-          <div style="font-weight:700;color:#e8e8f0">${l.ddt_numero||'—'}</div>
-          <div style="font-size:11px;color:#5a5a7a;margin-top:3px">Ricevuto: ${badsDate(l.data_consegna)}</div>
-        </div>
-        <div class="trc-chain-line"></div>
-        <div class="trc-chain-node node-ok">
-          <div style="font-size:11px;color:#5a5a7a;margin-bottom:3px">📦 MAGAZZINO</div>
-          <div style="font-weight:700;color:#e8e8f0">${l.codice_lotto}</div>
-          <div style="font-size:11px;color:#5a5a7a;margin-top:3px">${l.quantita_ricevuta} ${l.unita_misura} · ${l.metodo_rotazione}</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- A valle: ricette / utilizzi -->
-    <div class="trc-card" style="padding:18px">
-      <div style="font-size:11px;font-weight:700;color:#4a90e8;letter-spacing:.8px;margin-bottom:14px">⬇ A VALLE — UTILIZZO</div>
-      <div class="trc-chain">
-        <div class="trc-chain-node" style="border-color:rgba(74,144,232,.2);background:rgba(74,144,232,.03)">
-          <div style="font-size:11px;color:#5a5a7a;margin-bottom:3px">🍽️ RICETTE COLLEGATE</div>
-          ${ricette.length
-            ? ricette.map(r=>`<div style="font-size:12px;color:#c8c8e0;padding:2px 0">· ${r}</div>`).join('')
-            : '<div style="font-size:12px;color:#5a5a7a">Nessuna ricetta collegata</div>'
-          }
-        </div>
-        <div class="trc-chain-line"></div>
-        <div class="trc-chain-node" style="border-color:rgba(74,144,232,.2);background:rgba(74,144,232,.03)">
-          <div style="font-size:11px;color:#5a5a7a;margin-bottom:3px">📊 MOVIMENTI (${movs.length})</div>
-          ${movs.slice(0,3).map(m=>`<div style="font-size:12px;color:#c8c8e0;padding:2px 0">${m.tipo.toUpperCase()} · ${m.qta} · ${m.ts.split(' ')[0]}</div>`).join('')}
-          ${movs.length>3?`<div style="font-size:11px;color:#5a5a7a;margin-top:3px">+${movs.length-3} altri movimenti</div>`:''}
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Timeline movimenti -->
-  ${movs.length ? `<div class="trc-card" style="padding:18px">
-    <div style="font-size:11px;font-weight:700;color:#5a5a7a;letter-spacing:.8px;margin-bottom:16px">🕐 TIMELINE MOVIMENTI</div>
-    <div class="trc-timeline">
-      ${movs.map(m=>`<div class="trc-timeline-item">
-        <div class="trc-timeline-dot ${m.tipo==='recall'?'dot-red':m.tipo==='rettifica'?'dot-warn':''}"></div>
-        <div class="trc-timeline-time">${m.ts} · ${m.operatore}</div>
-        <div class="trc-timeline-text">${trcMovBadge(m.tipo)} &nbsp;${m.qta} &nbsp;— ${m.note||'—'}</div>
-      </div>`).join('')}
-    </div>
-  </div>` : ''}`;
+  });
 }
 
-// ── Init ────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', function(){
-  trcLoadDashboard();
-});
-</script>
+function openUploadDDT(){
+  if(typeof B360==='undefined'){showToast('SDK non caricato');return;}
+  B360.modal({
+    title:'📁 Registra DDT',
+    fields:[
+      {id:'num',label:'N° DDT',type:'text',placeholder:'Es. DDT-2026-0188'},
+      {id:'forn',label:'Fornitore',type:'text',placeholder:'Es. Pescheria Costa Rei'},
+      {id:'prod',label:'Prodotti',type:'text',placeholder:'Es. Branzino, Polpo'},
+      {id:'peso',label:'Peso Totale',type:'text',placeholder:'Es. 30 kg'},
+      {id:'temp',label:'Temperatura Arrivo',type:'text',placeholder:'Es. +2°C'},
+    ],
+    confirmLabel:'📁 Registra',
+    onConfirm(v){
+      if(!v.num||!v.forn){document.getElementById('b360m-err').style.display='block';document.getElementById('b360m-err').textContent='N° DDT e fornitore obbligatori';return false;}
+      DDT_DATA.unshift({num:v.num,data:new Date().toISOString().slice(0,10),fornitore:v.forn,prodotti:v.prod||'—',peso:v.peso||'—',temp:v.temp||'—',verifica:'ok',note:''});
+      renderDDT();
+      showToast('✅ DDT registrato: '+v.num);
+    }
+  });
+}
 
-<script>
-window.switchTab=window.switchTab||function(t){var m={bevmanager:'bevmanager.html',hotellerie:'hotellerie.html',housekeeping:'housekeeping.html',haccp:'haccp.html',nc:'nc.html',tracciabilita:'tracciabilita.html',shelflife:'shelflife.html',scmpro:'scmpro.html',shiftmanager:'shiftmanager.html',events:'events.html',hub:'hub.html',cert:'cert.html',consult:'consulenze.html',academy:'academy.html',norme:'norme.html',network:'network.html',barman:'barman.html',frontoffice:'BAD360.html#frontoffice',revenue:'BAD360.html#revenue',iotmonitor:'BAD360.html#iotmonitor',demand:'BAD360.html#demand',supplier:'BAD360.html#supplier',possync:'BAD360.html#possync',bidashboard:'BAD360.html#bidashboard',bandi360:'BAD360.html#bandi360',iso22005adv:'BAD360.html#iso22005adv',procurement:'BAD360.html#procurement',haccp2:'BAD360.html#haccp2'};var u=m[t];if(u){if(u.indexOf('#')!==-1)sessionStorage.setItem('bad360_tab',t);window.location.href=u}};
+function showToast(msg,type){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.style.borderColor=type==='err'?'rgba(201,74,74,.35)':'rgba(201,168,76,.3)';
+  t.style.color=type==='err'?'var(--red)':'var(--g)';
+  t.classList.add('show');clearTimeout(t._t);
+  t._t=setTimeout(()=>t.classList.remove('show'),4000);
+}
+
+function exportLottiCSV(){
+  if(typeof B360==='undefined'){showToast('SDK non caricato');return;}
+  B360.downloadCSV(LOTTI,['id','prodotto','fornitore','carico','scad','qty','origine','stato'],`Lotti_${new Date().toISOString().slice(0,10)}.csv`);
+  showToast('✅ CSV lotti esportato');
+}
+
+function exportDDTCSV(){
+  if(typeof B360==='undefined'){showToast('SDK non caricato');return;}
+  B360.downloadCSV(DDT_DATA,['num','data','fornitore','prodotti','peso','temp','verifica','note'],`DDT_${new Date().toISOString().slice(0,10)}.csv`);
+  showToast('✅ CSV DDT esportato');
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  trcLoadDemo();
+  if(typeof B360!=='undefined'){
+    B360.mountAIWidget('haccp','Hotel Baia Sardinia · Tracciabilità ISO 22005 · 8 lotti attivi');
+  }
+});
 </script>
 </body>
 </html>

@@ -3,123 +3,410 @@
 <head>
 <meta charset="UTF-8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>BAD360.ai — Hospitality AI Platform</title>
 <style>
-:root{--bg:#0b0e17;--bg2:#111420;--bg3:#181c2b;--bg4:#1f2438;--line:rgba(255,255,255,0.06);--line2:rgba(255,255,255,0.12);--txt:#dde0ea;--txt2:#7a8099;--txt3:#474e66;--blue:#4f8ef7;--green:#2cc08a;--orange:#fb923c;--purple:#a78bfa;--gold:#f5a623;--red:#ef4444;--teal:#22d3ee;--pink:#f472b6;--blue-bg:rgba(79,142,247,.10);--green-bg:rgba(44,192,138,.10);--orange-bg:rgba(251,146,60,.10);--purple-bg:rgba(167,139,250,.10);--gold-bg:rgba(245,166,35,.10);--red-bg:rgba(239,68,68,.10);--teal-bg:rgba(34,211,238,.10);--pink-bg:rgba(244,114,182,.10);--gray-bg:rgba(255,255,255,.06);--radius:12px;--glow-blue:rgba(79,142,247,.18)}
-[data-theme="light"]{--bg:#f0f2f8;--bg2:#ffffff;--bg3:#eef0f7;--bg4:#e4e7f2;--line:rgba(0,0,0,0.07);--line2:rgba(0,0,0,0.13);--txt:#181c2e;--txt2:#5a6080;--txt3:#9499b8;--glow-blue:rgba(37,99,235,.10)}
-*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.5;min-height:100vh;transition:background .25s,color .25s}a{text-decoration:none;color:inherit}
+/* ── LOCAL PALETTE ALIASES (supplementing DS for multi-color module grid) ── */
+:root{
+  --blue:#4f8ef7;--blue-bg:rgba(79,142,247,.10);
+  --teal:#22d3ee;--teal-bg:rgba(34,211,238,.10);
+  --pink:#f472b6;--pink-bg:rgba(244,114,182,.10);
+  --gold-bg:rgba(201,168,76,.10);
+  --radius:12px;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:var(--font);font-size:14px;line-height:1.5;min-height:100vh}
+a{text-decoration:none;color:inherit}
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.025;pointer-events:none;z-index:0}
-.topbar{background:var(--bg2);border-bottom:1px solid var(--line);padding:0 28px;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
-.topbar-l{display:flex;align-items:center;gap:12px}.logo{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--blue) 0%,var(--purple) 100%);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:9px;color:#fff;letter-spacing:-.01em;flex-shrink:0}.brand{font-size:15px;font-weight:600;letter-spacing:-.01em}.brand span{color:var(--blue)}.topbar-mid{font-size:11px;color:var(--txt3);font-family:'DM Mono',monospace}.topbar-r{display:flex;align-items:center;gap:8px}.pill{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:100px;font-size:11px;font-weight:500;border:1px solid var(--line2);background:var(--bg3);color:var(--txt2)}.pill .dot{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green)}.tbtn{width:30px;height:30px;border-radius:7px;border:1px solid var(--line2);background:var(--bg3);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .15s;color:var(--txt2)}.tbtn:hover{background:var(--bg4);color:var(--txt)}
-.wrap{max-width:1360px;margin:0 auto;padding:32px 28px 60px;position:relative;z-index:1}
-.hero{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--line);display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap}.hero-date{font-size:11px;color:var(--txt3);font-family:'DM Mono',monospace;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}.hero-title{font-size:34px;font-weight:700;letter-spacing:-.025em;line-height:1.1;margin-bottom:8px}.hero-title em{font-style:normal;color:var(--blue)}.hero-sub{color:var(--txt2);font-size:13.5px;line-height:1.6;max-width:620px}.hero-search{display:flex;align-items:center;gap:8px;flex-shrink:0}.search-box{background:var(--bg3);border:1px solid var(--line2);border-radius:9px;padding:8px 14px;font-size:13px;color:var(--txt2);font-family:'DM Sans',sans-serif;width:240px;outline:none;transition:border .15s,background .15s}.search-box::placeholder{color:var(--txt3)}.search-box:focus{border-color:var(--blue);background:var(--bg2);color:var(--txt)}.btn-new{background:var(--blue);color:#fff;border:none;border-radius:9px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;transition:opacity .15s;font-family:'DM Sans',sans-serif;white-space:nowrap}.btn-new:hover{opacity:.88}
-.ceo-banner{background:linear-gradient(135deg,rgba(79,142,247,.08) 0%,rgba(167,139,250,.05) 100%);border:1px solid rgba(79,142,247,.18);border-radius:14px;padding:18px 22px;margin-bottom:28px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;position:relative;overflow:hidden}.ceo-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(79,142,247,.12),transparent 60%);pointer-events:none}.ceo-banner-icon{width:54px;height:54px;border-radius:12px;flex-shrink:0;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;position:relative;z-index:1}.ceo-banner-body{flex:1;min-width:260px;position:relative;z-index:1}.ceo-banner-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);font-family:'DM Mono',monospace;margin-bottom:4px}.ceo-banner-title{font-size:18px;font-weight:700;letter-spacing:-.02em;margin-bottom:4px}.ceo-banner-sub{font-size:12.5px;color:var(--txt2);line-height:1.55}.ceo-banner-badge{padding:5px 12px;border-radius:100px;background:var(--blue-bg);color:var(--blue);border:1px solid rgba(79,142,247,.25);font-size:11px;font-weight:600;font-family:'DM Mono',monospace;letter-spacing:.03em;position:relative;z-index:1}
-.stats-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:36px}.stat{background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;position:relative;overflow:hidden}.stat::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--stat-color,var(--blue))}.stat-label{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--txt3);font-family:'DM Mono',monospace;margin-bottom:10px}.stat-val{font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1;color:var(--stat-color,var(--blue));margin-bottom:6px}.stat-sub{font-size:11px;color:var(--txt2)}.stat-live{font-size:10px;color:var(--green);font-family:'DM Mono',monospace;display:flex;align-items:center;gap:4px}.stat-live::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 5px var(--green);animation:pulse 2s infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.sec{margin-bottom:36px}.sec-hdr{margin-bottom:16px}.sec-title{font-size:16px;font-weight:700;letter-spacing:-.01em;margin-bottom:3px}.sec-sub{font-size:12px;color:var(--txt2)}.sec-divider{height:1px;background:var(--line);margin-bottom:16px}
-.subsec{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--txt3);font-family:'DM Mono',monospace;margin:24px 0 14px;padding-bottom:8px;border-bottom:1px dashed var(--line2);display:flex;align-items:center;justify-content:space-between}.subsec:first-of-type{margin-top:0}.subsec-cnt{font-weight:400;color:var(--txt3)}
-.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}.proj{background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);padding:22px;display:flex;flex-direction:column;transition:transform .2s,border-color .2s,box-shadow .2s;position:relative;overflow:hidden}.proj::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--proj-color,var(--blue));opacity:.85}.proj:hover{transform:translateY(-2px);border-color:var(--line2);box-shadow:0 8px 28px rgba(0,0,0,.18)}.proj-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;gap:10px}.proj-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}.proj-name{font-size:15px;font-weight:600;letter-spacing:-.005em;margin-bottom:4px}.proj-ctx{font-size:10px;color:var(--txt3);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}.proj-desc{font-size:12.5px;color:var(--txt2);line-height:1.55;flex:1;margin-bottom:14px}.proj-stack{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}.tech{font-size:10px;padding:2px 7px;border-radius:5px;background:var(--bg3);color:var(--txt2);border:1px solid var(--line);font-family:'DM Mono',monospace;font-weight:500}.proj-foot{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--line)}.proj-meta{font-size:10px;color:var(--txt3);font-family:'DM Mono',monospace}.proj-arr{font-size:15px;color:var(--txt3);transition:all .2s}.proj:hover .proj-arr{color:var(--proj-color,var(--blue));transform:translateX(3px)}
-.app-badge{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-family:'DM Mono',monospace;padding:3px 8px;border-radius:100px;background:var(--badge-bg,var(--bg3));color:var(--badge-clr,var(--txt3));border:1px solid var(--badge-border,var(--line2));display:inline-flex;align-items:center;gap:4px;align-self:flex-start}.app-badge .bdot{width:5px;height:5px;border-radius:50%;background:currentColor}.badge-active{--badge-bg:rgba(44,192,138,.1);--badge-clr:var(--green);--badge-border:rgba(44,192,138,.25)}.badge-active .bdot{box-shadow:0 0 5px currentColor}.badge-core{--badge-bg:rgba(79,142,247,.1);--badge-clr:var(--blue);--badge-border:rgba(79,142,247,.25)}.badge-core .bdot{box-shadow:0 0 5px currentColor}.badge-int{--badge-bg:rgba(167,139,250,.1);--badge-clr:var(--purple);--badge-border:rgba(167,139,250,.25)}
-@media(max-width:768px){.wrap{padding:20px 16px 50px}.hero-title{font-size:24px}.hero{flex-direction:column;align-items:flex-start}.hero-search{width:100%;flex-wrap:wrap}.search-box{width:100%}.topbar{padding:0 16px}.topbar-mid{display:none}.ceo-banner{flex-direction:column;align-items:flex-start}.proj-grid{grid-template-columns:1fr}}
+.wrap{max-width:1360px;margin:0 auto;padding:28px 28px 60px;position:relative;z-index:1}
+
+/* hero */
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line);display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.hero-date{font-size:11px;color:var(--txt3);font-family:var(--mono);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.hero-title{font-size:clamp(24px,4vw,34px);font-weight:700;letter-spacing:-.025em;line-height:1.1;margin-bottom:8px;font-family:'Syne',sans-serif}
+.hero-title em{font-style:italic;color:var(--g);font-family:'Playfair Display',serif}
+.hero-sub{color:var(--txt2);font-size:13.5px;line-height:1.6;max-width:620px}
+.search-box{background:var(--bg3);border:1px solid var(--line2);border-radius:9px;padding:8px 14px;font-size:13px;color:var(--txt2);font-family:var(--font);width:240px;outline:none;transition:border .15s,background .15s}
+.search-box::placeholder{color:var(--txt3)}
+.search-box:focus{border-color:rgba(201,168,76,.5);background:var(--bg2);color:var(--txt)}
+
+/* banner */
+.ceo-banner{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.18);border-radius:14px;padding:18px 22px;margin-bottom:28px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;position:relative;overflow:hidden}
+.ceo-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(201,168,76,.08),transparent 60%);pointer-events:none}
+.ceo-banner-icon{width:54px;height:54px;border-radius:12px;flex-shrink:0;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;font-size:22px;position:relative;z-index:1}
+.ceo-banner-body{flex:1;min-width:260px;position:relative;z-index:1}
+.ceo-banner-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--g);font-family:var(--mono);margin-bottom:4px}
+.ceo-banner-title{font-size:18px;font-weight:700;letter-spacing:-.02em;margin-bottom:4px;font-family:'Syne',sans-serif}
+.ceo-banner-sub{font-size:12.5px;color:var(--txt2);line-height:1.55}
+.ceo-banner-badge{padding:5px 12px;border-radius:100px;background:rgba(201,168,76,.12);color:var(--g);border:1px solid rgba(201,168,76,.3);font-size:11px;font-weight:600;font-family:var(--mono);position:relative;z-index:1}
+
+/* stats */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:32px}
+.stat{background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;position:relative;overflow:hidden}
+.stat::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--stat-color,var(--g))}
+.stat-label{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--txt3);font-family:var(--mono);margin-bottom:10px}
+.stat-val{font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1;color:var(--stat-color,var(--g));font-family:'Syne',sans-serif;margin-bottom:6px}
+.stat-sub{font-size:11px;color:var(--txt2)}
+.stat-live{font-size:10px;color:var(--green);font-family:var(--mono);display:flex;align-items:center;gap:4px}
+.stat-live::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 5px var(--green);animation:pulse 2s infinite}
+
+/* sections */
+.sec{margin-bottom:32px}
+.sec-hdr{margin-bottom:14px}
+.sec-title{font-size:16px;font-weight:700;letter-spacing:-.01em;margin-bottom:3px;font-family:'Syne',sans-serif}
+.sec-sub{font-size:12px;color:var(--txt2)}
+.sec-divider{height:1px;background:var(--line);margin-bottom:14px}
+.subsec{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--txt3);font-family:var(--mono);margin:20px 0 12px;padding-bottom:8px;border-bottom:1px dashed var(--line2);display:flex;align-items:center;justify-content:space-between}
+.subsec:first-of-type{margin-top:0}
+.subsec-cnt{font-weight:400;color:var(--txt3)}
+
+/* project cards */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.proj{background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;transition:transform .2s,border-color .2s,box-shadow .2s;position:relative;overflow:hidden}
+.proj::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--proj-color,var(--g));opacity:.85}
+.proj:hover{transform:translateY(-2px);border-color:var(--line2);box-shadow:0 8px 28px rgba(0,0,0,.2)}
+.proj-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;gap:10px}
+.proj-icon{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.proj-name{font-size:15px;font-weight:600;letter-spacing:-.005em;margin-bottom:4px;font-family:'Syne',sans-serif}
+.proj-ctx{font-size:10px;color:var(--txt3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.04em;margin-bottom:9px}
+.proj-desc{font-size:12.5px;color:var(--txt2);line-height:1.55;flex:1;margin-bottom:12px}
+.proj-stack{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+.tech{font-size:10px;padding:2px 7px;border-radius:5px;background:var(--bg3);color:var(--txt2);border:1px solid var(--line);font-family:var(--mono);font-weight:500}
+.proj-foot{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid var(--line)}
+.proj-meta{font-size:10px;color:var(--txt3);font-family:var(--mono)}
+.proj-arr{font-size:15px;color:var(--txt3);transition:all .2s}
+.proj:hover .proj-arr{color:var(--proj-color,var(--g));transform:translateX(3px)}
+
+/* badges */
+.app-badge{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-family:var(--mono);padding:3px 8px;border-radius:100px;display:inline-flex;align-items:center;gap:4px;align-self:flex-start}
+.app-badge .bdot{width:5px;height:5px;border-radius:50%;background:currentColor}
+.badge-active{background:rgba(106,171,118,.1);color:var(--green);border:1px solid rgba(106,171,118,.25)}
+.badge-active .bdot{box-shadow:0 0 5px currentColor}
+.badge-core{background:rgba(201,168,76,.1);color:var(--g);border:1px solid rgba(201,168,76,.25)}
+.badge-core .bdot{box-shadow:0 0 5px currentColor}
+.badge-int{background:rgba(201,168,76,.06);color:var(--txt3);border:1px solid var(--line2)}
+
+@media(max-width:768px){.wrap{padding:16px 16px 50px}.hero{flex-direction:column;align-items:flex-start}.search-box{width:100%}.ceo-banner{flex-direction:column;align-items:flex-start}.proj-grid{grid-template-columns:1fr}}
 </style>
 <link rel="stylesheet" href="bad360-ds.css">
+<script src="bad360-sdk.js"></script>
 </head>
 <body class="b360-module">
-<header class="topbar"><div class="topbar-l"><div class="logo">B360</div><div class="brand">BAD<span>360</span>.ai</div></div><div class="topbar-mid">Hospitality AI Platform · Suite Overview · Cagliari</div><div class="topbar-r"><span class="pill"><span class="dot"></span>25 moduli in suite</span><a href="BAD360.html" class="tbtn" title="Dashboard operativa">⚙</a><button class="tbtn" id="tbtn" onclick="toggleTheme()" title="Cambia tema">☾</button></div></header>
+<header class="b360-topbar" id="b360-topbar">
+  <div class="b360-tb-l">
+    <a href="hub.html" class="b360-tb-brand" tabindex="-1">
+      <div class="b360-tb-logo">B360</div>
+      <span class="b360-tb-name">BAD<strong>360</strong>.ai</span>
+    </a>
+    <span class="b360-tb-sep"></span>
+    <span class="b360-tb-module" id="b360-page-label">Suite</span>
+  </div>
+  <div class="b360-tb-r">
+    <span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.1 · 25 moduli</span>
+    <button class="b360-tb-theme" id="b360-theme-btn" title="Tema">☽</button>
+  </div>
+</header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"☽":"☀";b.addEventListener("click",function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"☽":"☀";try{localStorage.setItem("bad360_theme",nt)}catch(e){}});}});})()</script>
+
 <main class="wrap">
-<div class="ceo-banner"><div class="ceo-banner-icon">⚡</div><div class="ceo-banner-body"><div class="ceo-banner-tag">Hospitality Intelligence Platform</div><div class="ceo-banner-title">BAD360.ai — Suite Completa</div><div class="ceo-banner-sub">Piattaforma integrata per la gestione alberghiera e della ristorazione. Clicca sui moduli per accedere alle dashboard operative. I moduli "Integrato" si aprono nella dashboard unificata BAD360.</div></div><div class="ceo-banner-badge">v4.0 · Q2 2026</div></div>
-<section class="hero"><div><div class="hero-date" id="hdate"></div><div class="hero-title">Suite operativa <em>BAD360.ai</em></div><div class="hero-sub">F&B, Rooms Division, HACCP, Supply Chain, Revenue, HR e Analytics — tutto in un unico ecosistema AI-powered, organizzato per reparto.</div></div><div class="hero-search"><input class="search-box" type="text" placeholder="Cerca modulo, funzione…" id="searchInput" oninput="filterCards()"><a href="BAD360.html" class="btn-new">⚙ Dashboard</a></div></section>
-<div class="stats-row"><div class="stat" style="--stat-color:var(--blue)"><div class="stat-label">Moduli Standalone</div><div class="stat-val">17</div><div class="stat-sub">Dashboard dedicate con accesso diretto</div></div><div class="stat" style="--stat-color:var(--purple)"><div class="stat-label">Moduli Integrati</div><div class="stat-val">8</div><div class="stat-sub">Dentro la dashboard unificata BAD360</div></div><div class="stat" style="--stat-color:var(--green)"><div class="stat-label">Reparti Coperti</div><div class="stat-val">7</div><div class="stat-sub">F&B · Rooms · Safety · Supply · Ops · Analytics · Hub</div></div><div class="stat" style="--stat-color:var(--gold)"><div class="stat-label">Aggiornato</div><div class="stat-val" style="font-size:18px;padding-top:4px" id="statdate"></div><div class="stat-live">In tempo reale</div></div></div>
+<div class="ceo-banner">
+  <div class="ceo-banner-icon">⚡</div>
+  <div class="ceo-banner-body">
+    <div class="ceo-banner-tag">Hospitality Intelligence Platform</div>
+    <div class="ceo-banner-title">BAD360.ai — Suite Completa</div>
+    <div class="ceo-banner-sub">Piattaforma integrata per la gestione alberghiera e della ristorazione. Clicca sui moduli per accedere alle dashboard operative. I moduli vengono aggiornati progressivamente con dashboard dedicate.</div>
+  </div>
+  <div class="ceo-banner-badge">v4.1 · Q2 2026</div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="hero-date" id="hdate"></div>
+    <div class="hero-title">Suite operativa <em>BAD360.ai</em></div>
+    <div class="hero-sub">F&B, Rooms Division, HACCP, Supply Chain, Revenue, HR e Analytics — tutto in un unico ecosistema AI-powered, organizzato per reparto.</div>
+  </div>
+  <input class="search-box" type="text" placeholder="Cerca modulo, funzione…" id="searchInput" oninput="filterCards()">
+</section>
+
+<div class="stats-row">
+  <div class="stat" style="--stat-color:var(--g)"><div class="stat-label">Moduli Standalone</div><div class="stat-val">17</div><div class="stat-sub">Dashboard dedicate con accesso diretto</div></div>
+  <div class="stat" style="--stat-color:var(--g)"><div class="stat-label">Moduli Integrati</div><div class="stat-val">8</div><div class="stat-sub">Dentro la dashboard unificata BAD360</div></div>
+  <div class="stat" style="--stat-color:var(--green)"><div class="stat-label">Reparti Coperti</div><div class="stat-val">7</div><div class="stat-sub">F&B · Rooms · Safety · Supply · Ops · Analytics · Hub</div></div>
+  <div class="stat" style="--stat-color:var(--g)"><div class="stat-label">Aggiornato</div><div class="stat-val" style="font-size:18px;padding-top:4px" id="statdate"></div><div class="stat-live">In tempo reale</div></div>
+</div>
 
 <!-- F&B -->
-<section class="sec" id="sec-fb"><div class="sec-hdr"><div class="sec-title">🍸 F&B & Bar</div><div class="sec-sub">Beverage management, hotellerie, vini, menu digitale, food waste e barman marketplace</div></div><div class="sec-divider"></div>
-<div class="subsec"><span>⚡ Dashboard dedicate</span><span class="subsec-cnt">3 moduli</span></div>
-<div class="proj-grid">
-<a class="proj" href="bevmanager.html" data-name="bevmanager beverage manager cocktail drink magazzino bcg food cost ricette menu digitale" style="--proj-color:var(--blue)"><div class="proj-top"><div class="proj-icon" style="background:var(--blue-bg);border:1px solid rgba(79,142,247,.25);color:var(--blue)">🍸</div><span class="app-badge badge-core"><span class="bdot"></span>Core</span></div><div class="proj-name">Beverage Manager</div><div class="proj-ctx">F&B SUITE · DRINK · MAGAZZINO · FOOD COST · AI</div><div class="proj-desc">Suite completa: gestione drink, magazzino, matrice BCG, analisi food cost, P&L, recipe lab, AI bartender, forecast e menu digitale con QR code.</div><div class="proj-stack"><span class="tech">Drink DB</span><span class="tech">BCG</span><span class="tech">Food Cost</span><span class="tech">AI Bartender</span><span class="tech">Menu QR</span></div><div class="proj-foot"><span class="proj-meta">bevmanager.html</span><span class="proj-arr">→</span></div></a>
-<a class="proj" href="hotellerie.html" data-name="hotellerie fb ristorazione alberghiera cucina breakfast room service banqueting" style="--proj-color:var(--green)"><div class="proj-top"><div class="proj-icon" style="background:var(--green-bg);border:1px solid rgba(44,192,138,.25);color:var(--green)">🌿</div><span class="app-badge badge-core"><span class="bdot"></span>Core</span></div><div class="proj-name">F&B Hotellerie</div><div class="proj-ctx">RISTORAZIONE ALBERGHIERA · KDS · BANQUETING</div><div class="proj-desc">Gestione completa ristorazione alberghiera: breakfast, ristorante, room service, banqueting, kitchen display, HACCP integrato.</div><div class="proj-stack"><span class="tech">Breakfast</span><span class="tech">Room Service</span><span class="tech">Banqueting</span><span class="tech">KDS</span></div><div class="proj-foot"><span class="proj-meta">hotellerie.html</span><span class="proj-arr">→</span></div></a>
-<a class="proj" href="barman.html" data-name="barman marketplace bartender eventi cocktail catering prenotazione" style="--proj-color:var(--gold)"><div class="proj-top"><div class="proj-icon" style="background:var(--gold-bg);border:1px solid rgba(245,166,35,.25);color:var(--gold)">🍹</div><span class="app-badge badge-active"><span class="bdot"></span>Attivo</span></div><div class="proj-name">Barman Platform</div><div class="proj-ctx">MARKETPLACE B2C · BOOKING · CHAT · PAGAMENTI</div><div class="proj-desc">Marketplace per barman professionisti: ricerca, prenotazione, chat, recensioni, area riservata e gestione eventi.</div><div class="proj-stack"><span class="tech">Marketplace</span><span class="tech">Booking</span><span class="tech">Chat</span><span class="tech">Payments</span></div><div class="proj-foot"><span class="proj-meta">barman.html</span><span class="proj-arr">→</span></div></a>
-</div></section>
+<section class="sec" id="sec-fb">
+  <div class="sec-hdr"><div class="sec-title">🍸 F&B & Bar</div><div class="sec-sub">Beverage management, hotellerie, vini, menu digitale, food waste e barman marketplace</div></div>
+  <div class="sec-divider"></div>
+  <div class="subsec"><span>⚡ Dashboard dedicate</span><span class="subsec-cnt">3 moduli</span></div>
+  <div class="proj-grid">
+    <a class="proj" href="bevmanager.html" data-name="bevmanager beverage manager cocktail drink magazzino bcg food cost ricette menu digitale" style="--proj-color:var(--blue)">
+      <div class="proj-top"><div class="proj-icon" style="background:var(--blue-bg);border:1px solid rgba(79,142,247,.25);color:var(--blue)">🍸</div><span class="app-badge badge-core"><span class="bdot"></span>Core</span></div>
+      <div class="proj-name">Beverage Manager</div><div class="proj-ctx">F&B SUITE · DRINK · MAGAZZINO · FOOD COST · AI</div>
+      <div class="proj-desc">Suite completa: gestione drink, magazzino, matrice BCG, analisi food cost, P&L, recipe lab, AI bartender, forecast e menu digitale con QR code.</div>
+      <div class="proj-stack"><span class="tech">Drink DB</span><span class="tech">BCG</span><span class="tech">Food Cost</span><span class="tech">AI Bartender</span><span class="tech">Menu QR</span></div>
+      <div class="proj-foot"><span class="proj-meta">bevmanager.html</span><span class="proj-arr">→</span></div>
+    </a>
+    <a class="proj" href="hotellerie.html" data-name="hotellerie fb ristorazione alberghiera cucina breakfast room service banqueting" style="--proj-color:var(--green)">
+      <div class="proj-top"><div class="proj-icon" style="background:rgba(106,171,118,.1);border:1px solid rgba(106,171,118,.25);color:var(--green)">🌿</div><span class="app-badge badge-core"><span class="bdot"></span>Core</span></div>
+      <div class="proj-name">F&B Hotellerie</div><div class="proj-ctx">RISTORAZIONE ALBERGHIERA · KDS · BANQUETING</div>
+      <div class="proj-desc">Gestione completa ristorazione alberghiera: breakfast, ristorante, room service, banqueting, kitchen display, HACCP integrato.</div>
+      <div class="proj-stack"><span class="tech">Breakfast</span><span class="tech">Room Service</span><span class="tech">Banqueting</span><span class="tech">KDS</span></div>
+      <div class="proj-foot"><span class="proj-meta">hotellerie.html</span><span class="proj-arr">→</span></div>
+    </a>
+    <a class="proj" href="barman.html" data-name="barman marketplace bartender eventi cocktail catering prenotazione" style="--proj-color:var(--g)">
+      <div class="proj-top"><div class="proj-icon" style="background:var(--gold-bg);border:1px solid rgba(201,168,76,.25);color:var(--g)">🍹</div><span class="app-badge badge-active"><span class="bdot"></span>Attivo</span></div>
+      <div class="proj-name">Barman Platform</div><div class="proj-ctx">MARKETPLACE B2C · BOOKING · CHAT · PAGAMENTI</div>
+      <div class="proj-desc">Marketplace per barman professionisti: ricerca, prenotazione, chat, recensioni, area riservata e gestione eventi.</div>
+      <div class="proj-stack"><span class="tech">Marketplace</span><span class="tech">Booking</span><span class="tech">Chat</span><span class="tech">Payments</span></div>
+      <div class="proj-foot"><span class="proj-meta">barman.html</span><span class="proj-arr">→</span></div>
+    </a>
+  </div>
+</section>
 
 <!-- ROOMS -->
-<section class="sec" id="sec-rooms"><div class="sec-hdr"><div class="sec-title">🏨 Rooms Division</div><div class="sec-sub">Front office, housekeeping e revenue management</div></div><div class="sec-divider"></div>
-<div class="subsec"><span>⚡ Dashboard dedicata</span><span class="subsec-cnt">1 modulo</span></div>
-<div class="proj-grid">
-<a class="proj" href="housekeeping.html" data-name="housekeeping pulizie camere governance piani ispezioni" style="--proj-color:var(--teal)"><div class="proj-top"><div class="proj-icon" style="background:var(--teal-bg);border:1px solid rgba(34,211,238,.25);color:var(--teal)">🛏️</div><span class="app-badge badge-core"><span class="bdot"></span>Core</span></div><div class="proj-name">Housekeeping</div><div class="proj-ctx">GOVERNANCE · ROOM STATUS · ISPEZIONI · TASK</div><div class="proj-desc">Gestione camere, piani di pulizia, ispezioni qualità, assegnazione task e reporting per floor manager.</div><div class="proj-stack"><span class="tech">Room Status</span><span class="tech">Ispezioni</span><span class="tech">Task Mgmt</span><span class="tech">Floor Plan</span></div><div class="proj-foot"><span class="proj-meta">housekeeping.html</span><span class="proj-arr">→</span></div></a>
-</div>
-<div class="subsec"><span>🔗 Integrati in BAD360</span><span class="subsec-cnt">2 moduli</span></div>
-<div class="proj-grid">
-<a class="proj" href="BAD360.html#frontoffice" onclick="sessionStorage.setItem('bad360_tab','frontoffice')" data-name="front office reception check-in check-out camere reclami" style="--proj-color:var(--purple)"><div class="proj-top"><div class="proj-icon" style="background:var(--purple-bg);border:1px solid rgba(167,139,250,.25);color:var(--purple)">🏨</div><span class="app-badge badge-int"><span class="bdot"></span>Integrato</span></div><div class="proj-name">Front Office</div><div class="proj-ctx">RECEPTION · CHECK-IN/OUT · RECLAMI</div><div class="proj-desc">Room status, check-in/out, guest relations, gestione reclami e dashboard operativa reception.</div><div class="proj-foot"><span class="proj-meta">BAD360.html → frontoffice</span><span class="proj-arr">→</span></div></a>
-<a class="proj" href="BAD360.html#revenue" onclick="sessionStorage.setItem('bad360_tab','revenue')" data-name="revenue management adr revpar occupancy pricing forecast" style="--proj-color:var(--orange)"><div class="proj-top"><div class="proj-icon" style="background:var(--orange-bg);border:1px solid rgba(251,146,60,.25);color:var(--orange)">📈</div><span class="app-badge badge-int"><span class="bdot"></span>Integrato</span></div><div class="proj-name">Revenue Intelligence</div><div class="proj-ctx">ADR · REVPAR · OCCUPANCY · AI FORECAST</div><div class="proj-desc">ADR, RevPAR, occupancy, forecast AI, pricing dinamico, benchmarking e analisi competitiva.</div><div class="proj-foot"><span class="proj-meta">BAD360.html → revenue</span><span class="proj-arr">→</span></div></a>
-</div></section>
+<section class="sec" id="sec-rooms">
+  <div class="sec-hdr"><div class="sec-title">🏨 Rooms Division</div><div class="sec-sub">Front office, housekeeping e revenue management</div></div>
+  <div class="sec-divider"></div>
+  <div class="subsec"><span>⚡ Dashboard dedicata</span><span class="subsec-cnt">1 modulo</span></div>
+  <div class="proj-grid">
+    <a class="proj" href="housekeeping.html" data-name="housekeeping pulizie camere governance piani ispezioni" style="--proj-color:var(--teal)">
+      <div class="proj-top"><div class="proj-icon" style="background:var(--teal-bg);border:1px solid rgba(34,211,238,.25);color:var(--teal)">🛏️</div><span class="app-badge badge-core"><span class="bdot"></span>Core</span></div>
+      <div class="proj-name">Housekeeping</div><div class="proj-ctx">GOVERNANCE · ROOM STATUS · ISPEZIONI · TASK</div>
+      <div class="proj-desc">Gestione camere, piani di pulizia, ispezioni qualità, assegnazione task e reporting per floor manager.</div>
+      <div class="proj-stack"><span class="tech">Room Status</span><span class="tech">Ispezioni</span><span class="tech">Task Mgmt</span><span class="tech">Floor Plan</span></div>
+      <div class="proj-foot"><span class="proj-meta">housekeeping.html</span><span class="proj-arr">→</span></div>
+    </a>
+  </div>
+  <div class="subsec"><span>🔗 Integrati in BAD360</span><span class="subsec-cnt">2 moduli</span></div>
+  <div class="proj-grid">
+    <a class="proj" href="BAD360.html#frontoffice" onclick="sessionStorage.setItem('bad360_tab','frontoffice')" data-name="front office reception check-in check-out camere reclami" style="--proj-color:var(--g)">
+      <div class="proj-top"><div class="proj-icon" style="background:var(--gold-bg);border:1px solid rgba(201,168,76,.25);color:var(--g)">🏨</div><span class="app-badge badge-int"><span class="bdot"></span>Integrato</span></div>
+      <div class="proj-name">Front Office</div><div class="proj-ctx">RECEPTION · CHECK-IN/OUT · RECLAMI</div>
+      <div class="proj-desc">Room status, check-in/out, guest relations, gestione reclami e dashboard operativa reception.</div>
+      <div class="proj-foot"><span class="proj-meta">BAD360.html → frontoffice</span><span class="proj-arr">→</span></div>
+    </a>
+    <a class="proj" href="BAD360.html#revenue" onclick="sessionStorage.setItem('bad360_tab','revenue')" data-name="revenue management adr revpar occupancy pricing forecast" style="--proj-color:var(--orange)">
+      <div class="proj-top"><div class="proj-icon" style="background:rgba(212,128,58,.1);border:1px solid rgba(212,128,58,.25);color:var(--orange)">📈</div><span class="app-badge badge-int"><span class="bdot"></span>Integrato</span></div>
+      <div class="proj-name">Revenue Intelligence</div><div class="proj-ctx">ADR · REVPAR · OCCUPANCY · AI FORECAST</div>
+      <div class="proj-desc">ADR, RevPAR, occupancy, forecast AI, pricing dinamico, benchmarking e analisi competitiva.</div>
+      <div class="proj-foot"><span class="proj-meta">BAD360.html → revenue</span><span class="proj-arr">→</span></div>
+    </a>
+  </div>
+</section>
 
 <!-- SAFETY -->
-<section class="sec" id="sec-safety"><div class="sec-hdr"><div class="sec-title">🛡️ Safety & Quality</div><div class="sec-sub">HACCP, non conformità, tracciabilità, shelf life, ISO 22000 e IoT monitoring</div></div><div class="sec-divider"></div>
-<div class="subsec"><span>⚡ Dashboard dedicate</span><span class="subsec-cnt">4 moduli</span></div>
-<div class="proj-grid">
-<a class="proj" href="haccp.html" data-name="haccp audit sicurezza alimentare ccp monitoraggio" style="--proj-color:var(--red)"><div class="proj-top"><div class="proj-icon" style="background:var(--red-bg);border:1px solid rgba(239,68,68,.25);color:var(--red)">🛡️</div><span class="app-badge badge-core"><span class="bdot"></span>Core</span></div><div class="proj-name">HACCP Audit</div><div class="proj-ctx">CCP · AUDIT · CHECKLIST · AZIONI CORRETTIVE</div><div class="proj-desc">Sistema completo HACCP: audit, CCP monitoring, registrazioni, checklist e azioni correttive.</div><div class="proj-stack"><span class="tech">CCP</span><span class="tech">Audit</span><span class="tech">Reg. CE 852</span><span class="tech">Checklist</span></div><div class="proj-foot"><span class="proj-meta">haccp.html</span><span class="proj-arr">→</span></div></a>
-<a class="proj" href="nc.html" data-name="non conformità nc gestione segnalazioni azioni correttive" style="--proj-color:var(--orange)"><div class="proj-top"><div class="proj-icon" style="background:var(--orange-bg);border:1px solid rgba(251,146,60,.25);color:var(--orange)">⚠️</div><span class="app-badge badge-active"><span class="bdot"></span>Attivo</span></div><div class="proj-name">Non Conformità</div><div class="proj-ctx">NC · CLASSIFICAZIONE · AZIONI CORRETTIVE</div><div class="proj-desc">Registrazione, classificazione, azioni correttive, follow-up e analisi trend.</div><div class="proj-foot"><span class="proj-meta">nc.html</span><span class="proj-arr">→</span></div></a>
-<a class="proj" href="tracciabilita.html" data-name="tracciabilità iso 22005 lotti filiera rintracciabilità" style="--proj-color:var(--blue)"><div class="proj-top"><div class="proj-icon" style="background:var(--blue-bg);border:1px solid rgba(79,142,247,.25);color:var(--blue)">🔍</div><span class="app-badge badge-active"><span class="bdot"></span>Attivo</span></div><div class="proj-name">Tracciabilità ISO 22005</div><div class="proj-ctx">LOTTI · ONE-STEP-BACK/FORWARD · MOCK RECALL</div><div class="proj-desc">Tracciabilità lotti, one-step-back/one-step-forward, bilancio di massa e mock recall.</div><div class="proj-foot"><span class="proj-meta">tracciabilita.html</span><span class="proj-arr">→</span></div></a>
-<a class="proj" href="shelflife.html" data-name="shelf life fefo scadenze magazzino prodotti" style="--proj-color:var(--green)"><div class="proj-top"><div class="proj-icon" style="background:var(--green-bg);border:1px solid rgba(44,192,138,.25);color:var(--green)">📦</div><span class="app-badge badge-active"><span class="bdot"></span>Attivo</span></div><div class="proj-name">Shelf Life FEFO</div><div class="proj-ctx">SCADENZE · ALERT · FEFO · MAGAZZINO</div><div class="proj-desc">Gestione scadenze con logica FEFO, alert automatici e dashboard scadenze critiche.</div><div class="proj-foot"><span class="proj-meta">shelflife.html</span><span class="proj-arr">→</span></div></a>
-</div>
-<div class="subsec"><span>🔗 Integrati in BAD360</span><span class="subsec-cnt">2 moduli</span></div>
-<div class="proj-grid">
-<a class="proj" href="BAD360.html#haccp2" onclick="sessionStorage.setItem('bad360_tab','haccp2')" data-name="iso 22000 fssc certificazione" style="--proj-color:var(--gold)"><div class="proj-top"><div class="proj-icon" style="background:var(--gold-bg);border:1px solid rgba(245,166,35,.25);color:var(--gold)">📋</div><span class="app-badge badge-int"><span class="bdot"></span>Integrato</span></div><div class="proj-name">ISO 22000 / FSSC</div><div class="proj-ctx">12 PASSI CODEX · 7 PRINCIPI · CCP MONITOR</div><div class="proj-desc">Piano HACCP completo ISO 22000:2018 / FSSC 22000 v6 con percorso certificazione.</div><div class="proj-foot"><span class="proj-meta">BAD360.html → haccp2</span><span class="proj-arr">→</span></div></a>
-<a class="proj" href="BAD360.html#iotmonitor" onclick="sessionStorage.setItem('bad360_tab','iotmonitor')" data-name="iot sensori temperatura monitoraggio" style="--proj-color:var(--teal)"><div class="proj-top"><div class="proj-icon" style="background:var(--teal-bg);border:1px solid rgba(34,211,238,.25);color:var(--teal)">🌡️</div><span class="app-badge badge-int"><span class="bdot"></span>Integrato</span></div><div class="proj-name">HACCP IoT Monitor</div><div class="proj-ctx">SENSORI · REAL-TIME · ALERT · REG. CE 852</div><div class="proj-desc">Sensori temperatura real-time, alert automatici e conformità Reg. CE 852/2004.</div><div class="proj-foot"><span class="proj-meta">BAD360.html → iotmonitor</span><span class="proj-arr">→</span></div></a>
-</div></section>
+<section class="sec" id="sec-safety">
+  <div class="sec-hdr"><div class="sec-title">🛡️ Safety & Quality</div><div class="sec-sub">HACCP, non conformità, tracciabilità, shelf life, ISO 22000 e IoT monitoring</div></div>
+  <div class="sec-divider"></div>
+  <div class="subsec"><span>⚡ Dashboard dedicate</span><span class="subsec-cnt">4 moduli</span></div>
+  <div class="proj-grid">
+    <a class="proj" href="haccp.html" data-name="haccp audit sicurezza alimentare ccp monitoraggio" style="--proj-color:var(--red)">
+      <div class="proj-top"><div class="proj-icon" style="background:rgba(201,74,74,.1);border:1px solid rgba(201,74,74,.25);color:var(--red)">🛡️</div><span class="app-badge badge-core"><span class="bdot"></span>Core</span></div>
+      <div class="proj-name">HACCP Audit</div><div class="proj-ctx">CCP · AUDIT · CHECKLIST · AZIONI CORRETTIVE</div>
+      <div class="proj-desc">Sistema completo HACCP: audit, CCP monitoring, registrazioni, checklist e azioni correttive.</div>
+      <div class="proj-stack"><span class="tech">CCP</span><span class="tech">Audit</span><span class="tech">Reg. CE 852</span><span class="tech">Checklist</span></div>
+      <div class="proj-foot"><span class="proj-meta">haccp.html</span><span class="proj-arr">→</span></div>
+    </a>
+    <a class="proj" href="nc.html" data-name="non conformità nc gestione segnalazioni azioni correttive" style="--proj-color:var(--orange)">
+      <div class="proj-top"><div class="proj-icon" style="background:rgba(212,128,58,.1);border:1px solid rgba(212,128,58,.25);color:var(--orange)">⚠️</div><span class="app-badge badge-active"><span class="bdot"></span>Attivo</span></div>
+      <div class="proj-name">Non Conformità</div><div class="proj-ctx">NC · CLASSIFICAZIONE · AZIONI CORRETTIVE</div>
+      <div class="proj-desc">Registrazione, classificazione, azioni correttive, follow-up e analisi trend.</div>
+      <div class="proj-foot"><span class="proj-meta">nc.html</span><span class="proj-arr">→</span></div>
+    </a>
+    <a class="proj" href="tracciabilita.html" data-name="tracciabilità iso 22005 lotti filiera rintracciabilità" style="--proj-color:var(--blue)">
+      <div class="proj-top"><div class="proj-icon" style="background:var(--blue-bg);border:1px solid rgba(79,142,247,.25);color:var(--blue)">🔍</div><span class="app-badge badge-active"><span class="bdot"></span>Attivo</span></div>
+      <div class="proj-name">Tracciabilità ISO 22005</div><div class="proj-ctx">LOTTI · ONE-STEP-BACK/FORWARD · MOCK RECALL</div>
+      <div class="proj-desc">Tracciabilità lotti, one-step-back/one-step-forward, bilancio di massa e mock recall.</div>
+      <div class="proj-foot"><span class="proj-meta">tracciabilita.html</span><span class="proj-arr">→</span></div>
+    </a>
+    <a class="proj" href="shelflife.html" data-name="shelf life fefo scadenze magazzino prodotti" style="--proj-color:var(--green)">
+      <div class="proj-top"><div class="proj-icon" style="background:rgba(106,171,118,.1);border:1px solid rgba(106,171,118,.25);color:var(--green)">📦</div><span class="app-badge badge-active"><span class="bdot"></span>Attivo</span></div>
+      <div class="proj-name">Shelf Life FEFO</div><div class="proj-ctx">SCADENZE · ALERT · FEFO · MAGAZZINO</div>
+      <div class="proj-desc">Gestione scadenze con logica FEFO, alert automatici e dashboard scadenze critiche.</div>
+      <div class="proj-foot"><span class="proj-meta">shelflife.html</span><span class="proj-arr">→</span></div>
+    </a>
+  </div>
+  <div class="subsec"><span>🔗 Integrati in BAD360</span><span class="subsec-cnt">2 moduli</span></div>
+  <div class="proj-grid">
+    <a class="proj" href="BAD360.html#haccp2" onclick="sessionStorage.setItem('bad360_tab','haccp2')" data-name="iso 22000 fssc certificazione" style="--proj-color:var(--g)">
+      <div class="proj-top"><div class="proj-icon" style="background:var(--gold-bg);border:1px solid rgba(201,168,76,.25);color:var(--g)">📋</div><span class="app-badge badge-int"><span class="bdot"></span>Integrato</span></div>
+      <div class="proj-name">ISO 22000 / FSSC</div><div class="proj-ctx">12 PASSI CODEX · 7 PRINCIPI · CCP MONITOR</div>
+      <div class="proj-desc">Piano HACCP completo ISO 22000:2018 / FSSC 22000 v6 con percorso certificazione.</div>
+      <div class="proj-foot"><span class="proj-meta">BAD360.html → haccp2</span><span class="proj-arr">→</span></div>
+    </a>
+    <a class="proj" href="BAD360.html#iotmonitor" onclick="sessionStorage.setItem('bad360_tab','iotmonitor')" data-name="iot sensori temperatura monitoraggio" style="--proj-color:var(--teal)">
+      <div class="proj-top"><div class="proj-icon" style="background:var(--teal-bg);border:1px solid rgba(34,211,238,.25);color:var(--teal)">🌡️</div><span class="app-badge badge-int"><span class="bdot"></span>Integrato</span></div>
+      <div class="proj-name">HACCP IoT Monitor</div><div class="proj-ctx">SENSORI · REAL-TIME · ALERT · REG. CE 852</div>
+      <div class="proj-desc">Sensori temperatura real-time, alert automatici e conformità Reg. CE 852/2004.</div>
+      <div class="proj-foot"><span class="proj-meta">BAD360.html → iotmonitor</span><span class="proj-arr">→</span></div>
+    </a>
+  </div>
+</section>
 
 <!-- SUPPLY CHAIN -->
-<section class="sec" id="sec-supply"><div class="sec-hdr"><div class="sec-title">⭐ Supply Chain</div><div class="sec-sub">SCM, demand forecast, fornitori e POS sync</div></div><div class="sec-divider"></div>
-<div class="subsec"><span>⚡ Dashboard dedicata</span><span class="subsec-cnt">1 modulo</span></div>
-<div class="proj-grid">
-<a class="proj" href="scmpro.html" data-name="scm supply chain management ordini acquisti" style="--proj-color:var(--purple)"><div class="proj-top"><div class="proj-icon" style="background:var(--purple-bg);border:1px solid rgba(167,139,250,.25);color:var(--purple)">⭐</div><span class="app-badge badge-core"><span class="bdot"></span>Core</span></div><div class="proj-name">SCM Pro</div><div class="proj-ctx">ORDINI · ACQUISTI · MAGAZZINO · VENDOR RATING</div><div class="proj-desc">Supply chain management avanzato: ordini, acquisti, magazzino, fornitori e ottimizzazione costi.</div><div class="proj-stack"><span class="tech">Ordini</span><span class="tech">Magazzino</span><span class="tech">Vendor Rating</span><span class="tech">Analytics</span></div><div class="proj-foot"><span class="proj-meta">scmpro.html</span><span class="proj-arr">→</span></div></a>
-</div>
-<div class="subsec"><span>🔗 Integrati in BAD360</span><span class="subsec-cnt">3 moduli</span></div>
-<div class="proj-grid">
-<a class="proj" href="BAD360.html#demand" onclick="sessionStorage.setItem('bad360_tab','demand')" data-name="demand forecast previsione domanda" style="--proj-color:var(--pink)"><div class="proj-top"><div class="proj-icon" style="background:var(--pink-bg);border:1px solid rgba(244,114,182,.25);color:var(--pink)">🔮</div><span class="app-badge badge-int"><span class="bdot"></span>Integrato</span></div><div class="proj-name">Demand Forecast AI</div><div class="proj-ctx">PREVISIONE · STAGIONALITÀ · ORDINI · JIT</div><div class="proj-desc">Previsione domanda con AI, ottimizzazione ordini e riduzione sprechi.</div><div class="proj-foot"><span class="proj-meta">BAD360.html → demand</span><span class="proj-arr">→</span></div></a>
-<a class="proj" href="BAD360.html#supplier" onclick="sessionStorage.setItem('bad360_tab','supplier')" data-name="fornitori vendor rating sla" style="--proj-color:var(--green)"><div class="proj-top"><div class="proj-icon" style="background:var(--green-bg);border:1px solid rgba(44,192,138,.25);color:var(--green)">🤝</div><span class="app-badge badge-int"><span class="bdot"></span>Integrato</span></div><div class="proj-name">Gestione Fornitori</div><div class="proj-ctx">ANAGRAFICA · SLA · VENDOR RATING</div><div class="proj-desc">Anagrafica fornitori, SLA, vendor rating e partnership strategica.</div><div class="proj-foot"><span class="proj-meta">BAD360.html → supplier</span><span class="proj-arr">→</span></div></a>
-<a class="proj" href="BAD360.html#possync" onclick="sessionStorage.setItem('bad360_tab','possync')" data-name="pos sync cassa transazioni" style="--proj-color:var(--orange)"><div class="proj-top"><div class="proj-icon" style="background:var(--orange-bg);border:1px solid rgba(251,146,60,.25);color:var(--orange)">💳</div><span class="app-badge badge-int"><span class="bdot"></span>Integrato</span></div><div class="proj-name">POS Sync</div><div class="proj-ctx">TRANSAZIONI · RICONCILIAZIONE · MULTI-VENUE</div><div class="proj-desc">Sincronizzazione POS, transazioni real-time e riconciliazione fiscale.</div><div class="proj-foot"><span class="proj-meta">BAD360.html → possync</span><span class="proj-arr">→</span></div></a>
-</div></section>
+<section class="sec" id="sec-supply">
+  <div class="sec-hdr"><div class="sec-title">⭐ Supply Chain</div><div class="sec-sub">SCM, demand forecast, fornitori e POS sync</div></div>
+  <div class="sec-divider"></div>
+  <div class="subsec"><span>⚡ Dashboard dedicata</span><span class="subsec-cnt">1 modulo</span></div>
+  <div class="proj-grid">
+    <a class="proj" href="scmpro.html" data-name="scm supply chain management ordini acquisti" style="--proj-color:var(--g)">
+      <div class="proj-top"><div class="proj-icon" style="background:var(--gold-bg);border:1px solid rgba(201,168,76,.25);color:var(--g)">⭐</div><span class="app-badge badge-core"><span class="bdot"></span>Core</span></div>
+      <div class="proj-name">SCM Pro</div><div class="proj-ctx">ORDINI · ACQUISTI · MAGAZZINO · VENDOR RATING</div>
+      <div class="proj-desc">Supply chain management avanzato: ordini, acquisti, magazzino, fornitori e ottimizzazione costi.</div>
+      <div class="proj-stack"><span class="tech">Ordini</span><span class="tech">Magazzino</span><span class="tech">Vendor Rating</span><span class="tech">Analytics</span></div>
+      <div class="proj-foot"><span class="proj-meta">scmpro.html</span><span class="proj-arr">→</span></div>
+    </a>
+  </div>
+  <div class="subsec"><span>🔗 Integrati in BAD360</span><span class="subsec-cnt">3 moduli</span></div>
+  <div class="proj-grid">
+    <a class="proj" href="BAD360.html#demand" onclick="sessionStorage.setItem('bad360_tab','demand')" data-name="demand forecast previsione domanda" style="--proj-color:var(--pink)">
+      <div class="proj-top"><div class="proj-icon" style="background:var(--pink-bg);border:1px solid rgba(244,114,182,.25);color:var(--pink)">🔮</div><span class="app-badge badge-int"><span class="bdot"></span>Integrato</span></div>
+      <div class="proj-name">Demand Forecast AI</div><div class="proj-ctx">PREVISIONE · STAGIONALITÀ · ORDINI · JIT</div>
+      <div class="proj-desc">Previsione domanda con AI, ottimizzazione ordini e riduzione sprechi.</div>
+      <div class="proj-foot"><span class="proj-meta">BAD360.html → demand</span><span class="proj-arr">→</span></div>
+    </a>
+    <a class="proj" href="BAD360.html#supplier" onclick="sessionStorage.setItem('bad360_tab','supplier')" data-name="fornitori vendor rating sla" style="--proj-color:var(--green)">
+      <div class="proj-top"><div class="proj-icon" style="background:rgba(106,171,118,.1);border:1px solid rgba(106,171,118,.25);color:var(--green)">🤝</div><span class="app-badge badge-int"><span class="bdot"></span>Integrato</span></div>
+      <div class="proj-name">Gestione Fornitori</div><div class="proj-ctx">ANAGRAFICA · SLA · VENDOR RATING</div>
+      <div class="proj-desc">Anagrafica fornitori, SLA, vendor rating e partnership strategica.</div>
+      <div class="proj-foot"><span class="proj-meta">BAD360.html → supplier</span><span class="proj-arr">→</span></div>
+    </a>
+    <a class="proj" href="BAD360.html#possync" onclick="sessionStorage.setItem('bad360_tab','possync')" data-name="pos sync cassa transazioni" style="--proj-color:var(--orange)">
+      <div class="proj-top"><div class="proj-icon" style="background:rgba(212,128,58,.1);border:1px solid rgba(212,128,58,.25);color:var(--orange)">💳</div><span class="app-badge badge-int"><span class="bdot"></span>Integrato</span></div>
+      <div class="proj-name">POS Sync</div><div class="proj-ctx">TRANSAZIONI · RICONCILIAZIONE · MULTI-VENUE</div>
+      <div class="proj-desc">Sincronizzazione POS, transazioni real-time e riconciliazione fiscale.</div>
+      <div class="proj-foot"><span class="proj-meta">BAD360.html → possync</span><span class="proj-arr">→</span></div>
+    </a>
+  </div>
+</section>
 
 <!-- OPERATIONS -->
-<section class="sec" id="sec-ops"><div class="sec-hdr"><div class="sec-title">⚙️ Operations</div><div class="sec-sub">Gestione turni, staff, eventi e CRM</div></div><div class="sec-divider"></div>
-<div class="subsec"><span>⚡ Dashboard dedicate</span><span class="subsec-cnt">2 moduli</span></div>
-<div class="proj-grid">
-<a class="proj" href="shiftmanager.html" data-name="shift manager turni personale staff benchmark" style="--proj-color:var(--blue)"><div class="proj-top"><div class="proj-icon" style="background:var(--blue-bg);border:1px solid rgba(79,142,247,.25);color:var(--blue)">⚙️</div><span class="app-badge badge-core"><span class="bdot"></span>Core</span></div><div class="proj-name">Shift Manager</div><div class="proj-ctx">TURNI · STAFF LAB · BENCHMARK · POS · WASTE</div><div class="proj-desc">Gestione turni, staff lab, benchmark, report operativi, POS, waste log e revenue mgmt integrati.</div><div class="proj-stack"><span class="tech">Turni</span><span class="tech">Staff</span><span class="tech">Benchmark</span><span class="tech">POS</span><span class="tech">Revenue</span></div><div class="proj-foot"><span class="proj-meta">shiftmanager.html</span><span class="proj-arr">→</span></div></a>
-<a class="proj" href="events.html" data-name="events crm eventi prenotazioni catering preventivi" style="--proj-color:var(--pink)"><div class="proj-top"><div class="proj-icon" style="background:var(--pink-bg);border:1px solid rgba(244,114,182,.25);color:var(--pink)">🎪</div><span class="app-badge badge-core"><span class="bdot"></span>Core</span></div><div class="proj-name">Events & CRM</div><div class="proj-ctx">PREVENTIVI · CRM · PLANNER · CATERING</div><div class="proj-desc">Gestione eventi, preventivi, CRM clienti, planner e catering management.</div><div class="proj-stack"><span class="tech">Preventivi</span><span class="tech">CRM</span><span class="tech">Planner</span><span class="tech">Catering</span></div><div class="proj-foot"><span class="proj-meta">events.html</span><span class="proj-arr">→</span></div></a>
-</div></section>
+<section class="sec" id="sec-ops">
+  <div class="sec-hdr"><div class="sec-title">⚙️ Operations</div><div class="sec-sub">Gestione turni, staff, eventi e CRM</div></div>
+  <div class="sec-divider"></div>
+  <div class="subsec"><span>⚡ Dashboard dedicate</span><span class="subsec-cnt">2 moduli</span></div>
+  <div class="proj-grid">
+    <a class="proj" href="shiftmanager.html" data-name="shift manager turni personale staff benchmark" style="--proj-color:var(--blue)">
+      <div class="proj-top"><div class="proj-icon" style="background:var(--blue-bg);border:1px solid rgba(79,142,247,.25);color:var(--blue)">⚙️</div><span class="app-badge badge-core"><span class="bdot"></span>Core</span></div>
+      <div class="proj-name">Shift Manager</div><div class="proj-ctx">TURNI · STAFF LAB · BENCHMARK · POS · WASTE</div>
+      <div class="proj-desc">Gestione turni, staff lab, benchmark, report operativi, POS, waste log e revenue mgmt integrati.</div>
+      <div class="proj-stack"><span class="tech">Turni</span><span class="tech">Staff</span><span class="tech">Benchmark</span><span class="tech">POS</span><span class="tech">Revenue</span></div>
+      <div class="proj-foot"><span class="proj-meta">shiftmanager.html</span><span class="proj-arr">→</span></div>
+    </a>
+    <a class="proj" href="events.html" data-name="events crm eventi prenotazioni catering preventivi" style="--proj-color:var(--pink)">
+      <div class="proj-top"><div class="proj-icon" style="background:var(--pink-bg);border:1px solid rgba(244,114,182,.25);color:var(--pink)">🎪</div><span class="app-badge badge-core"><span class="bdot"></span>Core</span></div>
+      <div class="proj-name">Events & CRM</div><div class="proj-ctx">PREVENTIVI · CRM · PLANNER · CATERING</div>
+      <div class="proj-desc">Gestione eventi, preventivi, CRM clienti, planner e catering management.</div>
+      <div class="proj-stack"><span class="tech">Preventivi</span><span class="tech">CRM</span><span class="tech">Planner</span><span class="tech">Catering</span></div>
+      <div class="proj-foot"><span class="proj-meta">events.html</span><span class="proj-arr">→</span></div>
+    </a>
+  </div>
+</section>
 
 <!-- ADVANCED -->
-<section class="sec" id="sec-adv"><div class="sec-hdr"><div class="sec-title">📊 Advanced Tools & Analytics</div><div class="sec-sub">BI dashboard, finanza agevolata, ISO avanzato e procurement</div></div><div class="sec-divider"></div>
-<div class="subsec"><span>🔗 Integrati in BAD360</span><span class="subsec-cnt">4 moduli</span></div>
-<div class="proj-grid">
-<a class="proj" href="BAD360.html#bidashboard" onclick="sessionStorage.setItem('bad360_tab','bidashboard')" data-name="bi dashboard business intelligence kpi" style="--proj-color:var(--blue)"><div class="proj-top"><div class="proj-icon" style="background:var(--blue-bg);border:1px solid rgba(79,142,247,.25);color:var(--blue)">📊</div><span class="app-badge badge-int"><span class="bdot"></span>Integrato</span></div><div class="proj-name">BI Dashboard 360°</div><div class="proj-ctx">KPI · FORECAST · ANOMALIE · POWER BI STYLE</div><div class="proj-desc">KPI in tempo reale, forecast, anomalie e analisi multi-dimensionale.</div><div class="proj-foot"><span class="proj-meta">BAD360.html → bidashboard</span><span class="proj-arr">→</span></div></a>
-<a class="proj" href="BAD360.html#bandi360" onclick="sessionStorage.setItem('bad360_tab','bandi360')" data-name="bandi finanziamenti finanza agevolata" style="--proj-color:var(--gold)"><div class="proj-top"><div class="proj-icon" style="background:var(--gold-bg);border:1px solid rgba(245,166,35,.25);color:var(--gold)">💰</div><span class="app-badge badge-int"><span class="bdot"></span>Integrato</span></div><div class="proj-name">Finanza Agevolata</div><div class="proj-ctx">BANDI · FINANZIAMENTI · AI SEARCH</div><div class="proj-desc">Bandi nazionali e regionali per strutture alberghiere con ricerca AI-powered.</div><div class="proj-foot"><span class="proj-meta">BAD360.html → bandi360</span><span class="proj-arr">→</span></div></a>
-<a class="proj" href="BAD360.html#iso22005adv" onclick="sessionStorage.setItem('bad360_tab','iso22005adv')" data-name="iso 22005 avanzato rintracciabilità" style="--proj-color:var(--teal)"><div class="proj-top"><div class="proj-icon" style="background:var(--teal-bg);border:1px solid rgba(34,211,238,.25);color:var(--teal)">🔬</div><span class="app-badge badge-int"><span class="bdot"></span>Integrato</span></div><div class="proj-name">ISO 22005 Avanzato</div><div class="proj-ctx">UMR · BILANCIO DI MASSA · MOCK RECALL</div><div class="proj-desc">Rintracciabilità di filiera avanzata, UMR, bilancio di massa e mock recall.</div><div class="proj-foot"><span class="proj-meta">BAD360.html → iso22005adv</span><span class="proj-arr">→</span></div></a>
-<a class="proj" href="BAD360.html#procurement" onclick="sessionStorage.setItem('bad360_tab','procurement')" data-name="procurement acquisti due diligence" style="--proj-color:var(--red)"><div class="proj-top"><div class="proj-icon" style="background:var(--red-bg);border:1px solid rgba(239,68,68,.25);color:var(--red)">🎯</div><span class="app-badge badge-int"><span class="bdot"></span>Integrato</span></div><div class="proj-name">Procurement 360°</div><div class="proj-ctx">DUE DILIGENCE · KPI · STRATEGIE · NEGOZIAZIONE</div><div class="proj-desc">Selezione fornitori, due diligence, KPI e strategie di negoziazione.</div><div class="proj-foot"><span class="proj-meta">BAD360.html → procurement</span><span class="proj-arr">→</span></div></a>
-</div></section>
+<section class="sec" id="sec-adv">
+  <div class="sec-hdr"><div class="sec-title">📊 Advanced Tools & Analytics</div><div class="sec-sub">BI dashboard, finanza agevolata, ISO avanzato e procurement</div></div>
+  <div class="sec-divider"></div>
+  <div class="subsec"><span>🔗 Integrati in BAD360</span><span class="subsec-cnt">4 moduli</span></div>
+  <div class="proj-grid">
+    <a class="proj" href="BAD360.html#bidashboard" onclick="sessionStorage.setItem('bad360_tab','bidashboard')" data-name="bi dashboard business intelligence kpi" style="--proj-color:var(--blue)">
+      <div class="proj-top"><div class="proj-icon" style="background:var(--blue-bg);border:1px solid rgba(79,142,247,.25);color:var(--blue)">📊</div><span class="app-badge badge-int"><span class="bdot"></span>Integrato</span></div>
+      <div class="proj-name">BI Dashboard 360°</div><div class="proj-ctx">KPI · FORECAST · ANOMALIE · POWER BI STYLE</div>
+      <div class="proj-desc">KPI in tempo reale, forecast, anomalie e analisi multi-dimensionale.</div>
+      <div class="proj-foot"><span class="proj-meta">BAD360.html → bidashboard</span><span class="proj-arr">→</span></div>
+    </a>
+    <a class="proj" href="BAD360.html#bandi360" onclick="sessionStorage.setItem('bad360_tab','bandi360')" data-name="bandi finanziamenti finanza agevolata" style="--proj-color:var(--g)">
+      <div class="proj-top"><div class="proj-icon" style="background:var(--gold-bg);border:1px solid rgba(201,168,76,.25);color:var(--g)">💰</div><span class="app-badge badge-int"><span class="bdot"></span>Integrato</span></div>
+      <div class="proj-name">Finanza Agevolata</div><div class="proj-ctx">BANDI · FINANZIAMENTI · AI SEARCH</div>
+      <div class="proj-desc">Bandi nazionali e regionali per strutture alberghiere con ricerca AI-powered.</div>
+      <div class="proj-foot"><span class="proj-meta">BAD360.html → bandi360</span><span class="proj-arr">→</span></div>
+    </a>
+    <a class="proj" href="BAD360.html#iso22005adv" onclick="sessionStorage.setItem('bad360_tab','iso22005adv')" data-name="iso 22005 avanzato rintracciabilità" style="--proj-color:var(--teal)">
+      <div class="proj-top"><div class="proj-icon" style="background:var(--teal-bg);border:1px solid rgba(34,211,238,.25);color:var(--teal)">🔬</div><span class="app-badge badge-int"><span class="bdot"></span>Integrato</span></div>
+      <div class="proj-name">ISO 22005 Avanzato</div><div class="proj-ctx">UMR · BILANCIO DI MASSA · MOCK RECALL</div>
+      <div class="proj-desc">Rintracciabilità di filiera avanzata, UMR, bilancio di massa e mock recall.</div>
+      <div class="proj-foot"><span class="proj-meta">BAD360.html → iso22005adv</span><span class="proj-arr">→</span></div>
+    </a>
+    <a class="proj" href="BAD360.html#procurement" onclick="sessionStorage.setItem('bad360_tab','procurement')" data-name="procurement acquisti due diligence" style="--proj-color:var(--red)">
+      <div class="proj-top"><div class="proj-icon" style="background:rgba(201,74,74,.1);border:1px solid rgba(201,74,74,.25);color:var(--red)">🎯</div><span class="app-badge badge-int"><span class="bdot"></span>Integrato</span></div>
+      <div class="proj-name">Procurement 360°</div><div class="proj-ctx">DUE DILIGENCE · KPI · STRATEGIE · NEGOZIAZIONE</div>
+      <div class="proj-desc">Selezione fornitori, due diligence, KPI e strategie di negoziazione.</div>
+      <div class="proj-foot"><span class="proj-meta">BAD360.html → procurement</span><span class="proj-arr">→</span></div>
+    </a>
+  </div>
+</section>
 
 <!-- PRO HUB -->
-<section class="sec" id="sec-hub"><div class="sec-hdr"><div class="sec-title">🏠 Pro Hub & Servizi</div><div class="sec-sub">Certificazioni, consulenze, academy, normative e network professionale</div></div><div class="sec-divider"></div>
-<div class="subsec"><span>⚡ Dashboard dedicate</span><span class="subsec-cnt">6 moduli</span></div>
-<div class="proj-grid">
-<a class="proj" href="hub.html" data-name="hub servizi panoramica piattaforma" style="--proj-color:var(--blue)"><div class="proj-top"><div class="proj-icon" style="background:var(--blue-bg);border:1px solid rgba(79,142,247,.25);color:var(--blue)">🏠</div><span class="app-badge badge-core"><span class="bdot"></span>Core</span></div><div class="proj-name">Hub</div><div class="proj-ctx">ENTRY POINT · SERVIZI PROFESSIONALI</div><div class="proj-desc">Punto di accesso ai servizi professionali: certificazioni, consulenze, academy, normative e network.</div><div class="proj-foot"><span class="proj-meta">hub.html</span><span class="proj-arr">→</span></div></a>
-<a class="proj" href="cert.html" data-name="certificazioni iso haccp qualità standard" style="--proj-color:var(--gold)"><div class="proj-top"><div class="proj-icon" style="background:var(--gold-bg);border:1px solid rgba(245,166,35,.25);color:var(--gold)">🏅</div><span class="app-badge badge-active"><span class="bdot"></span>Attivo</span></div><div class="proj-name">Certificazioni</div><div class="proj-ctx">ISO · HACCP · QUALITÀ · STANDARD</div><div class="proj-desc">Percorsi di certificazione ISO, HACCP, qualità e standard internazionali.</div><div class="proj-foot"><span class="proj-meta">cert.html</span><span class="proj-arr">→</span></div></a>
-<a class="proj" href="consulenze.html" data-name="consulenze esperti professionisti supporto" style="--proj-color:var(--purple)"><div class="proj-top"><div class="proj-icon" style="background:var(--purple-bg);border:1px solid rgba(167,139,250,.25);color:var(--purple)">🤝</div><span class="app-badge badge-active"><span class="bdot"></span>Attivo</span></div><div class="proj-name">Consulenze</div><div class="proj-ctx">ON-DEMAND · F&B · HACCP · REVENUE · DIGITAL</div><div class="proj-desc">Consulenze professionali on-demand: esperti F&B, HACCP, revenue e digital transformation.</div><div class="proj-foot"><span class="proj-meta">consulenze.html</span><span class="proj-arr">→</span></div></a>
-<a class="proj" href="academy.html" data-name="academy formazione corsi training hospitality" style="--proj-color:var(--green)"><div class="proj-top"><div class="proj-icon" style="background:var(--green-bg);border:1px solid rgba(44,192,138,.25);color:var(--green)">🎓</div><span class="app-badge badge-active"><span class="bdot"></span>Attivo</span></div><div class="proj-name">Academy</div><div class="proj-ctx">CORSI · CERTIFICAZIONI · WEBINAR · PERCORSI</div><div class="proj-desc">Piattaforma formativa: corsi, certificazioni, webinar e percorsi personalizzati.</div><div class="proj-foot"><span class="proj-meta">academy.html</span><span class="proj-arr">→</span></div></a>
-<a class="proj" href="norme.html" data-name="normative leggi regolamenti compliance" style="--proj-color:var(--orange)"><div class="proj-top"><div class="proj-icon" style="background:var(--orange-bg);border:1px solid rgba(251,146,60,.25);color:var(--orange)">📜</div><span class="app-badge badge-active"><span class="bdot"></span>Attivo</span></div><div class="proj-name">Normative</div><div class="proj-ctx">REGOLAMENTI UE · DECRETI · LINEE GUIDA</div><div class="proj-desc">Database normativo: regolamenti UE, decreti, linee guida HACCP, ISO e settore.</div><div class="proj-foot"><span class="proj-meta">norme.html</span><span class="proj-arr">→</span></div></a>
-<a class="proj" href="network.html" data-name="network community professionisti hospitality" style="--proj-color:var(--teal)"><div class="proj-top"><div class="proj-icon" style="background:var(--teal-bg);border:1px solid rgba(34,211,238,.25);color:var(--teal)">🌐</div><span class="app-badge badge-active"><span class="bdot"></span>Attivo</span></div><div class="proj-name">Network</div><div class="proj-ctx">COMMUNITY · NETWORKING · PARTNERSHIP</div><div class="proj-desc">Community professionale: networking, eventi, partnership e opportunità hospitality.</div><div class="proj-foot"><span class="proj-meta">network.html</span><span class="proj-arr">→</span></div></a>
-</div></section>
+<section class="sec" id="sec-hub">
+  <div class="sec-hdr"><div class="sec-title">🏠 Pro Hub & Servizi</div><div class="sec-sub">Certificazioni, consulenze, academy, normative e network professionale</div></div>
+  <div class="sec-divider"></div>
+  <div class="subsec"><span>⚡ Dashboard dedicate</span><span class="subsec-cnt">6 moduli</span></div>
+  <div class="proj-grid">
+    <a class="proj" href="hub.html" data-name="hub servizi panoramica piattaforma" style="--proj-color:var(--blue)">
+      <div class="proj-top"><div class="proj-icon" style="background:var(--blue-bg);border:1px solid rgba(79,142,247,.25);color:var(--blue)">🏠</div><span class="app-badge badge-core"><span class="bdot"></span>Core</span></div>
+      <div class="proj-name">Hub</div><div class="proj-ctx">ENTRY POINT · SERVIZI PROFESSIONALI</div>
+      <div class="proj-desc">Punto di accesso ai servizi professionali: certificazioni, consulenze, academy, normative e network.</div>
+      <div class="proj-foot"><span class="proj-meta">hub.html</span><span class="proj-arr">→</span></div>
+    </a>
+    <a class="proj" href="cert.html" data-name="certificazioni iso haccp qualità standard" style="--proj-color:var(--g)">
+      <div class="proj-top"><div class="proj-icon" style="background:var(--gold-bg);border:1px solid rgba(201,168,76,.25);color:var(--g)">🏅</div><span class="app-badge badge-active"><span class="bdot"></span>Attivo</span></div>
+      <div class="proj-name">Certificazioni</div><div class="proj-ctx">ISO · HACCP · QUALITÀ · STANDARD</div>
+      <div class="proj-desc">Percorsi di certificazione ISO, HACCP, qualità e standard internazionali.</div>
+      <div class="proj-foot"><span class="proj-meta">cert.html</span><span class="proj-arr">→</span></div>
+    </a>
+    <a class="proj" href="consulenze.html" data-name="consulenze esperti professionisti supporto" style="--proj-color:var(--g)">
+      <div class="proj-top"><div class="proj-icon" style="background:var(--gold-bg);border:1px solid rgba(201,168,76,.25);color:var(--g)">🤝</div><span class="app-badge badge-active"><span class="bdot"></span>Attivo</span></div>
+      <div class="proj-name">Consulenze</div><div class="proj-ctx">ON-DEMAND · F&B · HACCP · REVENUE · DIGITAL</div>
+      <div class="proj-desc">Consulenze professionali on-demand: esperti F&B, HACCP, revenue e digital transformation.</div>
+      <div class="proj-foot"><span class="proj-meta">consulenze.html</span><span class="proj-arr">→</span></div>
+    </a>
+    <a class="proj" href="academy.html" data-name="academy formazione corsi training hospitality" style="--proj-color:var(--green)">
+      <div class="proj-top"><div class="proj-icon" style="background:rgba(106,171,118,.1);border:1px solid rgba(106,171,118,.25);color:var(--green)">🎓</div><span class="app-badge badge-active"><span class="bdot"></span>Attivo</span></div>
+      <div class="proj-name">Academy</div><div class="proj-ctx">CORSI · CERTIFICAZIONI · WEBINAR · PERCORSI</div>
+      <div class="proj-desc">Piattaforma formativa: corsi, certificazioni, webinar e percorsi personalizzati.</div>
+      <div class="proj-foot"><span class="proj-meta">academy.html</span><span class="proj-arr">→</span></div>
+    </a>
+    <a class="proj" href="norme.html" data-name="normative leggi regolamenti compliance" style="--proj-color:var(--orange)">
+      <div class="proj-top"><div class="proj-icon" style="background:rgba(212,128,58,.1);border:1px solid rgba(212,128,58,.25);color:var(--orange)">📜</div><span class="app-badge badge-active"><span class="bdot"></span>Attivo</span></div>
+      <div class="proj-name">Normative</div><div class="proj-ctx">REGOLAMENTI UE · DECRETI · LINEE GUIDA</div>
+      <div class="proj-desc">Database normativo: regolamenti UE, decreti, linee guida HACCP, ISO e settore.</div>
+      <div class="proj-foot"><span class="proj-meta">norme.html</span><span class="proj-arr">→</span></div>
+    </a>
+    <a class="proj" href="network.html" data-name="network community professionisti hospitality" style="--proj-color:var(--teal)">
+      <div class="proj-top"><div class="proj-icon" style="background:var(--teal-bg);border:1px solid rgba(34,211,238,.25);color:var(--teal)">🌐</div><span class="app-badge badge-active"><span class="bdot"></span>Attivo</span></div>
+      <div class="proj-name">Network</div><div class="proj-ctx">COMMUNITY · NETWORKING · PARTNERSHIP</div>
+      <div class="proj-desc">Community professionale: networking, eventi, partnership e opportunità hospitality.</div>
+      <div class="proj-foot"><span class="proj-meta">network.html</span><span class="proj-arr">→</span></div>
+    </a>
+  </div>
+</section>
 
-<div style="text-align:center;font-size:11px;color:var(--txt3);font-family:'DM Mono',monospace;padding-top:8px">BAD360.ai · Hospitality AI Platform · Suite v4.0 · Q2 2026</div>
+<div style="text-align:center;font-size:11px;color:var(--txt3);font-family:var(--mono);padding-top:8px">BAD360.ai · Hospitality AI Platform · Suite v4.1 · Q2 2026</div>
 </main>
+
 <script>
-function applyTheme(t){document.documentElement.setAttribute('data-theme',t);document.getElementById('tbtn').textContent=t==='dark'?'☾':'☀';try{localStorage.setItem('bad360_theme',t)}catch(e){}}
-function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark')}
-(function(){let t='dark';try{const s=localStorage.getItem('bad360_theme');if(s)t=s}catch(e){}applyTheme(t)})();
 (function(){const g=['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'],m=['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'],n=new Date();document.getElementById('hdate').textContent=g[n.getDay()]+' '+n.getDate()+' '+m[n.getMonth()]+' '+n.getFullYear();document.getElementById('statdate').textContent=n.toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'2-digit'})})();
 function filterCards(){const q=document.getElementById('searchInput').value.toLowerCase().trim();document.querySelectorAll('[data-name]').forEach(el=>{const match=!q||(el.dataset.name&&el.dataset.name.includes(q))||(el.querySelector('.proj-name')?.textContent.toLowerCase().includes(q))||(el.querySelector('.proj-desc')?.textContent.toLowerCase().includes(q));el.style.display=match?'':'none'})}
+document.addEventListener('DOMContentLoaded',function(){
+  // Add login/logout button to topbar right
+  const tbr=document.querySelector('.b360-tb-r');
+  if(tbr && typeof B360 !== 'undefined'){
+    const user=B360.getUser();
+    if(!user){
+      // Show login button
+      const loginBtn=document.createElement('a');
+      loginBtn.href='login.html';
+      loginBtn.style.cssText='display:inline-flex;align-items:center;gap:5px;background:linear-gradient(135deg,#6B4F0A,#C9A84C);color:#06060A;padding:4px 12px;border-radius:99px;font-size:11.5px;font-weight:700;text-decoration:none;font-family:var(--mono,monospace)';
+      loginBtn.textContent='Accedi →';
+      tbr.insertBefore(loginBtn, tbr.firstChild);
+    }
+  }
+});
 </script>
 </body>
 </html>
