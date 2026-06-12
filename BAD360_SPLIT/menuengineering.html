@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BAD360.ai — Menu Engineering</title>
+<style>
+.me-wrap{max-width:1280px;margin:0 auto;padding:18px 20px 60px}
+.me-nav{position:sticky;top:52px;z-index:40;display:flex;gap:6px;padding:10px 0;background:var(--bg);border-bottom:1px solid var(--line);overflow-x:auto}
+.me-nav button{font-family:var(--font);font-size:.82rem;font-weight:600;padding:7px 14px;border-radius:8px;border:1px solid transparent;background:transparent;color:var(--txt2);cursor:pointer;white-space:nowrap}
+.me-nav button.on{background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.3);color:var(--g)}
+.me-page{display:none}.me-page.on{display:block;animation:meF .25s ease}
+@keyframes meF{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.me-hero{margin:16px 0 6px;padding:18px 20px;border:1px solid var(--line2);border-radius:14px;background:linear-gradient(135deg,rgba(201,168,76,.07),transparent 60%)}
+.me-hero h1{font-family:var(--serif);font-size:1.5rem;margin:0 0 6px;color:var(--txt)}
+.me-hero p{margin:0;color:var(--txt2);font-size:.88rem;max-width:780px;line-height:1.5}
+.me-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.me-kpi{padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--bg2)}
+.me-kpi .v{font-family:var(--heading);font-size:1.45rem;font-weight:700;color:var(--g)}
+.me-kpi .l{font-size:.72rem;color:var(--txt2);margin-top:2px}
+.me-kpi.warn .v{color:var(--orange)}.me-kpi.bad .v{color:var(--red)}.me-kpi.ok .v{color:var(--green)}
+table.me-tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:.84rem}
+.me-tbl th{font-family:var(--heading);font-size:.72rem;text-align:left;color:var(--g);background:rgba(201,168,76,.06);padding:8px 10px;border-bottom:1px solid var(--line2)}
+.me-tbl td{padding:9px 10px;border-bottom:1px solid var(--line);color:var(--txt)}
+.cls{display:inline-block;padding:2px 10px;border-radius:20px;font-size:.68rem;font-weight:700}
+.c-star{background:rgba(106,171,118,.14);color:var(--green)}
+.c-plow{background:rgba(212,128,58,.14);color:var(--orange)}
+.c-puzzle{background:rgba(201,168,76,.14);color:var(--g)}
+.c-dog{background:rgba(201,74,74,.14);color:var(--red)}
+.fc-ok{color:var(--green)}.fc-warn{color:var(--orange)}.fc-bad{color:var(--red)}
+.quad{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.qbox{border:1px solid var(--line);border-radius:12px;background:var(--bg2);padding:14px;min-height:130px}
+.qbox h4{margin:0 0 4px;font-family:var(--heading);font-size:.9rem}
+.qbox .hint{font-size:.7rem;color:var(--txt3);margin-bottom:8px}
+.qbox .it{font-size:.8rem;padding:4px 0;border-bottom:1px solid var(--line);color:var(--txt)}
+.qbox .it b{font-family:var(--mono);color:var(--g);font-weight:500}
+.amx{overflow-x:auto;margin-top:14px}
+.amx table{border-collapse:collapse;font-size:.7rem}
+.amx th{font-family:var(--heading);font-size:.6rem;color:var(--g);background:rgba(201,168,76,.06);padding:6px 4px;border:1px solid var(--line);writing-mode:vertical-rl;transform:rotate(180deg);max-height:120px}
+.amx th.dish{writing-mode:horizontal-tb;transform:none;text-align:left;padding:6px 10px}
+.amx td{border:1px solid var(--line);padding:6px;text-align:center;color:var(--txt)}
+.amx td.dish{text-align:left;font-weight:600;white-space:nowrap;padding:6px 10px}
+.amx .yes{color:var(--red);font-weight:700}
+.btn-g{font-family:var(--heading);font-weight:700;padding:11px 22px;border-radius:10px;border:1px solid rgba(201,168,76,.4);background:rgba(201,168,76,.14);color:var(--g);cursor:pointer;font-size:.9rem}
+.btn-g:hover{background:rgba(201,168,76,.22)}
+.rec{border:1px solid var(--line2);border-left:3px solid var(--g);border-radius:10px;background:var(--bg2);padding:12px 14px;margin-top:10px}
+.rec .imp{font-family:var(--mono);font-size:.74rem;color:var(--green);float:right}
+.rec b{color:var(--txt)}.rec p{margin:4px 0 0;font-size:.84rem;color:var(--txt2)}
+.strategy{margin-top:12px;padding:12px 14px;border-radius:10px;background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.18);font-size:.84rem;color:var(--txt)}
+.lawbox{margin-top:10px;padding:10px 14px;border-radius:10px;border:1px solid rgba(201,74,74,.25);background:rgba(201,74,74,.06);font-size:.78rem;color:var(--txt2)}
+@media(max-width:760px){.quad{grid-template-columns:1fr}.me-hero h1{font-size:1.2rem}}
+</style>
+<link rel="stylesheet" href="bad360-ds.css">
+</head>
+<body class="b360-module">
+<header class="b360-topbar" id="b360-topbar">
+  <div class="b360-tb-l">
+    <a href="index.html" class="b360-tb-back" title="Suite">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </a>
+    <a href="index.html" class="b360-tb-brand" tabindex="-1">
+      <div class="b360-tb-logo">B360</div>
+      <span class="b360-tb-name">BAD<strong>360</strong>.ai</span>
+    </a>
+    <span class="b360-tb-sep"></span>
+    <span class="b360-tb-module" id="b360-page-label">Menu Engineering</span>
+  </div>
+  <div class="b360-tb-r">
+    <span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.1</span>
+    <button class="b360-tb-theme" id="b360-theme-btn" title="Tema">☽</button>
+  </div>
+</header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"☽":"☀";b.addEventListener("click",function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"☽":"☀";try{localStorage.setItem("bad360_theme",nt)}catch(e){}});}var lbl=document.getElementById("b360-page-label");if(lbl){var title=document.title.replace("BAD360.ai — ","");if(title)lbl.textContent=title;}});})()</script>
+
+<div class="me-wrap">
+
+<div class="me-hero">
+  <h1>Menu Engineering <em style="font-family:var(--serif);font-style:italic;color:var(--g)">ricette · food cost · matrice · allergeni</em></h1>
+  <p>Il food cost assorbe il 28-35% dei ricavi e l'inflazione è il primo problema dichiarato dagli operatori. Qui ogni piatto è costato, classificato nella matrice popolarità×margine e mappato sui 14 allergeni di legge. L'agente C7.7 ti dice dove guadagnare di più con il menu che hai già.</p>
+</div>
+
+<nav class="me-nav" id="meNav">
+  <button data-p="dash" class="on">Dashboard</button>
+  <button data-p="rec">Ricette & Food Cost</button>
+  <button data-p="mx">Matrice Menu</button>
+  <button data-p="alg">Allergeni 1169/2011</button>
+  <button data-p="ai">🤖 AI Optimizer</button>
+</nav>
+
+<!-- DASHBOARD -->
+<section class="me-page on" id="p-dash">
+  <div class="me-kpis" id="meKpi"></div>
+  <div class="quad" id="quadMini"></div>
+</section>
+
+<!-- RICETTE -->
+<section class="me-page" id="p-rec">
+  <table class="me-tbl"><thead><tr><th>Piatto</th><th>Categoria</th><th>Food Cost</th><th>Prezzo</th><th>FC %</th><th>Margine</th><th>Vendite/mese</th><th>Margine totale</th></tr></thead><tbody id="recRows"></tbody></table>
+  <p style="font-size:.74rem;color:var(--txt3);margin-top:10px">FC% target ristorazione: 🟢 &lt;30% · 🟠 30-35% · 🔴 &gt;35%. I costi ingredienti si aggiornano dalle fatture fornitori (integrazione SCM Pro).</p>
+</section>
+
+<!-- MATRICE -->
+<section class="me-page" id="p-mx">
+  <div class="quad" id="quadFull"></div>
+  <table class="me-tbl"><thead><tr><th>Piatto</th><th>Classe</th><th>Margine</th><th>Vendite</th><th>Azione consigliata</th></tr></thead><tbody id="mxRows"></tbody></table>
+</section>
+
+<!-- ALLERGENI -->
+<section class="me-page" id="p-alg">
+  <div class="lawbox">⚖️ <b>Obbligo di legge</b> — Reg. UE 1169/2011, Allegato II: i 14 allergeni vanno dichiarati per ogni piatto e l'informazione deve essere disponibile al cliente. Questa matrice è stampabile e va aggiornata a ogni cambio ricetta.</div>
+  <div class="amx" id="algMatrix"></div>
+  <button class="btn-g" style="margin-top:14px" onclick="window.print()">🖨 Stampa matrice per la sala</button>
+</section>
+
+<!-- AI -->
+<section class="me-page" id="p-ai">
+  <div style="margin-top:14px">
+    <button class="btn-g" onclick="runOptimizer()">🤖 Analizza il menu con C7.7</button>
+    <div id="aiOut"></div>
+  </div>
+</section>
+
+</div>
+
+<script>
+const ME_API="/api/menu-engineering";
+const ALLERGENI=["glutine","crostacei","uova","pesce","arachidi","soia","latte","frutta a guscio","sedano","senape","sesamo","anidride solforosa e solfiti","lupini","molluschi"];
+
+const RECIPES=[
+ {id:"r1",name:"Culurgiones al pomodoro",category:"primi",fc:3.72,price:16,sales:310,allergens:["glutine","uova","latte"]},
+ {id:"r2",name:"Fregola con arselle",category:"primi",fc:5.80,price:19,sales:185,allergens:["glutine","molluschi","pesce"]},
+ {id:"r3",name:"Porceddu sardo",category:"secondi",fc:7.70,price:24,sales:240,allergens:[]},
+ {id:"r4",name:"Tagliata di tonno rosso",category:"secondi",fc:9.50,price:26,sales:95,allergens:["pesce","sesamo"]},
+ {id:"r5",name:"Seadas con miele",category:"dessert",fc:2.35,price:9,sales:265,allergens:["glutine","latte","uova"]},
+ {id:"r6",name:"Zuppa gallurese",category:"primi",fc:2.90,price:14,sales:70,allergens:["glutine","latte","sedano"]},
+ {id:"r7",name:"Insalata di mare",category:"antipasti",fc:6.50,price:18,sales:150,allergens:["molluschi","crostacei","pesce","sedano"]}
+];
+
+/* enrich + matrice Kasavana-Smith (stesse regole del backend) */
+RECIPES.forEach(r=>{r.margin=+(r.price-r.fc).toFixed(2);r.fcp=+((r.fc/r.price)*100).toFixed(1)});
+const avgM=RECIPES.reduce((a,r)=>a+r.margin,0)/RECIPES.length;
+const popT=RECIPES.reduce((a,r)=>a+r.sales,0)/RECIPES.length*0.7;
+RECIPES.forEach(r=>{
+ const hp=r.sales>=popT, hm=r.margin>=avgM;
+ r.cls=hp&&hm?"STAR":hp?"PLOWHORSE":hm?"PUZZLE":"DOG";
+ r.act={STAR:"Proteggi: qualità e visibilità in carta",PLOWHORSE:"Alza il prezzo o riduci il food cost — si vende comunque",PUZZLE:"Riposiziona in carta, racconto della sala, foto",DOG:"Rimuovi o reinventa — occupa spazio e magazzino"}[r.cls];
+});
+const CB={STAR:"c-star",PLOWHORSE:"c-plow",PUZZLE:"c-puzzle",DOG:"c-dog"};
+const fcCls=p=>p<30?"fc-ok":p<=35?"fc-warn":"fc-bad";
+
+function meGo(p){
+ document.querySelectorAll("#meNav button").forEach(b=>b.classList.toggle("on",b.dataset.p===p));
+ document.querySelectorAll(".me-page").forEach(s=>s.classList.toggle("on",s.id==="p-"+p));
+}
+document.getElementById("meNav").addEventListener("click",e=>{if(e.target.dataset.p)meGo(e.target.dataset.p)});
+
+/* KPI */
+(function(){
+ const fcAvg=(RECIPES.reduce((a,r)=>a+r.fcp,0)/RECIPES.length).toFixed(1);
+ const mTot=RECIPES.reduce((a,r)=>a+r.margin*r.sales,0);
+ const stars=RECIPES.filter(r=>r.cls==="STAR").length, dogs=RECIPES.filter(r=>r.cls==="DOG").length;
+ const k=(v,l,c)=>`<div class="me-kpi ${c||""}"><div class="v">${v}</div><div class="l">${l}</div></div>`;
+ document.getElementById("meKpi").innerHTML=
+  k(RECIPES.length,"Piatti in carta")+k(fcAvg+"%","Food cost medio",fcAvg<30?"ok":fcAvg<=35?"warn":"bad")+
+  k("€ "+mTot.toLocaleString("it-IT"),"Margine lordo/mese","ok")+k(stars,"⭐ Star","ok")+k(dogs,"🐕 Dog",dogs?"bad":"ok")+
+  k("14/14","Allergeni mappati","ok");
+})();
+
+/* quadranti */
+function quadHTML(full){
+ const q=(t,cls,hint)=>{
+  const items=RECIPES.filter(r=>r.cls===t);
+  return `<div class="qbox"><h4><span class="cls ${cls}">${t}</span></h4><div class="hint">${hint}</div>`+
+   items.map(r=>`<div class="it">${r.name} — <b>€${r.margin.toFixed(2)}</b> margine · ${r.sales}/mese</div>`).join("")+`</div>`;
+ };
+ return q("STAR","c-star","Alta popolarità · alto margine — il tuo tesoro")+
+        q("PLOWHORSE","c-plow","Alta popolarità · basso margine — qui si recupera marginalità")+
+        q("PUZZLE","c-puzzle","Bassa popolarità · alto margine — da spingere")+
+        q("DOG","c-dog","Bassa popolarità · basso margine — candidati all'uscita");
+}
+document.getElementById("quadMini").innerHTML=quadHTML();
+document.getElementById("quadFull").innerHTML=quadHTML(true);
+
+/* ricette */
+document.getElementById("recRows").innerHTML=RECIPES.map(r=>
+ `<tr><td><b>${r.name}</b></td><td>${r.category}</td><td>€ ${r.fc.toFixed(2)}</td><td>€ ${r.price.toFixed(2)}</td>
+  <td class="${fcCls(r.fcp)}"><b>${r.fcp}%</b></td><td>€ ${r.margin.toFixed(2)}</td><td>${r.sales}</td>
+  <td>€ ${(r.margin*r.sales).toLocaleString("it-IT")}</td></tr>`).join("");
+
+/* matrice table */
+document.getElementById("mxRows").innerHTML=[...RECIPES].sort((a,b)=>(b.margin*b.sales)-(a.margin*a.sales)).map(r=>
+ `<tr><td><b>${r.name}</b></td><td><span class="cls ${CB[r.cls]}">${r.cls}</span></td>
+  <td>€ ${r.margin.toFixed(2)}</td><td>${r.sales}/mese</td><td style="color:var(--txt2);font-size:.78rem">${r.act}</td></tr>`).join("");
+
+/* allergeni */
+(function(){
+ let h='<table><tr><th class="dish">Piatto</th>'+ALLERGENI.map(a=>`<th>${a}</th>`).join("")+"</tr>";
+ RECIPES.forEach(r=>{
+  h+=`<tr><td class="dish">${r.name}</td>`+ALLERGENI.map(a=>`<td class="${r.allergens.includes(a)?"yes":""}">${r.allergens.includes(a)?"✕":""}</td>`).join("")+"</tr>";
+ });
+ document.getElementById("algMatrix").innerHTML=h+"</table>";
+})();
+
+/* AI optimizer — API-first con fallback client */
+function runOptimizer(){
+ document.getElementById("aiOut").innerHTML='<p style="color:var(--txt2);font-size:.84rem;margin-top:10px">⏳ Analisi in corso…</p>';
+ fetch(ME_API+"/ai/optimize",{method:"POST"}).then(r=>{if(!r.ok)throw 0;return r.json()})
+  .then(d=>renderRecs(d.recommendations,d.sintesi))
+  .catch(()=>{
+   const recs=[];
+   RECIPES.forEach(r=>{
+    if(r.cls==="PLOWHORSE"){const np=+(r.price*1.06).toFixed(1);recs.push({piatto:r.name,azione:`Alza il prezzo da €${r.price} a €${np} (+6%): è popolare, regge il ritocco`,impatto_mensile_eur:Math.round((np-r.price)*r.sales)})}
+    else if(r.cls==="PUZZLE")recs.push({piatto:r.name,azione:"Margine alto ma vende poco: posizione in carta + racconto della sala (+30% vendite stimato)",impatto_mensile_eur:Math.round(r.margin*r.sales*0.3)});
+    else if(r.cls==="DOG")recs.push({piatto:r.name,azione:"Valuta la rimozione: bassa popolarità e basso margine",impatto_mensile_eur:0});
+   });
+   recs.sort((a,b)=>b.impatto_mensile_eur-a.impatto_mensile_eur);
+   renderRecs(recs.slice(0,6),"Priorità: ritocco prezzi sui Plowhorse (impatto immediato), poi spinta sui Puzzle via sala e posizionamento in carta.");
+  });
+}
+function renderRecs(recs,sintesi){
+ document.getElementById("aiOut").innerHTML=
+  `<div class="strategy">🤖 <b>C7.7 AI Menu Optimizer</b> — ${sintesi}</div>`+
+  recs.map(r=>`<div class="rec"><span class="imp">${r.impatto_mensile_eur?"+€ "+r.impatto_mensile_eur.toLocaleString("it-IT")+"/mese":"—"}</span><b>${r.piatto}</b><p>${r.azione}</p></div>`).join("");
+}
+</script>
+</body>
+</html>

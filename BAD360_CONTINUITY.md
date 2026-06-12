@@ -253,7 +253,17 @@ color: var(--g); font-family: var(--heading);
 - Card aggiunta in index.html sezione Operations (ora 3 moduli)
 - Dati di mercato nel hero: 258k posizioni scoperte, 77% difficoltà reperimento (FIPE/Unioncamere)
 
-## 🎉 PROJECT COMPLETE — All 19 pages rebuilt and unified (+1 nuovo modulo Staff Match)
+### ✅ menuengineering.html — NEW MODULE (2026-06-12)
+**Menu Engineering — gap #1 dell'analisi personas (chef, F&B manager, titolare)**
+- 5 tab: Dashboard · Ricette & Food Cost · Matrice Menu · Allergeni 1169/2011 · AI Optimizer
+- Matrice Kasavana-Smith (Star/Plowhorse/Puzzle/Dog) con soglia popolarità 70% media
+- Matrice 14 allergeni Allegato II Reg. UE 1169/2011, stampabile per la sala
+- Agente AI C7.7 "AI Menu Optimizer": raccomandazioni quantificate €/mese (Claude Haiku + fallback)
+- Backend: `backend/menu_engineering.py` su `/api/menu-engineering/*` (demo: piatti sardi)
+- Card in index.html sezione F&B (ora 4 moduli)
+- Vedi ANALISI_PERSONAS_BAD360.md per la roadmap gap completa (7 gap prioritizzati + anti-roadmap)
+
+## 🎉 PROJECT COMPLETE — All 19 pages rebuilt and unified (+2 nuovi moduli: Staff Match, Menu Engineering)
 
 All pages now:
 - Use `var(--g)` / `var(--gold)` gold accent (no purple/blue overrides)
