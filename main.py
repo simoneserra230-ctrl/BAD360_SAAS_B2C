@@ -54,6 +54,7 @@ from backend.morning_briefing import (
     stop_briefing_scheduler,
 )
 from backend.ai_agents import router as ai_agents_router
+from backend.staff_match import router as staff_match_router
 
 load_dotenv()
 
@@ -89,6 +90,7 @@ app.include_router(shelf_life_router)
 app.include_router(auth_router)
 app.include_router(briefing_router)
 app.include_router(ai_agents_router)
+app.include_router(staff_match_router)
 
 
 # ─── Pydantic Models ─────────────────────────────────────────────────────────

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BAD360.ai — Staff Match</title>
+<style>
+/* PAGE-SPECIFIC — Staff Match (BarmanMatch integrato) */
+.sm-wrap{max-width:1280px;margin:0 auto;padding:18px 20px 60px}
+.sm-nav{position:sticky;top:52px;z-index:40;display:flex;gap:6px;padding:10px 0;background:var(--bg);border-bottom:1px solid var(--line);overflow-x:auto}
+.sm-nav button{font-family:var(--font);font-size:.82rem;font-weight:600;padding:7px 14px;border-radius:8px;border:1px solid transparent;background:transparent;color:var(--txt2);cursor:pointer;white-space:nowrap}
+.sm-nav button.on{background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.3);color:var(--g)}
+.sm-page{display:none}.sm-page.on{display:block;animation:smF .25s ease}
+@keyframes smF{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.sm-hero{margin:16px 0 6px;padding:18px 20px;border:1px solid var(--line2);border-radius:14px;background:linear-gradient(135deg,rgba(201,168,76,.07),transparent 60%)}
+.sm-hero h1{font-family:var(--serif);font-size:1.5rem;margin:0 0 6px;color:var(--txt)}
+.sm-hero p{margin:0;color:var(--txt2);font-size:.88rem;max-width:760px;line-height:1.5}
+.sm-hero .src{display:block;margin-top:6px;font-family:var(--mono);font-size:.68rem;color:var(--txt3)}
+.sm-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.sm-kpi{padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--bg2)}
+.sm-kpi .v{font-family:var(--heading);font-size:1.45rem;font-weight:700;color:var(--g)}
+.sm-kpi .l{font-size:.72rem;color:var(--txt2);margin-top:2px}
+.sm-kpi.warn .v{color:var(--orange)}.sm-kpi.ok .v{color:var(--green)}
+.sm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-top:14px}
+.sm-card{border:1px solid var(--line);border-radius:12px;background:var(--bg2);padding:14px}
+.sm-card h3{margin:0 0 8px;font-family:var(--heading);font-size:.95rem;color:var(--txt)}
+table.sm-tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:.84rem}
+.sm-tbl th{font-family:var(--heading);font-size:.72rem;text-align:left;color:var(--g);background:rgba(201,168,76,.06);padding:8px 10px;border-bottom:1px solid var(--line2)}
+.sm-tbl td{padding:9px 10px;border-bottom:1px solid var(--line);color:var(--txt)}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.68rem;font-weight:700}
+.b-open{background:rgba(106,171,118,.12);color:var(--green)}
+.b-urgent{background:rgba(201,74,74,.14);color:var(--red)}
+.b-filled{background:rgba(201,168,76,.12);color:var(--g)}
+.b-ver{background:rgba(201,168,76,.12);color:var(--g)}
+.b-top{background:rgba(106,171,118,.12);color:var(--green)}
+.score-bar{height:7px;border-radius:4px;background:var(--bg3);overflow:hidden;min-width:90px}
+.score-bar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,var(--gd),var(--g))}
+.score-n{font-family:var(--mono);font-size:.8rem;color:var(--g);font-weight:700}
+.w-card{border:1px solid var(--line);border-radius:12px;background:var(--bg2);padding:14px}
+.w-card .nm{font-family:var(--heading);font-weight:700;color:var(--txt)}
+.w-card .meta{font-size:.74rem;color:var(--txt2);margin:3px 0 8px}
+.w-card .sk{display:flex;flex-wrap:wrap;gap:4px;margin:8px 0}
+.w-card .sk span{font-size:.66rem;padding:2px 8px;border-radius:20px;border:1px solid var(--line2);color:var(--txt2)}
+.sos-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:14px 0}
+.sos-form label{display:block;font-size:.7rem;color:var(--txt2);margin-bottom:4px}
+.sos-form input,.sos-form select{width:100%;padding:9px 10px;border-radius:8px;border:1px solid var(--line2);background:var(--bg2);color:var(--txt);font-family:var(--font);font-size:.84rem}
+.btn-g{font-family:var(--heading);font-weight:700;padding:11px 22px;border-radius:10px;border:1px solid rgba(201,168,76,.4);background:rgba(201,168,76,.14);color:var(--g);cursor:pointer;font-size:.9rem}
+.btn-g:hover{background:rgba(201,168,76,.22)}
+.msg-box{border:1px solid var(--line2);border-left:3px solid var(--g);border-radius:10px;background:var(--bg2);padding:12px 14px;margin-top:10px}
+.msg-box .to{font-family:var(--mono);font-size:.7rem;color:var(--g);margin-bottom:4px}
+.msg-box p{margin:0;font-size:.85rem;color:var(--txt);line-height:1.5}
+.strategy{margin-top:12px;padding:12px 14px;border-radius:10px;background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.18);font-size:.84rem;color:var(--txt)}
+.stars{color:var(--g);letter-spacing:1px}
+@media(max-width:720px){.sm-hero h1{font-size:1.2rem}}
+</style>
+<link rel="stylesheet" href="bad360-ds.css">
+</head>
+<body class="b360-module">
+<header class="b360-topbar" id="b360-topbar">
+  <div class="b360-tb-l">
+    <a href="index.html" class="b360-tb-back" title="Suite">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </a>
+    <a href="index.html" class="b360-tb-brand" tabindex="-1">
+      <div class="b360-tb-logo">B360</div>
+      <span class="b360-tb-name">BAD<strong>360</strong>.ai</span>
+    </a>
+    <span class="b360-tb-sep"></span>
+    <span class="b360-tb-module" id="b360-page-label">Staff Match</span>
+  </div>
+  <div class="b360-tb-r">
+    <span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.1</span>
+    <button class="b360-tb-theme" id="b360-theme-btn" title="Tema">☽</button>
+  </div>
+</header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"☽":"☀";b.addEventListener("click",function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"☽":"☀";try{localStorage.setItem("bad360_theme",nt)}catch(e){}});}var lbl=document.getElementById("b360-page-label");if(lbl){var title=document.title.replace("BAD360.ai — ","");if(title)lbl.textContent=title;}});})()</script>
+
+<div class="sm-wrap">
+
+<div class="sm-hero">
+  <h1>Staff Match <em style="font-family:var(--serif);font-style:italic;color:var(--g)">powered by BarmanMatch</em></h1>
+  <p>Il 77% dei locali italiani non trova personale e il turnover supera il 27%. Quando ti salta un barman il sabato sera, Staff Match trova il sostituto giusto in minuti: pool verificato, match AI su competenze e affidabilità, contatto con un click.</p>
+  <span class="src">Fonti: FIPE Rapporto Ristorazione 2025 · Unioncamere-Excelsior 2026 — 258k posizioni scoperte nel comparto</span>
+</div>
+
+<nav class="sm-nav" id="smNav">
+  <button data-p="dash" class="on">Dashboard</button>
+  <button data-p="shifts">Turni</button>
+  <button data-p="match">Match AI</button>
+  <button data-p="pool">Pool Staff</button>
+  <button data-p="sos">🆘 SOS Sostituzione</button>
+  <button data-p="rating">Rating</button>
+</nav>
+
+<!-- DASHBOARD -->
+<section class="sm-page on" id="p-dash">
+  <div class="sm-kpis" id="kpiStrip"></div>
+  <div class="sm-grid">
+    <div class="sm-card">
+      <h3>⚡ Turni urgenti aperti</h3>
+      <div id="urgentList"></div>
+    </div>
+    <div class="sm-card">
+      <h3>🏆 Top del tuo pool</h3>
+      <div id="topPool"></div>
+    </div>
+    <div class="sm-card">
+      <h3>🤖 Agente C7.6 — AI Staff Rescue</h3>
+      <p style="font-size:.84rem;color:var(--txt2);line-height:1.5">Buco di organico improvviso? L'agente analizza il pool, classifica i candidati per match score (competenze 40% · affidabilità 35% · storico 15% · reattività 10%) e prepara i messaggi di contatto.</p>
+      <button class="btn-g" onclick="smGo('sos')" style="margin-top:8px">Apri SOS →</button>
+    </div>
+  </div>
+</section>
+
+<!-- TURNI -->
+<section class="sm-page" id="p-shifts">
+  <table class="sm-tbl"><thead><tr><th>Ruolo</th><th>Data</th><th>Orario</th><th>€/h</th><th>Posti</th><th>Candidature</th><th>Stato</th></tr></thead><tbody id="shiftRows"></tbody></table>
+</section>
+
+<!-- MATCH AI -->
+<section class="sm-page" id="p-match">
+  <div style="margin:14px 0">
+    <label style="font-size:.74rem;color:var(--txt2)">Turno da coprire</label><br>
+    <select id="matchShift" style="margin-top:6px;padding:9px 12px;border-radius:8px;border:1px solid var(--line2);background:var(--bg2);color:var(--txt);font-family:var(--font)" onchange="renderMatch()"></select>
+  </div>
+  <table class="sm-tbl"><thead><tr><th>#</th><th>Candidato</th><th>Match</th><th>Score</th><th>Rating</th><th>Turni fatti</th><th>Risposta media</th><th>Note</th></tr></thead><tbody id="matchRows"></tbody></table>
+</section>
+
+<!-- POOL -->
+<section class="sm-page" id="p-pool">
+  <div class="sm-grid" id="poolGrid"></div>
+</section>
+
+<!-- SOS -->
+<section class="sm-page" id="p-sos">
+  <div class="sm-card" style="margin-top:14px">
+    <h3>🆘 Sostituzione d'emergenza</h3>
+    <p style="font-size:.84rem;color:var(--txt2)">Descrivi il buco di organico: l'agente C7.6 classifica il pool e prepara i messaggi WhatsApp pronti da inviare.</p>
+    <div class="sos-form">
+      <div><label>Ruolo</label><select id="sosRole"><option>bartender</option><option>cameriere</option><option>barback</option><option>chef de partie</option><option>cuoco</option><option>runner</option></select></div>
+      <div><label>Data</label><input type="date" id="sosDate"></div>
+      <div><label>Dalle</label><input type="time" id="sosStart" value="18:00"></div>
+      <div><label>Alle</label><input type="time" id="sosEnd" value="01:00"></div>
+      <div><label>€/h offerti</label><input type="number" id="sosRate" value="14" min="8" step="0.5"></div>
+      <div><label>Città</label><input type="text" id="sosCity" value="Cagliari"></div>
+    </div>
+    <button class="btn-g" onclick="runSOS()">🚨 Trova sostituto ora</button>
+    <div id="sosOut"></div>
+  </div>
+</section>
+
+<!-- RATING -->
+<section class="sm-page" id="p-rating">
+  <table class="sm-tbl"><thead><tr><th>Professionista</th><th>Turno</th><th>Punteggio</th><th>Puntualità</th><th>Professionalità</th><th>Commento</th></tr></thead><tbody id="ratingRows"></tbody></table>
+</section>
+
+</div>
+
+<script>
+/* ── API-first con fallback demo ───────────────────────────────────────────── */
+const SM_API = "/api/staff-match";
+
+const DEMO_WORKERS=[
+ {id:"w1",full_name:"Luca Piras",city:"Cagliari",roles:["bartender","barback"],skills:["mixology","flair","caffetteria","inglese"],years_experience:8,rating_avg:4.9,rating_count:47,completion_rate:100,no_show_count:0,total_shifts_completed:52,avg_response_time_mins:12,hourly_rate_min:14,is_verified:true,badge_top_rated:true,badge_fast_responder:true},
+ {id:"w2",full_name:"Sara Melis",city:"Cagliari",roles:["cameriere","chef de rang"],skills:["servizio al tavolo","vini","inglese","francese"],years_experience:6,rating_avg:4.8,rating_count:31,completion_rate:97,no_show_count:0,total_shifts_completed:38,avg_response_time_mins:25,hourly_rate_min:12,is_verified:true,badge_top_rated:true,badge_fast_responder:false},
+ {id:"w3",full_name:"Marco Sanna",city:"Quartu Sant'Elena",roles:["bartender"],skills:["caffetteria","aperitivi"],years_experience:3,rating_avg:4.5,rating_count:12,completion_rate:92,no_show_count:1,total_shifts_completed:14,avg_response_time_mins:45,hourly_rate_min:11,is_verified:true,badge_top_rated:false,badge_fast_responder:false},
+ {id:"w4",full_name:"Elena Cocco",city:"Cagliari",roles:["chef de partie","cuoco"],skills:["linea calda","pasticceria","haccp"],years_experience:10,rating_avg:5.0,rating_count:22,completion_rate:100,no_show_count:0,total_shifts_completed:25,avg_response_time_mins:60,hourly_rate_min:16,is_verified:true,badge_top_rated:true,badge_fast_responder:false},
+ {id:"w5",full_name:"Davide Loi",city:"Pula",roles:["barback","runner"],skills:["magazzino","ghiaccio","set-up eventi"],years_experience:2,rating_avg:4.6,rating_count:9,completion_rate:100,no_show_count:0,total_shifts_completed:11,avg_response_time_mins:15,hourly_rate_min:10,is_verified:false,badge_top_rated:false,badge_fast_responder:true}
+];
+const DEMO_SHIFTS=[
+ {id:"s1",role:"bartender",date:"2026-06-13",start_time:"18:00",end_time:"01:00",hourly_rate:14,city:"Cagliari",requirements:["mixology","inglese"],description:"Cocktail bar piscina — alta stagione",spots:1,status:"open",is_urgent:true,applications:3},
+ {id:"s2",role:"cameriere",date:"2026-06-14",start_time:"19:00",end_time:"23:30",hourly_rate:12,city:"Cagliari",requirements:["vini","inglese"],description:"Cena evento privato 40 coperti",spots:2,status:"open",is_urgent:false,applications:5},
+ {id:"s3",role:"chef de partie",date:"2026-06-20",start_time:"16:00",end_time:"23:00",hourly_rate:16,city:"Cagliari",requirements:["linea calda","haccp"],description:"Rinforzo linea — matrimonio 120 pax",spots:1,status:"filled",is_urgent:false,applications:4}
+];
+const DEMO_RATINGS=[
+ {worker:"Luca Piras",shift:"Cocktail bar — 6 giu",score:5,punc:5,prof:5,comment:"Impeccabile, clienti entusiasti"},
+ {worker:"Sara Melis",shift:"Evento 40 coperti — 31 mag",score:5,punc:5,prof:4,comment:"Ottima gestione sala"},
+ {worker:"Marco Sanna",shift:"Aperitivo terrazza — 28 mag",score:4,punc:3,prof:4,comment:"Bravo ma arrivato 10 min tardi"}
+];
+const HIST={w1:5,w2:2}; const FAV=new Set(["w1","w4"]);
+
+/* ── Match score (stesso algoritmo del backend: 40/35/15/10) ──────────────── */
+function matchScore(w,s,hist){
+ let p=0; const roles=(w.roles||[]).map(r=>r.toLowerCase()); const role=(s.role||"").toLowerCase();
+ if(roles.includes(role))p+=25; else if(roles.some(r=>r.includes(role)||role.includes(r)))p+=12;
+ const req=new Set((s.requirements||[]).map(x=>x.toLowerCase())); const sk=new Set((w.skills||[]).map(x=>x.toLowerCase()));
+ if(req.size){let ov=0;req.forEach(r=>{if(sk.has(r))ov++});p+=ov/req.size*10}else if(sk.size)p+=5;
+ if((w.city||"").toLowerCase().trim()===(s.city||"").toLowerCase().trim())p+=5;
+ let q=0; q+=(w.rating_count>0)?(w.rating_avg/5)*20:14;
+ q+=(w.completion_rate||100)/100*10; q+=Math.max(0,5-(w.no_show_count||0)*2.5);
+ let r=0; const tg=hist.together||0;
+ if(tg>=3)r=15; else if(tg>0)r=10; else if(hist.fav)r=8;
+ const rt=w.avg_response_time_mins||60;
+ const rv=rt<=15?10:rt<=30?8:rt<=60?6:rt<=120?4:2;
+ return Math.min(100,Math.round((p+q+r+rv)*10)/10);
+}
+
+/* ── Render ───────────────────────────────────────────────────────────────── */
+function smGo(p){
+ document.querySelectorAll("#smNav button").forEach(b=>b.classList.toggle("on",b.dataset.p===p));
+ document.querySelectorAll(".sm-page").forEach(s=>s.classList.toggle("on",s.id==="p-"+p));
+}
+document.getElementById("smNav").addEventListener("click",e=>{if(e.target.dataset.p)smGo(e.target.dataset.p)});
+
+function renderKPI(){
+ const open=DEMO_SHIFTS.filter(s=>s.status==="open").length;
+ const urg=DEMO_SHIFTS.filter(s=>s.is_urgent&&s.status==="open").length;
+ const ver=DEMO_WORKERS.filter(w=>w.is_verified).length;
+ const avg=(DEMO_WORKERS.reduce((a,w)=>a+w.rating_avg,0)/DEMO_WORKERS.length).toFixed(2);
+ document.getElementById("kpiStrip").innerHTML=
+  kpi(open,"Turni aperti")+kpi(urg,"Urgenti","warn")+kpi(DEMO_WORKERS.length,"Pool staff")+
+  kpi(ver,"Verificati","ok")+kpi("★ "+avg,"Rating medio pool","ok")+kpi("4,2 h","Tempo medio copertura");
+}
+function kpi(v,l,c){return `<div class="sm-kpi ${c||""}"><div class="v">${v}</div><div class="l">${l}</div></div>`}
+
+function renderDash(){
+ const urg=DEMO_SHIFTS.filter(s=>s.is_urgent&&s.status==="open");
+ document.getElementById("urgentList").innerHTML=urg.length?urg.map(s=>
+  `<div style="padding:8px 0;border-bottom:1px solid var(--line);font-size:.84rem">
+   <span class="badge b-urgent">URGENTE</span> <b>${s.role}</b> · ${s.date} ${s.start_time}–${s.end_time} · €${s.hourly_rate}/h
+   <div style="color:var(--txt2);font-size:.76rem;margin-top:2px">${s.description} — ${s.applications} candidature</div></div>`).join("")
+  :'<p style="color:var(--txt2);font-size:.82rem">Nessun turno urgente. 👍</p>';
+ const top=[...DEMO_WORKERS].sort((a,b)=>b.rating_avg-a.rating_avg).slice(0,3);
+ document.getElementById("topPool").innerHTML=top.map(w=>
+  `<div style="padding:8px 0;border-bottom:1px solid var(--line);font-size:.84rem">
+   <b>${w.full_name}</b> <span class="stars">${"★".repeat(Math.round(w.rating_avg))}</span> ${w.rating_avg}
+   <div style="color:var(--txt2);font-size:.76rem">${w.roles.join(" · ")} — ${w.total_shifts_completed} turni</div></div>`).join("");
+}
+
+function renderShifts(){
+ document.getElementById("shiftRows").innerHTML=DEMO_SHIFTS.map(s=>{
+  const st=s.status==="open"?(s.is_urgent?'<span class="badge b-urgent">URGENTE</span>':'<span class="badge b-open">APERTO</span>'):'<span class="badge b-filled">COPERTO</span>';
+  return `<tr><td><b>${s.role}</b></td><td>${s.date}</td><td>${s.start_time}–${s.end_time}</td><td>€${s.hourly_rate}</td><td>${s.spots}</td><td>${s.applications}</td><td>${st}</td></tr>`}).join("");
+}
+
+function renderMatchSelect(){
+ const sel=document.getElementById("matchShift");
+ sel.innerHTML=DEMO_SHIFTS.filter(s=>s.status==="open").map(s=>`<option value="${s.id}">${s.role} — ${s.date} ${s.start_time} (€${s.hourly_rate}/h)</option>`).join("");
+}
+function renderMatch(){
+ const sid=document.getElementById("matchShift").value||DEMO_SHIFTS[0].id;
+ const s=DEMO_SHIFTS.find(x=>x.id===sid);
+ const ranked=DEMO_WORKERS.map(w=>({...w,score:matchScore(w,s,{together:HIST[w.id]||0,fav:FAV.has(w.id)})}))
+  .sort((a,b)=>b.score-a.score);
+ document.getElementById("matchRows").innerHTML=ranked.map((w,i)=>{
+  const notes=[w.badge_top_rated?"Top Rated":"",FAV.has(w.id)?"Preferito":"",HIST[w.id]?`${HIST[w.id]} turni insieme`:""].filter(Boolean).join(" · ");
+  return `<tr><td>${i+1}</td><td><b>${w.full_name}</b><div style="font-size:.72rem;color:var(--txt2)">${w.roles.join(", ")}</div></td>
+   <td><div class="score-bar"><i style="width:${w.score}%"></i></div></td>
+   <td><span class="score-n">${w.score}</span></td>
+   <td>★ ${w.rating_avg} (${w.rating_count})</td><td>${w.total_shifts_completed}</td>
+   <td>${w.avg_response_time_mins} min</td><td style="font-size:.74rem;color:var(--txt2)">${notes||"—"}</td></tr>`}).join("");
+}
+
+function renderPool(){
+ document.getElementById("poolGrid").innerHTML=DEMO_WORKERS.map(w=>
+  `<div class="w-card"><div class="nm">${w.full_name} ${w.is_verified?'<span class="badge b-ver">✓ verificato</span>':""} ${w.badge_top_rated?'<span class="badge b-top">TOP</span>':""}</div>
+   <div class="meta">${w.city} · ${w.years_experience} anni esperienza · da €${w.hourly_rate_min}/h</div>
+   <div><span class="stars">${"★".repeat(Math.round(w.rating_avg))}</span> ${w.rating_avg} (${w.rating_count} recensioni) · ${w.total_shifts_completed} turni · risposta ~${w.avg_response_time_mins} min</div>
+   <div class="sk">${w.roles.map(r=>`<span style="color:var(--g);border-color:rgba(201,168,76,.3)">${r}</span>`).join("")}${w.skills.map(s=>`<span>${s}</span>`).join("")}</div></div>`).join("");
+}
+
+function runSOS(){
+ const s={role:document.getElementById("sosRole").value,date:document.getElementById("sosDate").value||"2026-06-13",
+  start_time:document.getElementById("sosStart").value,end_time:document.getElementById("sosEnd").value,
+  hourly_rate:document.getElementById("sosRate").value,city:document.getElementById("sosCity").value,requirements:[]};
+ // API-first
+ fetch(SM_API+"/sos",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(s)})
+  .then(r=>{if(!r.ok)throw 0;return r.json()}).then(d=>renderSOS(s,d.candidates,d.messages,d.strategy))
+  .catch(()=>{ // fallback demo client-side
+   const ranked=DEMO_WORKERS.map(w=>({...w,match_score:matchScore(w,s,{})})).sort((a,b)=>b.match_score-a.match_score).slice(0,5);
+   const msgs=ranked.slice(0,3).map(w=>({worker:w.full_name,message:`Ciao ${w.full_name.split(" ")[0]}! Ci serve un ${s.role} il ${s.date} dalle ${s.start_time} alle ${s.end_time} a ${s.city}, €${s.hourly_rate}/h. Sei il primo della nostra lista: confermi entro 30 minuti? Grazie!`}));
+   renderSOS(s,ranked,msgs,"Contatta i primi 3 in parallelo; il primo che conferma blocca il turno, gli altri ricevono il ringraziamento automatico.");
+  });
+}
+function renderSOS(s,cand,msgs,strategy){
+ document.getElementById("sosOut").innerHTML=
+  `<div class="strategy">🤖 <b>C7.6 AI Staff Rescue</b> — ${strategy}</div>`+
+  `<table class="sm-tbl"><thead><tr><th>#</th><th>Candidato</th><th>Score</th><th>Risposta</th></tr></thead><tbody>`+
+  cand.slice(0,5).map((w,i)=>`<tr><td>${i+1}</td><td><b>${w.full_name}</b></td><td><span class="score-n">${w.match_score}</span></td><td>${w.avg_response_time_mins} min</td></tr>`).join("")+
+  `</tbody></table>`+
+  msgs.map(m=>`<div class="msg-box"><div class="to">📱 → ${m.worker}</div><p>${m.message}</p></div>`).join("");
+}
+
+function renderRating(){
+ document.getElementById("ratingRows").innerHTML=DEMO_RATINGS.map(r=>
+  `<tr><td><b>${r.worker}</b></td><td>${r.shift}</td><td><span class="stars">${"★".repeat(r.score)}</span></td>
+   <td>${r.punc}/5</td><td>${r.prof}/5</td><td style="color:var(--txt2)">${r.comment}</td></tr>`).join("");
+}
+
+renderKPI();renderDash();renderShifts();renderMatchSelect();renderMatch();renderPool();renderRating();
+const today=new Date();document.getElementById("sosDate").value=today.toISOString().slice(0,10);
+</script>
+</body>
+</html>

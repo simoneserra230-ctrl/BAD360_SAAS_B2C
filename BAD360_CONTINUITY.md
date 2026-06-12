@@ -243,7 +243,17 @@ color: var(--g); font-family: var(--heading);
 
 ---
 
-## 🎉 PROJECT COMPLETE — All 19 pages rebuilt and unified
+### ✅ barmanmatch.html — NEW MODULE (2026-06-12)
+**Staff Match — BarmanMatch integrato nella suite (lato venue)**
+- Nuova pagina DS-compliant: 6 tab (Dashboard · Turni · Match AI · Pool Staff · SOS Sostituzione · Rating)
+- Algoritmo match score 40/35/15/10 (pertinenza/qualità/relazione/reattività) — stesso del backend
+- Agente AI C7.6 "AI Staff Rescue": sostituzione d'emergenza con messaggi WhatsApp pronti
+- API-first su `/api/staff-match/*` con fallback demo client-side (worker sardi, Hotel Baia Sardinia)
+- Backend: `backend/staff_match.py` (router registrato in main.py) + `supabase/staff_match_schema.sql`
+- Card aggiunta in index.html sezione Operations (ora 3 moduli)
+- Dati di mercato nel hero: 258k posizioni scoperte, 77% difficoltà reperimento (FIPE/Unioncamere)
+
+## 🎉 PROJECT COMPLETE — All 19 pages rebuilt and unified (+1 nuovo modulo Staff Match)
 
 All pages now:
 - Use `var(--g)` / `var(--gold)` gold accent (no purple/blue overrides)
