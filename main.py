@@ -56,6 +56,7 @@ from backend.morning_briefing import (
 from backend.ai_agents import router as ai_agents_router
 from backend.staff_match import router as staff_match_router
 from backend.menu_engineering import router as menu_engineering_router
+from backend.menu_3d import router as menu_3d_router
 
 load_dotenv()
 
@@ -93,6 +94,7 @@ app.include_router(briefing_router)
 app.include_router(ai_agents_router)
 app.include_router(staff_match_router)
 app.include_router(menu_engineering_router)
+app.include_router(menu_3d_router)
 
 
 # ─── Pydantic Models ─────────────────────────────────────────────────────────

@@ -263,7 +263,21 @@ color: var(--g); font-family: var(--heading);
 - Card in index.html sezione F&B (ora 4 moduli)
 - Vedi ANALISI_PERSONAS_BAD360.md per la roadmap gap completa (7 gap prioritizzati + anti-roadmap)
 
-## 🎉 PROJECT COMPLETE — All 19 pages rebuilt and unified (+2 nuovi moduli: Staff Match, Menu Engineering)
+### ✅ menu3d.html — NEW (2026-06-12)
+**Menu Cliente 3D immersivo — agente C7.8 "AI Menu Designer"**
+- Esperienza WebGL (Three.js r128): piatti 3D procedurali (pasta/carne/pesce/zuppa/mare/dessert)
+  su piedistallo dorato rotante, luci golden-hour, particelle, fog, parallax camera
+- Mobile-first (caso d'uso QR): swipe, gyroscopio, card glassmorphism con nome/prezzo/descrizione/allergeni
+- Modalità "vetrina" autoplay (tablet all'ingresso) + fallback elegante senza WebGL
+- Regole menu psychology da C7.8: Star prima, Puzzle con badge "Consigliato dallo chef",
+  Dog esclusi, prezzi senza €, allergeni 1169/2011 integrati
+- Backend `backend/menu_3d.py`: /api/menu-3d/structure (+ descrizioni AI Claude) e
+  /api/menu-3d/html (menu standalone con dati iniettati, pronto per QR)
+- Catena completa: Menu Engineering → C7.7 Optimizer → C7.8 Designer → menu cliente
+- Link "🎨 Menu Cliente 3D" nella nav di menuengineering.html
+- Evoluzione del prototipo `_WORKSPACE/_MARKETING/3D_MENU/cocktail_menu_3d_full_drink.html`
+
+## 🎉 PROJECT COMPLETE — All 19 pages rebuilt and unified (+3 nuovi: Staff Match, Menu Engineering, Menu 3D)
 
 All pages now:
 - Use `var(--g)` / `var(--gold)` gold accent (no purple/blue overrides)
