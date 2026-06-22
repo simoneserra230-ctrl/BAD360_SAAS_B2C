@@ -220,6 +220,9 @@
       if (confirm('Uscire da BAD360.ai?\n\n' + (user.name || user.email))) logout();
     };
     tbr.insertBefore(pill, tbr.firstChild);
+    // Account (tutti) + Impostazioni Sito (solo admin)
+    tbr.insertBefore(_tbBtn('⚙', 'Il mio account', openAccount), tbr.firstChild);
+    if (isAdmin()) tbr.insertBefore(_tbBtn('🛠', 'Impostazioni Sito (admin)', openSiteSettings), tbr.firstChild);
   }
 
   // ── Online/offline indicator ─────────────────────────────────────────
@@ -383,6 +386,98 @@
     w.document.close();
   }
 
+  // ══ SaaS: Account utente + Impostazioni Sito (admin) ═════════════════
+  const ADMIN_ROLES = ['owner', 'platform_admin', 'admin', 'developer'];
+  function isAdmin() { const u = getUser(); return !!(u && ADMIN_ROLES.includes(u.role)); }
+  function _v(id) { const e = document.getElementById(id); return e ? e.value.trim() : ''; }
+  function _toast(m, t) { if (window.showToast) window.showToast(m, t); }
+
+  async function openAccount() {
+    modal({ title: '👤 Il mio account', body: '<div id="b360-acct" style="font-size:13px">Caricamento…</div>' });
+    try {
+      const r = await authFetch('/api/account/profile'); const d = await r.json();
+      const el = document.getElementById('b360-acct'); if (!el) return;
+      if (!d.ok) { el.innerHTML = '<div style="color:#c94a4a">' + (d.error || 'Errore') + '</div>'; return; }
+      const u = d.user || {}, us = d.usage || {}, unl = us.unlimited, used = us.used || 0, lim = us.limit || 0;
+      const pct = unl ? 6 : Math.min(100, lim ? Math.round(used / lim * 100) : 0);
+      const planLbl = u.is_admin ? 'Amministratore' : (d.plan === 'active' ? 'Abbonato' : d.plan === 'free' ? 'Licenza gratuita' : d.plan === 'expired' ? 'Scaduto' : 'Prova gratuita');
+      const showUp = !u.is_admin && d.plan !== 'active' && d.plan !== 'free';
+      el.innerHTML = `<div style="line-height:1.7">
+        <div><b>${u.name || ''}</b> · ${u.email || ''}</div>
+        <div style="margin:6px 0"><span style="background:rgba(201,168,76,.15);color:#8B6914;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:700">${planLbl}</span></div>
+        <div style="margin-top:14px;display:flex;justify-content:space-between;font-size:12px"><span>Operazioni AI (${us.period || ''})</span><b>${unl ? 'illimitate' : (used + ' / ' + lim)}</b></div>
+        <div style="height:8px;background:rgba(201,168,76,.12);border-radius:99px;overflow:hidden;margin:5px 0"><div style="height:100%;width:${pct}%;background:${pct >= 90 ? '#c94a4a' : pct >= 70 ? '#d4803a' : '#6aab76'}"></div></div>
+        <label style="display:flex;align-items:center;gap:8px;margin-top:14px;font-size:12.5px;cursor:pointer"><input type="checkbox" id="b360-notif" ${d.preferences && d.preferences.email_notifications ? 'checked' : ''}> Ricevi notifiche via email</label>
+        <div style="margin-top:14px;display:flex;gap:8px">
+          <button onclick="B360.saveAccountPrefs()" style="background:linear-gradient(135deg,#6B4F0A,#C9A84C);border:none;border-radius:8px;padding:8px 16px;color:#06060A;font-weight:700;cursor:pointer">Salva preferenze</button>
+          ${showUp ? '<button onclick="B360.startUpgrade()" style="background:transparent;border:1px solid rgba(201,168,76,.3);border-radius:8px;padding:8px 16px;color:#8B6914;font-weight:700;cursor:pointer">⭐ Abbonati</button>' : ''}
+        </div></div>`;
+    } catch (e) { const el = document.getElementById('b360-acct'); if (el) el.innerHTML = 'Backend non raggiungibile.'; }
+  }
+  async function saveAccountPrefs() {
+    const cb = document.getElementById('b360-notif');
+    try { await authFetch('/api/account/preferences', { method: 'POST', body: JSON.stringify({ email_notifications: cb && cb.checked }) }); _toast('Preferenze salvate', 'ok'); }
+    catch (e) { _toast('Errore', 'err'); }
+  }
+  async function startUpgrade() {
+    try {
+      const r = await fetch(API + '/api/billing/config'); const d = await r.json();
+      if (d && d.enabled) {
+        const rr = await authFetch('/api/billing/checkout', { method: 'POST', body: JSON.stringify({ plan: 'pro' }) });
+        const dd = await rr.json();
+        if (dd.ok && dd.url) { location.href = dd.url; return; }
+        if (dd.error) { alert(dd.error); return; }
+      }
+    } catch (e) {}
+    _toast('Pagamenti non ancora attivi — configurali dal pannello admin', 'warn');
+  }
+
+  function _cfgInp(id, val, ph, type) {
+    return `<input id="${id}" type="${type || 'text'}" value="${(val || '').toString().replace(/"/g, '&quot;')}" placeholder="${ph || ''}" style="width:100%;background:rgba(201,168,76,.05);border:1.5px solid rgba(201,168,76,.15);border-radius:8px;padding:8px 11px;color:inherit;font-size:12.5px;outline:none;margin:3px 0">`;
+  }
+  async function openSiteSettings() {
+    modal({ title: '⚙ Impostazioni Sito', body: '<div id="b360-cfg" style="font-size:12.5px">Caricamento…</div>' });
+    await renderSiteSettings();
+  }
+  async function renderSiteSettings() {
+    const el = document.getElementById('b360-cfg'); if (!el) return;
+    let S = {};
+    try { const r = await authFetch('/api/admin/settings'); const d = await r.json(); if (!d.ok) { el.innerHTML = '<div style="color:#c94a4a">' + (d.error || 'Non autorizzato') + '</div>'; return; } S = d.settings || {}; }
+    catch (e) { el.innerHTML = 'Backend non raggiungibile.'; return; }
+    const origin = location.origin;
+    const pill = on => `<span style="font-size:9px;font-weight:700;padding:2px 7px;border-radius:99px;background:${on ? 'rgba(106,171,118,.15)' : 'rgba(201,80,80,.12)'};color:${on ? '#3a8a4a' : '#c94a4a'}">${on ? 'OK' : 'DA IMPOSTARE'}</span>`;
+    const box = inner => `<div style="border:1px solid rgba(201,168,76,.15);border-radius:10px;padding:12px;margin-bottom:12px">${inner}</div>`;
+    el.innerHTML =
+      box(`<b>🔑 API Anthropic</b> ${pill(S.anthropic_api_key_configured)}${_cfgInp('cfg-api', '', 'sk-ant-… (vuoto = non cambiare)', 'password')}<button onclick="B360.cfgSave('api')" class="b360cb">Salva</button>`)
+      + box(`<b>📧 SMTP</b> ${pill(S.smtp_configured)}${_cfgInp('cfg-smtp-host', S.smtp_host, 'smtp.gmail.com')}${_cfgInp('cfg-smtp-port', S.smtp_port || '587', '587')}${_cfgInp('cfg-smtp-user', S.smtp_user, 'tua@email.it')}${_cfgInp('cfg-smtp-pass', '', 'password (vuoto=invariata)', 'password')}${_cfgInp('cfg-smtp-from', S.smtp_from, 'BAD360 <tua@email.it>')}<button onclick="B360.cfgSave('smtp')" class="b360cb">Salva</button> <button onclick="B360.cfgSmtpTest()" class="b360cb2">Test email</button>`)
+      + box(`<b>💳 Pagamenti Stripe</b> ${pill(S.payments_live)} ${S.stripe_lib ? '' : '<span style="color:#c94a4a;font-size:10px">(modulo in deploy)</span>'}
+        <label style="display:flex;align-items:center;gap:6px;margin:6px 0"><input type="checkbox" id="cfg-pay-on" ${S.payments_enabled ? 'checked' : ''}> Attiva pagamenti</label>
+        <select id="cfg-mode" style="width:100%;background:rgba(201,168,76,.05);border:1.5px solid rgba(201,168,76,.15);border-radius:8px;padding:8px;color:inherit;font-size:12.5px;margin:3px 0">${['sandbox', 'live'].map(m => `<option value="${m}" ${S.stripe_mode === m ? 'selected' : ''}>${m}</option>`).join('')}</select>
+        ${_cfgInp('cfg-pubs', S.stripe_pub_sandbox, 'pk_test_…')}${_cfgInp('cfg-secs', '', 'sk_test_… (vuoto=invariata)', 'password')}${_cfgInp('cfg-publ', S.stripe_pub_live, 'pk_live_…')}${_cfgInp('cfg-secl', '', 'sk_live_… (vuoto=invariata)', 'password')}${_cfgInp('cfg-pbase', S.stripe_price_base, 'price_… Base')}${_cfgInp('cfg-ppro', S.stripe_price_pro, 'price_… Pro')}${_cfgInp('cfg-wh', '', 'whsec_… (vuoto=invariata)', 'password')}
+        <div style="font-size:10px;color:#8a7a5a;margin:4px 0">Webhook: <code>${origin}/api/billing/webhook</code></div><button onclick="B360.cfgSave('pay')" class="b360cb">Salva</button>`)
+      + box(`<b>🌐 APP_URL</b>${_cfgInp('cfg-appurl', S.app_url, 'https://app.bad360.ai')}<button onclick="B360.cfgSave('gen')" class="b360cb">Salva</button>`)
+      + `<style>.b360cb{background:linear-gradient(135deg,#6B4F0A,#C9A84C);border:none;border-radius:7px;padding:7px 14px;color:#06060A;font-weight:700;cursor:pointer;font-size:12px;margin-top:6px}.b360cb2{background:transparent;border:1px solid rgba(201,168,76,.3);border-radius:7px;padding:7px 12px;color:#8B6914;font-weight:600;cursor:pointer;font-size:12px;margin-top:6px}</style>`;
+  }
+  async function cfgSave(section) {
+    let s = {};
+    if (section === 'api') { const k = _v('cfg-api'); if (!k) { _toast('Inserisci una chiave', 'warn'); return; } s.ANTHROPIC_API_KEY = k; }
+    else if (section === 'smtp') { s = { SMTP_HOST: _v('cfg-smtp-host'), SMTP_PORT: _v('cfg-smtp-port'), SMTP_USER: _v('cfg-smtp-user'), SMTP_FROM: _v('cfg-smtp-from') }; const p = _v('cfg-smtp-pass'); if (p) s.SMTP_PASS = p; }
+    else if (section === 'pay') { s = { PAYMENTS_ENABLED: document.getElementById('cfg-pay-on').checked ? '1' : '0', STRIPE_MODE: _v('cfg-mode'), STRIPE_PUB_SANDBOX: _v('cfg-pubs'), STRIPE_PUB_LIVE: _v('cfg-publ'), STRIPE_PRICE_BASE: _v('cfg-pbase'), STRIPE_PRICE_PRO: _v('cfg-ppro') }; const ss = _v('cfg-secs'); if (ss) s.STRIPE_SECRET_SANDBOX = ss; const sl = _v('cfg-secl'); if (sl) s.STRIPE_SECRET_LIVE = sl; const wh = _v('cfg-wh'); if (wh) s.STRIPE_WEBHOOK_SECRET = wh; }
+    else { s = { APP_URL: _v('cfg-appurl') }; }
+    try { const r = await authFetch('/api/admin/settings', { method: 'POST', body: JSON.stringify({ settings: s }) }); const d = await r.json(); if (d.ok) { _toast('Salvato', 'ok'); renderSiteSettings(); } else _toast(d.error || 'Errore', 'err'); }
+    catch (e) { _toast('Errore di rete', 'err'); }
+  }
+  async function cfgSmtpTest() {
+    try { const r = await authFetch('/api/admin/smtp/test', { method: 'POST', body: JSON.stringify({}) }); const d = await r.json(); _toast(d.ok ? 'Email di test inviata' : (d.error || 'Errore'), d.ok ? 'ok' : 'err'); }
+    catch (e) { _toast('Errore', 'err'); }
+  }
+
+  function _tbBtn(label, title, onclick) {
+    const b = document.createElement('div');
+    b.style.cssText = 'display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;cursor:pointer;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.18);color:var(--g,#C9A84C);font-size:14px;user-select:none';
+    b.textContent = label; b.title = title; b.onclick = onclick; return b;
+  }
+
   // ── Public API ───────────────────────────────────────────────────────
   window.B360 = {
     API,
@@ -399,6 +494,12 @@
     mountAIWidget,
     modal,
     printPage,
+    openAccount,
+    openSiteSettings,
+    saveAccountPrefs,
+    startUpgrade,
+    cfgSave,
+    cfgSmtpTest,
   };
 
 })();
