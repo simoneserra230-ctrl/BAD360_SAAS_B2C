@@ -96,6 +96,10 @@ app.include_router(staff_match_router)
 app.include_router(menu_engineering_router)
 app.include_router(menu_3d_router)
 
+# ── SaaS layer: paywall + quota + admin settings + Stripe + account ──
+from backend.saas import register_saas
+register_saas(app)
+
 
 # ─── Pydantic Models ─────────────────────────────────────────────────────────
 
