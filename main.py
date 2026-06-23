@@ -58,6 +58,7 @@ from backend.staff_match import router as staff_match_router
 from backend.menu_engineering import router as menu_engineering_router
 from backend.menu_3d import router as menu_3d_router
 from backend.haccp import router as haccp_router
+from backend.shifts import router as shifts_router
 
 load_dotenv()
 
@@ -97,6 +98,7 @@ app.include_router(staff_match_router)
 app.include_router(menu_engineering_router)
 app.include_router(menu_3d_router)
 app.include_router(haccp_router)
+app.include_router(shifts_router)
 
 # ── SaaS layer: paywall + quota + admin settings + Stripe + account ──
 from backend.saas import register_saas

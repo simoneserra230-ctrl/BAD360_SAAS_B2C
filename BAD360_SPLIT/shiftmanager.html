@@ -311,7 +311,7 @@ input,select,textarea{font-family:var(--font);outline:none}
 <div class="toast" id="toast"></div>
 
 <script>
-const STAFF = [
+let STAFF = [
   {init:'MS',name:'Marco Sanna',ruolo:'Head Barman',ore_sett:40,presenze:98,turno_oggi:'07:00–15:00',reparto:'Bar'},
   {init:'AL',name:'Anna Lai',ruolo:'Restaurant Manager',ore_sett:38,presenze:100,turno_oggi:'12:00–22:00',reparto:'Ristorante'},
   {init:'GL',name:'Giovanni Loi',ruolo:'Barman',ore_sett:36,presenze:92,turno_oggi:'15:00–23:00',reparto:'Bar'},
@@ -320,7 +320,7 @@ const STAFF = [
   {init:'CR',name:'Chiara Righi',ruolo:'Receptionist',ore_sett:38,presenze:100,turno_oggi:'07:00–15:00',reparto:'Front Office'},
 ];
 
-const TURNI_DATA = [
+let TURNI_DATA = [
   {nome:'Marco Sanna',ruolo:'Head Barman',data:'2026-06-03',turno:'Mattina 07:00–15:00',ore:'8h',reparto:'Bar',stato:'ok'},
   {nome:'Anna Lai',ruolo:'Restaurant Manager',data:'2026-06-03',turno:'Pomeriggio 12:00–22:00',ore:'10h',reparto:'Ristorante',stato:'ok'},
   {nome:'Giovanni Loi',ruolo:'Barman',data:'2026-06-03',turno:'Sera 15:00–23:00',ore:'8h',reparto:'Bar',stato:'ok'},
@@ -405,7 +405,8 @@ function init(){
         <div>Ore/sett: <strong style="color:var(--g)">${s.ore_sett}h</strong></div>
         <div>Pres.: <strong style="color:${s.presenze>=95?'var(--green)':'var(--orange)'}">${s.presenze}%</strong></div>
       </div>
-    </div>`).join('');
+      ${s.id?`<div style="text-align:right;margin-top:8px"><a onclick="smDeleteStaff('${s.id}')" title="Elimina" style="cursor:pointer;color:var(--txt3);font-size:12px">🗑 rimuovi</a></div>`:''}
+    </div>`).join('') + `<button onclick="smAddStaff()" class="sm-staff-card" style="border:1.5px dashed rgba(201,168,76,.3);background:transparent;cursor:pointer;color:var(--g);font-weight:700;font-family:inherit;font-size:13px;min-height:90px">➕ Aggiungi dipendente</button>`;
 }
 
 function renderCalendario(){
@@ -435,7 +436,7 @@ function renderTurni(){
       <td style="font-family:var(--mono)">${t.ore}</td>
       <td><span class="smbadge smbg-gold">${t.reparto}</span></td>
       <td>${STATO[t.stato]||''}</td>
-      <td><button class="btn btn-outline btn-sm" onclick="editTurno('${t.nome}','${t.data}','${t.turno}','${t.reparto}')">✏️</button></td>
+      <td><button class="btn btn-outline btn-sm" onclick="editTurno('${t.nome}','${t.data}','${t.turno}','${t.reparto}')">✏️</button>${t.id?` <button class="btn btn-outline btn-sm" onclick="smDeleteTurno('${t.id}')">🗑</button>`:''}</td>
     </tr>`).join('');
 }
 
@@ -546,12 +547,63 @@ function openNuovoTurno(){
     onConfirm(v){
       if(!v.data){document.getElementById('b360m-err').style.display='block';document.getElementById('b360m-err').textContent='Inserisci la data';return false;}
       const parts=v.nome.split('—');
-      TURNI_DATA.unshift({nome:parts[0].trim(),ruolo:parts[1]?.trim()||'Staff',data:v.data,turno:v.turno,ore:v.turno==='Riposo'?'0h':'8h',reparto:v.rep,stato:v.turno==='Riposo'?'riposo':'ok'});
-      renderTurni();
-      if(typeof B360!=='undefined')B360.storeSet('turni_data',TURNI_DATA.slice(0,50));
-      showToast('✅ Turno aggiunto: '+parts[0].trim()+' · '+v.data);
+      const fe={nome:parts[0].trim(),ruolo:parts[1]?.trim()||'Staff',data:v.data,turno:v.turno,ore:v.turno==='Riposo'?'0h':'8h',reparto:v.rep,stato:v.turno==='Riposo'?'riposo':'ok'};
+      // Salva sul DB reale (scoped per hotel dal token); fallback locale se non loggato
+      B360.authFetch('/api/shifts/turno',{method:'POST',body:JSON.stringify({dipendente:fe.nome,ruolo:fe.ruolo,data:fe.data,turno:fe.turno,ore:fe.ore,reparto:fe.reparto,stato:fe.stato})})
+        .then(r=>r.json()).then(d=>{ if(d&&d.ok){ smLoadData(); } else { TURNI_DATA.unshift(fe); renderTurni(); } })
+        .catch(()=>{ TURNI_DATA.unshift(fe); renderTurni(); });
+      showToast('✅ Turno: '+fe.nome+' · '+v.data);
     }
   });
+}
+
+// ── Persistenza reale (fondamenta) — carica staff + turni dal DB ──────
+function _smInit(name){ return (name||'').split(/\s+/).map(w=>w[0]||'').join('').slice(0,2).toUpperCase()||'··'; }
+async function smLoadData(){
+  if(typeof B360==='undefined')return;
+  try{
+    const r=await B360.authFetch('/api/shifts/staff');
+    if(r.ok){ const d=await r.json(); if(d.ok && d.staff && d.staff.length){
+      STAFF = d.staff.map(s=>({id:s.id,init:_smInit(s.nome),name:s.nome,ruolo:s.ruolo||'',ore_sett:s.ore_sett||40,presenze:100,turno_oggi:'—',reparto:s.reparto||''}));
+    }}
+  }catch(e){}
+  try{
+    const r=await B360.authFetch('/api/shifts/turni');
+    if(r.ok){ const d=await r.json(); if(d.ok && d.turni && d.turni.length){
+      TURNI_DATA = d.turni.map(t=>({id:t.id,nome:t.dipendente,ruolo:t.ruolo||'',data:t.data,turno:t.turno||'',ore:t.ore||'',reparto:t.reparto||'',stato:t.stato||'ok'}));
+    }}
+  }catch(e){}
+  init(); renderTurni();
+}
+
+function smAddStaff(){
+  if(typeof B360==='undefined'){showToast('SDK non caricato');return;}
+  B360.modal({
+    title:'➕ Aggiungi dipendente',
+    fields:[
+      {id:'nome',label:'Nome *',type:'text',placeholder:'Es. Marco Sanna'},
+      {id:'ruolo',label:'Ruolo',type:'text',placeholder:'Es. Head Barman'},
+      {id:'reparto',label:'Reparto',type:'select',options:['Bar','Ristorante','Front Office','Housekeeping','Cucina']},
+      {id:'ore',label:'Ore/settimana',type:'number',value:'40'},
+    ],
+    confirmLabel:'✓ Salva',
+    onConfirm(v){
+      if(!v.nome){const e=document.getElementById('b360m-err');if(e){e.style.display='block';e.textContent='Il nome è obbligatorio';}return false;}
+      B360.authFetch('/api/shifts/staff',{method:'POST',body:JSON.stringify({nome:v.nome,ruolo:v.ruolo||'',reparto:v.reparto||'',ore_sett:parseFloat(v.ore)||40})})
+        .then(r=>r.json()).then(d=>{ if(d&&d.ok) smLoadData(); else showToast('Errore salvataggio'); })
+        .catch(()=>showToast('Backend non raggiungibile (serve login)'));
+      showToast('✅ Dipendente aggiunto: '+v.nome);
+    }
+  });
+}
+
+async function smDeleteStaff(id){
+  if(typeof B360==='undefined'||!confirm('Rimuovere questo dipendente?'))return;
+  try{ const r=await B360.authFetch('/api/shifts/staff/'+encodeURIComponent(id),{method:'DELETE'}); const d=await r.json(); if(d&&d.ok) smLoadData(); }catch(e){}
+}
+async function smDeleteTurno(id){
+  if(typeof B360==='undefined'||!confirm('Eliminare questo turno?'))return;
+  try{ const r=await B360.authFetch('/api/shifts/turno/'+encodeURIComponent(id),{method:'DELETE'}); const d=await r.json(); if(d&&d.ok) smLoadData(); }catch(e){}
 }
 
 function openNuovaRichiesta(){
@@ -595,6 +647,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   init();
   if(typeof B360!=='undefined'){
     B360.mountAIWidget('general','Hotel Baia Sardinia · Shift Manager · Staff 12 persone');
+    smLoadData();   // sovrascrive col dato reale del DB quando disponibile
   }
 });
 
