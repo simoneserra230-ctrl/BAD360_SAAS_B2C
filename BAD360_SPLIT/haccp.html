@@ -926,6 +926,29 @@ function printSOP(){
   setTimeout(()=>window.print(),300);
 }
 
+// ── Carica lo storico REALE dal backend (se autenticati); altrimenti resta demo ──
+const HACCP_ZONA_LABEL={cella_frigo:'Cella Frigo',cella_surgelati:'Surgelati',frigo_bar:'Frigo Bar',zona_calda:'Zona Calda',cantina:'Cantina',abbattitore:'Abbattitore'};
+async function loadTempHistory(){
+  if(typeof B360==='undefined')return;
+  try{
+    const r=await B360.authFetch('/api/haccp/temperature-history?limit=30');
+    if(!r.ok)return;                       // 401/503 → resta sul demo/localStorage
+    const d=await r.json();
+    if(!(d.ok && d.items && d.items.length))return;
+    tempLog = d.items.map(it=>{
+      const t=parseFloat(it.temperatura); const sev=it.severity||'ok';
+      return {
+        ora: it.timestamp?new Date(it.timestamp).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}):'',
+        punto: HACCP_ZONA_LABEL[it.zona]||it.zona||'—',
+        temp: (t>=0?'+':'')+t+'°C',
+        stato: sev==='ok'?'ok':(sev==='critical'?'err':'warn'),
+        ts: it.timestamp, note: it.messaggio||''
+      };
+    });
+    renderTempLog();
+  }catch(e){}
+}
+
 document.addEventListener('DOMContentLoaded',()=>{
   initDashboard();
   renderTempLog();
@@ -937,6 +960,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       renderTempLog();
     }
     B360.mountAIWidget('haccp','Hotel Baia Sardinia · HACCP CCP 2026');
+    loadTempHistory();   // sovrascrive col dato reale del DB quando disponibile
   }
 });
 </script>

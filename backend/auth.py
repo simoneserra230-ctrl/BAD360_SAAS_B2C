@@ -110,6 +110,17 @@ async def get_current_user(
     )
 
 
+# ── Dependency: require_user (multi-tenant blindato) ─────────────────
+# Primitiva di sicurezza riusabile da tutti i moduli gestionali: garantisce
+# un utente autenticato e fornisce hotel_id SEMPRE dal token (mai dal client),
+# così un cliente non può scrivere/leggere i dati di un altro hotel.
+
+async def require_user(user: Optional[UserProfile] = Depends(get_current_user)) -> UserProfile:
+    if not user:
+        raise HTTPException(status_code=401, detail="Autenticazione richiesta")
+    return user
+
+
 # ── Routes ────────────────────────────────────────────────────────────
 
 @router.post("/demo-login", summary="Login demo (locale/testing)")
