@@ -329,6 +329,112 @@ async def blocca_lotto(req: BloccaLottoRequest):
 
 
 # ══════════════════════════════════════════════════════════════════
+#  PERSISTENZA REALE (fondamenta dati) — multi-tenant blindato
+#  Tabella shelf_life_items; hotel_id SEMPRE dal JWT (require_user).
+#  Aggiunge il WRITE PATH che prima mancava: ora l'utente inserisce
+#  davvero il suo inventario e lo ritrova. Vedi supabase/shelf_life_schema.sql
+# ══════════════════════════════════════════════════════════════════
+from fastapi import Depends
+from backend.database import get_supabase
+from backend.auth import require_user, UserProfile
+
+
+class ShelfItem(BaseModel):
+    id: Optional[str] = None
+    articolo: str
+    categoria: str = ""
+    lotto: str = ""
+    giacenza_attuale: float = 0
+    unita_misura: str = "kg"
+    data_scadenza: str                      # YYYY-MM-DD
+    fornitore: str = ""
+    note: Optional[str] = None
+
+
+def _sl_sb():
+    sb = get_supabase()
+    if not sb:
+        raise HTTPException(503, "Database non configurato")
+    return sb
+
+
+def _sl_enrich(row: Dict) -> Dict:
+    ds = row.get("data_scadenza")
+    giorni = None
+    urg = "OK"
+    if ds:
+        try:
+            giorni = (date.fromisoformat(str(ds)[:10]) - date.today()).days
+            urg = _urgenza(giorni)
+        except Exception:
+            pass
+    return {**row, "giorni_alla_scadenza": giorni, "urgenza": urg}
+
+
+@router.post("/item", summary="Crea/aggiorna un articolo dell'inventario (persistente)")
+async def upsert_item(payload: ShelfItem, user: UserProfile = Depends(require_user)):
+    sb = _sl_sb()
+    rec = {
+        "hotel_id": user.hotel_id,          # SEMPRE dal token (blindato)
+        "articolo": payload.articolo, "categoria": payload.categoria,
+        "lotto": payload.lotto, "giacenza_attuale": payload.giacenza_attuale,
+        "unita_misura": payload.unita_misura, "data_scadenza": payload.data_scadenza,
+        "fornitore": payload.fornitore, "note": payload.note,
+        "updated_at": datetime.utcnow().isoformat(),
+    }
+    try:
+        if payload.id:
+            res = (sb.table("shelf_life_items").update(rec)
+                   .eq("id", payload.id).eq("hotel_id", user.hotel_id).execute())
+        else:
+            res = sb.table("shelf_life_items").insert(rec).execute()
+    except Exception as e:
+        raise HTTPException(500, f"Errore salvataggio: {e}")
+    saved = (res.data or [rec])[0]
+    return {"ok": True, "item": _sl_enrich(saved)}
+
+
+@router.get("/items", summary="Inventario reale dell'hotel (FEFO)")
+async def list_items(user: UserProfile = Depends(require_user),
+                     categoria: Optional[str] = None, solo_alert: bool = False):
+    sb = _sl_sb()
+    q = sb.table("shelf_life_items").select("*").eq("hotel_id", user.hotel_id)
+    if categoria:
+        q = q.eq("categoria", categoria)
+    try:
+        res = q.order("data_scadenza").execute()
+    except Exception as e:
+        raise HTTPException(500, f"Errore lettura: {e}")
+    items = [_sl_enrich(r) for r in (res.data or [])]
+    if solo_alert:
+        items = [i for i in items if i["urgenza"] in ("SCADUTO", "CRITICO", "ALTO")]
+    return {"ok": True, "articoli": items, "totale": len(items),
+            "scaduti": sum(1 for i in items if i["urgenza"] == "SCADUTO"),
+            "critici": sum(1 for i in items if i["urgenza"] == "CRITICO")}
+
+
+@router.delete("/item/{item_id}", summary="Elimina un articolo")
+async def delete_item(item_id: str, user: UserProfile = Depends(require_user)):
+    sb = _sl_sb()
+    try:
+        sb.table("shelf_life_items").delete().eq("id", item_id).eq("hotel_id", user.hotel_id).execute()
+    except Exception as e:
+        raise HTTPException(500, f"Errore eliminazione: {e}")
+    return {"ok": True}
+
+
+@router.post("/item/{item_id}/blocca", summary="Blocca/sblocca lotto")
+async def blocca_item(item_id: str, user: UserProfile = Depends(require_user), blocca: bool = True):
+    sb = _sl_sb()
+    try:
+        sb.table("shelf_life_items").update({"lotto_bloccato": blocca,
+            "updated_at": datetime.utcnow().isoformat()}).eq("id", item_id).eq("hotel_id", user.hotel_id).execute()
+    except Exception as e:
+        raise HTTPException(500, f"Errore: {e}")
+    return {"ok": True, "bloccato": blocca}
+
+
+# ══════════════════════════════════════════════════════════════════
 #  SCHEDULER — job giornaliero 07:00 per alert scadenze
 # ══════════════════════════════════════════════════════════════════
 

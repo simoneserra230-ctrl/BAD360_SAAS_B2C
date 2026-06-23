@@ -450,38 +450,91 @@ async function slLoadInventario(){
   if(!tbody) return;
   const cat = document.getElementById('sl-inv-cat')?.value || '';
   let data, demo = false;
-  try{
-    let url = `/api/inventory/lotti?hotel_id=${BADS_HID_SL}`;
-    if(cat) url += `&categoria=${encodeURIComponent(cat)}`;
-    const d = await slGet(url);
-    data = d.lotti || [];
-    if(!data.length) throw new Error('empty');
-  }catch(e){
+  // 1) Dato REALE dal DB (autenticato, scoped per hotel dal token)
+  let real = null;
+  if(typeof B360!=='undefined'){
+    try{
+      const r = await B360.authFetch('/api/shelf-life/items'+(cat?('?categoria='+encodeURIComponent(cat)):''));
+      if(r.ok){ const d = await r.json(); if(d.ok && d.articoli && d.articoli.length) real = d.articoli; }
+    }catch(e){}
+  }
+  if(real){
+    data = real.map(i=>({
+      id:i.id, articolo:i.articolo, categoria:i.categoria||'',
+      lotto:i.lotto||'—',
+      giacenza:(i.giacenza_attuale!=null?i.giacenza_attuale:'')+(i.unita_misura?(' '+i.unita_misura):''),
+      apertura:'—', scadenza:i.data_scadenza||'—',
+      giorni:(i.giorni_alla_scadenza!=null?i.giorni_alla_scadenza:'—'),
+      status:i.urgenza||'OK', bloccato:!!i.lotto_bloccato,
+    }));
+  } else {
+    // 2) Fallback demo
     data = cat ? SL_DEMO_INVENTARIO.filter(i => i.categoria === cat) : SL_DEMO_INVENTARIO;
     demo = true;
   }
   slSetDemo(demo);
 
+  const addBtn = `<button onclick="slAddItem()" style="margin-left:auto;align-self:center;background:linear-gradient(135deg,#6B4F0A,#C9A84C);border:none;border-radius:8px;padding:8px 16px;color:#06060A;font-weight:700;cursor:pointer;font-family:inherit;font-size:12px">➕ Aggiungi articolo</button>`;
   if(kpi) kpi.innerHTML =
     slKpi(data.length, 'Lotti Attivi', '📦') +
-    slKpi(data.filter(i=>i.status==='CRITICO').length, 'Critici', '🔴', RED) +
+    slKpi(data.filter(i=>i.status==='CRITICO'||i.status==='SCADUTO').length, 'Critici', '🔴', RED) +
     slKpi(data.filter(i=>i.status==='ALTO').length, 'Attenzione', '🟠', ORANGE) +
-    slKpi(data.filter(i=>i.status==='OK').length, 'Conformi', '✅', GREEN);
+    slKpi(data.filter(i=>i.status==='OK').length, 'Conformi', '✅', GREEN) + addBtn;
 
   tbody.innerHTML = data.length ? data.map(i=>{
     const c = STATUS_COLOR[i.status] || G;
-    return `<tr>
-      <td><strong style="color:var(--txt)">${i.articolo}</strong></td>
+    const del = (!demo && i.id) ? `<a title="Elimina" onclick="slDeleteItem('${i.id}')" style="cursor:pointer;margin-left:8px;color:var(--txt3)">🗑</a>` : '';
+    return `<tr${i.bloccato?' style="opacity:.55"':''}>
+      <td><strong style="color:var(--txt)">${i.articolo}</strong>${i.bloccato?' <span style="font-size:9px;color:var(--red)">🔒 bloccato</span>':''}</td>
       <td style="font-size:11px;color:var(--txt3)">${i.categoria}</td>
       <td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--g)">${i.lotto}</td>
       <td style="font-family:'DM Mono',monospace;font-size:12px">${i.giacenza}</td>
       <td style="font-size:12px;color:var(--txt3)">${i.apertura}</td>
       <td style="color:var(--g);font-size:12px">${i.scadenza}</td>
-      <td style="font-weight:700;color:${c}">${i.giorni}gg</td>
-      <td><span style="background:${c}1a;color:${c};border:1px solid ${c}40;border-radius:99px;padding:3px 9px;font-size:10px;font-weight:700">${i.status}</span></td>
+      <td style="font-weight:700;color:${c}">${i.giorni}${typeof i.giorni==='number'?'gg':''}</td>
+      <td><span style="background:${c}1a;color:${c};border:1px solid ${c}40;border-radius:99px;padding:3px 9px;font-size:10px;font-weight:700">${i.status}</span>${del}</td>
     </tr>`;
   }).join('') :
-  `<tr><td colspan="8" style="text-align:center;color:var(--txt3);padding:30px">Nessun lotto trovato</td></tr>`;
+  `<tr><td colspan="8" style="text-align:center;color:var(--txt3);padding:30px">Nessun lotto. Clicca "➕ Aggiungi articolo" per iniziare.</td></tr>`;
+}
+
+// Aggiunge un articolo all'inventario REALE (persistente, scoped per hotel dal token)
+function slAddItem(){
+  if(typeof B360==='undefined'){alert('SDK non caricato');return;}
+  B360.modal({
+    title:'➕ Aggiungi articolo',
+    fields:[
+      {id:'articolo',label:'Articolo *',type:'text',placeholder:'Es. Prosciutto Crudo DOP'},
+      {id:'categoria',label:'Categoria',type:'text',placeholder:'Es. Salumi'},
+      {id:'lotto',label:'Lotto',type:'text',placeholder:'Es. LOT-2026-06-001'},
+      {id:'giacenza',label:'Giacenza',type:'number',placeholder:'8'},
+      {id:'unita',label:'Unità',type:'text',value:'kg'},
+      {id:'scadenza',label:'Scadenza *',type:'date'},
+      {id:'fornitore',label:'Fornitore',type:'text',placeholder:'(opzionale)'},
+    ],
+    confirmLabel:'✓ Salva',
+    onConfirm(v){
+      if(!v.articolo || !v.scadenza){
+        const e=document.getElementById('b360m-err'); if(e){e.style.display='block';e.textContent='Articolo e scadenza sono obbligatori';}
+        return false;   // tiene aperto il modal
+      }
+      B360.authFetch('/api/shelf-life/item',{method:'POST',body:JSON.stringify({
+        articolo:v.articolo, categoria:v.categoria||'', lotto:v.lotto||'',
+        giacenza_attuale:parseFloat(v.giacenza)||0, unita_misura:v.unita||'kg',
+        data_scadenza:v.scadenza, fornitore:v.fornitore||''
+      })}).then(r=>r.json()).then(d=>{ if(d&&d.ok) slLoadInventario(); else alert('Errore salvataggio'+(d&&d.detail?': '+d.detail:'')); })
+        .catch(()=>alert('Backend non raggiungibile (serve essere loggati)'));
+    }
+  });
+}
+
+async function slDeleteItem(id){
+  if(typeof B360==='undefined')return;
+  if(!confirm('Eliminare questo articolo dall\'inventario?'))return;
+  try{
+    const r=await B360.authFetch('/api/shelf-life/item/'+encodeURIComponent(id),{method:'DELETE'});
+    const d=await r.json(); if(d&&d.ok) slLoadInventario();
+  }catch(e){}
 }
 
 /* ── DISTILLATI & VINI ── */
