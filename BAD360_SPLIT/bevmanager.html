@@ -224,6 +224,7 @@ input,select,textarea{font-family:var(--font);outline:none}
           </div>
           <div id="dc-ingredients"></div>
           <button class="btn btn-outline btn-sm" style="margin-top:10px;width:100%;justify-content:center" onclick="addDCRow()">+ Aggiungi ingrediente</button>
+          <button class="btn btn-gold btn-sm" style="margin-top:8px;width:100%;justify-content:center" onclick="bvSaveRecipe()">💾 Salva ricetta</button>
           <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
             <div>
               <label style="font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt3);display:block;margin-bottom:5px">Prezzo Vendita (€)</label>
@@ -326,7 +327,7 @@ const FC_CARDS = [
   {icon:'⚠️',label:'Waste & Spoilage',val:'1.8%',target:'< 2%',stato:'ok',desc:'Ben gestito'},
 ];
 
-const SAVED_RECIPES = [
+let SAVED_RECIPES = [
   {nome:'Negroni Sardo',costo:2.84,prezzo:14,costpct:20.3},
   {nome:'Gin Tonic Monkey 47',costo:4.52,prezzo:14,costpct:32.3},
   {nome:'Aperol Spritz',costo:1.65,prezzo:9,costpct:18.3},
@@ -450,16 +451,51 @@ function renderDrinkCost(){
   const saved=document.getElementById('dc-saved');
   if(saved)saved.innerHTML=SAVED_RECIPES.map(r=>{
     const col=r.costpct<=22?'var(--green)':r.costpct<=28?'var(--g)':'var(--orange)';
+    const del=r.id?`<a onclick="bvDeleteRecipe('${r.id}')" title="Elimina" style="cursor:pointer;color:var(--txt3);font-size:12px;margin-left:10px">🗑</a>`:'';
     return `<div class="bv-card" style="margin-bottom:8px;padding:12px 16px">
       <div style="display:flex;align-items:center;justify-content:space-between">
         <div>
           <div style="font-weight:700;font-size:13px">${r.nome}</div>
-          <div style="font-size:11px;color:var(--txt3)">Costo: € ${r.costo.toFixed(2)} · Prezzo: € ${r.prezzo.toFixed(2)}</div>
+          <div style="font-size:11px;color:var(--txt3)">Costo: € ${Number(r.costo).toFixed(2)} · Prezzo: € ${Number(r.prezzo).toFixed(2)}</div>
         </div>
-        <span style="font-family:var(--heading);font-size:18px;font-weight:800;color:${col}">${r.costpct}%</span>
+        <div style="display:flex;align-items:center">
+          <span style="font-family:var(--heading);font-size:18px;font-weight:800;color:${col}">${r.costpct}%</span>${del}
+        </div>
       </div>
     </div>`;
   }).join('');
+}
+
+// ── Persistenza ricette drink (fondamenta dati, scoped per hotel dal token) ──
+async function bvLoadRecipes(){
+  if(typeof B360==='undefined')return;
+  try{
+    const r=await B360.authFetch('/api/drinks/recipes');
+    if(!r.ok)return;                          // 401/503 → resta sul demo
+    const d=await r.json();
+    if(d.ok && d.recipes && d.recipes.length){
+      SAVED_RECIPES = d.recipes.map(x=>({id:x.id,nome:x.nome,costo:Number(x.costo)||0,prezzo:Number(x.prezzo)||0,costpct:Number(x.costpct)||0,ingredienti:x.ingredienti||[]}));
+      renderDrinkCost();
+    }
+  }catch(e){}
+}
+
+function bvSaveRecipe(){
+  if(typeof B360==='undefined'){showToast('SDK non caricato','err');return;}
+  const nome=(document.getElementById('dc-name')?.value||'').trim();
+  const prezzo=parseFloat(document.getElementById('dc-price')?.value)||0;
+  const ingredienti=dcRows.filter(r=>r.ing&&(parseFloat(r.qty)||0)>0)
+    .map(r=>({ing:r.ing,qty:parseFloat(r.qty)||0,unit:r.unit||'cl',cost:parseFloat(r.cost)||0}));
+  if(!nome){showToast('Inserisci il nome della ricetta','err');return;}
+  if(!ingredienti.length){showToast('Aggiungi almeno un ingrediente con quantità','err');return;}
+  B360.authFetch('/api/drinks/recipe',{method:'POST',body:JSON.stringify({nome,prezzo,ingredienti})})
+    .then(r=>r.json()).then(d=>{ if(d&&d.ok){ bvLoadRecipes(); showToast('✅ Ricetta salvata: '+nome); } else showToast('Errore salvataggio','err'); })
+    .catch(()=>showToast('Backend non raggiungibile (serve login)','err'));
+}
+
+async function bvDeleteRecipe(id){
+  if(typeof B360==='undefined'||!confirm('Eliminare questa ricetta?'))return;
+  try{ const r=await B360.authFetch('/api/drinks/recipe/'+encodeURIComponent(id),{method:'DELETE'}); const d=await r.json(); if(d&&d.ok) bvLoadRecipes(); }catch(e){}
 }
 
 function renderDCForm(){
@@ -742,6 +778,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   renderInventario();
   if(typeof B360!=='undefined'){
     B360.mountAIWidget('beverage','Hotel Baia Sardinia · Bev Manager · bev cost 24.8%');
+    bvLoadRecipes();   // ricette drink reali dal DB quando loggati
   }
 });
 </script>
