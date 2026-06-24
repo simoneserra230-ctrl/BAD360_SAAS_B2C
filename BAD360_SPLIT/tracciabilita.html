@@ -276,7 +276,7 @@ input,select,textarea{font-family:var(--font);outline:none}
 
 <div class="toast" id="toast"></div>
 <script>
-const LOTTI=[
+let LOTTI=[
   {id:'LOT-2025-0041',prodotto:'Branzino fresco intero',fornitore:'Pescheria Costa Rei',carico:'2026-05-28',scad:'2026-06-02',qty:'18 kg',origine:'🇮🇹 MAR Sardegna',stato:'ok'},
   {id:'LOT-2025-0040',prodotto:'Polpo verace',fornitore:'Coop. Pescatori Oristano',carico:'2026-05-27',scad:'2026-06-01',qty:'12 kg',origine:'🇮🇹 MAR Sardegna',stato:'ok'},
   {id:'LOT-2025-0039',prodotto:'Ricotta di pecora DOP',fornitore:'Az. Agr. Milis',carico:'2026-05-25',scad:'2026-06-05',qty:'8 kg',origine:'🇮🇹 Oristano',stato:'ok'},
@@ -410,8 +410,32 @@ function renderLotti(){
       <td style="font-family:var(--mono)">${l.qty}</td>
       <td style="font-size:12px">${l.origine}</td>
       <td>${STATO[l.stato]||''}</td>
-      <td><button class="btn btn-outline btn-sm" onclick="showLottoDetail(${JSON.stringify(l).replace(/"/g,'&quot;')})">→</button></td>
+      <td><button class="btn btn-outline btn-sm" onclick="showLottoDetail(${JSON.stringify(l).replace(/"/g,'&quot;')})">→</button>${l.dbid?` <button class="btn btn-outline btn-sm" onclick="trDeleteLotto('${l.dbid}')">🗑</button>`:''}</td>
     </tr>`).join('');
+}
+
+// ── Persistenza lotti (fondamenta dati, scoped per hotel dal token) ──
+async function trLoadLotti(){
+  if(typeof B360==='undefined')return;
+  try{
+    const r=await B360.authFetch('/api/trace/lotti');
+    if(!r.ok)return;                          // 401/503 → resta sul demo
+    const d=await r.json();
+    if(d.ok && d.lotti && d.lotti.length){
+      LOTTI = d.lotti.map(x=>({id:x.codice||x.id,dbid:x.id,prodotto:x.prodotto||'',fornitore:x.fornitore||'—',carico:x.carico||'—',scad:x.scad||'—',qty:x.qty||'—',origine:x.origine||'—',stato:x.stato||'ok'}));
+      const badge=document.getElementById('trc-demo-badge'); if(badge)badge.style.display='none';
+      document.getElementById('kpi-lotti').textContent=LOTTI.length;
+      document.getElementById('kpi-conformi').textContent=LOTTI.filter(l=>l.stato==='ok').length;
+      document.getElementById('kpi-warn').textContent=LOTTI.filter(l=>l.stato==='warn').length;
+      document.getElementById('kpi-nc').textContent=LOTTI.filter(l=>l.stato==='nc').length;
+      renderLotti();
+    }
+  }catch(e){}
+}
+
+async function trDeleteLotto(id){
+  if(typeof B360==='undefined'||!confirm('Eliminare questo lotto?'))return;
+  try{ const r=await B360.authFetch('/api/trace/lotto/'+encodeURIComponent(id),{method:'DELETE'}); const d=await r.json(); if(d&&d.ok) trLoadLotti(); }catch(e){}
 }
 
 function renderFiliera(){
@@ -554,9 +578,11 @@ function openNuovoLotto(){
     ],
     onConfirm(v){
       if(!v.id||!v.prodotto){document.getElementById('b360m-err').style.display='block';document.getElementById('b360m-err').textContent='Codice e prodotto obbligatori';return false;}
-      LOTTI.unshift({id:v.id,prodotto:v.prodotto,fornitore:v.fornitore||'—',carico:new Date().toISOString().slice(0,10),scad:v.scad||'—',qty:v.qty||'—',origine:v.origine||'—',stato:'ok'});
-      renderLotti();
-      if(typeof B360!=='undefined')B360.storeSet('trc_lotti',LOTTI.slice(0,50));
+      const carico=new Date().toISOString().slice(0,10);
+      const fe={id:v.id,prodotto:v.prodotto,fornitore:v.fornitore||'—',carico,scad:v.scad||'—',qty:v.qty||'—',origine:v.origine||'—',stato:'ok'};
+      B360.authFetch('/api/trace/lotto',{method:'POST',body:JSON.stringify({codice:v.id,prodotto:v.prodotto,fornitore:v.fornitore||'',carico,scad:v.scad||null,qty:v.qty||'',origine:v.origine||'',stato:'ok'})})
+        .then(r=>r.json()).then(d=>{ if(d&&d.ok){ trLoadLotti(); } else { LOTTI.unshift(fe); renderLotti(); } })
+        .catch(()=>{ LOTTI.unshift(fe); renderLotti(); });
       showToast('✅ Lotto registrato: '+v.id);
     }
   });
@@ -608,6 +634,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   trcLoadDemo();
   if(typeof B360!=='undefined'){
     B360.mountAIWidget('haccp','Hotel Baia Sardinia · Tracciabilità ISO 22005 · 8 lotti attivi');
+    trLoadLotti();   // lotti reali dal DB quando loggati
   }
 });
 </script>
