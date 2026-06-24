@@ -61,6 +61,7 @@ from backend.haccp import router as haccp_router
 from backend.shifts import router as shifts_router
 from backend.drinks import router as drinks_router
 from backend.events import router as events_router
+from backend.reviews import router as reviews_router
 
 load_dotenv()
 
@@ -103,6 +104,7 @@ app.include_router(haccp_router)
 app.include_router(shifts_router)
 app.include_router(drinks_router)
 app.include_router(events_router)
+app.include_router(reviews_router)
 
 # ── SaaS layer: paywall + quota + admin settings + Stripe + account ──
 from backend.saas import register_saas

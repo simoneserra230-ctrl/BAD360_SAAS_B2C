@@ -291,7 +291,7 @@ input,select,textarea{font-family:var(--font);outline:none}
 
 <script>
 /* ── Dataset demo ─────────────────────────────────────────────────── */
-const REVIEWS = [
+let REVIEWS = [
   {id:'r1',platform:'google',author:'Marco T.',stars:5,date:'2026-06-07',
    text:'Esperienza eccellente! Il personale è stato straordinario, attento e professionale. La colazione era ricca e di qualità. Tornerò sicuramente.',
    sentiment:'pos',keywords:['personale','colazione','qualità'],replied:true,
@@ -354,6 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderList(REVIEWS);
   renderSidebar();
   initTrend();
+  if(typeof B360!=='undefined') rvLoadReviews();   // recensioni reali dal DB quando loggati
 });
 
 /* ── KPI ──────────────────────────────────────────────────────────── */
@@ -371,7 +372,46 @@ function renderKPI() {
     <div class="rr-kpi-card"><div class="rr-kpi-val" style="color:var(--red)">${urgent}</div><div class="rr-kpi-sub">Urgenti (1-2★)</div><div class="rr-kpi-delta dn">⚠ risposta entro 24h</div></div>
     <div class="rr-kpi-card"><div class="rr-kpi-val">${Math.round(pos/total*100)}%</div><div class="rr-kpi-sub">Sentiment positivo</div><div class="rr-kpi-delta up">▲ +3% vs trimestre</div></div>
     <div class="rr-kpi-card"><div class="rr-kpi-val">${REVIEWS.filter(r=>r.replied).length}</div><div class="rr-kpi-sub">Risposte inviate</div><div class="rr-kpi-delta neu">${Math.round(REVIEWS.filter(r=>r.replied).length/total*100)}% response rate</div></div>
+    <div class="rr-kpi-card" style="display:flex;align-items:center;justify-content:center;cursor:pointer;border:1.5px dashed rgba(201,168,76,.3)" onclick="rvAddReview()"><div style="text-align:center;color:var(--g);font-weight:700;line-height:1.4">➕<br>Aggiungi<br>recensione</div></div>
   `;
+}
+
+// ── Persistenza recensioni (fondamenta dati, scoped per hotel dal token) ──
+async function rvLoadReviews(){
+  if(typeof B360==='undefined')return;
+  try{
+    const r=await B360.authFetch('/api/reviews/list');
+    if(!r.ok)return;                          // 401/503 → resta sul demo
+    const d=await r.json();
+    if(d.ok && d.recensioni && d.recensioni.length){
+      REVIEWS = d.recensioni.map(x=>({id:x.id,platform:x.platform||'google',author:x.author||'',stars:Number(x.stars)||0,date:x.date||'',text:x.text||'',sentiment:x.sentiment||'neu',keywords:Array.isArray(x.keywords)?x.keywords:[],replied:!!x.replied,reply:x.reply||''}));
+      filteredData=[...REVIEWS];
+      renderKPI(); renderList(filteredData); renderSidebar();
+    }
+  }catch(e){}
+}
+
+function rvAddReview(){
+  if(typeof B360==='undefined'){showToast('SDK non caricato');return;}
+  B360.modal({
+    title:'➕ Aggiungi recensione',
+    fields:[
+      {id:'platform',label:'Piattaforma',type:'select',options:['google','tripadvisor','thefork','booking']},
+      {id:'author',label:'Autore',type:'text',placeholder:'Es. Marco T.'},
+      {id:'stars',label:'Stelle',type:'select',options:['5','4','3','2','1']},
+      {id:'date',label:'Data',type:'date'},
+      {id:'sentiment',label:'Sentiment',type:'select',options:['pos','neu','neg']},
+      {id:'text',label:'Testo',type:'textarea',placeholder:'Testo della recensione…'},
+    ],
+    confirmLabel:'✓ Salva',
+    onConfirm(v){
+      if(!v.author||!v.text){const e=document.getElementById('b360m-err');if(e){e.style.display='block';e.textContent='Autore e testo obbligatori';}return false;}
+      B360.authFetch('/api/reviews/review',{method:'POST',body:JSON.stringify({platform:v.platform,author:v.author,stars:parseInt(v.stars)||5,date:v.date||null,sentiment:v.sentiment,text:v.text,keywords:[],replied:false,reply:''})})
+        .then(r=>r.json()).then(d=>{ if(d&&d.ok) rvLoadReviews(); else showToast('Errore salvataggio'); })
+        .catch(()=>showToast('Backend non raggiungibile (serve login)'));
+      showToast('✅ Recensione aggiunta');
+    }
+  });
 }
 
 /* ── Sidebar ──────────────────────────────────────────────────────── */
@@ -563,6 +603,8 @@ function sendReply(id){
   r.reply=ta.value; r.replied=true;
   renderList(filteredData);
   showToast('✅ Risposta pubblicata');
+  // Persisti la risposta sul DB reale (se la recensione viene dal backend)
+  if(typeof B360!=='undefined') B360.authFetch('/api/reviews/review/'+encodeURIComponent(id)+'/reply',{method:'POST',body:JSON.stringify({reply:r.reply})}).catch(()=>{});
 }
 function editReply(id){
   const r=REVIEWS.find(x=>x.id===id);
