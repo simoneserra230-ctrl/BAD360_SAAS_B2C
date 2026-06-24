@@ -345,7 +345,7 @@ input,select,textarea{font-family:var(--font);outline:none}
 
 <div class="toast" id="toast"></div>
 <script>
-const CRM_DATA = [
+let CRM_DATA = [
   {nome:'Famiglia Nule',tipo:'Matrimonio',data:'2026-06-18',pax:120,budget:'€ 14.000',stato:'chiuso',fu:'2026-06-10'},
   {nome:'Kambusa Beach Club',tipo:'Evento Aziendale',data:'2026-06-25',pax:60,budget:'€ 8.500',stato:'preventivo',fu:'2026-06-05'},
   {nome:'Famiglia Terralba',tipo:'Battesimo',data:'2026-07-05',pax:60,budget:'€ 4.200',stato:'chiuso',fu:'2026-07-01'},
@@ -506,8 +506,31 @@ function renderCRM(){
       <td style="font-family:var(--heading);font-size:15px;font-weight:700;color:var(--g)">${c.budget}</td>
       <td>${CRM_STATO[c.stato]||c.stato}</td>
       <td style="font-family:var(--mono);font-size:11px;color:var(--txt3)">${c.fu}</td>
-      <td><button class="btn btn-outline btn-sm" onclick="showClienteDetail(${JSON.stringify(c).replace(/"/g,'&quot;')})">→</button></td>
+      <td><button class="btn btn-outline btn-sm" onclick="showClienteDetail(${JSON.stringify(c).replace(/"/g,'&quot;')})">→</button>${c.id?` <button class="btn btn-outline btn-sm" onclick="evDeleteEvento('${c.id}')">🗑</button>`:''}</td>
     </tr>`).join('');
+}
+
+// ── Persistenza CRM eventi (fondamenta dati, scoped per hotel dal token) ──
+async function evLoadEvents(){
+  if(typeof B360==='undefined')return;
+  try{
+    const r=await B360.authFetch('/api/events/eventi');
+    if(!r.ok)return;                          // 401/503 → resta sul demo
+    const d=await r.json();
+    if(d.ok && d.eventi && d.eventi.length){
+      CRM_DATA = d.eventi.map(x=>({
+        id:x.id, nome:x.nome, tipo:x.tipo||'Altro', data:x.data||'TBD',
+        pax:x.pax||0, budget:'€ '+(Number(x.budget)||0).toLocaleString('it-IT'),
+        stato:x.stato||'lead', fu:x.follow_up||'', note:x.note||''
+      }));
+      renderCRM();
+    }
+  }catch(e){}
+}
+
+async function evDeleteEvento(id){
+  if(typeof B360==='undefined'||!confirm('Eliminare questo evento?'))return;
+  try{ const r=await B360.authFetch('/api/events/evento/'+encodeURIComponent(id),{method:'DELETE'}); const d=await r.json(); if(d&&d.ok) evLoadEvents(); }catch(e){}
 }
 
 function initPrev(){
@@ -575,7 +598,7 @@ function renderTimeline(){
   if(cel)cel.innerHTML=cl.map(c=>`
     <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)">
       <span style="font-size:16px">${c.fatto?'✅':'⬜'}</span>
-      <span style="font-size:13px;color:${c.fatto?'var(--txt3)':'var(--txt)'">${c.task}</span>
+      <span style="font-size:13px;color:${c.fatto?'var(--txt3)':'var(--txt)'}">${c.task}</span>
     </div>`).join('');
 }
 
@@ -627,10 +650,13 @@ function openNuovoContatto(){
     ],
     onConfirm(v){
       if(!v.nome){document.getElementById('b360m-err').style.display='block';document.getElementById('b360m-err').textContent='Inserisci il nome';return false;}
-      const newC={nome:v.nome,tipo:v.tipo,data:v.data||'TBD',pax:parseInt(v.pax)||0,budget:'€ '+v.budget,stato:'lead',fu:new Date(Date.now()+7*864e5).toISOString().slice(0,10)};
-      CRM_DATA.unshift(newC);
-      if(typeof B360!=='undefined')B360.storeSet('events_crm',CRM_DATA.slice(0,50));
-      renderCRM();
+      const budgetNum=parseFloat(String(v.budget||'').replace(/[^\d]/g,''))||0;
+      const fu=new Date(Date.now()+7*864e5).toISOString().slice(0,10);
+      const newC={nome:v.nome,tipo:v.tipo,data:v.data||'TBD',pax:parseInt(v.pax)||0,budget:'€ '+budgetNum.toLocaleString('it-IT'),stato:'lead',fu,note:v.note||''};
+      // Salva sul DB reale (scoped per hotel dal token); fallback locale se non loggato
+      B360.authFetch('/api/events/evento',{method:'POST',body:JSON.stringify({nome:v.nome,tipo:v.tipo,data:v.data||null,pax:parseInt(v.pax)||0,budget:budgetNum,stato:'lead',follow_up:fu,note:v.note||''})})
+        .then(r=>r.json()).then(d=>{ if(d&&d.ok){ evLoadEvents(); } else { CRM_DATA.unshift(newC); renderCRM(); } })
+        .catch(()=>{ CRM_DATA.unshift(newC); renderCRM(); });
       showToast('✅ Contatto aggiunto: '+v.nome);
     }
   });
@@ -838,6 +864,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   renderListaSpesa();
   if(typeof B360!=='undefined'){
     B360.mountAIWidget('general','Hotel Baia Sardinia · Events Manager');
+    evLoadEvents();   // CRM eventi reali dal DB quando loggati
   }
 });
 </script>
