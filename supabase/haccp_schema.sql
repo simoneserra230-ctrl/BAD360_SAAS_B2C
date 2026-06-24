@@ -3,12 +3,14 @@
 --  Esegui UNA VOLTA nel SQL editor di Supabase.
 --  Modulo "fondamenta dati": registro temperature HACCP per hotel.
 --
---  NOTA: hotel_id è TEXT (non UUID) per compatibilità con gli account demo
---  (es. 'hotel-ss-001') e con eventuali id Supabase. Ogni riga è isolata per
---  hotel_id — il backend lo prende SEMPRE dal token (mai dal client).
+--  NOTA: usa la tabella NUOVA `haccp_letture` con hotel_id TEXT (compatibile
+--  con gli account demo tipo 'hotel-ss-001' e con eventuali id Supabase).
+--  Volutamente NON riusa la vecchia `haccp_temperature` (hotel_id UUID, legacy
+--  dello schema iniziale) per non doverla alterare. Ogni riga è isolata per
+--  hotel_id — il backend lo prende SEMPRE dal token, mai dal client.
 -- ═══════════════════════════════════════════════════════════════════
 
-CREATE TABLE IF NOT EXISTS haccp_temperature (
+CREATE TABLE IF NOT EXISTS haccp_letture (
     id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     hotel_id        TEXT NOT NULL,
     sensor_id       TEXT NOT NULL DEFAULT 'b360-ui',
@@ -24,14 +26,9 @@ CREATE TABLE IF NOT EXISTS haccp_temperature (
     timestamp       TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Index per le query frequenti (storico per hotel, alert del giorno)
-CREATE INDEX IF NOT EXISTS idx_haccp_temp_hotel_ts
-    ON haccp_temperature (hotel_id, timestamp DESC);
-CREATE INDEX IF NOT EXISTS idx_haccp_temp_alert
-    ON haccp_temperature (hotel_id, alert) WHERE alert = TRUE;
-CREATE INDEX IF NOT EXISTS idx_haccp_temp_zona
-    ON haccp_temperature (hotel_id, zona, timestamp DESC);
-
--- (Opzionale) Row Level Security: con la service key del backend è bypassata,
--- ma la lasciamo pronta se in futuro si userà l'accesso diretto da client.
--- ALTER TABLE haccp_temperature ENABLE ROW LEVEL SECURITY;
+CREATE INDEX IF NOT EXISTS idx_haccp_letture_hotel_ts
+    ON haccp_letture (hotel_id, timestamp DESC);
+CREATE INDEX IF NOT EXISTS idx_haccp_letture_alert
+    ON haccp_letture (hotel_id, alert) WHERE alert = TRUE;
+CREATE INDEX IF NOT EXISTS idx_haccp_letture_zona
+    ON haccp_letture (hotel_id, zona, timestamp DESC);

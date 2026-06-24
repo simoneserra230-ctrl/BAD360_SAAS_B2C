@@ -6,7 +6,7 @@ Registro temperature HACCP salvato su Supabase, scoped per hotel_id dal JWT.
 vero. Il frontend (haccp.html) chiama già POST /api/haccp/temperature-log e si
 aspetta {alert, severity, message}; qui lo persistiamo davvero.
 
-Tabella: haccp_temperature (vedi supabase/haccp_schema.sql).
+Tabella: haccp_letture (vedi supabase/haccp_schema.sql).
 Sicurezza: hotel_id viene SEMPRE dal token (require_user), mai dal client.
 """
 
@@ -93,7 +93,7 @@ async def temperature_log(payload: TempLog, user: UserProfile = Depends(require_
         "timestamp":    payload.timestamp or datetime.now(timezone.utc).isoformat(),
     }
     try:
-        res = sb.table("haccp_temperature").insert(record).execute()
+        res = sb.table("haccp_letture").insert(record).execute()
     except Exception as e:
         raise HTTPException(500, f"Errore salvataggio: {e}")
     saved = (res.data or [{}])[0]
@@ -107,7 +107,7 @@ async def temperature_history(user: UserProfile = Depends(require_user),
                               zona: Optional[str] = Query(None),
                               limit: int = Query(100, ge=1, le=500)):
     sb = _sb_or_503()
-    q = sb.table("haccp_temperature").select("*").eq("hotel_id", user.hotel_id)
+    q = sb.table("haccp_letture").select("*").eq("hotel_id", user.hotel_id)
     if zona:
         q = q.eq("zona", zona)
     try:
@@ -122,7 +122,7 @@ async def temperature_history(user: UserProfile = Depends(require_user),
 async def alerts(user: UserProfile = Depends(require_user)):
     sb = _sb_or_503()
     try:
-        res = (sb.table("haccp_temperature").select("*")
+        res = (sb.table("haccp_letture").select("*")
                .eq("hotel_id", user.hotel_id).eq("alert", True)
                .gte("timestamp", _today_start_iso())
                .order("timestamp", desc=True).execute())
@@ -136,7 +136,7 @@ async def alerts(user: UserProfile = Depends(require_user)):
 async def dashboard(user: UserProfile = Depends(require_user)):
     sb = _sb_or_503()
     try:
-        res = (sb.table("haccp_temperature").select("*")
+        res = (sb.table("haccp_letture").select("*")
                .eq("hotel_id", user.hotel_id)
                .gte("timestamp", _today_start_iso())
                .order("timestamp", desc=True).execute())
