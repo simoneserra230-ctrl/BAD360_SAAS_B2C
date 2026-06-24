@@ -323,7 +323,7 @@ input,select,textarea{font-family:var(--font);outline:none}
 
 <div class="toast" id="toast"></div>
 <script>
-const FORNITORI = [
+let FORNITORI = [
   {icon:'🐟',nome:'Pescheria Costa Rei',cat:'Pesce & Crostacei',sla:96,ordini:14,spend:'€ 1.240',cert:'GSSI + BRC',stato:'ok'},
   {icon:'🌿',nome:'Az. Agr. Milis',cat:'Latticini & Bio',sla:100,ordini:8,spend:'€ 420',cert:'Bio EU',stato:'ok'},
   {icon:'🍷',nome:'Cantine Argiolas',cat:'Vini Sardi',sla:98,ordini:6,spend:'€ 680',cert:'DOC Sardegna',stato:'ok'},
@@ -334,7 +334,7 @@ const FORNITORI = [
   {icon:'🧂',nome:'Metro Cash & Carry',cat:'Prodotti Secchi',sla:82,ordini:12,spend:'€ 640',cert:'—',stato:'warn'},
 ];
 
-const ORDINI = [
+let ORDINI = [
   {num:'ORD-2026-0045',forn:'Viacomm Spirits',cat:'Spirits',data:'2026-05-28',cons:'2026-06-03',importo:'€ 480',prod:'Gin, Rum, Vermouth',stato:'transit'},
   {num:'ORD-2026-0044',forn:'Cantine Argiolas',cat:'Vini',data:'2026-05-20',cons:'2026-05-25',importo:'€ 295',prod:'Cannonau, Vermentino',stato:'ok'},
   {num:'ORD-2026-0043',forn:'Pescheria Costa Rei',cat:'Pesce',data:'2026-06-01',cons:'2026-06-03',importo:'€ 240',prod:'Branzino, Polpo, Orate',stato:'transit'},
@@ -433,7 +433,7 @@ function renderFornitori(){
           <div style="font-weight:700;font-size:14px;font-family:var(--heading)">${f.nome}</div>
           <div style="font-size:11px;color:var(--txt3)">${f.cat}</div>
         </div>
-        <span class="scbadge scbg-${f.stato==='ok'?'ok':'warn'}">${f.stato==='ok'?'Attivo':'Check'}</span>
+        <span class="scbadge scbg-${f.stato==='ok'?'ok':'warn'}">${f.stato==='ok'?'Attivo':'Check'}</span>${f.dbid?`<a onclick="scDeleteFornitore('${f.dbid}')" title="Elimina" style="cursor:pointer;color:var(--txt3);margin-left:6px">🗑</a>`:''}
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;margin-bottom:10px">
         <div style="background:var(--bg3);border-radius:8px;padding:8px;text-align:center">
@@ -468,8 +468,27 @@ function renderOrdini(){
       <td style="font-family:var(--heading);font-size:15px;font-weight:700;color:var(--g)">${o.importo}</td>
       <td style="font-size:12px;color:var(--txt2)">${o.prod}</td>
       <td>${STATO[o.stato]||''}</td>
-      <td><button class="btn btn-outline btn-sm" onclick="showOrdineDetail(${JSON.stringify(o).replace(/'/g,"\\'")})">→</button></td>
+      <td><button class="btn btn-outline btn-sm" onclick="showOrdineDetail(${JSON.stringify(o).replace(/'/g,"\\'")})">→</button>${o.dbid?` <button class="btn btn-outline btn-sm" onclick="scDeleteOrdine('${o.dbid}')">🗑</button>`:''}</td>
     </tr>`).join('');
+}
+
+// ── Persistenza SCM (fondamenta dati, scoped per hotel dal token) ──
+async function scLoadData(){
+  if(typeof B360==='undefined')return;
+  let gotF=false,gotO=false;
+  try{ const r=await B360.authFetch('/api/scm/fornitori'); if(r.ok){ const d=await r.json(); if(d.ok&&d.fornitori&&d.fornitori.length){ FORNITORI=d.fornitori.map(x=>({dbid:x.id,icon:x.icon||'🏭',nome:x.nome,cat:x.cat||'',sla:x.sla||85,ordini:0,spend:'€ '+(Number(x.spend)||0).toLocaleString('it-IT'),cert:x.cert||'—',stato:x.stato||'ok'})); gotF=true; } } }catch(e){}
+  try{ const r=await B360.authFetch('/api/scm/ordini'); if(r.ok){ const d=await r.json(); if(d.ok&&d.ordini&&d.ordini.length){ ORDINI=d.ordini.map(x=>({dbid:x.id,num:x.num,forn:x.forn||'',cat:x.cat||'Misto',data:x.data||'',cons:x.cons||'—',importo:'€ '+(Number(x.importo)||0).toLocaleString('it-IT'),prod:x.prod||'',stato:x.stato||'aperto'})); gotO=true; } } }catch(e){}
+  if(gotF){ FORNITORI.forEach(f=>{ const n=f.nome.toLowerCase(); f.ordini=ORDINI.filter(o=>{const of=(o.forn||'').toLowerCase();return of&&(of.includes(n)||n.includes(of));}).length; }); renderFornitori(); }
+  if(gotO) renderOrdini();
+  if(gotF||gotO) initDashboard();
+}
+async function scDeleteFornitore(id){
+  if(typeof B360==='undefined'||!confirm('Eliminare questo fornitore?'))return;
+  try{ const r=await B360.authFetch('/api/scm/fornitore/'+encodeURIComponent(id),{method:'DELETE'}); const d=await r.json(); if(d&&d.ok) scLoadData(); }catch(e){}
+}
+async function scDeleteOrdine(id){
+  if(typeof B360==='undefined'||!confirm('Eliminare questo ordine?'))return;
+  try{ const r=await B360.authFetch('/api/scm/ordine/'+encodeURIComponent(id),{method:'DELETE'}); const d=await r.json(); if(d&&d.ok) scLoadData(); }catch(e){}
 }
 
 function renderMagazzino(){
@@ -684,9 +703,10 @@ function openNuovoFornitore(){
     onConfirm(v){
       if(!v.nome){document.getElementById('b360m-err').style.display='block';document.getElementById('b360m-err').textContent='Inserisci la ragione sociale';return false;}
       const icons={'Pesce & Crostacei':'🐟','Carni & Salumi':'🥩','Latticini & Bio':'🌿','Vini Sardi':'🍷','Spirits & Liquori':'🥃','Pane & Pasta fresca':'🌾','Birre':'🍺','Prodotti Secchi':'🧂','Ortofrutta':'🥦'};
-      FORNITORI.push({icon:icons[v.cat]||'🏭',nome:v.nome,cat:v.cat,sla:85,ordini:0,spend:'€ 0',cert:v.cert||'—',stato:'ok'});
-      renderFornitori();
-      if(typeof B360!=='undefined')B360.storeSet('scm_fornitori',FORNITORI);
+      const fe={icon:icons[v.cat]||'🏭',nome:v.nome,cat:v.cat,sla:85,ordini:0,spend:'€ 0',cert:v.cert||'—',stato:'ok'};
+      B360.authFetch('/api/scm/fornitore',{method:'POST',body:JSON.stringify({nome:v.nome,cat:v.cat,cert:v.cert||'',contatto:v.contatto||'',sla:85,spend:0,stato:'ok',icon:fe.icon})})
+        .then(r=>r.json()).then(d=>{ if(d&&d.ok) scLoadData(); else { FORNITORI.push(fe); renderFornitori(); } })
+        .catch(()=>{ FORNITORI.push(fe); renderFornitori(); });
       showToast('✅ Fornitore aggiunto: '+v.nome);
     }
   });
@@ -704,18 +724,20 @@ function openNuovoOrdine(){
     ],
     onConfirm(v){
       if(!v.prod){document.getElementById('b360m-err').style.display='block';document.getElementById('b360m-err').textContent='Inserisci i prodotti ordinati';return false;}
+      const importoNum=parseFloat(v.importo)||0;
       const newOrd={
-        num:'ORD-2026-00'+(ORDINI.length+50),
+        num:'ORD-'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'-'+(ORDINI.length+1),
         forn:v.forn,cat:'Misto',
         data:new Date().toISOString().slice(0,10),
         cons:v.cons||'—',
-        importo:'€ '+(parseFloat(v.importo)||0).toFixed(0),
+        importo:'€ '+importoNum.toFixed(0),
         prod:v.prod,
         stato:'aperto',
       };
-      ORDINI.unshift(newOrd);
-      renderOrdini();
-      showToast('✅ Ordine creato: '+newOrd.num);
+      B360.authFetch('/api/scm/ordine',{method:'POST',body:JSON.stringify({forn:v.forn,cat:'Misto',cons:v.cons||null,importo:importoNum,prod:v.prod,stato:'aperto'})})
+        .then(r=>r.json()).then(d=>{ if(d&&d.ok) scLoadData(); else { ORDINI.unshift(newOrd); renderOrdini(); } })
+        .catch(()=>{ ORDINI.unshift(newOrd); renderOrdini(); });
+      showToast('✅ Ordine creato');
     }
   });
 }
@@ -889,6 +911,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   renderMagazzino();
   if(typeof B360!=='undefined'){
     B360.mountAIWidget('scm','Hotel Baia Sardinia · SCM Pro · 12 fornitori');
+    scLoadData();   // fornitori + ordini reali dal DB quando loggati
   }
 });
 </script>
