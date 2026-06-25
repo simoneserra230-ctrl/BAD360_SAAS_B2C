@@ -135,6 +135,7 @@ html,body{min-height:100vh;font-family:'DM Sans',sans-serif;font-size:14px;line-
           <option value="ispezionata">Ispezionata</option>
           <option value="fuori_servizio">Fuori servizio</option>
         </select>
+        <button class="hk-refresh" onclick="hkAddRoom()" style="background:linear-gradient(135deg,#6B4F0A,#C9A84C);color:#06060A">+ Camera</button>
         <button class="hk-refresh" onclick="hkLoadRooms()">↻ Aggiorna</button>
       </div>
     </div>
@@ -142,8 +143,8 @@ html,body{min-height:100vh;font-family:'DM Sans',sans-serif;font-size:14px;line-
     <div class="hk-card" style="padding:0;overflow:hidden">
       <div style="overflow-x:auto">
         <table class="hk-table">
-          <thead><tr><th>Camera</th><th>Piano</th><th>Tipo</th><th>Stato HK</th><th>Occupazione</th><th>Priorità</th></tr></thead>
-          <tbody id="hk-rooms-tbody"><tr><td colspan="6" style="text-align:center;color:var(--txt3);padding:24px">Caricamento…</td></tr></tbody>
+          <thead><tr><th>Camera</th><th>Piano</th><th>Tipo</th><th>Stato HK</th><th>Occupazione</th><th>Priorità</th><th>Azioni</th></tr></thead>
+          <tbody id="hk-rooms-tbody"><tr><td colspan="7" style="text-align:center;color:var(--txt3);padding:24px">Caricamento…</td></tr></tbody>
         </table>
       </div>
     </div>
@@ -158,14 +159,17 @@ html,body{min-height:100vh;font-family:'DM Sans',sans-serif;font-size:14px;line-
         <div class="hk-page-title">📋 Task Giornalieri</div>
         <div id="hk-task-date" class="hk-page-sub">Giornata in corso</div>
       </div>
-      <button class="hk-refresh" onclick="hkLoadTasks()">↻ Aggiorna</button>
+      <div style="display:flex;gap:8px">
+        <button class="hk-refresh" onclick="hkAddTask()" style="background:linear-gradient(135deg,#6B4F0A,#C9A84C);color:#06060A">+ Task</button>
+        <button class="hk-refresh" onclick="hkLoadTasks()">↻ Aggiorna</button>
+      </div>
     </div>
     <div class="hk-kpi-grid" id="hk-kpi-tasks"></div>
     <div class="hk-card" style="padding:0;overflow:hidden">
       <div style="overflow-x:auto">
         <table class="hk-table">
-          <thead><tr><th>Camera</th><th>Tipo</th><th>Stato</th><th>Priorità</th><th>Durata est.</th></tr></thead>
-          <tbody id="hk-tasks-tbody"><tr><td colspan="5" style="text-align:center;color:var(--txt3);padding:24px">Caricamento…</td></tr></tbody>
+          <thead><tr><th>Camera</th><th>Tipo</th><th>Stato</th><th>Priorità</th><th>Durata est.</th><th>Azioni</th></tr></thead>
+          <tbody id="hk-tasks-tbody"><tr><td colspan="6" style="text-align:center;color:var(--txt3);padding:24px">Caricamento…</td></tr></tbody>
         </table>
       </div>
     </div>
@@ -184,6 +188,7 @@ html,body{min-height:100vh;font-family:'DM Sans',sans-serif;font-size:14px;line-
         <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--txt2);cursor:pointer">
           <input type="checkbox" id="hk-solo-alert" onchange="hkLoadSupplies()" style="accent-color:var(--g)"> Solo alert
         </label>
+        <button class="hk-refresh" onclick="hkAddSupply()" style="background:linear-gradient(135deg,#6B4F0A,#C9A84C);color:#06060A">+ Fornitura</button>
         <button class="hk-refresh" onclick="hkLoadSupplies()">↻ Aggiorna</button>
       </div>
     </div>
@@ -191,8 +196,8 @@ html,body{min-height:100vh;font-family:'DM Sans',sans-serif;font-size:14px;line-
     <div class="hk-card" style="padding:0;overflow:hidden">
       <div style="overflow-x:auto">
         <table class="hk-table">
-          <thead><tr><th>Articolo</th><th>Cat.</th><th>Giacenza</th><th>Par Level</th><th>Riordino</th><th>Status</th></tr></thead>
-          <tbody id="hk-supplies-tbody"><tr><td colspan="6" style="text-align:center;color:var(--txt3);padding:24px">Caricamento…</td></tr></tbody>
+          <thead><tr><th>Articolo</th><th>Cat.</th><th>Giacenza</th><th>Par Level</th><th>Riordino</th><th>Status</th><th>Azioni</th></tr></thead>
+          <tbody id="hk-supplies-tbody"><tr><td colspan="7" style="text-align:center;color:var(--txt3);padding:24px">Caricamento…</td></tr></tbody>
         </table>
       </div>
     </div>
@@ -267,10 +272,91 @@ function hkSetDemo(show){
   if(b) b.style.display = show ? 'inline-flex' : 'none';
 }
 
+function hkLogged(){ return (typeof B360 !== 'undefined') && !!B360.getToken(); }
+
 async function hkGet(path){
-  const r = await fetch(BADS_API_HK + path);
+  const r = hkLogged() ? await B360.authFetch(path) : await fetch(BADS_API_HK + path);
   if(!r.ok) throw new Error(r.status);
   return r.json();
+}
+function hkToast(m, t){ if(typeof showToast==='function') showToast(m, t); }
+
+/* ── CRUD CAMERE ── */
+function hkAddRoom(){
+  if(!hkLogged()){ hkToast('Accedi per salvare le camere', 'err'); return; }
+  B360.modal({ title:'🛏️ Nuova Camera', confirmLabel:'✓ Aggiungi', fields:[
+      {id:'numero',label:'Numero',type:'text',placeholder:'Es. 101'},
+      {id:'piano',label:'Piano',type:'number',placeholder:'1'},
+      {id:'tipo',label:'Tipo',type:'select',options:['Standard','Superior','Junior Suite','Suite','Suite Attico']},
+      {id:'stato_hk',label:'Stato HK',type:'select',options:['pulita','da_pulire','in_pulizia','ispezionata','fuori_servizio']},
+    ], onConfirm(v){
+      if(!v.numero){ const e=document.getElementById('b360m-err'); e.style.display='block'; e.textContent='Inserisci il numero camera'; return false; }
+      B360.authFetch('/api/hk/room',{method:'POST',body:JSON.stringify({numero:v.numero,piano:parseInt(v.piano)||1,tipo:v.tipo,stato_hk:v.stato_hk})})
+        .then(r=>r.json()).then(d=>{ if(d&&d.ok){ hkToast('✅ Camera '+v.numero+' aggiunta'); hkLoadRooms(); } else hkToast('Errore salvataggio','err'); })
+        .catch(()=>hkToast('Errore di rete','err'));
+    }});
+}
+async function hkSetRoomStato(id, stato){
+  if(!hkLogged()) return;
+  try{ const r=await B360.authFetch('/api/hk/rooms/'+encodeURIComponent(id),{method:'PATCH',body:JSON.stringify({stato_hk:stato})}); const d=await r.json(); if(d&&d.ok){ hkToast('Stato aggiornato'); hkLoadRooms(); } }catch(e){}
+}
+async function hkDeleteRoom(id){
+  if(!hkLogged()||!confirm('Eliminare questa camera?')) return;
+  try{ const r=await B360.authFetch('/api/hk/room/'+encodeURIComponent(id),{method:'DELETE'}); const d=await r.json(); if(d&&d.ok) hkLoadRooms(); }catch(e){}
+}
+
+/* ── CRUD FORNITURE ── */
+function hkAddSupply(){
+  if(!hkLogged()){ hkToast('Accedi per salvare le forniture', 'err'); return; }
+  B360.modal({ title:'🧴 Nuova Fornitura', confirmLabel:'✓ Aggiungi', fields:[
+      {id:'nome',label:'Articolo',type:'text',placeholder:'Es. Shampoo 30ml'},
+      {id:'categoria',label:'Categoria',type:'select',options:['Cortesia','Sanificanti','Biancheria','Consumabili','Attrezzatura']},
+      {id:'giacenza_attuale',label:'Giacenza attuale',type:'number',placeholder:'0'},
+      {id:'par_level',label:'Par level',type:'number',placeholder:'0'},
+      {id:'punto_riordino',label:'Punto di riordino',type:'number',placeholder:'0'},
+    ], onConfirm(v){
+      if(!v.nome){ const e=document.getElementById('b360m-err'); e.style.display='block'; e.textContent='Inserisci il nome articolo'; return false; }
+      B360.authFetch('/api/hk/supply',{method:'POST',body:JSON.stringify({nome:v.nome,categoria:v.categoria,giacenza_attuale:parseFloat(v.giacenza_attuale)||0,par_level:parseFloat(v.par_level)||0,punto_riordino:parseFloat(v.punto_riordino)||0})})
+        .then(r=>r.json()).then(d=>{ if(d&&d.ok){ hkToast('✅ Fornitura aggiunta'); hkLoadSupplies(); } else hkToast('Errore salvataggio','err'); })
+        .catch(()=>hkToast('Errore di rete','err'));
+    }});
+}
+function hkEditSupply(id, nome, giac){
+  if(!hkLogged()) return;
+  B360.modal({ title:'✏️ Rettifica giacenza — '+nome, confirmLabel:'✓ Salva', fields:[
+      {id:'giacenza_attuale',label:'Nuova giacenza',type:'number',value:giac},
+    ], onConfirm(v){
+      B360.authFetch('/api/hk/supply',{method:'POST',body:JSON.stringify({id:id,nome:nome,giacenza_attuale:parseFloat(v.giacenza_attuale)||0})})
+        .then(r=>r.json()).then(d=>{ if(d&&d.ok){ hkToast('Giacenza aggiornata'); hkLoadSupplies(); } }).catch(()=>{});
+    }});
+}
+async function hkDeleteSupply(id){
+  if(!hkLogged()||!confirm('Eliminare questa fornitura?')) return;
+  try{ const r=await B360.authFetch('/api/hk/supply/'+encodeURIComponent(id),{method:'DELETE'}); const d=await r.json(); if(d&&d.ok) hkLoadSupplies(); }catch(e){}
+}
+
+/* ── CRUD TASK ── */
+function hkAddTask(){
+  if(!hkLogged()){ hkToast('Accedi per salvare i task', 'err'); return; }
+  B360.modal({ title:'📋 Nuovo Task', confirmLabel:'✓ Aggiungi', fields:[
+      {id:'camera',label:'Camera',type:'text',placeholder:'Es. 203'},
+      {id:'tipo',label:'Tipo',type:'select',options:['partenza','stayover','deep_clean','ispezione']},
+      {id:'priorita',label:'Priorità',type:'select',options:['2','1']},
+      {id:'durata_stimata',label:'Durata stimata (min)',type:'number',placeholder:'30'},
+    ], onConfirm(v){
+      if(!v.camera){ const e=document.getElementById('b360m-err'); e.style.display='block'; e.textContent='Inserisci la camera'; return false; }
+      B360.authFetch('/api/hk/task',{method:'POST',body:JSON.stringify({camera:v.camera,tipo:v.tipo,priorita:parseInt(v.priorita)||2,durata_stimata:parseInt(v.durata_stimata)||30})})
+        .then(r=>r.json()).then(d=>{ if(d&&d.ok){ hkToast('✅ Task creato'); hkLoadTasks(); } else hkToast('Errore salvataggio','err'); })
+        .catch(()=>hkToast('Errore di rete','err'));
+    }});
+}
+async function hkSetTaskStato(id, stato){
+  if(!hkLogged()) return;
+  try{ const r=await B360.authFetch('/api/hk/task/'+encodeURIComponent(id),{method:'PATCH',body:JSON.stringify({stato:stato})}); const d=await r.json(); if(d&&d.ok) hkLoadTasks(); }catch(e){}
+}
+async function hkDeleteTask(id){
+  if(!hkLogged()||!confirm('Eliminare questo task?')) return;
+  try{ const r=await B360.authFetch('/api/hk/task/'+encodeURIComponent(id),{method:'DELETE'}); const d=await r.json(); if(d&&d.ok) hkLoadTasks(); }catch(e){}
 }
 
 function hkNav(p){
@@ -369,8 +455,8 @@ async function hkLoadRooms(){
   let d, demo = false;
   try{
     const stato = document.getElementById('hk-filter-stato')?.value || '';
-    d = await hkGet(`/api/hk/rooms?hotel_id=${BADS_HID_HK}`+(stato?`&stato_hk=${stato}`:''));
-    if(!(d.rooms||[]).length){ d = HK_DEMO.rooms; demo = true; }
+    d = await hkGet(`/api/hk/rooms`+(stato?`?stato_hk=${stato}`:''));
+    if(!hkLogged() && !(d.rooms||[]).length){ d = HK_DEMO.rooms; demo = true; }
   }catch(e){ d = HK_DEMO.rooms; demo = true; }
   hkSetDemo(demo);
   const statoFilt = document.getElementById('hk-filter-stato')?.value || '';
@@ -389,8 +475,9 @@ async function hkLoadRooms(){
     <td><span class="hk-badge" style="background:${HK_STATO_COLOR[r.stato_hk]||'var(--txt3)'}1a;color:${HK_STATO_COLOR[r.stato_hk]||'var(--txt3)'};border-color:${HK_STATO_COLOR[r.stato_hk]||'var(--txt3)'}40">${(r.stato_hk||'').replace(/_/g,' ')||'—'}</span></td>
     <td style="color:${HK_OCC_COLOR[r.stato_occupazione]||'var(--txt3)'};font-size:12px">${(r.stato_occupazione||'').replace(/_/g,' ')||'—'}</td>
     <td><span style="color:${r.priorita===1?RED:G}">${r.priorita===1?'🔴 Urgente':'🟡 Standard'}</span></td>
+    <td style="white-space:nowrap">${r.id?`<select onchange="hkSetRoomStato('${r.id}',this.value)" class="hk-input" style="padding:4px 6px;font-size:11px">${['pulita','da_pulire','in_pulizia','ispezionata','fuori_servizio'].map(s=>`<option value="${s}" ${r.stato_hk===s?'selected':''}>${s.replace(/_/g,' ')}</option>`).join('')}</select> <a onclick="hkDeleteRoom('${r.id}')" title="Elimina" style="cursor:pointer;color:var(--txt3);margin-left:4px">🗑</a>`:'<span style="color:var(--txt3);font-size:11px">demo</span>'}</td>
   </tr>`).join('') :
-  `<tr><td colspan="6" style="text-align:center;color:var(--txt3);padding:30px">Nessuna camera trovata</td></tr>`;
+  `<tr><td colspan="7" style="text-align:center;color:var(--txt3);padding:30px">Nessuna camera — usa <strong>+ Camera</strong> per aggiungerne</td></tr>`;
 }
 
 /* ── TASK ── */
@@ -401,8 +488,8 @@ async function hkLoadTasks(){
   if(!tbody) return;
   let d, demo = false;
   try{
-    d = await hkGet(`/api/hk/tasks/daily?hotel_id=${BADS_HID_HK}`);
-    if(!(d.tasks||[]).length){ d = HK_DEMO.tasks; demo = true; }
+    d = await hkGet(`/api/hk/tasks/daily`);
+    if(!hkLogged() && !(d.tasks||[]).length){ d = HK_DEMO.tasks; demo = true; }
   }catch(e){ d = HK_DEMO.tasks; demo = true; }
   hkSetDemo(demo);
   const tasks = d.tasks || [];
@@ -418,8 +505,9 @@ async function hkLoadTasks(){
     <td><span class="hk-badge" style="background:${HK_TASK_COLOR[t.stato]||'var(--txt3)'}1a;color:${HK_TASK_COLOR[t.stato]||'var(--txt3)'};border-color:${HK_TASK_COLOR[t.stato]||'var(--txt3)'}40">${(t.stato||'').replace(/_/g,' ')||'—'}</span></td>
     <td><span style="color:${t.priorita===1?RED:G}">${t.priorita===1?'🔴':'🟡'} P${t.priorita}</span></td>
     <td style="font-family:'DM Mono',monospace;font-size:12px;color:var(--g)">${t.durata_stimata||'—'} min</td>
+    <td style="white-space:nowrap">${t.id?`<select onchange="hkSetTaskStato('${t.id}',this.value)" class="hk-input" style="padding:4px 6px;font-size:11px">${['assegnato','in_corso','completato','nc'].map(s=>`<option value="${s}" ${t.stato===s?'selected':''}>${s.replace(/_/g,' ')}</option>`).join('')}</select> <a onclick="hkDeleteTask('${t.id}')" title="Elimina" style="cursor:pointer;color:var(--txt3);margin-left:4px">🗑</a>`:'<span style="color:var(--txt3);font-size:11px">demo</span>'}</td>
   </tr>`).join('') :
-  `<tr><td colspan="5" style="text-align:center;color:var(--txt3);padding:30px">Nessun task oggi</td></tr>`;
+  `<tr><td colspan="6" style="text-align:center;color:var(--txt3);padding:30px">Nessun task — usa <strong>+ Task</strong> per pianificarne</td></tr>`;
 }
 
 /* ── FORNITURE ── */
@@ -430,8 +518,8 @@ async function hkLoadSupplies(){
   let d, demo = false;
   try{
     const soloAlert = document.getElementById('hk-solo-alert')?.checked || false;
-    d = await hkGet(`/api/hk/supplies?hotel_id=${BADS_HID_HK}&solo_alert=${soloAlert}`);
-    if(!(d.supplies||[]).length){ d = HK_DEMO.supplies; demo = true; }
+    d = await hkGet(`/api/hk/supplies?solo_alert=${soloAlert}`);
+    if(!hkLogged() && !(d.supplies||[]).length){ d = HK_DEMO.supplies; demo = true; }
   }catch(e){ d = HK_DEMO.supplies; demo = true; }
   hkSetDemo(demo);
   const soloAlert = document.getElementById('hk-solo-alert')?.checked || false;
@@ -442,6 +530,7 @@ async function hkLoadSupplies(){
   else if(banner) banner.innerHTML = '';
   tbody.innerHTML = supplies.length ? supplies.map(s=>{
     const alert = s.alert || s.giacenza_attuale <= (s.punto_riordino||0);
+    const nm = (s.nome||'').replace(/'/g,"\\'");
     return `<tr>
       <td><strong>${s.nome}</strong></td>
       <td style="font-size:11px;color:var(--txt3)">${s.categoria||'—'}</td>
@@ -449,9 +538,10 @@ async function hkLoadSupplies(){
       <td style="color:var(--txt3)">${s.par_level||'—'}</td>
       <td>${s.punto_riordino||'—'}</td>
       <td>${alert?'<span class="hk-badge hk-red">⚠️ ALERT</span>':'<span class="hk-badge hk-green">✅ OK</span>'}</td>
+      <td style="white-space:nowrap">${s.id?`<a onclick="hkEditSupply('${s.id}','${nm}',${Number(s.giacenza_attuale)||0})" title="Rettifica giacenza" style="cursor:pointer;color:var(--txt3)">✏️</a> <a onclick="hkDeleteSupply('${s.id}')" title="Elimina" style="cursor:pointer;color:var(--txt3);margin-left:6px">🗑</a>`:'<span style="color:var(--txt3);font-size:11px">demo</span>'}</td>
     </tr>`;
   }).join('') :
-  `<tr><td colspan="6" style="text-align:center;color:var(--txt3);padding:30px">Nessuna fornitura trovata</td></tr>`;
+  `<tr><td colspan="7" style="text-align:center;color:var(--txt3);padding:30px">Nessuna fornitura — usa <strong>+ Fornitura</strong> per aggiungerne</td></tr>`;
 }
 
 /* ── LAVANDERIA ── */
