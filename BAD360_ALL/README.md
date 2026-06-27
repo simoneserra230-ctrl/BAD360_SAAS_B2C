@@ -204,4 +204,4 @@ GET http://localhost:8000/api/haccp/export-registro
 
 ---
 
-*© 2025-2026 BAD.S Platform — Ambiente Impresa*
+*© 2025-2026 BAD.S Platform — SkillSolutions*
