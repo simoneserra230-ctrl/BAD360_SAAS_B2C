@@ -173,6 +173,7 @@ input,select,textarea{font-family:var(--font);outline:none}
           <option value="">Tutte le regioni</option>
           <option>Sardegna</option><option>Toscana</option><option>Piemonte</option><option>Internazionale</option>
         </select>
+        <button class="btn btn-outline btn-sm" onclick="htAddVino()">＋ Vino</button>
         <button class="btn btn-gold btn-sm" onclick="printCartaVini()">↓ PDF</button>
       </div>
     </div>
@@ -383,25 +384,63 @@ function initDashboard(){
     </div>`).join('');
 }
 
+/* ── Carta vini: persistenza reale (hotel_id dal token) + fallback demo ── */
+let VINI = CARTA_VINI.slice();
+function htLogged(){return (typeof B360!=='undefined')&&!!B360.getToken();}
+function htV(v){return {...v, annt:(v.annt!=null?v.annt:v.annata), desc:(v.desc!=null?v.desc:v.descr)};}
+
+async function htLoadVini(){
+  if(htLogged()){
+    try{const res=await B360.authFetch('/api/hotellerie/vini');if(res.ok){const d=await res.json();VINI=(d.vini||[]).map(htV);renderCartaVini();renderWineCost();return;}}catch(e){}
+  }
+  VINI=CARTA_VINI.slice(); renderCartaVini();
+}
+function htAddVino(){
+  if(!htLogged()){showToast('🔒 Accedi per salvare la carta vini');return;}
+  if(typeof B360==='undefined')return;
+  B360.modal({title:'🍷 Nuovo vino',confirmLabel:'✓ Salva',fields:[
+    {id:'nome',label:'Nome *'},
+    {id:'prod',label:'Produttore'},
+    {id:'reg',label:'Regione',type:'select',options:['Sardegna','Toscana','Piemonte','Veneto','Sicilia','Internazionale','Altro']},
+    {id:'tipo',label:'Tipo',type:'select',options:['Rosso','Bianco','Spumante','Rosato','Dolce']},
+    {id:'annata',label:'Annata',placeholder:'2021 o NV'},
+    {id:'costo',label:'Costo acquisto € *',placeholder:'8.20'},
+    {id:'calice',label:'Prezzo calice €',placeholder:'8'},
+    {id:'bott',label:'Prezzo bottiglia € *',placeholder:'28'}
+  ],onConfirm:async function(v){
+    if(!v.nome||!v.bott){showToast('Nome e prezzo bottiglia obbligatori');return false;}
+    const num=x=>parseFloat((x||'0').toString().replace(',','.'))||0;
+    const body={nome:v.nome,prod:v.prod||'',reg:v.reg||'',tipo:v.tipo||'Rosso',annata:v.annata||'',costo:num(v.costo),calice:num(v.calice),bott:num(v.bott)};
+    try{const r=await B360.authFetch('/api/hotellerie/vini',{method:'POST',body:JSON.stringify(body)});const d=await r.json();if(d&&d.ok){showToast('✓ Vino salvato');htLoadVini();}else showToast('Errore');}catch(e){showToast('Errore di rete');}
+  }});
+}
+async function htDelVino(id){
+  if(!confirm('Eliminare questo vino?'))return;
+  try{const r=await B360.authFetch('/api/hotellerie/vini/'+encodeURIComponent(id),{method:'DELETE'});const d=await r.json();if(d&&d.ok){showToast('Eliminato');htLoadVini();}}catch(e){showToast('Errore');}
+}
+
 function renderCartaVini(){
   const reg=document.getElementById('cv-reg')?.value||'';
-  const data=reg?CARTA_VINI.filter(v=>v.reg===reg):CARTA_VINI;
+  const data=reg?VINI.filter(v=>v.reg===reg):VINI;
+  const logged=htLogged();
   const TIPO_COL={Rosso:'var(--red)',Bianco:'var(--green)','Bianco/Ossidativo':'var(--g)',Spumante:'var(--teal)'};
-  document.getElementById('carta-vini-grid').innerHTML=data.map((v,i)=>`
+  const grid=document.getElementById('carta-vini-grid');
+  if(!data.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;color:var(--txt3);padding:30px">Nessun vino in carta. Usa <b>＋ Vino</b> per aggiungerlo.</div>';return;}
+  grid.innerHTML=data.map((v,i)=>`
     <div class="ht-wine-card" style="animation-delay:${i*.05}s">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
         <div>
-          <span style="font-family:var(--mono);font-size:9px;color:var(--txt3);letter-spacing:1px;display:block;margin-bottom:3px">${v.reg} · ${v.annt}</span>
+          <span style="font-family:var(--mono);font-size:9px;color:var(--txt3);letter-spacing:1px;display:block;margin-bottom:3px">${v.reg||''} · ${v.annt||''}</span>
           <div style="font-weight:700;font-size:14px;font-family:var(--heading)">${v.nome}</div>
-          <div style="font-size:11.5px;color:var(--txt2)">${v.prod}</div>
+          <div style="font-size:11.5px;color:var(--txt2)">${v.prod||''}</div>
         </div>
         <span class="htbadge" style="background:rgba(${v.tipo==='Rosso'?'201,74,74':v.tipo==='Bianco'?'106,171,118':'201,168,76'},.1);color:${TIPO_COL[v.tipo]||'var(--g)'};border:1px solid currentColor;flex-shrink:0">${v.tipo}</span>
       </div>
-      <div style="font-size:12px;color:var(--txt2);line-height:1.6;margin-bottom:10px">${v.desc}</div>
-      <div style="display:flex;justify-content:space-between;padding-top:10px;border-top:1px solid var(--line);font-size:13px">
-        <div>Al calice: <strong style="color:var(--g)">€ ${v.calice}</strong></div>
-        <div>Bottiglia: <strong style="color:var(--g)">€ ${v.bott}</strong></div>
-        <div style="font-family:var(--mono);font-size:11px;color:var(--txt3)">${v.score}/100</div>
+      ${v.desc?`<div style="font-size:12px;color:var(--txt2);line-height:1.6;margin-bottom:10px">${v.desc}</div>`:''}
+      <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid var(--line);font-size:13px">
+        <div>Calice: <strong style="color:var(--g)">€ ${v.calice||0}</strong></div>
+        <div>Bottiglia: <strong style="color:var(--g)">€ ${v.bott||0}</strong></div>
+        ${logged&&v.id?`<button onclick="htDelVino('${v.id}')" style="background:none;border:1px solid var(--line2);color:var(--txt3);border-radius:6px;padding:2px 7px;font-size:.7rem;cursor:pointer">elimina</button>`:`<div style="font-family:var(--mono);font-size:11px;color:var(--txt3)">${v.score||0}/100</div>`}
       </div>
     </div>`).join('');
 }
@@ -431,13 +470,15 @@ function renderPairing(){
 }
 
 function renderWineCost(){
-  document.getElementById('winecost-tbody').innerHTML=WINECOST_DATA.map(w=>{
-    const calicePct=(w.costo_bott/5/w.calice*100).toFixed(1);
+  const useReal = htLogged() && VINI.some(v=>v.id);
+  const src = useReal ? VINI.map(v=>({nome:v.nome,costo_bott:+(v.costo||0),calice:+(v.calice||0),bott:+(v.bott||0)})) : WINECOST_DATA;
+  document.getElementById('winecost-tbody').innerHTML=src.map(w=>{
+    const calicePct=w.calice?(w.costo_bott/5/w.calice*100).toFixed(1):'0.0';
     const col=parseFloat(calicePct)<=22?'var(--green)':parseFloat(calicePct)<=28?'var(--g)':'var(--orange)';
-    const margine=w.bott-w.costo_bott;
+    const margine=(w.bott||0)-(w.costo_bott||0);
     return `<tr>
       <td style="font-weight:600">${w.nome}</td>
-      <td style="font-family:var(--mono)">€ ${w.costo_bott.toFixed(2)}</td>
+      <td style="font-family:var(--mono)">€ ${(w.costo_bott||0).toFixed(2)}</td>
       <td style="font-family:var(--heading);font-size:15px;font-weight:700;color:var(--g)">€ ${w.calice}</td>
       <td style="font-family:var(--heading);font-size:15px;font-weight:700;color:var(--g)">€ ${w.bott}</td>
       <td style="font-family:var(--mono);color:${col};font-weight:700">${calicePct}%</td>
@@ -666,6 +707,7 @@ async function loadBenchmarkRevPAR(){
 
 document.addEventListener('DOMContentLoaded',()=>{
   initDashboard();
+  htLoadVini();
   loadBenchmarkRevPAR();
   if(typeof B360!=='undefined'){
     B360.mountAIWidget('beverage','Hotel Baia Sardinia · Hotellerie F&B · RevPAR €18.4');

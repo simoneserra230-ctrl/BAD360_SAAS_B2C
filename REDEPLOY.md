@@ -16,7 +16,9 @@
 Nel progetto **Supabase di BAD360** → SQL Editor → esegui:
 - `supabase/housekeeping_schema.sql` (crea `hk_camere`, `hk_forniture`, `hk_task` + indici).
 - `supabase/cert_schema.sql` (crea `cert_personale`, `cert_licenze`, `cert_aziendali` — modulo Certificazioni rifatto).
-Senza queste tabelle, i moduli Housekeeping / Certificazioni vanno in errore.
+- `supabase/menu_engineering_schema.sql` (`me_recipes` + colonna `hotel_id` — Menu Engineering messo in sicurezza multi-tenant).
+- `supabase/hotellerie_schema.sql` (crea `ht_vini` — Carta Vini / Hotellerie F&B).
+Senza queste tabelle, i moduli Housekeeping / Certificazioni / Menu Engineering / Hotellerie vanno in errore.
 
 ## Passi di redeploy
 1. **Commit + push** del repo BAD360 → Render ribuilda il Docker (`bad360-api`), il frontend Vercel si aggiorna.
