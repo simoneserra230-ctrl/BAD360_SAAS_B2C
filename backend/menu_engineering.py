@@ -15,6 +15,8 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
 from backend.database import get_supabase
+from backend.auth import require_user, UserProfile
+from fastapi import Depends
 
 router = APIRouter(prefix="/api/menu-engineering", tags=["Menu Engineering"])
 
@@ -117,6 +119,17 @@ def classify_matrix(recipes: List[dict]) -> List[dict]:
     return enriched
 
 
+# ─── Loader multi-tenant ────────────────────────────────────────────────────────
+
+def _load_recipes(db, hotel_id: str) -> List[dict]:
+    """Ricette dell'hotel dal token. Senza DB (dev locale) usa la demo; con DB
+    ritorna SOLO le ricette di quell'hotel (multi-tenant blindato)."""
+    if not db:
+        return DEMO_RECIPES
+    rows = db.table("me_recipes").select("*").eq("hotel_id", hotel_id).execute().data
+    return rows or []
+
+
 # ─── Models ───────────────────────────────────────────────────────────────────
 
 class Ingredient(BaseModel):
@@ -145,19 +158,19 @@ def health():
 
 
 @router.get("/recipes")
-def list_recipes():
+def list_recipes(user: UserProfile = Depends(require_user)):
     db = get_supabase()
-    rows = (db.table("me_recipes").select("*").execute().data if db else DEMO_RECIPES) or DEMO_RECIPES
-    return [enrich(r) for r in rows]
+    return [enrich(r) for r in _load_recipes(db, user.hotel_id)]
 
 
 @router.post("/recipes")
-def create_recipe(payload: RecipeIn):
+def create_recipe(payload: RecipeIn, user: UserProfile = Depends(require_user)):
     bad = [a for a in payload.allergens if a not in ALLERGENI_UE]
     if bad:
         raise HTTPException(status_code=422,
                             detail=f"Allergeni non in Allegato II Reg. UE 1169/2011: {bad}")
     data = payload.model_dump()
+    data["hotel_id"] = user.hotel_id        # SEMPRE dal token (blindato)
     db = get_supabase()
     if db:
         res = db.table("me_recipes").insert(data).execute()
@@ -167,11 +180,18 @@ def create_recipe(payload: RecipeIn):
     return {"ok": True, "data": enrich(data), "mode": "demo"}
 
 
-@router.get("/matrix")
-def matrix():
+@router.delete("/recipes/{recipe_id}")
+def delete_recipe(recipe_id: str, user: UserProfile = Depends(require_user)):
     db = get_supabase()
-    rows = (db.table("me_recipes").select("*").execute().data if db else DEMO_RECIPES) or DEMO_RECIPES
-    classified = classify_matrix(rows)
+    if db:
+        db.table("me_recipes").delete().eq("id", recipe_id).eq("hotel_id", user.hotel_id).execute()
+    return {"ok": True}
+
+
+@router.get("/matrix")
+def matrix(user: UserProfile = Depends(require_user)):
+    db = get_supabase()
+    classified = classify_matrix(_load_recipes(db, user.hotel_id))
     summary = {}
     for c in ("STAR", "PLOWHORSE", "PUZZLE", "DOG"):
         summary[c] = sum(1 for r in classified if r["class"] == c)
@@ -179,10 +199,10 @@ def matrix():
 
 
 @router.get("/allergens")
-def allergen_matrix():
+def allergen_matrix(user: UserProfile = Depends(require_user)):
     """Matrice piatti × 14 allergeni UE — pronta per stampa/menu."""
     db = get_supabase()
-    rows = (db.table("me_recipes").select("*").execute().data if db else DEMO_RECIPES) or DEMO_RECIPES
+    rows = _load_recipes(db, user.hotel_id)
     return {"allergeni": ALLERGENI_UE,
             "piatti": [{"name": r["name"], "category": r.get("category"),
                         "allergens": r.get("allergens") or []} for r in rows],
@@ -227,11 +247,10 @@ def _fallback_recommendations(classified: List[dict]) -> dict:
 
 
 @router.post("/ai/optimize")
-async def ai_menu_optimizer():
+async def ai_menu_optimizer(user: UserProfile = Depends(require_user)):
     """C7.7 AI Menu Optimizer: raccomandazioni quantificate sul menu corrente."""
     db = get_supabase()
-    rows = (db.table("me_recipes").select("*").execute().data if db else DEMO_RECIPES) or DEMO_RECIPES
-    classified = classify_matrix(rows)
+    classified = classify_matrix(_load_recipes(db, user.hotel_id))
 
     if ANTHROPIC_API_KEY:
         try:

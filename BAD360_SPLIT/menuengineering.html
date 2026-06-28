@@ -100,7 +100,8 @@ table.me-tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:.84re
 
 <!-- RICETTE -->
 <section class="me-page" id="p-rec">
-  <table class="me-tbl"><thead><tr><th>Piatto</th><th>Categoria</th><th>Food Cost</th><th>Prezzo</th><th>FC %</th><th>Margine</th><th>Vendite/mese</th><th>Margine totale</th></tr></thead><tbody id="recRows"></tbody></table>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><span id="meDemoBadge" style="display:none;font-size:.72rem;color:var(--g);font-weight:700">⚡ Demo — accedi per salvare le tue ricette</span><button class="btn-g" style="margin-left:auto" onclick="meAddRecipe()">＋ Aggiungi ricetta</button></div>
+  <table class="me-tbl"><thead><tr><th>Piatto</th><th>Categoria</th><th>Food Cost</th><th>Prezzo</th><th>FC %</th><th>Margine</th><th>Vendite/mese</th><th>Margine totale</th><th></th></tr></thead><tbody id="recRows"></tbody></table>
   <p style="font-size:.74rem;color:var(--txt3);margin-top:10px">FC% target ristorazione: 🟢 &lt;30% · 🟠 30-35% · 🔴 &gt;35%. I costi ingredienti si aggiornano dalle fatture fornitori (integrazione SCM Pro).</p>
 </section>
 
@@ -131,7 +132,7 @@ table.me-tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:.84re
 const ME_API="/api/menu-engineering";
 const ALLERGENI=["glutine","crostacei","uova","pesce","arachidi","soia","latte","frutta a guscio","sedano","senape","sesamo","anidride solforosa e solfiti","lupini","molluschi"];
 
-const RECIPES=[
+const ME_DEMO=[
  {id:"r1",name:"Culurgiones al pomodoro",category:"primi",fc:3.72,price:16,sales:310,allergens:["glutine","uova","latte"]},
  {id:"r2",name:"Fregola con arselle",category:"primi",fc:5.80,price:19,sales:185,allergens:["glutine","molluschi","pesce"]},
  {id:"r3",name:"Porceddu sardo",category:"secondi",fc:7.70,price:24,sales:240,allergens:[]},
@@ -140,18 +141,13 @@ const RECIPES=[
  {id:"r6",name:"Zuppa gallurese",category:"primi",fc:2.90,price:14,sales:70,allergens:["glutine","latte","sedano"]},
  {id:"r7",name:"Insalata di mare",category:"antipasti",fc:6.50,price:18,sales:150,allergens:["molluschi","crostacei","pesce","sedano"]}
 ];
-
-/* enrich + matrice Kasavana-Smith (stesse regole del backend) */
-RECIPES.forEach(r=>{r.margin=+(r.price-r.fc).toFixed(2);r.fcp=+((r.fc/r.price)*100).toFixed(1)});
-const avgM=RECIPES.reduce((a,r)=>a+r.margin,0)/RECIPES.length;
-const popT=RECIPES.reduce((a,r)=>a+r.sales,0)/RECIPES.length*0.7;
-RECIPES.forEach(r=>{
- const hp=r.sales>=popT, hm=r.margin>=avgM;
- r.cls=hp&&hm?"STAR":hp?"PLOWHORSE":hm?"PUZZLE":"DOG";
- r.act={STAR:"Proteggi: qualità e visibilità in carta",PLOWHORSE:"Alza il prezzo o riduci il food cost — si vende comunque",PUZZLE:"Riposiziona in carta, racconto della sala, foto",DOG:"Rimuovi o reinventa — occupa spazio e magazzino"}[r.cls];
-});
+let RECIPES=[];
 const CB={STAR:"c-star",PLOWHORSE:"c-plow",PUZZLE:"c-puzzle",DOG:"c-dog"};
 const fcCls=p=>p<30?"fc-ok":p<=35?"fc-warn":"fc-bad";
+
+function meLogged(){return (typeof B360!=='undefined')&&!!B360.getToken();}
+function meToast(m){if(typeof showToast==='function')showToast(m);else alert(m);}
+function meEsc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
 function meGo(p){
  document.querySelectorAll("#meNav button").forEach(b=>b.classList.toggle("on",b.dataset.p===p));
@@ -159,57 +155,96 @@ function meGo(p){
 }
 document.getElementById("meNav").addEventListener("click",e=>{if(e.target.dataset.p)meGo(e.target.dataset.p)});
 
-/* KPI */
-(function(){
- const fcAvg=(RECIPES.reduce((a,r)=>a+r.fcp,0)/RECIPES.length).toFixed(1);
- const mTot=RECIPES.reduce((a,r)=>a+r.margin*r.sales,0);
- const stars=RECIPES.filter(r=>r.cls==="STAR").length, dogs=RECIPES.filter(r=>r.cls==="DOG").length;
- const k=(v,l,c)=>`<div class="me-kpi ${c||""}"><div class="v">${v}</div><div class="l">${l}</div></div>`;
- document.getElementById("meKpi").innerHTML=
-  k(RECIPES.length,"Piatti in carta")+k(fcAvg+"%","Food cost medio",fcAvg<30?"ok":fcAvg<=35?"warn":"bad")+
-  k("€ "+mTot.toLocaleString("it-IT"),"Margine lordo/mese","ok")+k(stars,"⭐ Star","ok")+k(dogs,"🐕 Dog",dogs?"bad":"ok")+
-  k("14/14","Allergeni mappati","ok");
-})();
+/* compute: food cost, margine, matrice Kasavana-Smith (stesse regole del backend) */
+function compute(){
+ RECIPES.forEach(r=>{r.margin=+(r.price-r.fc).toFixed(2);r.fcp=r.price?+((r.fc/r.price)*100).toFixed(1):0;});
+ const n=RECIPES.length||1;
+ const avgM=RECIPES.reduce((a,r)=>a+r.margin,0)/n;
+ const popT=RECIPES.reduce((a,r)=>a+r.sales,0)/n*0.7;
+ RECIPES.forEach(r=>{
+  const hp=r.sales>=popT, hm=r.margin>=avgM;
+  r.cls=hp&&hm?"STAR":hp?"PLOWHORSE":hm?"PUZZLE":"DOG";
+  r.act={STAR:"Proteggi: qualità e visibilità in carta",PLOWHORSE:"Alza il prezzo o riduci il food cost — si vende comunque",PUZZLE:"Riposiziona in carta, racconto della sala, foto",DOG:"Rimuovi o reinventa — occupa spazio e magazzino"}[r.cls];
+ });
+}
 
-/* quadranti */
-function quadHTML(full){
+function quadHTML(){
  const q=(t,cls,hint)=>{
   const items=RECIPES.filter(r=>r.cls===t);
   return `<div class="qbox"><h4><span class="cls ${cls}">${t}</span></h4><div class="hint">${hint}</div>`+
-   items.map(r=>`<div class="it">${r.name} — <b>€${r.margin.toFixed(2)}</b> margine · ${r.sales}/mese</div>`).join("")+`</div>`;
+   items.map(r=>`<div class="it">${meEsc(r.name)} — <b>€${r.margin.toFixed(2)}</b> margine · ${r.sales}/mese</div>`).join("")+`</div>`;
  };
  return q("STAR","c-star","Alta popolarità · alto margine — il tuo tesoro")+
         q("PLOWHORSE","c-plow","Alta popolarità · basso margine — qui si recupera marginalità")+
         q("PUZZLE","c-puzzle","Bassa popolarità · alto margine — da spingere")+
         q("DOG","c-dog","Bassa popolarità · basso margine — candidati all'uscita");
 }
-document.getElementById("quadMini").innerHTML=quadHTML();
-document.getElementById("quadFull").innerHTML=quadHTML(true);
 
-/* ricette */
-document.getElementById("recRows").innerHTML=RECIPES.map(r=>
- `<tr><td><b>${r.name}</b></td><td>${r.category}</td><td>€ ${r.fc.toFixed(2)}</td><td>€ ${r.price.toFixed(2)}</td>
-  <td class="${fcCls(r.fcp)}"><b>${r.fcp}%</b></td><td>€ ${r.margin.toFixed(2)}</td><td>${r.sales}</td>
-  <td>€ ${(r.margin*r.sales).toLocaleString("it-IT")}</td></tr>`).join("");
-
-/* matrice table */
-document.getElementById("mxRows").innerHTML=[...RECIPES].sort((a,b)=>(b.margin*b.sales)-(a.margin*a.sales)).map(r=>
- `<tr><td><b>${r.name}</b></td><td><span class="cls ${CB[r.cls]}">${r.cls}</span></td>
-  <td>€ ${r.margin.toFixed(2)}</td><td>${r.sales}/mese</td><td style="color:var(--txt2);font-size:.78rem">${r.act}</td></tr>`).join("");
-
-/* allergeni */
-(function(){
+function renderAll(){
+ compute();
+ const fcAvg=RECIPES.length?(RECIPES.reduce((a,r)=>a+r.fcp,0)/RECIPES.length).toFixed(1):"0";
+ const mTot=RECIPES.reduce((a,r)=>a+r.margin*r.sales,0);
+ const stars=RECIPES.filter(r=>r.cls==="STAR").length, dogs=RECIPES.filter(r=>r.cls==="DOG").length;
+ const k=(v,l,c)=>`<div class="me-kpi ${c||""}"><div class="v">${v}</div><div class="l">${l}</div></div>`;
+ document.getElementById("meKpi").innerHTML=
+  k(RECIPES.length,"Piatti in carta")+k(fcAvg+"%","Food cost medio",fcAvg<30?"ok":fcAvg<=35?"warn":"bad")+
+  k("€ "+Math.round(mTot).toLocaleString("it-IT"),"Margine lordo/mese","ok")+k(stars,"⭐ Star","ok")+k(dogs,"🐕 Dog",dogs?"bad":"ok")+
+  k("14/14","Allergeni mappati","ok");
+ document.getElementById("quadMini").innerHTML=quadHTML();
+ document.getElementById("quadFull").innerHTML=quadHTML();
+ const logged=meLogged();
+ document.getElementById("recRows").innerHTML=RECIPES.length?RECIPES.map(r=>
+  `<tr><td><b>${meEsc(r.name)}</b></td><td>${meEsc(r.category)}</td><td>€ ${r.fc.toFixed(2)}</td><td>€ ${r.price.toFixed(2)}</td>
+   <td class="${fcCls(r.fcp)}"><b>${r.fcp}%</b></td><td>€ ${r.margin.toFixed(2)}</td><td>${r.sales}</td>
+   <td>€ ${Math.round(r.margin*r.sales).toLocaleString("it-IT")}</td><td>${logged&&r.id?`<button onclick="meDelRecipe('${r.id}')" style="background:none;border:1px solid var(--line2);color:var(--txt3);border-radius:6px;padding:2px 7px;font-size:.7rem;cursor:pointer">elimina</button>`:""}</td></tr>`).join(""):
+  `<tr><td colspan="9" style="text-align:center;color:var(--txt3);padding:24px">Nessuna ricetta. Usa <b>＋ Aggiungi ricetta</b>.</td></tr>`;
+ document.getElementById("mxRows").innerHTML=[...RECIPES].sort((a,b)=>(b.margin*b.sales)-(a.margin*a.sales)).map(r=>
+  `<tr><td><b>${meEsc(r.name)}</b></td><td><span class="cls ${CB[r.cls]}">${r.cls}</span></td>
+   <td>€ ${r.margin.toFixed(2)}</td><td>${r.sales}/mese</td><td style="color:var(--txt2);font-size:.78rem">${r.act}</td></tr>`).join("");
  let h='<table><tr><th class="dish">Piatto</th>'+ALLERGENI.map(a=>`<th>${a}</th>`).join("")+"</tr>";
- RECIPES.forEach(r=>{
-  h+=`<tr><td class="dish">${r.name}</td>`+ALLERGENI.map(a=>`<td class="${r.allergens.includes(a)?"yes":""}">${r.allergens.includes(a)?"✕":""}</td>`).join("")+"</tr>";
- });
+ RECIPES.forEach(r=>{ const al=r.allergens||[]; h+=`<tr><td class="dish">${meEsc(r.name)}</td>`+ALLERGENI.map(a=>`<td class="${al.includes(a)?"yes":""}">${al.includes(a)?"✕":""}</td>`).join("")+"</tr>"; });
  document.getElementById("algMatrix").innerHTML=h+"</table>";
-})();
+ const bd=document.getElementById("meDemoBadge"); if(bd) bd.style.display=meLogged()?"none":"inline";
+}
 
-/* AI optimizer — API-first con fallback client */
+function meMapRow(r){return {id:r.id,name:r.name,category:r.category||'',fc:+(r.food_cost||0),price:+(r.selling_price||0),sales:+(r.monthly_sales||0),allergens:r.allergens||[]};}
+
+async function loadRecipes(){
+ if(meLogged()){
+  try{ const res=await B360.authFetch(ME_API+"/recipes"); if(res.ok){ const rows=await res.json(); RECIPES=(Array.isArray(rows)?rows:[]).map(meMapRow); renderAll(); return; } }catch(e){}
+ }
+ RECIPES=ME_DEMO.map(x=>({...x})); renderAll();
+}
+
+function meAddRecipe(){
+ if(!meLogged()){meToast("🔒 Accedi per salvare le ricette");return;}
+ if(typeof B360==='undefined'){meToast("SDK non caricato");return;}
+ B360.modal({title:"➕ Nuova ricetta",confirmLabel:"✓ Salva",fields:[
+  {id:"name",label:"Piatto *"},
+  {id:"category",label:"Categoria",type:"select",options:["antipasti","primi","secondi","contorni","dessert"]},
+  {id:"selling_price",label:"Prezzo di vendita € *",placeholder:"16.00"},
+  {id:"food_cost",label:"Food cost € *",placeholder:"3.70"},
+  {id:"monthly_sales",label:"Vendite / mese",placeholder:"100"},
+  {id:"allergens",label:"Allergeni (virgola)",placeholder:"glutine, uova, latte"}
+ ],onConfirm:async function(v){
+  if(!v.name||!v.selling_price){meToast("Nome e prezzo obbligatori");return false;}
+  const allg=(v.allergens||"").split(",").map(s=>s.trim().toLowerCase()).filter(a=>ALLERGENI.includes(a));
+  const fc=parseFloat((v.food_cost||"0").replace(",","."))||0;
+  const body={name:v.name,category:v.category||"primi",selling_price:parseFloat((v.selling_price||"0").replace(",","."))||0,monthly_sales:parseInt(v.monthly_sales)||0,allergens:allg,ingredients:[{n:"food cost",qty:1,unit:"pz",cost:fc}]};
+  try{const r=await B360.authFetch(ME_API+"/recipes",{method:"POST",body:JSON.stringify(body)});const d=await r.json();if(d&&d.ok){meToast("✓ Ricetta salvata");loadRecipes();}else meToast((d&&d.detail)||"Errore");}catch(e){meToast("Errore di rete");}
+ }});
+}
+
+async function meDelRecipe(id){
+ if(!confirm("Eliminare questa ricetta?"))return;
+ try{const r=await B360.authFetch(ME_API+"/recipes/"+encodeURIComponent(id),{method:"DELETE"});const d=await r.json();if(d&&d.ok){meToast("Eliminata");loadRecipes();}}catch(e){meToast("Errore");}
+}
+
+/* AI optimizer — API-first (col token) + fallback client */
 function runOptimizer(){
  document.getElementById("aiOut").innerHTML='<p style="color:var(--txt2);font-size:.84rem;margin-top:10px">⏳ Analisi in corso…</p>';
- fetch(ME_API+"/ai/optimize",{method:"POST"}).then(r=>{if(!r.ok)throw 0;return r.json()})
+ const call = meLogged() ? B360.authFetch(ME_API+"/ai/optimize",{method:"POST"}) : Promise.reject(0);
+ Promise.resolve(call).then(r=>{if(!r.ok)throw 0;return r.json()})
   .then(d=>renderRecs(d.recommendations,d.sintesi))
   .catch(()=>{
    const recs=[];
@@ -224,9 +259,11 @@ function runOptimizer(){
 }
 function renderRecs(recs,sintesi){
  document.getElementById("aiOut").innerHTML=
-  `<div class="strategy">🤖 <b>C7.7 AI Menu Optimizer</b> — ${sintesi}</div>`+
-  recs.map(r=>`<div class="rec"><span class="imp">${r.impatto_mensile_eur?"+€ "+r.impatto_mensile_eur.toLocaleString("it-IT")+"/mese":"—"}</span><b>${r.piatto}</b><p>${r.azione}</p></div>`).join("");
+  `<div class="strategy">🤖 <b>C7.7 AI Menu Optimizer</b> — ${meEsc(sintesi||"")}</div>`+
+  (recs||[]).map(r=>`<div class="rec"><span class="imp">${r.impatto_mensile_eur?"+€ "+r.impatto_mensile_eur.toLocaleString("it-IT")+"/mese":"—"}</span><b>${meEsc(r.piatto)}</b><p>${meEsc(r.azione)}</p></div>`).join("");
 }
+
+loadRecipes();
 </script>
 </body>
 </html>
