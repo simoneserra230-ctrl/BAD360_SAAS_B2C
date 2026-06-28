@@ -44,6 +44,15 @@ class ReplyBody(BaseModel):
     reply: str = ""
 
 
+class AIReplyBody(BaseModel):
+    review_text: str = ""
+    platform: str = "google"
+    stars: int = 5
+    author: str = ""
+    sentiment: str = "neu"
+    keywords: List[str] = []
+
+
 @router.post("/review", summary="Crea/aggiorna una recensione")
 async def upsert_review(payload: Review, user: UserProfile = Depends(require_user)):
     sb = _sb()
@@ -98,3 +107,30 @@ async def delete_review(review_id: str, user: UserProfile = Depends(require_user
     except Exception as e:
         raise HTTPException(500, f"Errore eliminazione: {e}")
     return {"ok": True}
+
+
+@router.post("/ai-reply", summary="Bozza di risposta AI a una recensione")
+async def ai_reply(body: AIReplyBody, user: UserProfile = Depends(require_user)):
+    """Genera una BOZZA di risposta pubblica professionale alla recensione.
+    Nessun dato dell'hotel viene esposto: usa solo il testo della recensione."""
+    from backend.ai_agents import _ask_claude
+    if body.stars >= 4:
+        tono = "ringraziamento caloroso e sincero"
+    elif body.stars <= 2:
+        tono = "scuse misurate + impegno a una soluzione concreta, mai sulla difensiva"
+    else:
+        tono = "cortese, equilibrato, costruttivo"
+    prompt = (
+        "Sei il/la responsabile di una struttura ricettiva/ristorativa italiana e scrivi le "
+        "risposte pubbliche alle recensioni. Scrivi una BOZZA di risposta in italiano, "
+        f"tono: {tono}. Regole: usa il nome dell'autore se presente; ringrazia; rispondi ai "
+        "punti specifici della recensione; niente promesse legali/risarcimenti; nessun dato "
+        "personale; massimo ~80 parole. Rispondi SOLO con il testo della risposta, senza virgolette.\n\n"
+        f"Piattaforma: {body.platform} · Stelle: {body.stars}/5 · Autore: {body.author or 'ospite'}\n"
+        f"Recensione: {body.review_text}"
+    )
+    try:
+        reply = await _ask_claude(prompt, max_tokens=400)
+    except Exception as e:
+        raise HTTPException(502, f"AI non raggiungibile: {e}")
+    return {"ok": True, "reply": (reply or "").strip()}

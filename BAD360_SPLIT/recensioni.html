@@ -543,9 +543,9 @@ async function aiReply(id) {
   if(ta) ta.value='';
 
   try {
-    const res = await fetch('/api/reviews/ai-reply', {
+    if(typeof B360==='undefined' || !B360.getToken()) throw new Error('no-auth');
+    const res = await B360.authFetch('/api/reviews/ai-reply', {
       method:'POST',
-      headers:{'Content-Type':'application/json'},
       body: JSON.stringify({
         review_text: r.text,
         platform: r.platform,
@@ -557,7 +557,8 @@ async function aiReply(id) {
     });
     if(!res.ok) throw new Error();
     const data = await res.json();
-    if(ta) ta.value = data.reply || '';
+    if(!data || !data.reply) throw new Error('empty');
+    if(ta) ta.value = data.reply;
     showToast('✨ Risposta AI generata');
   } catch(_) {
     if(ta) ta.value = generateLocalReply(r);
