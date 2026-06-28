@@ -14,8 +14,9 @@
 
 ## ⚠️ DB migration OBBLIGATORIA (prima o insieme al deploy)
 Nel progetto **Supabase di BAD360** → SQL Editor → esegui:
-`supabase/housekeeping_schema.sql`  (crea `hk_camere`, `hk_forniture`, `hk_task` + indici).
-Senza queste tabelle, il modulo Housekeeping va in errore.
+- `supabase/housekeeping_schema.sql` (crea `hk_camere`, `hk_forniture`, `hk_task` + indici).
+- `supabase/cert_schema.sql` (crea `cert_personale`, `cert_licenze`, `cert_aziendali` — modulo Certificazioni rifatto).
+Senza queste tabelle, i moduli Housekeeping / Certificazioni vanno in errore.
 
 ## Passi di redeploy
 1. **Commit + push** del repo BAD360 → Render ribuilda il Docker (`bad360-api`), il frontend Vercel si aggiorna.

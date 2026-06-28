@@ -13,48 +13,41 @@ html,body{min-height:100vh;background:var(--bg);color:var(--txt);font-family:var
 button{cursor:pointer;font-family:var(--font);border:none;outline:none;transition:all .18s}
 input,select,textarea{font-family:var(--font);outline:none}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 
 .ct-wrap{max-width:1300px;margin:0 auto;padding:26px 24px 80px}
 
-.ct-subnav{display:flex;gap:3px;flex-wrap:wrap;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:6px;margin-bottom:22px;position:sticky;top:52px;z-index:20}
+.ct-subnav{display:flex;gap:3px;flex-wrap:wrap;align-items:center;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:6px;margin-bottom:22px;position:sticky;top:52px;z-index:20}
 .ct-btn{display:flex;align-items:center;gap:6px;background:transparent;color:var(--txt2);border:1px solid transparent;border-radius:7px;padding:6px 13px;font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer;transition:all .16s}
 .ct-btn.active{background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.3);color:var(--g)}
 .ct-btn:hover:not(.active){background:var(--bg3);color:var(--txt)}
+.ct-demo{display:none;align-items:center;gap:5px;padding:4px 10px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:99px;font-size:10px;font-weight:700;color:var(--g);margin-left:auto}
 
-.ct-page{display:none}.ct-page.active{display:block}
+.ct-page{display:none}.ct-page.active{display:block;animation:fadeUp .3s ease both}
 
 .ct-hdr{display:flex;align-items:center;gap:16px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin-bottom:20px;position:relative;overflow:hidden}
 .ct-hdr::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--g) 0%,var(--gd) 100%)}
 .ct-hdr-icon{width:46px;height:46px;border-radius:12px;flex-shrink:0;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.25);display:flex;align-items:center;justify-content:center;font-size:22px}
 .ct-hdr h1{font-family:var(--heading);font-size:20px;font-weight:800;color:var(--txt)}
 .ct-hdr p{font-size:11.5px;color:var(--txt2);margin-top:3px}
+.ct-hdr-act{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
 
-.ct-kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:20px}
+.ct-kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:20px}
 .ct-kpi{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:16px;text-align:center}
-.ct-kpi-val{font-size:1.6rem;font-weight:800;font-family:var(--heading);color:var(--g);line-height:1}
+.ct-kpi-val{font-size:1.6rem;font-weight:800;font-family:var(--heading);line-height:1}
 .ct-kpi-lbl{font-size:10px;color:var(--txt3);margin-top:5px;text-transform:uppercase;letter-spacing:.6px;font-family:var(--mono)}
 
-.ct-card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:14px;transition:border-color .18s}
-.ct-card:hover{border-color:var(--line2)}
-
-.ct-cert-card{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:22px;cursor:pointer;transition:all .2s;animation:fadeUp .35s ease both}
-.ct-cert-card:hover{border-color:rgba(201,168,76,.3);box-shadow:0 6px 28px rgba(0,0,0,.3);transform:translateY(-2px)}
-
-.ct-grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.ct-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
-@media(max-width:860px){.ct-grid2,.ct-grid3{grid-template-columns:1fr}}
+.ct-card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:14px}
 
 .ct-table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--line)}
 .ct-table{width:100%;border-collapse:collapse;font-size:12.5px;background:var(--bg2)}
 .ct-table thead tr{background:var(--bg3);border-bottom:1px solid var(--line2)}
-.ct-table th{padding:10px 14px;color:var(--g);font-family:var(--mono);font-size:9px;letter-spacing:1.5px;font-weight:700;text-transform:uppercase;white-space:nowrap}
+.ct-table th{padding:10px 14px;color:var(--g);font-family:var(--mono);font-size:9px;letter-spacing:1.5px;font-weight:700;text-transform:uppercase;white-space:nowrap;text-align:left}
 .ct-table td{padding:10px 14px;border-bottom:1px solid var(--line);color:var(--txt);vertical-align:middle}
 .ct-table tbody tr:hover td{background:rgba(201,168,76,.04)}
 .ct-table tbody tr:last-child td{border-bottom:none}
 
 .ctbadge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:99px;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.5px}
-.ctbg-ok  {background:rgba(106,171,118,.1);color:var(--green);border:1px solid rgba(106,171,118,.25)}
+.ctbg-ok  {background:rgba(106,171,118,.1);color:var(--green); border:1px solid rgba(106,171,118,.25)}
 .ctbg-warn{background:rgba(212,128,58,.1); color:var(--orange);border:1px solid rgba(212,128,58,.25)}
 .ctbg-err {background:rgba(201,74,74,.1);  color:var(--red);   border:1px solid rgba(201,74,74,.25)}
 .ctbg-gold{background:rgba(201,168,76,.1); color:var(--g);     border:1px solid rgba(201,168,76,.25)}
@@ -65,21 +58,10 @@ input,select,textarea{font-family:var(--font);outline:none}
 .btn-outline{background:transparent;color:var(--txt2);border:1px solid var(--line2)}
 .btn-outline:hover{border-color:var(--g);color:var(--g);background:rgba(201,168,76,.06)}
 .btn-sm{padding:5px 11px;font-size:11.5px}
-
-.ct-checklist-item{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;background:var(--bg2);border:1px solid var(--line);border-radius:9px;margin-bottom:8px;cursor:pointer;transition:all .15s}
-.ct-checklist-item:hover{border-color:var(--line2)}
-.ct-checklist-item.done{background:rgba(106,171,118,.05);border-color:rgba(106,171,118,.2)}
-.ct-check-box{width:20px;height:20px;border-radius:5px;flex-shrink:0;border:2px solid var(--line2);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:11px;margin-top:1px;transition:all .15s}
-.ct-checklist-item.done .ct-check-box{background:var(--green);border-color:var(--green);color:#fff}
-
-.ct-sec-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--g);margin-bottom:6px;font-family:var(--mono)}
-.ct-sec-title{font-family:var(--heading);font-size:1.1rem;font-weight:700;margin-bottom:14px}
-
-.ct-progress-bar{height:8px;background:var(--bg3);border-radius:4px;overflow:hidden;margin:6px 0}
-.ct-progress-fill{height:100%;border-radius:4px;transition:width .6s cubic-bezier(.16,1,.3,1)}
-
-.ct-cal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
-.ct-cal-item{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:16px;border-left:3px solid var(--item-color,var(--g))}
+.ct-link{color:var(--g);text-decoration:none;font-weight:700}
+.ct-empty{text-align:center;color:var(--txt3);padding:34px;font-size:13px}
+.ct-x{background:transparent;border:1px solid var(--line2);color:var(--txt3);border-radius:6px;padding:3px 8px;font-size:11px}
+.ct-x:hover{border-color:var(--red);color:var(--red)}
 
 .toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid rgba(201,168,76,.3);color:var(--g);padding:11px 18px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;opacity:0;transform:translateY(8px);transition:all .3s}
 .toast.show{opacity:1;transform:none}
@@ -111,665 +93,206 @@ input,select,textarea{font-family:var(--font);outline:none}
 
 <div class="ct-wrap">
   <nav class="ct-subnav">
-    <button class="ct-btn active" data-ctpage="overview"    onclick="ctNav('overview')">🏅 Overview</button>
-    <button class="ct-btn"        data-ctpage="iso22000"    onclick="ctNav('iso22000')">🌿 ISO 22000</button>
-    <button class="ct-btn"        data-ctpage="iso9001"     onclick="ctNav('iso9001')">⚙️ ISO 9001</button>
-    <button class="ct-btn"        data-ctpage="haccp"       onclick="ctNav('haccp')">🛡️ HACCP</button>
-    <button class="ct-btn"        data-ctpage="emas"        onclick="ctNav('emas')">🌍 EMAS / ISO 14001</button>
-    <button class="ct-btn"        data-ctpage="calendario"  onclick="ctNav('calendario')">📅 Calendario</button>
-    <button class="ct-btn"        data-ctpage="documenti"   onclick="ctNav('documenti')">📁 Documenti</button>
-    <button class="ct-btn"        data-ctpage="training"    onclick="ctNav('training')" style="color:var(--g);border-color:rgba(201,168,76,.2)">🎓 Tracker</button>
+    <button class="ct-btn active" data-ctpage="cruscotto" onclick="ctNav('cruscotto')">📊 Cruscotto</button>
+    <button class="ct-btn"        data-ctpage="personale" onclick="ctNav('personale')">👥 Personale</button>
+    <button class="ct-btn"        data-ctpage="licenze"   onclick="ctNav('licenze')">📜 Licenze locale</button>
+    <button class="ct-btn"        data-ctpage="aziendali" onclick="ctNav('aziendali')">🏅 ISO / EMAS</button>
+    <span class="ct-demo" id="ct-demo">⚡ Demo — accedi per salvare i tuoi dati</span>
   </nav>
 
-  <!-- OVERVIEW -->
-  <div class="ct-page active" id="ct-page-overview">
-    <div class="ct-hdr">
-      <div class="ct-hdr-icon">🏅</div>
-      <div>
-        <h1>Gestione Certificazioni</h1>
-        <p>Compliance normativa · ISO 22000 · ISO 9001 · HACCP · EMAS · Accredia</p>
-      </div>
-      <div style="margin-left:auto">
-        <button class="btn btn-gold btn-sm" onclick="openNuovoAudit()">+ Nuovo Audit</button>
-      </div>
+  <!-- CRUSCOTTO -->
+  <div class="ct-page active" id="ct-page-cruscotto">
+    <div class="ct-hdr"><div class="ct-hdr-icon">📊</div>
+      <div><h1>Cruscotto Compliance</h1><p>Stato attestati personale, licenze del locale e certificazioni — scadenze in evidenza</p></div>
     </div>
-
-    <div class="ct-kpi-grid">
-      <div class="ct-kpi"><div class="ct-kpi-val">4</div><div class="ct-kpi-lbl">Certificazioni Attive</div></div>
-      <div class="ct-kpi"><div class="ct-kpi-val" style="color:var(--green)">3</div><div class="ct-kpi-lbl">Conformi</div></div>
-      <div class="ct-kpi"><div class="ct-kpi-val" style="color:var(--orange)">1</div><div class="ct-kpi-lbl">In Rinnovo</div></div>
-      <div class="ct-kpi"><div class="ct-kpi-val">92%</div><div class="ct-kpi-lbl">Compliance Media</div></div>
-      <div class="ct-kpi"><div class="ct-kpi-val">18</div><div class="ct-kpi-lbl">Audit completati</div></div>
-      <div class="ct-kpi"><div class="ct-kpi-val" style="color:var(--orange)">2</div><div class="ct-kpi-lbl">Scadenza <60gg</div></div>
-    </div>
-
-    <div class="ct-grid3" id="ct-overview-cards"></div>
-  </div>
-
-  <!-- ISO 22000 -->
-  <div class="ct-page" id="ct-page-iso22000">
-    <div class="ct-hdr">
-      <div class="ct-hdr-icon">🌿</div>
-      <div>
-        <h1>ISO 22000:2018 — Food Safety Management</h1>
-        <p>Sistema di gestione per la sicurezza alimentare · FSSC 22000 v6</p>
-      </div>
-      <span class="ctbadge ctbg-ok" style="margin-left:auto">✅ Certificato</span>
-    </div>
-
-    <div class="ct-card" style="border-top:3px solid var(--green);margin-bottom:20px">
-      <div style="display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap">
-        <div style="flex:1;min-width:220px">
-          <div style="font-family:var(--mono);font-size:10px;color:var(--g);letter-spacing:1px;margin-bottom:6px">ISO 22000:2018</div>
-          <div style="font-family:var(--heading);font-size:18px;font-weight:800;margin-bottom:6px">Food Safety Management System</div>
-          <div style="font-size:12.5px;color:var(--txt2);line-height:1.7;margin-bottom:12px">Certifica il sistema di gestione per la sicurezza alimentare lungo tutta la filiera. Integra i principi HACCP con i prerequisiti del sistema di gestione.</div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <span class="ctbadge ctbg-ok">Valido</span>
-            <span class="ctbadge ctbg-gold">Ente: RINA Services</span>
-            <span style="font-family:var(--mono);font-size:10px;color:var(--txt3)">Scad. 2026-11-30</span>
-          </div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;min-width:200px">
-          <div style="background:var(--bg3);border-radius:9px;padding:12px;text-align:center">
-            <div style="font-size:22px;font-weight:800;font-family:var(--heading);color:var(--green)">96%</div>
-            <div style="font-size:10px;color:var(--txt3);margin-top:2px">Ultimo Audit</div>
-          </div>
-          <div style="background:var(--bg3);border-radius:9px;padding:12px;text-align:center">
-            <div style="font-size:22px;font-weight:800;font-family:var(--heading);color:var(--g)">6</div>
-            <div style="font-size:10px;color:var(--txt3);margin-top:2px">Mesi rinnovo</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="ct-sec-label">Checklist Requisiti</div>
-    <div class="ct-sec-title" style="display:flex;justify-content:space-between;align-items:center">
-      Gap Analysis ISO 22000:2018
-      <button class="btn btn-outline btn-sm" onclick="exportChecklistCSV()">↓ CSV</button>
-    </div>
-    <div id="iso22000-checklist"></div>
-
-    <!-- AI Certification Advisor -->
-    <div style="margin-top:20px">
-      <div class="ct-sec-label">AI Certification Advisor</div>
-      <div class="ct-sec-title">Chiedi all'AI specializzato ISO / HACCP / EMAS</div>
-      <div class="ct-card">
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
-          <button class="btn btn-outline btn-sm" onclick="runCertAdvisor('Come prepararmi al rinnovo ISO 22000:2018 con RINA?')">🔄 Rinnovo ISO 22000</button>
-          <button class="btn btn-outline btn-sm" onclick="runCertAdvisor('Cosa devo fare per rinnovare EMAS scaduta?')">🌍 Rinnovo EMAS</button>
-          <button class="btn btn-outline btn-sm" onclick="runCertAdvisor('Come migliorare il punteggio ISO 9001 da 89% a 95%?')">⚙️ Migliora ISO 9001</button>
-          <button class="btn btn-outline btn-sm" onclick="runCertAdvisor('Checklist preparazione audit ASL HACCP')">✅ Audit ASL</button>
-        </div>
-        <div style="display:flex;gap:8px">
-          <input id="cert-ai-input" placeholder="Chiedi sull'ISO, EMAS, HACCP, audit…" style="flex:1;background:var(--bg3);border:1.5px solid var(--line2);border-radius:8px;padding:9px 13px;color:var(--txt);font-size:13px;font-family:var(--font);outline:none" onfocus="this.style.borderColor='var(--g)'" onblur="this.style.borderColor=''" onkeydown="if(event.key==='Enter')runCertAdvisor()">
-          <button class="btn btn-gold" onclick="runCertAdvisor()">→</button>
-        </div>
-        <div id="cert-ai-result" style="display:none;margin-top:12px;padding:14px;background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.15);border-radius:9px;font-size:13px;line-height:1.75;color:var(--txt2)"></div>
-      </div>
+    <div class="ct-kpi-grid" id="ct-kpis"></div>
+    <div class="ct-card">
+      <div style="font-family:var(--heading);font-weight:700;margin-bottom:12px">⏰ Scadenze imminenti (90 giorni)</div>
+      <div id="ct-imminenti"></div>
     </div>
   </div>
 
-  <!-- ISO 9001 -->
-  <div class="ct-page" id="ct-page-iso9001">
-    <div class="ct-hdr">
-      <div class="ct-hdr-icon">⚙️</div>
-      <div>
-        <h1>ISO 9001:2015 — Quality Management</h1>
-        <p>Sistema di gestione per la qualità · Processi, KPI, miglioramento continuo</p>
-      </div>
-      <span class="ctbadge ctbg-ok" style="margin-left:auto">✅ Certificato</span>
+  <!-- PERSONALE -->
+  <div class="ct-page" id="ct-page-personale">
+    <div class="ct-hdr"><div class="ct-hdr-icon">👥</div>
+      <div><h1>Attestati del personale</h1><p>Chi ha quale attestato, con scadenze e alert (HACCP, antincendio, primo soccorso, 81/08…)</p></div>
+      <div class="ct-hdr-act"><button class="btn btn-gold btn-sm" onclick="ctAddPersonale()">＋ Attestato</button></div>
     </div>
-
-    <div class="ct-grid2">
-      <div>
-        <div class="ct-sec-label">Progressi Requisiti</div>
-        <div class="ct-sec-title">Gap Analysis per Clausola</div>
-        <div id="iso9001-gaps"></div>
-      </div>
-      <div>
-        <div class="ct-sec-label">KPI Qualità</div>
-        <div class="ct-sec-title">Indicatori Mese Corrente</div>
-        <div id="iso9001-kpi"></div>
-      </div>
-    </div>
+    <div id="ct-personale"></div>
   </div>
 
-  <!-- HACCP -->
-  <div class="ct-page" id="ct-page-haccp">
-    <div class="ct-hdr">
-      <div class="ct-hdr-icon">🛡️</div>
-      <div>
-        <h1>HACCP — Hazard Analysis Critical Control Points</h1>
-        <p>Reg. CE 852/2004 · D.Lgs 193/2007 · Piano HACCP aggiornato 2026</p>
-      </div>
-      <span class="ctbadge ctbg-ok" style="margin-left:auto">✅ Conforme</span>
+  <!-- LICENZE -->
+  <div class="ct-page" id="ct-page-licenze">
+    <div class="ct-hdr"><div class="ct-hdr-icon">📜</div>
+      <div><h1>Licenze & autorizzazioni del locale</h1><p>SCIA, autorizzazione sanitaria, licenza somministrazione, registrazione ASL…</p></div>
+      <div class="ct-hdr-act"><button class="btn btn-gold btn-sm" onclick="ctAddLicenza()">＋ Licenza</button></div>
     </div>
-
-    <div class="ct-kpi-grid" style="grid-template-columns:repeat(4,1fr)">
-      <div class="ct-kpi"><div class="ct-kpi-val">7</div><div class="ct-kpi-lbl">CCP identificati</div></div>
-      <div class="ct-kpi"><div class="ct-kpi-val" style="color:var(--green)">7</div><div class="ct-kpi-lbl">CCP sotto controllo</div></div>
-      <div class="ct-kpi"><div class="ct-kpi-val">3</div><div class="ct-kpi-lbl">Prerequsiti Operativi</div></div>
-      <div class="ct-kpi"><div class="ct-kpi-val">98%</div><div class="ct-kpi-lbl">Conformità rilevazioni</div></div>
-    </div>
-
-    <div id="haccp-ccp-list"></div>
+    <div id="ct-licenze"></div>
   </div>
 
-  <!-- EMAS -->
-  <div class="ct-page" id="ct-page-emas">
-    <div class="ct-hdr">
-      <div class="ct-hdr-icon">🌍</div>
-      <div>
-        <h1>EMAS / ISO 14001 — Gestione Ambientale</h1>
-        <p>Eco-Management and Audit Scheme · Reg. UE 1221/2009 · Green Key</p>
-      </div>
-      <span class="ctbadge ctbg-warn" style="margin-left:auto">⏳ In Rinnovo</span>
+  <!-- AZIENDALI -->
+  <div class="ct-page" id="ct-page-aziendali">
+    <div class="ct-hdr"><div class="ct-hdr-icon">🏅</div>
+      <div><h1>Certificazioni aziendali (ISO / EMAS)</h1><p>Per chi punta alla certificazione formale: stato, sorveglianza, rinnovo. Il piano HACCP vive nel modulo <a class="ct-link" href="haccp.html">HACCP</a>.</p></div>
+      <div class="ct-hdr-act"><button class="btn btn-gold btn-sm" onclick="ctAddAziendale()">＋ Certificazione</button></div>
     </div>
-
-    <div class="ct-grid2">
-      <div>
-        <div class="ct-sec-label">Aspetti Ambientali Significativi</div>
-        <div class="ct-sec-title">Dashboard Sostenibilità</div>
-        <div id="emas-aspects"></div>
-      </div>
-      <div>
-        <div class="ct-sec-label">Obiettivi Ambientali 2026</div>
-        <div class="ct-sec-title">Target & Avanzamento</div>
-        <div id="emas-targets"></div>
-      </div>
-    </div>
+    <div id="ct-aziendali"></div>
   </div>
-
-  <!-- CALENDARIO -->
-  <div class="ct-page" id="ct-page-calendario">
-    <div class="ct-hdr">
-      <div class="ct-hdr-icon">📅</div>
-      <div><h1>Calendario Audit & Rinnovi</h1><p>Scadenze, sorveglianza e rinnovi certificazioni 2026</p></div>
-    </div>
-    <div class="ct-cal-grid" id="ct-cal-grid"></div>
-  </div>
-
-  <!-- DOCUMENTI -->
-  <div class="ct-page" id="ct-page-documenti">
-    <div class="ct-hdr">
-      <div class="ct-hdr-icon">📁</div>
-      <div><h1>Repository Documenti</h1><p>Procedure, istruzioni operative, registrazioni e certificati</p></div>
-      <div style="margin-left:auto"><button class="btn btn-gold btn-sm" onclick="openUploadCertDoc()">📁 Upload</button></div>
-    </div>
-    <div class="ct-table-wrap">
-      <table class="ct-table">
-        <thead><tr><th>Documento</th><th>Categoria</th><th>Rev.</th><th>Data</th><th>Emesso da</th><th>Stato</th><th></th></tr></thead>
-        <tbody id="docs-tbody"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- TRAINING COMPLIANCE TRACKER (D3.4) -->
-  <div class="ct-page" id="ct-page-training">
-    <div class="ct-hdr">
-      <div class="ct-hdr-icon">🎓</div>
-      <div><h1>Training Compliance Tracker</h1><p>Formazione obbligatoria, scadenze corsi e gap per dipendente</p></div>
-      <div style="margin-left:auto;display:flex;gap:8px">
-        <button class="btn btn-gold btn-sm" onclick="runTrainingGap()">🔍 Analisi Gap</button>
-        <button class="btn btn-outline btn-sm" onclick="exportTraining()">📥 Export</button>
-      </div>
-    </div>
-
-    <!-- KPI -->
-    <div id="training-kpi" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:18px"></div>
-
-    <!-- Dipendenti -->
-    <div style="display:grid;grid-template-columns:1fr 340px;gap:14px">
-      <div>
-        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);margin-bottom:10px;font-family:var(--mono)">Stato Formazione per Dipendente</div>
-        <div id="training-table-wrap" class="ct-table-wrap">
-          <table class="ct-table">
-            <thead><tr><th>Dipendente</th><th>Ruolo</th><th>HACCP</th><th>Allergeni</th><th>Sicurezza</th><th>Compliance</th><th></th></tr></thead>
-            <tbody id="training-tbody"></tbody>
-          </table>
-        </div>
-      </div>
-      <div>
-        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);margin-bottom:10px;font-family:var(--mono)">AI Gap Analysis</div>
-        <div id="training-gap-result" style="background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px;min-height:200px">
-          <div style="text-align:center;padding:30px 0">
-            <div style="font-size:28px;margin-bottom:8px">🎯</div>
-            <div style="font-size:12px;color:var(--txt3)">Clicca "Analisi Gap" per rilevare le lacune formative</div>
-          </div>
-        </div>
-        <div style="margin-top:10px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);margin-bottom:8px;font-family:var(--mono)">Corsi In Scadenza</div>
-        <div id="training-expiring"></div>
-      </div>
-    </div>
-  </div>
-
-</div><!-- /ct-wrap -->
-<div class="toast" id="toast"></div>
+</div>
+<div class="toast" id="ct-toast"></div>
 
 <script>
-const CERT_OVERVIEW = [
-  {icon:'🌿',code:'ISO 22000:2018',name:'Food Safety Management',ente:'RINA Services',scad:'2026-11-30',score:96,stato:'ok',next:'Audit sorveglianza: Set 2026'},
-  {icon:'⚙️',code:'ISO 9001:2015',name:'Quality Management',ente:'Bureau Veritas',scad:'2027-03-15',score:89,stato:'ok',next:'Rinnovo triennale: Mar 2027'},
-  {icon:'🛡️',code:'HACCP D.Lgs 193/07',name:'Analisi Pericoli CCP',ente:'Interno + ASL',scad:'2026-12-31',score:98,stato:'ok',next:'Revisione piano: Giu 2026'},
-  {icon:'🌍',code:'EMAS / ISO 14001',name:'Gestione Ambientale',ente:'ISPRA',scad:'2026-05-30',score:67,stato:'warn',next:'Rinnovo URGENTE — scaduto 30/05'},
-];
+//──────────── infra ────────────
+const CT_TIPI_PERS = ['HACCP / Alimentarista','Allergeni','Sicurezza 81/08 generale','Sicurezza 81/08 specifica','Aggiornamento 81/08','Antincendio','Primo Soccorso','Preposto','Dirigente','RSPP Datore','Somministrazione alcolici (SAB)','Altro'];
+const CT_TIPI_LIC = ['SCIA','Autorizzazione sanitaria','Licenza somministrazione','Registrazione ASL','Notifica sanitaria (NIA)','Insegna / occupazione suolo','Altro'];
+const CT_NORME = ['ISO 22000:2018','ISO 9001:2015','EMAS / ISO 14001','BRC Food','IFS Food','Altro'];
 
-const ISO22000_CHECK = [
-  {req:'4.1 Contesto organizzazione',det:'Analisi stakeholder e parti interessate',stato:'done'},
-  {req:'5.1 Leadership e impegno',det:'Politica sicurezza alimentare firmata DG',stato:'done'},
-  {req:'6.1 Gestione rischi e opportunità',det:'Risk register aggiornato T1 2026',stato:'done'},
-  {req:'7.2 Competenza del personale',det:'Formazione HACCP: 8/10 dipendenti certificati',stato:'partial'},
-  {req:'8.1 Pianificazione operativa',det:'Piano HACCP, PRP, OPRP documentati',stato:'done'},
-  {req:'8.5.2 Prerequisiti operativi (OPRP)',det:'3 OPRP identificati e monitorati',stato:'done'},
-  {req:'8.5.3 Analisi dei pericoli (HACCP)',det:'Albero delle decisioni — 7 CCP',stato:'done'},
-  {req:'9.1 Monitoraggio e misurazione',det:'KPI mensili — frequenza: settimanale',stato:'done'},
-  {req:'9.3 Riesame della direzione',det:'Ultimo riesame: Mar 2026',stato:'done'},
-  {req:'10.2 Gestione non conformità',det:'3 NC aperte — 1 in attesa azione correttiva',stato:'partial'},
-];
+function ctLogged(){ return (typeof B360!=='undefined') && !!B360.getToken(); }
+function esc(s){ return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function ctToast(m){ var t=document.getElementById('ct-toast'); t.textContent=m; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(function(){t.classList.remove('show');},2600); }
+function fmtDate(s){ if(!s) return '—'; try{ return new Date(s).toLocaleDateString('it-IT'); }catch(e){ return s; } }
+function ctSetDemo(on){ var b=document.getElementById('ct-demo'); if(b) b.style.display=on?'inline-flex':'none'; }
 
-const ISO9001_GAPS = [
-  {clausola:'4. Contesto',score:95},
-  {clausola:'5. Leadership',score:92},
-  {clausola:'6. Pianificazione',score:88},
-  {clausola:'7. Supporto',score:84},
-  {clausola:'8. Attività operative',score:91},
-  {clausola:'9. Valutazione prestazioni',score:87},
-  {clausola:'10. Miglioramento',score:79},
-];
-
-const ISO9001_KPI = [
-  {label:'Soddisfazione Cliente',val:'4.6/5',col:'var(--green)'},
-  {label:'NC interne chiuse',val:'87%',col:'var(--g)'},
-  {label:'Reclami ricevuti',val:'2',col:'var(--orange)'},
-  {label:'Tempo risposta reclami',val:'1.4gg',col:'var(--green)'},
-  {label:'Fornitori qualificati',val:'12/12',col:'var(--green)'},
-  {label:'Audit interni completati',val:'4/4',col:'var(--green)'},
-];
-
-const HACCP_CCP = [
-  {num:'CCP1',fase:'Ricevimento merci deperibili',pericolo:'Contaminazione batterica',limite:'T ≤ +4°C',freq:'Ogni carico',stato:'ok'},
-  {num:'CCP2',fase:'Stoccaggio frigorifero',pericolo:'Proliferazione batterica',limite:'T 0–4°C continua',freq:'2x/giorno',stato:'ok'},
-  {num:'CCP3',fase:'Cottura alimenti',pericolo:'Sopravvivenza patogeni',limite:'T cuore ≥ 75°C',freq:'Ogni batch',stato:'ok'},
-  {num:'CCP4',fase:'Raffreddamento rapido',pericolo:'Zona di pericolo 10–63°C',limite:'Da 63°C a 10°C in <2h',freq:'Ogni batch',stato:'ok'},
-  {num:'CCP5',fase:'Servizio al buffet',pericolo:'Contaminazione crociata',limite:'T caldo ≥63°C / freddo ≤4°C',freq:'30 min',stato:'ok'},
-  {num:'CCP6',fase:'Stoccaggio congelati',pericolo:'Catena freddo interrotta',limite:'T ≤ -18°C',freq:'Continua',stato:'ok'},
-  {num:'CCP7',fase:'Sanificazione superfici',pericolo:'Contaminazione chimica/biologica',limite:'pH 0 CFU/cm² post sanitiz.',freq:'Post turno',stato:'ok'},
-];
-
-const EMAS_ASPECTS = [
-  {asp:'Consumo energetico',val:'312 MWh/anno',delta:'-8%',col:'var(--green)'},
-  {asp:'Consumo idrico',val:'4.200 m³/anno',delta:'-3%',col:'var(--orange)'},
-  {asp:'Produzione rifiuti',val:'18.4 ton/anno',delta:'-12%',col:'var(--green)'},
-  {asp:'Emissioni CO₂',val:'42 ton CO₂eq',delta:'-15%',col:'var(--green)'},
-  {asp:'Plastica monouso',val:'28 kg/mese',delta:'-65%',col:'var(--green)'},
-];
-
-const EMAS_TARGETS = [
-  {target:'Riduzione energia -15% vs 2024',prog:53,col:'var(--g)'},
-  {target:'Energia rinnovabile 60% entro dic 2026',prog:41,col:'var(--orange)'},
-  {target:'Zero plastica monouso entro giu 2026',prog:65,col:'var(--g)'},
-  {target:'Raccolta differenziata 80% entro 2026',prog:72,col:'var(--green)'},
-  {target:'Certificazione Green Key rinnovo',prog:35,col:'var(--red)'},
-];
-
-const CALENDAR = [
-  {data:'2026-06-15',tipo:'Audit Sorveglianza',cert:'HACCP',det:'Visita ASL Cagliari — piano annuale',col:'var(--orange)'},
-  {data:'2026-06-30',tipo:'Rinnovo URGENTE',cert:'EMAS / ISO 14001',det:'Scadenza già superata — azione immediata',col:'var(--red)'},
-  {data:'2026-09-10',tipo:'Audit Sorveglianza',cert:'ISO 22000:2018',det:'RINA Services — 2° sorveglianza triennale',col:'var(--g)'},
-  {data:'2026-10-01',tipo:'Revisione Interna',cert:'ISO 9001:2015',det:'Riesame della direzione Q3 2026',col:'var(--green)'},
-  {data:'2026-11-30',tipo:'Rinnovo Certificato',cert:'ISO 22000:2018',det:'Scadenza — avviare processo rinnovo',col:'var(--orange)'},
-  {data:'2027-03-15',tipo:'Rinnovo Certificato',cert:'ISO 9001:2015',det:'Rinnovo triennale Bureau Veritas',col:'var(--teal)'},
-];
-
-const DOCS = [
-  {doc:'Piano HACCP 2026',cat:'HACCP',rev:'v3.2',data:'2026-03-01',emesso:'Resp. Qualità',stato:'ok'},
-  {doc:'Politica Qualità ISO 9001',cat:'ISO 9001',rev:'v2.1',data:'2026-01-15',emesso:'DG',stato:'ok'},
-  {doc:'Politica Sicurezza Alimentare',cat:'ISO 22000',rev:'v1.3',data:'2026-02-10',emesso:'DG',stato:'ok'},
-  {doc:'Manuale di Gestione QSA',cat:'Integrato',rev:'v4.0',data:'2026-03-20',emesso:'Resp. Qualità',stato:'ok'},
-  {doc:'Dichiarazione Ambientale EMAS',cat:'EMAS',rev:'v1.1',data:'2025-06-30',emesso:'Resp. Ambiente',stato:'warn'},
-  {doc:'PRP - Prerequisiti Operativi',cat:'ISO 22000',rev:'v2.0',data:'2026-04-05',emesso:'FSMS Team',stato:'ok'},
-  {doc:'Registro Non Conformità 2026',cat:'NC',rev:'Corrente',data:'2026-05-28',emesso:'Sistema',stato:'ok'},
-  {doc:'Registro Formazione Personale',cat:'HR / Formazione',rev:'Corrente',data:'2026-05-20',emesso:'HR',stato:'ok'},
-];
-
-function ctNav(page){
-  document.querySelectorAll('.ct-page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.ct-btn').forEach(b=>b.classList.toggle('active',b.dataset.ctpage===page));
-  document.getElementById('ct-page-'+page).classList.add('active');
-  if(page==='iso22000')renderISO22000();
-  if(page==='iso9001')renderISO9001();
-  if(page==='haccp')renderHACCP();
-  if(page==='emas')renderEMAS();
-  if(page==='calendario')renderCalendario();
-  if(page==='documenti')renderDocumenti();
-  if(page==='training')initTrainingTracker();
+function statoBadge(stato, giorni){
+  if(stato==='scaduto')     return '<span class="ctbadge ctbg-err">SCADUTO'+(giorni!=null?' '+Math.abs(giorni)+'gg fa':'')+'</span>';
+  if(stato==='in_scadenza') return '<span class="ctbadge ctbg-warn">IN SCADENZA'+(giorni!=null?' '+giorni+'gg':'')+'</span>';
+  if(stato==='permanente')  return '<span class="ctbadge ctbg-gold">PERMANENTE</span>';
+  return '<span class="ctbadge ctbg-ok">IN REGOLA</span>';
 }
 
-function renderOverview(){
-  const el=document.getElementById('ct-overview-cards');
-  if(!el)return;
-  el.innerHTML=CERT_OVERVIEW.map((c,i)=>{
-    const col=c.stato==='ok'?'var(--green)':c.stato==='warn'?'var(--orange)':'var(--red)';
-    return `<div class="ct-cert-card" style="animation-delay:${i*.06}s;border-top:3px solid ${col}">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-        <span style="font-size:28px">${c.icon}</span>
-        <div style="flex:1">
-          <div style="font-family:var(--mono);font-size:9.5px;color:var(--g);letter-spacing:1px">${c.code}</div>
-          <div style="font-weight:700;font-size:14px;font-family:var(--heading)">${c.name}</div>
-        </div>
-        <span class="ctbadge ctbg-${c.stato==='ok'?'ok':c.stato==='warn'?'warn':'err'}">${c.stato==='ok'?'Valido':c.stato==='warn'?'In rinnovo':'Scaduto'}</span>
-      </div>
-      <div style="font-size:11.5px;color:var(--txt2);margin-bottom:12px">Ente: <strong>${c.ente}</strong> · Scad. ${c.scad}</div>
-      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--txt3);margin-bottom:6px">
-        <span>Compliance</span><span style="color:${col};font-weight:700">${c.score}%</span>
-      </div>
-      <div class="ct-progress-bar"><div class="ct-progress-fill" style="width:${c.score}%;background:${col}"></div></div>
-      <div style="margin-top:10px;font-size:11px;color:var(--txt3);border-top:1px solid var(--line);padding-top:8px">${c.next}</div>
-    </div>`;
+async function ctGet(path){ if(!ctLogged()) return null; try{ var r=await B360.authFetch(path); return await r.json(); }catch(e){ return null; } }
+async function ctSend(path, method, body){
+  if(!ctLogged()){ ctToast('🔒 Accedi a BAD360 per salvare'); return null; }
+  try{ var r=await B360.authFetch(path,{method:method,body:body?JSON.stringify(body):undefined}); return await r.json(); }catch(e){ ctToast('Errore di rete'); return null; }
+}
+
+//──────────── navigation ────────────
+function ctNav(p){
+  document.querySelectorAll('.ct-page').forEach(function(el){ el.classList.toggle('active', el.id==='ct-page-'+p); });
+  document.querySelectorAll('.ct-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.ctpage===p); });
+  if(p==='cruscotto') loadCruscotto();
+  else if(p==='personale') loadPersonale();
+  else if(p==='licenze') loadLicenze();
+  else if(p==='aziendali') loadAziendali();
+}
+
+//──────────── CRUSCOTTO ────────────
+async function loadCruscotto(){
+  var d = await ctGet('/api/cert/dashboard');
+  if(!d || !d.ok){ d = CT_DEMO.dashboard; ctSetDemo(true); } else ctSetDemo(false);
+  var r = d.riepilogo||{};
+  var kpi = [['totale','Totale','var(--txt)'],['ok','In regola','var(--green)'],['in_scadenza','In scadenza','var(--orange)'],['scaduto','Scaduti','var(--red)']];
+  document.getElementById('ct-kpis').innerHTML = kpi.map(function(k){
+    return '<div class="ct-kpi"><div class="ct-kpi-val" style="color:'+k[2]+'">'+(r[k[0]]||0)+'</div><div class="ct-kpi-lbl">'+k[1]+'</div></div>';
   }).join('');
+  var imm = d.scadenze_imminenti||[];
+  document.getElementById('ct-imminenti').innerHTML = imm.length ? (
+    '<div class="ct-table-wrap"><table class="ct-table"><thead><tr><th>Area</th><th>Voce</th><th>Scadenza</th><th>Stato</th></tr></thead><tbody>'
+    + imm.map(function(x){ return '<tr><td><span class="ctbadge ctbg-gold">'+esc(x.area)+'</span></td><td>'+esc(x.etichetta)+'</td><td>'+fmtDate(x.data_scadenza)+'</td><td>'+statoBadge(x.stato,x.giorni)+'</td></tr>'; }).join('')
+    + '</tbody></table></div>'
+  ) : '<div class="ct-empty">Nessuna scadenza nei prossimi 90 giorni. ✅</div>';
 }
 
-function renderISO22000(){
-  const el=document.getElementById('iso22000-checklist');
-  if(!el)return;
-  el.innerHTML=ISO22000_CHECK.map(c=>`
-    <div class="ct-checklist-item ${c.stato==='done'?'done':''}">
-      <div class="ct-check-box">${c.stato==='done'?'✓':c.stato==='partial'?'~':''}</div>
-      <div>
-        <div style="font-weight:700;font-size:13px">${c.req}</div>
-        <div style="font-size:12px;color:var(--txt2);margin-top:2px">${c.det}</div>
-      </div>
-      <span class="ctbadge ctbg-${c.stato==='done'?'ok':c.stato==='partial'?'warn':'err'}" style="margin-left:auto;flex-shrink:0">${c.stato==='done'?'OK':c.stato==='partial'?'Parziale':'Aperto'}</span>
-    </div>`).join('');
+//──────────── PERSONALE ────────────
+async function loadPersonale(){
+  var d = await ctGet('/api/cert/personale'); var demo=false;
+  if(!d || !d.ok){ d = CT_DEMO.personale; demo=true; } ctSetDemo(demo);
+  var rows = d.items||[];
+  document.getElementById('ct-personale').innerHTML = rows.length ? (
+    '<div class="ct-table-wrap"><table class="ct-table"><thead><tr><th>Dipendente</th><th>Ruolo</th><th>Attestato</th><th>Ente</th><th>Scadenza</th><th>Stato</th><th></th></tr></thead><tbody>'
+    + rows.map(function(r){ return '<tr><td><b>'+esc(r.dipendente)+'</b></td><td>'+esc(r.ruolo||'—')+'</td><td>'+esc(r.tipo)+'</td><td>'+esc(r.ente||'—')+'</td><td>'+fmtDate(r.data_scadenza)+'</td><td>'+statoBadge(r.stato,r.giorni_alla_scadenza)+'</td><td>'+(r.id&&!demo?'<button class="ct-x" onclick="ctDel(\'personale\',\''+r.id+'\')">elimina</button>':'')+'</td></tr>'; }).join('')
+    + '</tbody></table></div>'
+  ) : '<div class="ct-empty">Nessun attestato. Aggiungi il primo con <b>＋ Attestato</b>.</div>';
+}
+function ctAddPersonale(){
+  if(!ctLogged()){ ctToast('🔒 Accedi per aggiungere'); return; }
+  B360.modal({ title:'👥 Nuovo attestato', confirmLabel:'✓ Salva', fields:[
+    {id:'dipendente',label:'Dipendente *'}, {id:'ruolo',label:'Ruolo'},
+    {id:'tipo',label:'Attestato *',type:'select',options:CT_TIPI_PERS},
+    {id:'ente',label:'Ente / Ente formatore'},
+    {id:'data_rilascio',label:'Rilascio',type:'date'}, {id:'data_scadenza',label:'Scadenza',type:'date'},
+    {id:'note',label:'Note',type:'textarea'}
+  ], onConfirm:async function(v){ if(!v.dipendente||!v.tipo){ ctToast('Dipendente e attestato obbligatori'); return false; }
+    var d=await ctSend('/api/cert/personale','POST',v); if(d&&d.ok){ ctToast('✓ Salvato'); loadPersonale(); } } });
 }
 
-function renderISO9001(){
-  const gaps=document.getElementById('iso9001-gaps');
-  const kpi=document.getElementById('iso9001-kpi');
-  if(gaps)gaps.innerHTML=ISO9001_GAPS.map(g=>{
-    const col=g.score>=90?'var(--green)':g.score>=75?'var(--g)':'var(--orange)';
-    return `<div style="margin-bottom:14px">
-      <div style="display:flex;justify-content:space-between;font-size:12.5px;font-weight:600;margin-bottom:5px">
-        <span>${g.clausola}</span><span style="color:${col}">${g.score}%</span>
-      </div>
-      <div class="ct-progress-bar"><div class="ct-progress-fill" style="width:${g.score}%;background:${col}"></div></div>
-    </div>`;
-  }).join('');
-  if(kpi)kpi.innerHTML=ISO9001_KPI.map(k=>`
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)">
-      <span style="font-size:13px">${k.label}</span>
-      <strong style="font-family:var(--heading);font-size:16px;color:${k.col}">${k.val}</strong>
-    </div>`).join('');
+//──────────── LICENZE ────────────
+async function loadLicenze(){
+  var d = await ctGet('/api/cert/licenze'); var demo=false;
+  if(!d || !d.ok){ d = CT_DEMO.licenze; demo=true; } ctSetDemo(demo);
+  var rows = d.items||[];
+  document.getElementById('ct-licenze').innerHTML = rows.length ? (
+    '<div class="ct-table-wrap"><table class="ct-table"><thead><tr><th>Licenza</th><th>Numero</th><th>Ente</th><th>Scadenza</th><th>Stato</th><th></th></tr></thead><tbody>'
+    + rows.map(function(r){ return '<tr><td><b>'+esc(r.tipo)+'</b></td><td>'+esc(r.numero||'—')+'</td><td>'+esc(r.ente||'—')+'</td><td>'+fmtDate(r.data_scadenza)+'</td><td>'+statoBadge(r.stato,r.giorni_alla_scadenza)+'</td><td>'+(r.id&&!demo?'<button class="ct-x" onclick="ctDel(\'licenza\',\''+r.id+'\')">elimina</button>':'')+'</td></tr>'; }).join('')
+    + '</tbody></table></div>'
+  ) : '<div class="ct-empty">Nessuna licenza registrata.</div>';
+}
+function ctAddLicenza(){
+  if(!ctLogged()){ ctToast('🔒 Accedi per aggiungere'); return; }
+  B360.modal({ title:'📜 Nuova licenza', confirmLabel:'✓ Salva', fields:[
+    {id:'tipo',label:'Tipo *',type:'select',options:CT_TIPI_LIC}, {id:'numero',label:'Numero / protocollo'},
+    {id:'ente',label:'Ente (Comune, ASL…)'},
+    {id:'data_rilascio',label:'Rilascio',type:'date'}, {id:'data_scadenza',label:'Scadenza (vuoto = permanente)',type:'date'},
+    {id:'note',label:'Note',type:'textarea'}
+  ], onConfirm:async function(v){ if(!v.tipo){ ctToast('Tipo obbligatorio'); return false; }
+    var d=await ctSend('/api/cert/licenza','POST',v); if(d&&d.ok){ ctToast('✓ Salvato'); loadLicenze(); } } });
 }
 
-function renderHACCP(){
-  const el=document.getElementById('haccp-ccp-list');
-  if(!el)return;
-  el.innerHTML=`<div class="ct-table-wrap"><table class="ct-table">
-    <thead><tr><th>CCP</th><th>Fase Processo</th><th>Pericolo</th><th>Limite Critico</th><th>Frequenza</th><th>Stato</th></tr></thead>
-    <tbody>${HACCP_CCP.map(c=>`
-      <tr>
-        <td><span style="font-family:var(--mono);color:var(--g);font-weight:700">${c.num}</span></td>
-        <td style="font-weight:600">${c.fase}</td>
-        <td style="color:var(--txt2);font-size:12px">${c.pericolo}</td>
-        <td style="font-family:var(--mono);font-size:11.5px">${c.limite}</td>
-        <td style="font-size:12px;color:var(--txt3)">${c.freq}</td>
-        <td><span class="ctbadge ctbg-ok">✅ OK</span></td>
-      </tr>`).join('')}</tbody>
-  </table></div>`;
+//──────────── AZIENDALI ────────────
+async function loadAziendali(){
+  var d = await ctGet('/api/cert/aziendali'); var demo=false;
+  if(!d || !d.ok){ d = CT_DEMO.aziendali; demo=true; } ctSetDemo(demo);
+  var rows = d.items||[];
+  document.getElementById('ct-aziendali').innerHTML = rows.length ? (
+    '<div class="ct-table-wrap"><table class="ct-table"><thead><tr><th>Norma</th><th>Ente certificatore</th><th>Scadenza</th><th>Sorveglianza</th><th>Stato</th><th></th></tr></thead><tbody>'
+    + rows.map(function(r){ return '<tr><td><b>'+esc(r.norma)+'</b></td><td>'+esc(r.ente_certificatore||'—')+'</td><td>'+fmtDate(r.data_scadenza)+'</td><td>'+fmtDate(r.prossima_sorveglianza)+'</td><td>'+statoBadge(r.stato,r.giorni_alla_scadenza)+'</td><td>'+(r.id&&!demo?'<button class="ct-x" onclick="ctDel(\'aziendale\',\''+r.id+'\')">elimina</button>':'')+'</td></tr>'; }).join('')
+    + '</tbody></table></div>'
+  ) : '<div class="ct-empty">Nessuna certificazione aziendale. (La maggior parte dei locali non ne ha — opzionale.)</div>';
+}
+function ctAddAziendale(){
+  if(!ctLogged()){ ctToast('🔒 Accedi per aggiungere'); return; }
+  B360.modal({ title:'🏅 Nuova certificazione', confirmLabel:'✓ Salva', fields:[
+    {id:'norma',label:'Norma *',type:'select',options:CT_NORME}, {id:'ente_certificatore',label:'Ente certificatore'},
+    {id:'data_rilascio',label:'Rilascio',type:'date'}, {id:'data_scadenza',label:'Scadenza',type:'date'},
+    {id:'prossima_sorveglianza',label:'Prossima sorveglianza',type:'date'},
+    {id:'note',label:'Note',type:'textarea'}
+  ], onConfirm:async function(v){ if(!v.norma){ ctToast('Norma obbligatoria'); return false; }
+    var d=await ctSend('/api/cert/aziendale','POST',v); if(d&&d.ok){ ctToast('✓ Salvato'); loadAziendali(); } } });
 }
 
-function renderEMAS(){
-  const asp=document.getElementById('emas-aspects');
-  const tgt=document.getElementById('emas-targets');
-  if(asp)asp.innerHTML=EMAS_ASPECTS.map(a=>`
-    <div class="ct-card" style="margin-bottom:10px">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
-        <div>
-          <div style="font-size:13px;font-weight:600">${a.asp}</div>
-          <div style="font-family:var(--heading);font-size:20px;color:var(--g);font-weight:800">${a.val}</div>
-        </div>
-        <span style="font-size:14px;font-weight:700;color:${a.col}">${a.delta} vs 2024</span>
-      </div>
-    </div>`).join('');
-  if(tgt)tgt.innerHTML=EMAS_TARGETS.map(t=>`
-    <div style="margin-bottom:14px">
-      <div style="font-size:12.5px;font-weight:600;margin-bottom:5px">${t.target}</div>
-      <div style="display:flex;align-items:center;gap:10px">
-        <div class="ct-progress-bar" style="flex:1"><div class="ct-progress-fill" style="width:${t.prog}%;background:${t.col}"></div></div>
-        <span style="font-family:var(--mono);font-size:11px;color:${t.col};flex-shrink:0">${t.prog}%</span>
-      </div>
-    </div>`).join('');
+//──────────── delete ────────────
+async function ctDel(area, id){
+  if(!confirm('Eliminare questa voce?')) return;
+  var d=await ctSend('/api/cert/'+area+'/'+encodeURIComponent(id),'DELETE');
+  if(d&&d.ok){ ctToast('Eliminato'); ctNav(area==='licenza'?'licenze':(area==='aziendale'?'aziendali':'personale')); }
 }
 
-function renderCalendario(){
-  const el=document.getElementById('ct-cal-grid');
-  if(!el)return;
-  el.innerHTML=CALENDAR.map(c=>`
-    <div class="ct-cal-item" style="--item-color:${c.col}">
-      <div style="font-family:var(--mono);font-size:10px;color:var(--txt3);margin-bottom:5px">${c.data}</div>
-      <div style="font-size:11px;font-weight:700;color:${c.col};text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">${c.tipo}</div>
-      <div style="font-weight:700;font-size:13.5px;font-family:var(--heading);margin-bottom:5px">${c.cert}</div>
-      <div style="font-size:11.5px;color:var(--txt2);line-height:1.5">${c.det}</div>
-    </div>`).join('');
-}
+//──────────── DEMO data (solo se non loggato) ────────────
+const CT_DEMO = {
+  dashboard: { ok:true, riepilogo:{totale:6,ok:3,in_scadenza:2,scaduto:1,permanente:0},
+    scadenze_imminenti:[
+      {area:'personale',etichetta:'Marco Orrù · Antincendio',data_scadenza:'2026-07-30',giorni:32,stato:'in_scadenza'},
+      {area:'licenza',etichetta:'Licenza somministrazione',data_scadenza:'2026-08-20',giorni:53,stato:'in_scadenza'},
+      {area:'personale',etichetta:'Giovanni Mura · HACCP',data_scadenza:'2026-06-10',giorni:-18,stato:'scaduto'}
+    ]},
+  personale: { ok:true, items:[
+    {dipendente:'Luca Marras',ruolo:'Chef',tipo:'HACCP / Alimentarista',ente:'ASL Cagliari',data_scadenza:'2029-03-15',stato:'ok',giorni_alla_scadenza:990},
+    {dipendente:'Sara Pinna',ruolo:'Sous Chef',tipo:'Primo Soccorso',ente:'Croce Rossa',data_scadenza:'2027-01-15',stato:'ok',giorni_alla_scadenza:200},
+    {dipendente:'Marco Orrù',ruolo:'Sala',tipo:'Antincendio',ente:'VVF',data_scadenza:'2026-07-30',stato:'in_scadenza',giorni_alla_scadenza:32},
+    {dipendente:'Giovanni Mura',ruolo:'Reception',tipo:'HACCP / Alimentarista',ente:'ASL',data_scadenza:'2026-06-10',stato:'scaduto',giorni_alla_scadenza:-18},
+    {dipendente:'Anna Cau',ruolo:'Bar',tipo:'Sicurezza 81/08 generale',ente:'Ente formatore',data_scadenza:null,stato:'permanente',giorni_alla_scadenza:null}
+  ]},
+  licenze: { ok:true, items:[
+    {tipo:'SCIA',numero:'2024/1187',ente:'Comune di Cagliari',data_scadenza:null,stato:'permanente',giorni_alla_scadenza:null},
+    {tipo:'Autorizzazione sanitaria',numero:'ASL-8841',ente:'ASL',data_scadenza:'2028-05-01',stato:'ok',giorni_alla_scadenza:700},
+    {tipo:'Licenza somministrazione',numero:'SUAP-552',ente:'SUAP',data_scadenza:'2026-08-20',stato:'in_scadenza',giorni_alla_scadenza:53}
+  ]},
+  aziendali: { ok:true, items:[
+    {norma:'ISO 22000:2018',ente_certificatore:'Bureau Veritas',data_scadenza:'2027-09-01',prossima_sorveglianza:'2026-09-01',stato:'ok',giorni_alla_scadenza:430}
+  ]}
+};
 
-function renderDocumenti(){
-  const STATO={ok:'<span class="ctbadge ctbg-ok">Valido</span>',warn:'<span class="ctbadge ctbg-warn">Da aggiornare</span>'};
-  document.getElementById('docs-tbody').innerHTML=DOCS.map(d=>`
-    <tr>
-      <td style="font-weight:600">${d.doc}</td>
-      <td><span class="ctbadge ctbg-gold">${d.cat}</span></td>
-      <td style="font-family:var(--mono);font-size:11px">${d.rev}</td>
-      <td style="font-family:var(--mono);font-size:11px;color:var(--txt3)">${d.data}</td>
-      <td style="color:var(--txt2)">${d.emesso}</td>
-      <td>${STATO[d.stato]||d.stato}</td>
-      <td><button class="btn btn-outline btn-sm" onclick="downloadCertDoc('${d.doc}','${d.tipo}','${d.rev}')">↓</button></td>
-    </tr>`).join('');
-}
-
-function openNuovoAudit(){
-  if(typeof B360==='undefined'){showToast('SDK non caricato');return;}
-  B360.modal({
-    title:'+ Pianifica Nuovo Audit',
-    fields:[
-      {id:'tipo',label:'Tipo Audit',type:'select',options:['Audit Interno','Ispezione Ente Certificatore','Ispezione ASL','Pre-Audit ISO','Audit Fornitore']},
-      {id:'cert',label:'Certificazione',type:'select',options:['ISO 22000:2018','ISO 9001:2015','HACCP','EMAS / ISO 14001','Tutto il sistema']},
-      {id:'data',label:'Data Prevista',type:'date'},
-      {id:'resp',label:'Responsabile',type:'text',placeholder:'Es. Resp. Qualità'},
-    ],
-    onConfirm(v){
-      if(!v.data){document.getElementById('b360m-err').style.display='block';document.getElementById('b360m-err').textContent='Inserisci la data';return false;}
-      AUDIT_CALENDAR.unshift({data:v.data,tipo:v.tipo,responsabile:v.resp||'Da assegnare',area:v.cert,stato:'pend'});
-      renderCalendario();
-      showToast('✅ Audit pianificato per '+v.data);
-    }
-  });
-}
-
-function openUploadCertDoc(){
-  if(typeof B360==='undefined'){showToast('SDK non caricato');return;}
-  B360.modal({
-    title:'📁 Registra Documento',
-    fields:[
-      {id:'nome',label:'Nome Documento',type:'text',placeholder:'Es. Manuale FSMS'},
-      {id:'tipo',label:'Tipo',type:'select',options:['Piano HACCP','Manuale QSA','IO','Registro','Certificato','Procedura','Modulo']},
-      {id:'cat',label:'Certificazione',type:'select',options:['ISO 22000','ISO 9001','HACCP','EMAS','Integrato','NC']},
-      {id:'rev',label:'Revisione',type:'text',placeholder:'Es. v1.0'},
-    ],
-    confirmLabel:'📁 Registra',
-    onConfirm(v){
-      if(!v.nome){document.getElementById('b360m-err').style.display='block';document.getElementById('b360m-err').textContent='Inserisci il nome';return false;}
-      DOCS.unshift({doc:v.nome,cat:v.cat,rev:v.rev||'v1.0',data:new Date().toISOString().slice(0,10),emesso:'Resp. Qualità',stato:'ok'});
-      renderDocumenti();
-      showToast('✅ Documento registrato: '+v.nome);
-    }
-  });
-}
-
-function downloadCertDoc(nome,tipo,rev){
-  if(typeof B360==='undefined'){window.print();return;}
-  B360.printPage(nome, `
-    <table><tbody>
-      <tr><td><strong>Documento</strong></td><td>${nome}</td></tr>
-      <tr><td><strong>Tipo</strong></td><td>${tipo}</td></tr>
-      <tr><td><strong>Revisione</strong></td><td>${rev}</td></tr>
-      <tr><td><strong>Hotel</strong></td><td>Hotel Baia Sardinia</td></tr>
-      <tr><td><strong>Data stampa</strong></td><td>${new Date().toLocaleString('it-IT')}</td></tr>
-    </tbody></table>
-    <p style="margin-top:20px;font-size:11px;color:#888">Documento emesso da BAD360.ai · Sistema Gestione Qualità e Sicurezza Alimentare</p>`);
-}
-
-function showToast(msg,type){
-  const t=document.getElementById('toast');
-  t.textContent=msg;
-  t.style.borderColor=type==='err'?'rgba(201,74,74,.35)':'rgba(201,168,76,.3)';
-  t.style.color=type==='err'?'var(--red)':'var(--g)';
-  t.classList.add('show');clearTimeout(t._t);
-  t._t=setTimeout(()=>t.classList.remove('show'),4000);
-}
-
-function exportChecklistCSV(){
-  if(typeof B360==='undefined'){showToast('SDK non caricato');return;}
-  const rows=ISO22000_CHECK.map(c=>({requisito:c.req,dettaglio:c.det,stato:c.stato}));
-  B360.downloadCSV(rows,['requisito','dettaglio','stato'],`Checklist_ISO22000_${new Date().toISOString().slice(0,10)}.csv`);
-  showToast('✅ Checklist ISO 22000 esportata');
-}
-
-async function runCertAdvisor(q){
-  const res=document.getElementById('cert-ai-result');
-  const query=q||(document.getElementById('cert-ai-input')?.value?.trim());
-  if(!query)return;
-  if(document.getElementById('cert-ai-input'))document.getElementById('cert-ai-input').value='';
-  if(res){res.style.display='block';res.innerHTML='<em style="color:var(--txt3)">⏳ Analisi certificazione in corso…</em>';}
-  const ctx='Hotel Baia Sardinia · 4 stelle · Sardegna · Certificazioni: ISO 22000 (valida), ISO 9001 (valida), EMAS (scaduta), HACCP (conforme)';
-  const answer=typeof B360!=='undefined'?await B360.aiQuery(query,'esg',ctx):'[API non disponibile]';
-  if(res)res.innerHTML=answer.replace(/\n/g,'<br>');
-}
-
-/* ── TRAINING COMPLIANCE TRACKER (D3.4) ───────────────────────── */
-const EMPLOYEES = [
-  {id:'e1',nome:'Luca Marras',ruolo:'Chef de Cuisine',haccp:{stato:'ok',scad:'2029-03-15'},allergeni:{stato:'ok',scad:'2029-01-20'},sicurezza:{stato:'warn',scad:'2026-07-30'},antincendio:{stato:'ok',scad:'2027-06-01'},primo_soccorso:{stato:'ok',scad:'2027-05-10'}},
-  {id:'e2',nome:'Sara Pinna',ruolo:'Sous Chef',haccp:{stato:'ok',scad:'2028-11-10'},allergeni:{stato:'ok',scad:'2028-11-10'},sicurezza:{stato:'ok',scad:'2027-01-15'},antincendio:{stato:'ok',scad:'2027-06-01'},primo_soccorso:{stato:'miss',scad:null}},
-  {id:'e3',nome:'Marco Orrù',ruolo:'Cameriere / Sala',haccp:{stato:'ok',scad:'2028-06-22'},allergeni:{stato:'warn',scad:'2026-08-15'},sicurezza:{stato:'ok',scad:'2027-04-10'},antincendio:{stato:'miss',scad:null},primo_soccorso:{stato:'ok',scad:'2028-01-20'}},
-  {id:'e4',nome:'Federica Cau',ruolo:'Responsabile Bar',haccp:{stato:'ok',scad:'2029-01-08'},allergeni:{stato:'ok',scad:'2029-01-08'},sicurezza:{stato:'ok',scad:'2027-02-20'},antincendio:{stato:'ok',scad:'2027-06-01'},primo_soccorso:{stato:'warn',scad:'2026-09-30'}},
-  {id:'e5',nome:'Giovanni Mura',ruolo:'Receptionist',haccp:{stato:'miss',scad:null},allergeni:{stato:'miss',scad:null},sicurezza:{stato:'ok',scad:'2027-11-05'},antincendio:{stato:'ok',scad:'2027-06-01'},primo_soccorso:{stato:'ok',scad:'2027-03-15'}},
-  {id:'e6',nome:'Elena Soddu',ruolo:'Addetta Pulizie',haccp:{stato:'ok',scad:'2027-09-20'},allergeni:{stato:'miss',scad:null},sicurezza:{stato:'miss',scad:null},antincendio:{stato:'ok',scad:'2027-06-01'},primo_soccorso:{stato:'miss',scad:null}},
-];
-
-function initTrainingTracker(){
-  renderTrainingKPI();
-  renderTrainingTable();
-  renderExpiringCourses();
-}
-
-function renderTrainingKPI(){
-  const el = document.getElementById('training-kpi');
-  if(!el) return;
-  const total = EMPLOYEES.length * 5;
-  const done = EMPLOYEES.reduce((s,e)=>s+['haccp','allergeni','sicurezza','antincendio','primo_soccorso'].filter(k=>e[k].stato==='ok').length,0);
-  const warn = EMPLOYEES.reduce((s,e)=>s+['haccp','allergeni','sicurezza','antincendio','primo_soccorso'].filter(k=>e[k].stato==='warn').length,0);
-  const miss = total - done - warn;
-  const pct = Math.round(done/total*100);
-  el.innerHTML = [
-    {v:EMPLOYEES.length,l:'Dipendenti',c:'var(--txt)'},
-    {v:pct+'%',l:'Compliance',c:pct>=85?'var(--green)':pct>=65?'var(--orange)':'var(--red)'},
-    {v:warn,l:'In Scadenza',c:'var(--orange)'},
-    {v:miss,l:'Non Completati',c:'var(--red)'},
-    {v:done,l:'Aggiornati',c:'var(--green)'},
-  ].map(k=>`<div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px 14px">
-    <div style="font-family:var(--heading);font-size:22px;font-weight:800;color:${k.c};margin-bottom:2px">${k.v}</div>
-    <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--txt3);font-family:var(--mono)">${k.l}</div>
-  </div>`).join('');
-}
-
-function renderTrainingTable(){
-  const tb = document.getElementById('training-tbody');
-  if(!tb) return;
-  const CORSI = ['haccp','allergeni','sicurezza'];
-  const dot = s=>s==='ok'?`<span style="color:var(--green)">✅</span>`:s==='warn'?`<span style="color:var(--orange)">⚠</span>`:`<span style="color:var(--red)">✗</span>`;
-  const allFields = ['haccp','allergeni','sicurezza','antincendio','primo_soccorso'];
-  tb.innerHTML = EMPLOYEES.map(e=>{
-    const done = allFields.filter(k=>e[k].stato==='ok').length;
-    const pct = Math.round(done/allFields.length*100);
-    const col = pct>=80?'var(--green)':pct>=60?'var(--orange)':'var(--red)';
-    return `<tr>
-      <td style="font-weight:600">${e.nome}</td>
-      <td style="font-size:11.5px;color:var(--txt3)">${e.ruolo}</td>
-      <td style="text-align:center">${dot(e.haccp.stato)}</td>
-      <td style="text-align:center">${dot(e.allergeni.stato)}</td>
-      <td style="text-align:center">${dot(e.sicurezza.stato)}</td>
-      <td><div style="display:flex;align-items:center;gap:6px">
-        <div style="flex:1;height:5px;background:var(--bg3);border-radius:3px;overflow:hidden"><div style="height:100%;width:${pct}%;background:${col};border-radius:3px"></div></div>
-        <span style="font-size:10px;font-family:var(--mono);color:${col};white-space:nowrap">${pct}%</span>
-      </div></td>
-      <td><button class="btn btn-outline btn-sm" style="font-size:10px" onclick="scheduleTraining('${e.nome}','${e.ruolo}')">Pianifica</button></td>
-    </tr>`;
-  }).join('');
-}
-
-function renderExpiringCourses(){
-  const el = document.getElementById('training-expiring');
-  if(!el) return;
-  const now = new Date();
-  const expiring = [];
-  EMPLOYEES.forEach(e=>{
-    ['haccp','allergeni','sicurezza','antincendio','primo_soccorso'].forEach(k=>{
-      if(e[k].stato==='warn' && e[k].scad){
-        const d = new Date(e[k].scad);
-        const days = Math.ceil((d-now)/(1000*60*60*24));
-        expiring.push({nome:e.nome,corso:k.toUpperCase().replace('_',' '),scad:e[k].scad,days});
-      }
-    });
-  });
-  el.innerHTML = expiring.sort((a,b)=>a.days-b.days).map(x=>`
-    <div style="background:rgba(212,128,58,.06);border:1px solid rgba(212,128,58,.2);border-radius:7px;padding:8px 11px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center">
-      <div>
-        <div style="font-size:11.5px;font-weight:600">${x.nome}</div>
-        <div style="font-size:10.5px;color:var(--txt3)">${x.corso} · scade ${x.scad}</div>
-      </div>
-      <span style="font-size:10px;font-weight:700;color:var(--orange);font-family:var(--mono)">${x.days}gg</span>
-    </div>`).join('') || '<div style="font-size:11.5px;color:var(--txt3);padding:8px 0">Nessun corso in scadenza imminente</div>';
-}
-
-async function runTrainingGap(){
-  const el = document.getElementById('training-gap-result');
-  if(!el) return;
-  el.innerHTML='<div style="text-align:center;padding:20px 0;color:var(--txt3);font-size:12px">⏳ Analisi gap in corso…</div>';
-  await new Promise(r=>setTimeout(r,800));
-  const allFields = ['haccp','allergeni','sicurezza','antincendio','primo_soccorso'];
-  const gaps = [];
-  EMPLOYEES.forEach(e=>{
-    allFields.forEach(k=>{
-      if(e[k].stato!=='ok') gaps.push({nome:e.nome,ruolo:e.ruolo,corso:k,stato:e[k].stato});
-    });
-  });
-  const critical = gaps.filter(g=>g.stato==='miss');
-  const expiring = gaps.filter(g=>g.stato==='warn');
-  el.innerHTML=`
-    <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:8px;font-family:var(--mono)">❌ Mancanti (${critical.length})</div>
-    ${critical.slice(0,5).map(g=>`<div style="font-size:11.5px;padding:4px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between"><span>${g.nome} — ${g.corso.toUpperCase()}</span><span style="color:var(--red);font-size:10px">da avviare</span></div>`).join('')}
-    <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin:12px 0 8px;font-family:var(--mono)">⚠ In Scadenza (${expiring.length})</div>
-    ${expiring.map(g=>`<div style="font-size:11.5px;padding:4px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between"><span>${g.nome} — ${g.corso.toUpperCase()}</span><span style="color:var(--orange);font-size:10px">rinnovo</span></div>`).join('')}
-    <div style="margin-top:14px;padding:10px;background:rgba(106,171,118,.07);border:1px solid rgba(106,171,118,.2);border-radius:7px;font-size:11.5px;color:var(--green)">
-      💡 Raccomandazione AI: programmare sessione collettiva HACCP+Allergeni per ${critical.filter(g=>g.corso==='haccp'||g.corso==='allergeni').map(g=>g.nome).filter((v,i,a)=>a.indexOf(v)===i).join(', ') || 'staff cucina'} entro 30 giorni.
-    </div>
-  `;
-}
-
-function scheduleTraining(nome, ruolo){
-  showToast(`📅 Piano formativo avviato per ${nome}`);
-}
-function exportTraining(){
-  showToast('📥 Export registro formazione completato (CSV)');
-}
-
-document.addEventListener('DOMContentLoaded',()=>{
-  renderOverview();
-  if(typeof B360!=='undefined'){
-    B360.mountAIWidget('esg','Hotel Baia Sardinia · Certificazioni · ISO 22000 · EMAS');
-  }
-});
+document.addEventListener('DOMContentLoaded', loadCruscotto);
 </script>
 </body>
 </html>
