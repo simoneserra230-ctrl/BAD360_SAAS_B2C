@@ -67,6 +67,7 @@ from backend.scm import router as scm_router
 from backend.housekeeping_api import router as housekeeping_router
 from backend.cert_api import router as cert_router
 from backend.hotellerie import router as hotellerie_router
+from backend.academy import router as academy_router
 
 load_dotenv()
 
@@ -115,6 +116,7 @@ app.include_router(scm_router)
 app.include_router(housekeeping_router)   # Housekeeping sicuro (hotel_id dal token)
 app.include_router(cert_router)           # Certificazioni sicuro (hotel_id dal token)
 app.include_router(hotellerie_router)     # Hotellerie F&B / Carta Vini (hotel_id dal token)
+app.include_router(academy_router)        # Academy LMS (hotel_id dal token)
 
 # ── SaaS layer: paywall + quota + admin settings + Stripe + account ──
 from backend.saas import register_saas

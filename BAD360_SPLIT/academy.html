@@ -163,6 +163,7 @@
     <div class="results-count" id="results-count"></div>
   </div>
 
+  <div style="display:flex;justify-content:flex-end;margin-bottom:10px"><button class="btn btn-gold btn-sm" onclick="acAddCorso()">＋ Corso</button></div>
   <div class="academy-grid" id="academy-grid"></div>
 
   <!-- Learning paths -->
@@ -204,7 +205,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const COURSES=[
+let COURSES=[
   {level:'base',icon:'🛡️',title:'HACCP — Operatori Settore Alimentare',desc:'Corso obbligatorio per OSA. Pericoli biologici, chimici, fisici. I 7 principi HACCP. Sanificazione. Temperatura. Tracciabilità. Piano HACCP in pratica.',hours:8,credits:'Attestato HACCP valido D.Lgs.193/2007',partner:'Formazione Accreditata MIUR',price:'€ 89',tags:['HACCP','OSA','Obbligatorio']},
   {level:'adv',icon:'🌿',title:'Internal Auditor ISO 14001:2015',desc:'Metodologia di audit ambientale secondo ISO 19011. Pianificazione, conduzione, reporting audit SGA. Esercitazioni pratiche su casi reali dell\'hospitality.',hours:16,credits:'Certificato Auditor ISO 14001',partner:'ACCREDIA Partner',price:'€ 320',tags:['ISO14001','Audit','SGA']},
   {level:'pro',icon:'⚡',title:'Energy Manager Certificato (ISO 50001)',desc:'Formazione Energy Manager ex D.Lgs. 102/2014. Diagnosi energetica, gestione SGE, calcolo KPI energetici, accesso TEE-Certificati Bianchi. Case study hotel 4 stelle.',hours:40,credits:'Titolo Energy Manager FIRE',partner:'FIRE — Federazione Italiana per l\'uso Razionale dell\'Energia',price:'€ 890',tags:['ISO50001','Energy Manager','FIRE']},
@@ -217,6 +218,38 @@ const COURSES=[
 ];
 
 const LEVEL_LABEL={base:'● BASE',adv:'◈ AVANZATO',pro:'◆ PROFESSIONALE'};
+
+/* ── LMS: catalogo corsi reale (hotel_id dal token) + fallback demo ── */
+const COURSES_DEMO = COURSES.slice();
+const ACAD_LVL={base:'base',intermedio:'adv',avanzato:'pro'};
+function acLogged(){return (typeof B360!=='undefined')&&!!B360.getToken();}
+function acMapCorso(c){return {id:c.id,level:ACAD_LVL[c.livello]||'base',icon:'🎓',title:c.titolo,desc:c.descrizione||'',hours:c.durata_ore||0,credits:c.link?'Contenuto collegato':'',partner:c.categoria||'',price:'',tags:c.tags||[],link:c.link||''};}
+async function acLoadCorsi(){
+  if(acLogged()){
+    try{const res=await B360.authFetch('/api/academy/corsi');if(res.ok){const d=await res.json();COURSES=(d.corsi||[]).map(acMapCorso);renderAcademy('all');return;}}catch(e){}
+  }
+  COURSES=COURSES_DEMO.slice(); renderAcademy('all');
+}
+function acAddCorso(){
+  if(!acLogged()){showToast('🔒 Accedi per gestire i corsi');return;}
+  if(typeof B360==='undefined')return;
+  B360.modal({title:'🎓 Nuovo corso',confirmLabel:'✓ Salva',fields:[
+    {id:'titolo',label:'Titolo *'},
+    {id:'categoria',label:'Categoria',type:'select',options:['Sicurezza','Cucina','Sala','Bar','Housekeeping','Soft skills','Altro']},
+    {id:'livello',label:'Livello',type:'select',options:['base','intermedio','avanzato']},
+    {id:'durata_ore',label:'Durata (ore)',placeholder:'4'},
+    {id:'descrizione',label:'Descrizione',type:'textarea'},
+    {id:'link',label:'Link contenuto / SSFormazione',placeholder:'https://...'}
+  ],onConfirm:async function(v){
+    if(!v.titolo){showToast('Titolo obbligatorio');return false;}
+    const body={titolo:v.titolo,categoria:v.categoria||'',livello:v.livello||'base',durata_ore:parseFloat((v.durata_ore||'0').replace(',','.'))||1,descrizione:v.descrizione||'',link:v.link||'',tags:[]};
+    try{const r=await B360.authFetch('/api/academy/corso',{method:'POST',body:JSON.stringify(body)});const d=await r.json();if(d&&d.ok){showToast('✓ Corso salvato');acLoadCorsi();}else showToast('Errore');}catch(e){showToast('Errore di rete');}
+  }});
+}
+async function acDelCorso(id){
+  if(!confirm('Eliminare questo corso (e le iscrizioni)?'))return;
+  try{const r=await B360.authFetch('/api/academy/corso/'+encodeURIComponent(id),{method:'DELETE'});const d=await r.json();if(d&&d.ok){showToast('Eliminato');acLoadCorsi();}}catch(e){showToast('Errore');}
+}
 
 function renderAcademy(level){
   const grid=document.getElementById('academy-grid');
@@ -245,7 +278,10 @@ function renderAcademy(level){
       </div>
       <div class="academy-footer">
         <div style="font-family:var(--mono);font-size:1.1rem;color:var(--g);font-weight:700">${c.price}</div>
-        <button class="btn btn-gold btn-sm" onclick="openEnrollModal(${COURSES.indexOf(c)})">Iscriviti →</button>
+        <div style="display:flex;gap:6px">
+          ${(acLogged()&&c.id)?`<button class="btn btn-outline btn-sm" onclick="acDelCorso('${c.id}')">Elimina</button>`:''}
+          <button class="btn btn-gold btn-sm" onclick="openEnrollModal(${COURSES.indexOf(c)})">Iscriviti →</button>
+        </div>
       </div>
     </div>`).join('');
 }
@@ -379,7 +415,7 @@ function renderWebinars(){
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
-  renderAcademy('all');
+  acLoadCorsi();
   renderPaths();
   renderCerts();
   renderWebinars();
