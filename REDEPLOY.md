@@ -14,6 +14,13 @@
   mutazioni 8D per id) + `BAD360_SPLIT/nc.html` via `authFetch` (hotel_id non più dal client) +
   fix macchina a stati (D7 verifica → `in_verifica`, D8 chiusura → `chiusa`). Tabelle nuove
   `non_conformita` / `nc_log` / `nc_azioni_5why` (`hotel_id TEXT`).
+- **RBAC — gestionali divisi per tipo utente**: `backend/roles.py` (ruoli canonici
+  dipendente/manager/direttore/consulente_interno/consulente_esterno + owner/admin → categorie →
+  moduli), endpoint `/api/auth/permissions` + `/api/auth/roles`, dependency `require_module(key)`
+  per blindare endpoint sensibili (403). `auth.py`: 5 account demo (uno per ruolo, password
+  `Demo2024!`). `BAD360_SPLIT/index.html`: la suite mostra a ogni ruolo SOLO i suoi moduli
+  (chip ruolo + card nascoste). Nessuna migration. *(Enforcement server-side da estendere ai
+  singoli router sensibili usando `require_module`.)*
 - **Link "✦ Hub"** nel topbar di 23 pagine/moduli `BAD360_SPLIT/` (ritorno all'ecosistema).
 - Footer README → SkillSolutions; privacy `barman.html` → barmanadomiciliosardegna@gmail.com.
 

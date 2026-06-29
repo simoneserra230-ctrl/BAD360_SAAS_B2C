@@ -34,6 +34,12 @@ DEMO_USERS = {
     "test@bad360.ai":    {"password": "Test2024!", "role": "general_manager",  "name": "Test GM",      "hotel_id": "hotel-test-001"},
     "simone@bad360.ai":  {"password": "Bads2024!", "role": "owner",            "name": "Simone Serra", "hotel_id": "hotel-ss-001"},
     "admin@bad360.ai":   {"password": "Admin2024!","role": "platform_admin",   "name": "Admin",        "hotel_id": "hotel-admin"},
+    # ── account demo per i 5 TIPI UTENTE (stesso hotel, ruoli diversi) ──
+    "dipendente@bad360.ai": {"password": "Demo2024!", "role": "dipendente",         "name": "Mario (operativo)",  "hotel_id": "hotel-ss-001"},
+    "manager@bad360.ai":    {"password": "Demo2024!", "role": "manager",            "name": "Giulia (responsabile)","hotel_id": "hotel-ss-001"},
+    "direttore@bad360.ai":  {"password": "Demo2024!", "role": "direttore",          "name": "Andrea (direttore)", "hotel_id": "hotel-ss-001"},
+    "interno@bad360.ai":    {"password": "Demo2024!", "role": "consulente_interno", "name": "Luca (cons. interno)","hotel_id": "hotel-ss-001"},
+    "esterno@bad360.ai":    {"password": "Demo2024!", "role": "consulente_esterno", "name": "Sara (cons. esterno)","hotel_id": "hotel-ss-001"},
 }
 
 

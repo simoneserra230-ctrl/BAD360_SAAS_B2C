@@ -412,7 +412,46 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 <script>
 (function(){const g=['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'],m=['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'],n=new Date();document.getElementById('hdate').textContent=g[n.getDay()]+' '+n.getDate()+' '+m[n.getMonth()]+' '+n.getFullYear();document.getElementById('statdate').textContent=n.toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'2-digit'})})();
-function filterCards(){const q=document.getElementById('searchInput').value.toLowerCase().trim();document.querySelectorAll('[data-name]').forEach(el=>{const match=!q||(el.dataset.name&&el.dataset.name.includes(q))||(el.querySelector('.proj-name')?.textContent.toLowerCase().includes(q))||(el.querySelector('.proj-desc')?.textContent.toLowerCase().includes(q));el.style.display=match?'':'none'})}
+function filterCards(){const q=document.getElementById('searchInput').value.toLowerCase().trim();document.querySelectorAll('[data-name]').forEach(el=>{if(el.classList.contains('role-hidden')){el.style.display='none';return;}const match=!q||(el.dataset.name&&el.dataset.name.includes(q))||(el.querySelector('.proj-name')?.textContent.toLowerCase().includes(q))||(el.querySelector('.proj-desc')?.textContent.toLowerCase().includes(q));el.style.display=match?'':'none'})}
+
+// ── RBAC: ogni tipo utente vede solo i suoi gestionali ──
+const PAGE_TO_MODULE={
+  'haccp.html':'haccp','shelflife.html':'shelflife','tracciabilita.html':'tracciabilita',
+  'housekeeping.html':'housekeeping','shiftmanager.html':'shifts','barmanmatch.html':'staffmatch','nc.html':'nc',
+  'menuengineering.html':'menueng','bevmanager.html':'drinkcost','hotellerie.html':'hotellerie','scmpro.html':'scm','events.html':'events',
+  'BAD360.html#bidashboard':'bi','BAD360.html#revenue':'revenue','BAD360.html#bandi360':'bandi360',
+  'cert.html':'cert','qm.html':'qm','norme.html':'norme','recensioni.html':'reviews','academy.html':'academy','hub.html':'settings'
+};
+async function applyRoleView(){
+  if(typeof B360==='undefined' || !B360.getToken()) return;        // demo/non loggato: mostra tutto
+  let data; try{ const r=await B360.authFetch('/api/auth/permissions'); data=await r.json(); }catch(e){ return; }
+  if(!data || !data.authenticated) return;
+  const allowed=new Set(data.module_keys||[]);
+  let hidden=0, shown=0;
+  document.querySelectorAll('a.proj').forEach(a=>{
+    const key=PAGE_TO_MODULE[a.getAttribute('href')];
+    if(!key) return;                                               // vetrine/tab non gestiti: sempre visibili
+    if(allowed.has(key)){ shown++; }
+    else{ a.classList.add('role-hidden'); a.style.display='none'; hidden++; }
+  });
+  // chip ruolo in topbar
+  const tbr=document.querySelector('.b360-tb-r');
+  if(tbr){
+    const chip=document.createElement('span');
+    chip.title='Vista filtrata in base al tuo ruolo';
+    chip.style.cssText='display:inline-flex;align-items:center;gap:5px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);color:var(--g,#C9A84C);padding:4px 11px;border-radius:99px;font-size:11px;font-weight:700;margin-right:8px';
+    chip.textContent='👤 '+(data.role_label||'Utente');
+    tbr.insertBefore(chip, tbr.firstChild);
+  }
+  if(hidden>0){
+    const main=document.querySelector('main.wrap');
+    if(main){ const note=document.createElement('div');
+      note.style.cssText='max-width:760px;margin:0 auto 4px;padding:9px 14px;background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.18);border-radius:10px;font-size:12px;color:var(--txt2,#9a9488);text-align:center';
+      note.innerHTML='Vista <b>'+(data.role_label||'')+'</b>: '+shown+' moduli disponibili · '+hidden+' nascosti dal tuo livello di accesso.';
+      main.insertBefore(note, main.firstChild);
+    }
+  }
+}
 document.addEventListener('DOMContentLoaded',function(){
   // Add login/logout button to topbar right
   const tbr=document.querySelector('.b360-tb-r');
@@ -427,6 +466,7 @@ document.addEventListener('DOMContentLoaded',function(){
       tbr.insertBefore(loginBtn, tbr.firstChild);
     }
   }
+  applyRoleView();
 });
 </script>
 </body>
