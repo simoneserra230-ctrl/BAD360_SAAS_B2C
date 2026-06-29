@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BAD360.ai — Quality Manager</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;background:var(--bg);color:var(--txt);font-family:var(--font,system-ui);font-size:14px}
+.qm-wrap{max-width:1100px;margin:0 auto;padding:26px 24px 80px}
+.qm-hdr{display:flex;align-items:center;gap:16px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin-bottom:20px;position:relative;overflow:hidden}
+.qm-hdr::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--g),var(--gd))}
+.qm-hdr h1{font-family:var(--heading,inherit);font-size:20px;font-weight:800}
+.qm-hdr p{font-size:11.5px;color:var(--txt2);margin-top:3px}
+.qm-sec-title{font-family:var(--heading,inherit);font-weight:700;font-size:1.05rem;margin:26px 0 12px}
+.qm-kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.qm-kpi{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:16px;text-align:center}
+.qm-kpi .v{font-size:1.6rem;font-weight:800;font-family:var(--heading,inherit);line-height:1}
+.qm-kpi .l{font-size:10px;color:var(--txt3);margin-top:5px;text-transform:uppercase;letter-spacing:.6px}
+.qm-card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.qm-card.crit{border-color:rgba(201,74,74,.45)}
+.pill{display:inline-flex;align-items:center;padding:2px 9px;border-radius:99px;font-size:10px;font-weight:700;margin-left:6px}
+.p-err{background:rgba(201,74,74,.12);color:var(--red);border:1px solid rgba(201,74,74,.3)}
+.p-warn{background:rgba(212,128,58,.12);color:var(--orange);border:1px solid rgba(212,128,58,.3)}
+.p-ok{background:rgba(106,171,118,.12);color:var(--green);border:1px solid rgba(106,171,118,.3)}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 15px;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;border:none}
+.btn-gold{background:linear-gradient(135deg,var(--gd),var(--g));color:#06060A}
+.btn-x{background:none;border:1px solid var(--line2);color:var(--txt3);border-radius:6px;padding:4px 9px;font-size:11px;cursor:pointer}
+.qm-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.qm-row input{background:var(--bg3);border:1px solid var(--line2);border-radius:8px;padding:9px 12px;color:var(--txt);font-size:13px;font-family:inherit}
+.qm-empty{color:var(--txt3);padding:24px;text-align:center;font-size:13px;background:var(--bg2);border:1px solid var(--line);border-radius:12px}
+#toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid rgba(201,168,76,.3);color:var(--g);padding:11px 18px;border-radius:10px;font-weight:600;z-index:9999;opacity:0;transform:translateY(8px);transition:all .3s}
+#toast.show{opacity:1;transform:none}
+</style>
+<link rel="stylesheet" href="bad360-ds.css">
+<script src="bad360-sdk.js"></script>
+</head>
+<body class="b360-module">
+
+<header class="b360-topbar" id="b360-topbar">
+  <div class="b360-tb-l">
+    <a href="index.html" class="b360-tb-back" title="Suite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a>
+    <a href="index.html" class="b360-tb-brand" tabindex="-1"><div class="b360-tb-logo">B360</div><span class="b360-tb-name">BAD<strong>360</strong>.ai</span></a>
+    <span class="b360-tb-sep"></span>
+    <span class="b360-tb-module" id="b360-page-label">Quality Manager</span>
+  </div>
+  <div class="b360-tb-r">
+    <a href="../../SKILLSOLUTIONS.COM/index.html" class="b360-tb-hub" title="Torna all'ecosistema SkillSolutions" style="display:inline-flex;align-items:center;gap:4px;text-decoration:none;color:inherit;opacity:.6;font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 10px;border:1px solid currentColor;border-radius:99px;margin-right:8px">&#10022; Hub</a>
+    <span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.1</span>
+    <button class="b360-tb-theme" id="b360-theme-btn" title="Tema">☽</button>
+  </div>
+</header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"☽":"☀";b.addEventListener("click",function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"☽":"☀";try{localStorage.setItem("bad360_theme",nt)}catch(e){}});}});})()</script>
+
+<div class="qm-wrap">
+  <div class="qm-hdr"><div><h1>Quality Manager · multi-cliente</h1><p>Cruscotto compliance dei tuoi clienti (come consulente) e gestione di chi può vedere i tuoi dati (come struttura)</p></div></div>
+
+  <!-- LATO QM: portfolio -->
+  <div class="qm-sec-title">🏢 I miei clienti (compliance)</div>
+  <div id="qm-kpis" class="qm-kpis"></div>
+  <div id="qm-portfolio"></div>
+
+  <!-- LATO STRUTTURA: grant -->
+  <div class="qm-sec-title">🔑 Il mio Quality Manager (accesso ai miei dati)</div>
+  <p style="font-size:12px;color:var(--txt2);margin-bottom:10px">Autorizza un consulente a vedere la compliance di QUESTA struttura. Concedi solo i tuoi dati; puoi revocare quando vuoi.</p>
+  <div class="qm-row">
+    <input id="qm-email" type="email" placeholder="email del Quality Manager" style="flex:1;min-width:220px">
+    <input id="qm-nome" placeholder="nome cliente (come ti vede il QM)" style="flex:1;min-width:200px">
+    <button class="btn btn-gold" onclick="qmGrant()">Concedi accesso</button>
+  </div>
+  <div id="qm-granted"></div>
+</div>
+<div id="toast"></div>
+
+<script>
+function qmLogged(){return (typeof B360!=='undefined')&&!!B360.getToken();}
+function qmToast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},2800);}
+function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+async function qmGet(p){ if(!qmLogged())return null; try{var r=await B360.authFetch(p);return await r.json();}catch(e){return null;} }
+
+async function loadPortfolio(){
+  var box=document.getElementById('qm-portfolio'); var kpis=document.getElementById('qm-kpis');
+  if(!qmLogged()){ kpis.innerHTML=''; box.innerHTML='<div class="qm-empty">🔒 Accedi a BAD360 per vedere il portfolio.</div>'; return; }
+  var d=await qmGet('/api/qm/portfolio');
+  if(!d||!d.ok){ box.innerHTML='<div class="qm-empty">Errore caricamento.</div>'; return; }
+  if(!d.is_qm || !d.clienti.length){ kpis.innerHTML=''; box.innerHTML='<div class="qm-empty">Nessun cliente ti ha ancora autorizzato come Quality Manager. (Le strutture ti aggiungono dalla loro pagina QM.)</div>'; return; }
+  var t=d.totali;
+  kpis.innerHTML=[['Clienti',d.clienti.length,'var(--g)'],['Scaduti',t.scaduto,'var(--red)'],['In scadenza',t.in_scadenza,'var(--orange)'],['Voci totali',t.totale,'var(--txt)']]
+    .map(function(k){return '<div class="qm-kpi"><div class="v" style="color:'+k[2]+'">'+k[1]+'</div><div class="l">'+k[0]+'</div></div>';}).join('');
+  box.innerHTML=d.clienti.map(function(cl){
+    var crit=cl.scaduto>0;
+    return '<div class="qm-card'+(crit?' crit':'')+'"><div><b>'+esc(cl.cliente_nome)+'</b> <span class="muted" style="color:var(--txt3);font-size:11px">'+esc(cl.hotel_id)+'</span></div>'
+      +'<div>'+(cl.scaduto?'<span class="pill p-err">'+cl.scaduto+' scaduti</span>':'')
+      +(cl.in_scadenza?'<span class="pill p-warn">'+cl.in_scadenza+' in scadenza</span>':'')
+      +((!cl.scaduto&&!cl.in_scadenza)?'<span class="pill p-ok">in regola</span>':'')
+      +' <span class="muted" style="color:var(--txt3);font-size:11px">'+cl.totale+' voci</span></div></div>';
+  }).join('');
+}
+
+async function loadGranted(){
+  var box=document.getElementById('qm-granted');
+  if(!qmLogged()){ box.innerHTML=''; return; }
+  var d=await qmGet('/api/qm/granted');
+  if(!d||!d.ok){ box.innerHTML=''; return; }
+  if(!d.manager.length){ box.innerHTML='<div class="qm-empty">Nessun Quality Manager autorizzato per questa struttura.</div>'; return; }
+  box.innerHTML=d.manager.map(function(m){
+    return '<div class="qm-card"><div>👤 <b>'+esc(m.qm_uid)+'</b> <span class="muted" style="color:var(--txt3);font-size:11px">come "'+esc(m.cliente_nome||'')+'"</span></div>'
+      +'<button class="btn-x" onclick="qmRevoke(\''+m.id+'\')">revoca</button></div>';
+  }).join('');
+}
+
+async function qmGrant(){
+  if(!qmLogged()){ qmToast('🔒 Accedi per concedere l\'accesso'); return; }
+  var email=(document.getElementById('qm-email').value||'').trim();
+  var nome=(document.getElementById('qm-nome').value||'').trim();
+  if(!email){ qmToast('Inserisci l\'email del Quality Manager'); return; }
+  try{ var r=await B360.authFetch('/api/qm/grant',{method:'POST',body:JSON.stringify({qm_email:email,cliente_nome:nome})}); var d=await r.json();
+    if(d&&d.ok){ qmToast('✓ Accesso concesso'); document.getElementById('qm-email').value='';document.getElementById('qm-nome').value=''; loadGranted(); } else qmToast('Errore'); }
+  catch(e){ qmToast('Errore di rete'); }
+}
+async function qmRevoke(id){
+  if(!confirm('Revocare l\'accesso a questo Quality Manager?'))return;
+  try{ var r=await B360.authFetch('/api/qm/grant/'+encodeURIComponent(id),{method:'DELETE'}); var d=await r.json(); if(d&&d.ok){ qmToast('Accesso revocato'); loadGranted(); } }catch(e){ qmToast('Errore'); }
+}
+
+document.addEventListener('DOMContentLoaded',function(){ loadPortfolio(); loadGranted(); });
+</script>
+</body>
+</html>

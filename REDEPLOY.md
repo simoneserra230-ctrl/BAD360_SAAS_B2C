@@ -19,7 +19,9 @@ Nel progetto **Supabase di BAD360** → SQL Editor → esegui:
 - `supabase/menu_engineering_schema.sql` (`me_recipes` + colonna `hotel_id` — Menu Engineering messo in sicurezza multi-tenant).
 - `supabase/hotellerie_schema.sql` (crea `ht_vini` — Carta Vini / Hotellerie F&B).
 - `supabase/academy_schema.sql` (crea `academy_corsi`, `academy_iscrizioni` — Academy LMS).
-Senza queste tabelle, i moduli Housekeeping / Certificazioni / Menu Engineering / Hotellerie / Academy vanno in errore.
+- `supabase/qm_schema.sql` (crea `qm_portfolio` — Quality Manager multi-cliente).
+Senza queste tabelle, i moduli Housekeeping / Certificazioni / Menu Engineering / Hotellerie / Academy / Quality Manager vanno in errore.
+> NB (fine sessione giu 2026): `academy_schema.sql` e `qm_schema.sql` NON ancora applicate (connettore Supabase offline) → applicarle appena possibile.
 
 ## Passi di redeploy
 1. **Commit + push** del repo BAD360 → Render ribuilda il Docker (`bad360-api`), il frontend Vercel si aggiorna.
