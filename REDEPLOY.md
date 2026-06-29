@@ -9,6 +9,11 @@
   `require_user` → `hotel_id` SEMPRE dal token) + rimozione vecchi endpoint `/api/hk/*`
   insicuri da `main.py` + `BAD360_SPLIT/housekeeping.html` (add/delete/stato via authFetch).
   Usa **TABELLE NUOVE** `hk_camere` / `hk_forniture` / `hk_task` (`hotel_id TEXT`).
+- **Modulo Non Conformità (NC) messo in sicurezza**: `backend/non_conformita.py` riscritto
+  multi-tenant (`require_user` + `hotel_id` SEMPRE dal token + scoping su ogni query, anche le
+  mutazioni 8D per id) + `BAD360_SPLIT/nc.html` via `authFetch` (hotel_id non più dal client) +
+  fix macchina a stati (D7 verifica → `in_verifica`, D8 chiusura → `chiusa`). Tabelle nuove
+  `non_conformita` / `nc_log` / `nc_azioni_5why` (`hotel_id TEXT`).
 - **Link "✦ Hub"** nel topbar di 23 pagine/moduli `BAD360_SPLIT/` (ritorno all'ecosistema).
 - Footer README → SkillSolutions; privacy `barman.html` → barmanadomiciliosardegna@gmail.com.
 
@@ -20,8 +25,9 @@ Nel progetto **Supabase di BAD360** → SQL Editor → esegui:
 - `supabase/hotellerie_schema.sql` (crea `ht_vini` — Carta Vini / Hotellerie F&B).
 - `supabase/academy_schema.sql` (crea `academy_corsi`, `academy_iscrizioni` — Academy LMS).
 - `supabase/qm_schema.sql` (crea `qm_portfolio` — Quality Manager multi-cliente).
-Senza queste tabelle, i moduli Housekeeping / Certificazioni / Menu Engineering / Hotellerie / Academy / Quality Manager vanno in errore.
-> NB (fine sessione giu 2026): `academy_schema.sql` e `qm_schema.sql` NON ancora applicate (connettore Supabase offline) → applicarle appena possibile.
+- `supabase/nc_schema.sql` (crea `non_conformita`, `nc_log`, `nc_azioni_5why` — modulo NC messo in sicurezza).
+Senza queste tabelle, i moduli Housekeeping / Certificazioni / Menu Engineering / Hotellerie / Academy / Quality Manager / Non Conformità vanno in errore.
+> NB: `academy_schema.sql` + `qm_schema.sql` APPLICATE (29 giu 2026). `nc_schema.sql` DA APPLICARE prima/insieme a questo deploy.
 
 ## Passi di redeploy
 1. **Commit + push** del repo BAD360 → Render ribuilda il Docker (`bad360-api`), il frontend Vercel si aggiorna.

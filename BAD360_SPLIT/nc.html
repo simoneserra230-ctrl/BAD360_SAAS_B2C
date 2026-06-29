@@ -295,7 +295,7 @@ html,body{min-height:100vh;font-family:'DM Sans',sans-serif;font-size:14px;line-
 
 <script>
 const BADS_API_NC = window.location.origin;
-const BADS_HID_NC = (typeof localStorage !== 'undefined' && localStorage.getItem('hotel_id')) || 'demo';
+function ncLogged(){ return (typeof B360 !== 'undefined') && !!B360.getToken(); }
 
 const R = 'var(--red)';
 const G = 'var(--g)';
@@ -307,13 +307,29 @@ function ncAlert(msg, type){
   const c = type==='ok' ? GREEN : type==='warn' ? ORANGE : R;
   return `<div style="background:${c}1a;border:1px solid ${c}40;border-radius:9px;padding:11px 14px;color:${c};font-size:13px">${msg}</div>`;
 }
+// hotel_id NON viene mai dal client: lo deriva il backend dal token (authFetch).
+// Senza login -> throw 'demo' cosicché i chiamanti mostrino i dati demo + badge.
 async function ncGet(path){
-  const r = await fetch(BADS_API_NC + path);
+  if(!ncLogged()) throw new Error('demo');
+  const r = await B360.authFetch(path);
   if(!r.ok) throw new Error(r.status);
   return r.json();
 }
 async function ncPost(path, body){
-  const r = await fetch(BADS_API_NC + path, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!ncLogged()) throw new Error('demo');
+  const r = await B360.authFetch(path, {method:'POST', body:JSON.stringify(body)});
+  if(!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+async function ncPut(path, body){
+  if(!ncLogged()) throw new Error('demo');
+  const r = await B360.authFetch(path, {method:'PUT', body:JSON.stringify(body)});
+  if(!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+async function ncDelete(path){
+  if(!ncLogged()) throw new Error('demo');
+  const r = await B360.authFetch(path, {method:'DELETE'});
   if(!r.ok) throw new Error(await r.text());
   return r.json();
 }
@@ -378,7 +394,7 @@ async function ncLoadDashboard(){
   if(!grid) return;
   let k, timeline, demo = false;
   try{
-    const d = await ncGet(`/api/nc/dashboard?hotel_id=${BADS_HID_NC}`);
+    const d = await ncGet('/api/nc/dashboard');
     k = d.kpi || {};
     timeline = d.timeline || [];
     if(!k.totale_nc){ k = NC_DEMO.kpi; timeline = NC_DEMO.timeline; demo = true; }
@@ -437,11 +453,11 @@ async function ncLoadLista(){
   tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--txt3);padding:20px">Caricamento…</td></tr>`;
   let nc, demo = false;
   try{
-    let url = `/api/nc?hotel_id=${BADS_HID_NC}`;
-    if(stato) url += `&stato=${stato}`;
-    if(gravita) url += `&gravita=${gravita}`;
-    if(area) url += `&area=${area}`;
-    const d = await ncGet(url);
+    const qs = [];
+    if(stato) qs.push('stato=' + encodeURIComponent(stato));
+    if(gravita) qs.push('gravita=' + encodeURIComponent(gravita));
+    if(area) qs.push('area=' + encodeURIComponent(area));
+    const d = await ncGet('/api/nc' + (qs.length ? ('?' + qs.join('&')) : ''));
     nc = d.nc || [];
     if(!nc.length){ nc = NC_DEMO.nc; demo = true; }
   }catch(e){ nc = NC_DEMO.nc; demo = true; }
@@ -480,7 +496,6 @@ async function ncApriNuova(){
   if(!titolo || !desc){ result.innerHTML = ncAlert('Compila almeno Titolo e Descrizione'); return; }
   try{
     const body = {
-      hotel_id: BADS_HID_NC,
       area: document.getElementById('nc-new-area')?.value || 'altro',
       gravita: document.getElementById('nc-new-gravita')?.value || 'media',
       titolo, descrizione: desc,
