@@ -72,6 +72,9 @@ from backend.qm import router as qm_router
 from backend.roles import router as roles_router
 from backend.guest_assistant import router as guest_router
 from backend.esperienze import router as esperienze_router
+from backend.eventi_pro import router as eventipro_router
+from backend.beverage_program import router as beverage_router
+from backend.esg_sostenibilita import router as esg_router
 
 load_dotenv()
 
@@ -125,6 +128,9 @@ app.include_router(qm_router)             # Quality Manager / multi-cliente (gra
 app.include_router(roles_router)          # RBAC: ruoli/permessi + /api/auth/permissions per la suite
 app.include_router(guest_router)          # AI Guest Assistant (KB ospiti + /ask pubblico multilingua)
 app.include_router(esperienze_router)     # Upsell Esperienze (catalogo + prenotazioni; flywheel BAD/BarmanMatch)
+app.include_router(eventipro_router)      # AI Event/Wedding Coordinator (eventi + fornitori/budget + timeline AI)
+app.include_router(beverage_router)       # AI Beverage Program (carta + menu engineering + AI menu/pairing)
+app.include_router(esg_router)            # ESG/Sostenibilità CSRD (indicatori + report AI + ponte BA.IA)
 
 # ── SaaS layer: paywall + quota + admin settings + Stripe + account ──
 from backend.saas import register_saas

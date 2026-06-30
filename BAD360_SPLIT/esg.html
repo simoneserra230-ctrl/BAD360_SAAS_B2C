@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BAD360.ai — ESG / Sostenibilità</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;background:var(--bg);color:var(--txt);font-family:var(--font,system-ui);font-size:14px}
+.w{max-width:1100px;margin:0 auto;padding:26px 24px 80px}
+.hd{display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:16px;position:relative;overflow:hidden}.hd::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--g),var(--gd))}
+.hd h1{font-family:var(--heading,inherit);font-size:19px;font-weight:800}.hd p{font-size:11.5px;color:var(--txt2);margin-top:3px}
+.badge{display:none;align-items:center;gap:5px;padding:3px 9px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:99px;font-size:10px;font-weight:700;color:var(--g);margin-left:auto}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:16px}.kpi{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:14px;text-align:center}.kpi .v{font-size:1.4rem;font-weight:800;font-family:var(--heading,inherit)}.kpi .l{font-size:9.5px;color:var(--txt3);margin-top:4px;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:16px}@media(max-width:880px){.grid{grid-template-columns:1fr}}
+.sec{font-family:var(--heading,inherit);font-weight:700;font-size:1rem;margin:0 0 10px}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-bottom:10px}
+.in{background:var(--bg3,#13100b);border:1px solid var(--line2,#2a2620);border-radius:8px;padding:8px 11px;color:var(--txt);font-size:13px;font-family:inherit;width:100%}.in:focus{outline:none;border-color:rgba(201,168,76,.5)}.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:7px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 13px;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;border:none;font-family:inherit}.btn-gold{background:linear-gradient(135deg,var(--gd),var(--g));color:#06060A}.btn-x{background:none;border:1px solid var(--line2,#2a2620);color:var(--txt3);border-radius:6px;padding:4px 9px;font-size:11px;cursor:pointer}
+.cat{display:inline-block;font-size:9.5px;letter-spacing:.4px;text-transform:uppercase;color:var(--g);background:var(--gold-bg,rgba(201,168,76,.1));border:1px solid rgba(201,168,76,.25);border-radius:99px;padding:2px 8px}
+.item{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding:8px 0;font-size:12.5px}
+.empty{color:var(--txt3);padding:14px;text-align:center;font-size:12.5px}.md{font-size:12.5px;line-height:1.6;color:var(--txt2);white-space:pre-wrap}
+.green{font-size:12px;color:var(--txt2);padding:5px 0;border-bottom:1px solid var(--line)}
+#toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid rgba(201,168,76,.3);color:var(--g);padding:11px 18px;border-radius:10px;font-weight:600;z-index:9999;opacity:0;transition:.3s}#toast.show{opacity:1}
+</style>
+<link rel="stylesheet" href="bad360-ds.css"><script src="bad360-sdk.js"></script></head>
+<body class="b360-module">
+<header class="b360-topbar"><div class="b360-tb-l"><a href="index.html" class="b360-tb-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a><a href="index.html" class="b360-tb-brand" tabindex="-1"><div class="b360-tb-logo">B360</div><span class="b360-tb-name">BAD<strong>360</strong>.ai</span></a><span class="b360-tb-sep"></span><span class="b360-tb-module">ESG / Sostenibilità</span></div><div class="b360-tb-r"><a href="../../SKILLSOLUTIONS.COM/index.html" class="b360-tb-hub" style="display:inline-flex;gap:4px;text-decoration:none;color:inherit;opacity:.6;font-size:11px;font-weight:700;padding:4px 10px;border:1px solid currentColor;border-radius:99px;margin-right:8px">&#10022; Hub</a><span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.1</span><button class="b360-tb-theme" id="b360-theme-btn">☽</button></div></header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"☽":"☀";b.onclick=function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"☽":"☀";try{localStorage.setItem("bad360_theme",nt)}catch(e){}}}})})()</script>
+<div class="w">
+  <div class="hd"><div><h1>🌱 ESG / Sostenibilità (CSRD)</h1><p>Raccogli gli indicatori (energia, acqua, rifiuti, sociale, governance), genera una bozza report AI e trova i bandi green su BA.IA. <b>I dati CSRD vanno verificati/certificati.</b></p></div><span class="badge" id="badge">⚡ Demo</span></div>
+  <div class="kpis" id="kpis"></div>
+  <div class="grid">
+    <div>
+      <div class="sec">📊 Indicatori</div>
+      <div class="card">
+        <div class="row"><select id="iCat" class="in" style="width:140px"><option value="energia">energia</option><option value="acqua">acqua</option><option value="rifiuti">rifiuti</option><option value="emissioni">emissioni</option><option value="sociale">sociale</option><option value="governance">governance</option></select><input id="iInd" class="in" placeholder="Indicatore (es. Consumo elettrico)" style="flex:1;min-width:140px"></div>
+        <div class="row"><input id="iVal" class="in" type="number" placeholder="Valore" style="width:110px"><input id="iUni" class="in" placeholder="Unità (kWh,m3,kg…)" style="width:130px"><input id="iPer" class="in" placeholder="Periodo (2026)" style="width:110px"><button class="btn btn-gold" onclick="add()">＋</button></div>
+      </div>
+      <div class="card" id="list"></div>
+    </div>
+    <div>
+      <div class="sec">✨ Report & bandi</div>
+      <div class="card"><button class="btn btn-gold" onclick="aiReport()">Genera bozza report ESG (AI)</button><div id="rep" class="md" style="margin-top:10px"></div></div>
+      <div class="card"><div style="font-weight:700;margin-bottom:6px">🏛️ Bandi green (→ BA.IA)</div><div id="green"></div><div style="font-size:11px;color:var(--txt3);margin-top:6px">Per il match reale sui bandi usa <a href="../../BA.IA.SKILLSOLUTIONS.COM/index.html" style="color:var(--g)">BA.IA</a>.</div></div>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+<script>
+function logged(){return (typeof B360!=='undefined')&&!!B360.getToken();}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show')},2400);}
+function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function setDemo(v){document.getElementById('badge').style.display=v?'inline-flex':'none';}
+var CATS=['energia','acqua','rifiuti','emissioni','sociale','governance'];
+var DEMO=[{id:'i1',categoria:'energia',indicatore:'Consumo elettrico',valore:120000,unita:'kWh',periodo:'2026'},{id:'i2',categoria:'acqua',indicatore:'Consumo acqua',valore:3500,unita:'m3',periodo:'2026'}];
+async function load(){
+  var ind=DEMO,k=null,demo=true;
+  if(logged()){try{var d=await (await B360.authFetch('/api/esg/indicatori')).json();if(d&&d.ok){ind=d.indicatori;demo=false;}var dk=await (await B360.authFetch('/api/esg/dashboard')).json();if(dk&&dk.ok)k=dk.kpi;}catch(e){}}
+  setDemo(demo);
+  if(!k){var cov={};CATS.forEach(function(c){cov[c]=ind.filter(function(i){return i.categoria===c}).length});var cc=CATS.filter(function(c){return cov[c]>0}).length;k={indicatori_totali:ind.length,categorie_coperte:cc,categorie_totali:6,readiness_pct:Math.round(cc/6*100)};}
+  document.getElementById('kpis').innerHTML=[['Indicatori',k.indicatori_totali],['Categorie',k.categorie_coperte+'/'+k.categorie_totali],['Readiness',k.readiness_pct+'%']].map(function(x){return '<div class="kpi"><div class="v" style="color:var(--g)">'+x[1]+'</div><div class="l">'+x[0]+'</div></div>'}).join('');
+  document.getElementById('list').innerHTML=ind.length?ind.map(function(i){return '<div class="item"><div><span class="cat">'+esc(i.categoria)+'</span> <b>'+esc(i.indicatore)+'</b><div style="color:var(--txt2);margin-top:2px">'+esc((i.valore!=null?i.valore:'')+' '+(i.unita||'')+(i.periodo?' · '+i.periodo:''))+'</div></div><button class="btn-x" onclick="del(\''+i.id+'\')">×</button></div>'}).join(''):'<div class="empty">Nessun indicatore. Inizia da energia/acqua/rifiuti.</div>';
+  loadGreen();
+}
+async function loadGreen(){var box=document.getElementById('green');var aree=[{area:'Efficienza energetica',esempi:'metering, illuminazione'},{area:'Fotovoltaico / rinnovabili',esempi:'FV, autoconsumo'},{area:'Transizione 5.0',esempi:'investimenti green'},{area:'ISO 14001 / EMAS',esempi:'certificazione ambientale'}];
+  if(logged()){try{var d=await (await B360.authFetch('/api/esg/bandi-green')).json();if(d&&d.ok)aree=d.aree;}catch(e){}}
+  box.innerHTML=aree.map(function(a){return '<div class="green"><b>'+esc(a.area)+'</b> — '+esc(a.esempi)+'</div>'}).join('');}
+async function add(){var ind=(document.getElementById('iInd').value||'').trim();if(!ind){toast('Indicatore?');return;}var body={categoria:document.getElementById('iCat').value,indicatore:ind,valore:parseFloat(document.getElementById('iVal').value)||null,unita:document.getElementById('iUni').value,periodo:document.getElementById('iPer').value};if(!logged()){DEMO.unshift(Object.assign({id:'i'+Date.now()},body));}else{try{await B360.authFetch('/api/esg/indicatori',{method:'POST',body:JSON.stringify(body)});toast('✓');}catch(e){toast('Errore');return;}}document.getElementById('iInd').value='';document.getElementById('iVal').value='';load();}
+async function del(id){if(!logged()){DEMO=DEMO.filter(function(i){return i.id!==id});}else{try{await B360.authFetch('/api/esg/indicatori/'+id,{method:'DELETE'});}catch(e){}}load();}
+async function aiReport(){var o=document.getElementById('rep');o.textContent='⏳ Genero la bozza…';if(!logged()){o.textContent='(Demo) Accedi per generare il report AI.';return;}try{var d=await (await B360.authFetch('/api/esg/ai/report',{method:'POST'})).json();o.textContent=d.report_markdown||('⚠️ '+(d.error||''));}catch(e){o.textContent='⚠️ Errore.';}}
+document.addEventListener('DOMContentLoaded',load);
+</script></body></html>

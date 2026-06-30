@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BAD360.ai — AI Beverage Program</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;background:var(--bg);color:var(--txt);font-family:var(--font,system-ui);font-size:14px}
+.w{max-width:1140px;margin:0 auto;padding:26px 24px 80px}
+.hd{display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:16px;position:relative;overflow:hidden}
+.hd::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--g),var(--gd))}
+.hd h1{font-family:var(--heading,inherit);font-size:19px;font-weight:800}.hd p{font-size:11.5px;color:var(--txt2);margin-top:3px}
+.badge{display:none;align-items:center;gap:5px;padding:3px 9px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:99px;font-size:10px;font-weight:700;color:var(--g);margin-left:auto}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:16px}
+.kpi{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:13px;text-align:center}.kpi .v{font-size:1.4rem;font-weight:800;font-family:var(--heading,inherit)}.kpi .l{font-size:9.5px;color:var(--txt3);margin-top:4px;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}@media(max-width:880px){.grid{grid-template-columns:1fr}}
+.sec{font-family:var(--heading,inherit);font-weight:700;font-size:1rem;margin:0 0 10px}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-bottom:10px}
+.in{background:var(--bg3,#13100b);border:1px solid var(--line2,#2a2620);border-radius:8px;padding:8px 11px;color:var(--txt);font-size:13px;font-family:inherit;width:100%}.in:focus{outline:none;border-color:rgba(201,168,76,.5)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:7px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 13px;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;border:none;font-family:inherit}.btn-gold{background:linear-gradient(135deg,var(--gd),var(--g));color:#06060A}.btn-x{background:none;border:1px solid var(--line2,#2a2620);color:var(--txt3);border-radius:6px;padding:4px 9px;font-size:11px;cursor:pointer}
+tr{border-bottom:1px solid var(--line)}td,th{padding:7px 6px;font-size:12.5px;text-align:left}th{color:var(--txt3);font-size:10px;text-transform:uppercase;letter-spacing:.4px}
+.cl{display:inline-block;font-size:9.5px;padding:2px 7px;border-radius:99px;font-weight:700}
+.cl-star{background:rgba(106,171,118,.15);color:var(--green,#6aab76)}.cl-plowhorse{background:rgba(201,168,76,.15);color:var(--g)}.cl-puzzle{background:rgba(99,102,241,.15);color:#8b8bf5}.cl-dog{background:rgba(201,74,74,.12);color:var(--red,#c94a4a)}
+.empty{color:var(--txt3);padding:16px;text-align:center;font-size:12.5px}.md{font-size:12.5px;line-height:1.6;color:var(--txt2);white-space:pre-wrap}
+#toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid rgba(201,168,76,.3);color:var(--g);padding:11px 18px;border-radius:10px;font-weight:600;z-index:9999;opacity:0;transition:.3s}#toast.show{opacity:1}
+</style>
+<link rel="stylesheet" href="bad360-ds.css"><script src="bad360-sdk.js"></script></head>
+<body class="b360-module">
+<header class="b360-topbar"><div class="b360-tb-l"><a href="index.html" class="b360-tb-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a><a href="index.html" class="b360-tb-brand" tabindex="-1"><div class="b360-tb-logo">B360</div><span class="b360-tb-name">BAD<strong>360</strong>.ai</span></a><span class="b360-tb-sep"></span><span class="b360-tb-module">Beverage Program</span></div><div class="b360-tb-r"><a href="../../SKILLSOLUTIONS.COM/index.html" class="b360-tb-hub" style="display:inline-flex;gap:4px;text-decoration:none;color:inherit;opacity:.6;font-size:11px;font-weight:700;padding:4px 10px;border:1px solid currentColor;border-radius:99px;margin-right:8px">&#10022; Hub</a><span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.1</span><button class="b360-tb-theme" id="b360-theme-btn">☽</button></div></header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"☽":"☀";b.onclick=function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"☽":"☀";try{localStorage.setItem("bad360_theme",nt)}catch(e){}}}})})()</script>
+<div class="w">
+  <div class="hd"><div><h1>🍸 AI Beverage Program</h1><p>Carta bevande con menu engineering (star/plowhorse/puzzle/dog) + beverage cost % + AI per carta stagionale e abbinamenti.</p></div><span class="badge" id="badge">⚡ Demo</span></div>
+  <div class="kpis" id="kpis"></div>
+  <div class="grid">
+    <div>
+      <div class="sec">📋 Carta bevande</div>
+      <div class="card">
+        <div class="row"><input id="nNome" class="in" placeholder="Nome (es. Negroni Sardo)" style="flex:1;min-width:140px"><select id="nTipo" class="in" style="width:120px"><option>cocktail</option><option>vino</option><option>birra</option><option>spirito</option><option>analcolico</option></select></div>
+        <div class="row"><input id="nPrezzo" class="in" type="number" placeholder="Prezzo €" style="width:100px"><input id="nCosto" class="in" type="number" placeholder="Costo €" style="width:100px"><input id="nVend" class="in" type="number" placeholder="Venduti" style="width:100px"><button class="btn btn-gold" onclick="add()">＋</button></div>
+      </div>
+      <div class="card" style="padding:6px 12px"><table style="width:100%;border-collapse:collapse"><thead><tr><th>Voce</th><th>Prezzo</th><th>Cost%</th><th>Classe</th><th></th></tr></thead><tbody id="rows"></tbody></table></div>
+    </div>
+    <div>
+      <div class="sec">✨ AI bar manager</div>
+      <div class="card"><div class="row"><input id="tema" class="in" placeholder="Tema carta (es. estate sarda, mirto)" style="flex:1"><button class="btn btn-gold" onclick="aiMenu()">Carta AI</button></div><div id="menuOut" class="md"></div></div>
+      <div class="card"><div class="row"><input id="pair" class="in" placeholder="Piatto/occasione per abbinamento" style="flex:1"><button class="btn btn-gold" onclick="aiPair()">Abbina</button></div><div id="pairOut" class="md"></div></div>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+<script>
+function logged(){return (typeof B360!=='undefined')&&!!B360.getToken();}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show')},2400);}
+function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function eur(n){return '€'+(Math.round((+n||0)*100)/100);}
+function setDemo(v){document.getElementById('badge').style.display=v?'inline-flex':'none';}
+var DEMO=[{id:'b1',nome:'Negroni Sardo',tipo:'cocktail',prezzo:12,costo:3,venduti:100,attivo:true},{id:'b2',nome:'Spritz triste',tipo:'cocktail',prezzo:8,costo:6,venduti:5,attivo:true},{id:'b3',nome:'Vermentino DOC',tipo:'vino',prezzo:6,costo:2,venduti:70,attivo:true}];
+function classify(items){var act=items.filter(function(i){return i.attivo!==false});var v=act.map(function(i){return +i.venduti||0}).sort(function(a,b){return a-b});var m=act.map(function(i){return (+i.prezzo||0)-(+i.costo||0)}).sort(function(a,b){return a-b});function med(a){return a.length?(a.length%2?a[(a.length-1)/2]:(a[a.length/2-1]+a[a.length/2])/2):0}var mv=med(v),mm=med(m);return items.map(function(i){var p=+i.prezzo||0,c=+i.costo||0,mar=p-c;var hp=(+i.venduti||0)>=mv,hm=mar>=mm;return Object.assign({},i,{margine:mar,cost_pct:p?Math.round(c/p*100):0,classe:hp&&hm?'star':hp?'plowhorse':hm?'puzzle':'dog'})})}
+async function load(){
+  var items=DEMO,k=null,demo=true;
+  if(logged()){try{var d=await (await B360.authFetch('/api/beverage/items')).json();if(d&&d.ok){items=d.items;demo=false;}var dk=await (await B360.authFetch('/api/beverage/dashboard')).json();if(dk&&dk.ok)k=dk.kpi;}catch(e){}}
+  setDemo(demo);
+  if(demo)items=classify(items);
+  if(!k){var a=items.filter(function(i){return i.attivo!==false});function cl(x){return a.filter(function(i){return i.classe===x}).length}var pc=a.map(function(i){return i.cost_pct}).filter(Boolean);k={voci:a.length,star:cl('star'),plowhorse:cl('plowhorse'),puzzle:cl('puzzle'),dog:cl('dog'),beverage_cost_pct_medio:pc.length?Math.round(pc.reduce(function(s,x){return s+x},0)/pc.length):0};}
+  document.getElementById('kpis').innerHTML=[['Voci',k.voci],['★ Star',k.star],['Plowhorse',k.plowhorse],['Puzzle',k.puzzle],['Dog',k.dog],['Bev cost %',k.beverage_cost_pct_medio+'%']].map(function(x){return '<div class="kpi"><div class="v" style="color:var(--g)">'+x[1]+'</div><div class="l">'+x[0]+'</div></div>'}).join('');
+  document.getElementById('rows').innerHTML=items.length?items.map(function(i){return '<tr><td><b>'+esc(i.nome)+'</b> <span style="color:var(--txt3);font-size:11px">'+esc(i.tipo)+'</span></td><td>'+eur(i.prezzo)+'</td><td>'+i.cost_pct+'%</td><td><span class="cl cl-'+i.classe+'">'+i.classe+'</span></td><td><button class="btn-x" onclick="del(\''+i.id+'\')">×</button></td></tr>'}).join(''):'<tr><td colspan="5" class="empty">Nessuna voce.</td></tr>';
+}
+async function add(){var nome=(document.getElementById('nNome').value||'').trim();if(!nome){toast('Nome?');return;}var body={nome:nome,tipo:document.getElementById('nTipo').value,prezzo:parseFloat(document.getElementById('nPrezzo').value)||0,costo:parseFloat(document.getElementById('nCosto').value)||0,venduti:parseInt(document.getElementById('nVend').value)||0};if(!logged()){DEMO.unshift(Object.assign({id:'b'+Date.now(),attivo:true},body));}else{try{await B360.authFetch('/api/beverage/items',{method:'POST',body:JSON.stringify(body)});toast('✓');}catch(e){toast('Errore');return;}}document.getElementById('nNome').value='';load();}
+async function del(id){if(!logged()){DEMO=DEMO.filter(function(i){return i.id!==id});}else{try{await B360.authFetch('/api/beverage/items/'+id,{method:'DELETE'});}catch(e){}}load();}
+async function aiMenu(){var o=document.getElementById('menuOut');o.textContent='⏳…';if(!logged()){o.textContent='(Demo) Accedi per generare la carta AI.';return;}try{var d=await (await B360.authFetch('/api/beverage/ai/menu',{method:'POST',body:JSON.stringify({tema:document.getElementById('tema').value,n:5})})).json();o.textContent=d.ok?d.menu_markdown:'⚠️ '+(d.error||'');}catch(e){o.textContent='⚠️ Errore.';}}
+async function aiPair(){var o=document.getElementById('pairOut');var q=(document.getElementById('pair').value||'').trim();if(!q){toast('Cosa abbino?');return;}o.textContent='⏳…';if(!logged()){o.textContent='(Demo) Accedi per l\'abbinamento AI.';return;}try{var d=await (await B360.authFetch('/api/beverage/ai/pairing',{method:'POST',body:JSON.stringify({piatto_o_occasione:q})})).json();o.textContent=d.ok?d.abbinamento:'⚠️ '+(d.error||'');}catch(e){o.textContent='⚠️ Errore.';}}
+document.addEventListener('DOMContentLoaded',load);
+</script></body></html>

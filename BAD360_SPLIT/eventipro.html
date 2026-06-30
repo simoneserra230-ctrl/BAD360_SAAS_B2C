@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BAD360.ai — Event/Wedding Coordinator</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;background:var(--bg);color:var(--txt);font-family:var(--font,system-ui);font-size:14px}
+.w{max-width:1140px;margin:0 auto;padding:26px 24px 80px}
+.hd{display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:16px;position:relative;overflow:hidden}
+.hd::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--g),var(--gd))}
+.hd h1{font-family:var(--heading,inherit);font-size:19px;font-weight:800}.hd p{font-size:11.5px;color:var(--txt2);margin-top:3px}
+.badge{display:none;align-items:center;gap:5px;padding:3px 9px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:99px;font-size:10px;font-weight:700;color:var(--g);margin-left:auto}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:16px}
+.kpi{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:14px;text-align:center}
+.kpi .v{font-size:1.45rem;font-weight:800;font-family:var(--heading,inherit)}.kpi .l{font-size:9.5px;color:var(--txt3);margin-top:4px;text-transform:uppercase;letter-spacing:.5px}
+.grid{display:grid;grid-template-columns:1fr 1.1fr;gap:16px}@media(max-width:880px){.grid{grid-template-columns:1fr}}
+.sec{font-family:var(--heading,inherit);font-weight:700;font-size:1rem;margin:0 0 10px}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-bottom:10px}
+.in{background:var(--bg3,#13100b);border:1px solid var(--line2,#2a2620);border-radius:8px;padding:8px 11px;color:var(--txt);font-size:13px;font-family:inherit;width:100%}
+.in:focus{outline:none;border-color:rgba(201,168,76,.5)}.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:7px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 13px;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;border:none;font-family:inherit}
+.btn-gold{background:linear-gradient(135deg,var(--gd),var(--g));color:#06060A}.btn-sm{font-size:11px;padding:4px 9px;border-radius:6px;border:1px solid var(--line2,#2a2620);background:none;color:var(--txt2);cursor:pointer}
+.item{border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin-bottom:8px;background:var(--bg2);cursor:pointer}
+.item.sel{border-color:rgba(201,168,76,.5)}
+.pill{display:inline-flex;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700;border:1px solid}
+.empty{color:var(--txt3);padding:16px;text-align:center;font-size:12.5px}
+.bar{height:7px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--g),var(--gl,#f0d78a))}
+.md{font-size:12.5px;line-height:1.6;color:var(--txt2);white-space:pre-wrap}
+#toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid rgba(201,168,76,.3);color:var(--g);padding:11px 18px;border-radius:10px;font-weight:600;z-index:9999;opacity:0;transform:translateY(8px);transition:.3s}#toast.show{opacity:1;transform:none}
+</style>
+<link rel="stylesheet" href="bad360-ds.css"><script src="bad360-sdk.js"></script></head>
+<body class="b360-module">
+<header class="b360-topbar"><div class="b360-tb-l"><a href="index.html" class="b360-tb-back" title="Suite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a><a href="index.html" class="b360-tb-brand" tabindex="-1"><div class="b360-tb-logo">B360</div><span class="b360-tb-name">BAD<strong>360</strong>.ai</span></a><span class="b360-tb-sep"></span><span class="b360-tb-module">Event/Wedding Coordinator</span></div><div class="b360-tb-r"><a href="../../SKILLSOLUTIONS.COM/index.html" class="b360-tb-hub" style="display:inline-flex;align-items:center;gap:4px;text-decoration:none;color:inherit;opacity:.6;font-size:11px;font-weight:700;padding:4px 10px;border:1px solid currentColor;border-radius:99px;margin-right:8px">&#10022; Hub</a><span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.1</span><button class="b360-tb-theme" id="b360-theme-btn">☽</button></div></header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"☽":"☀";b.onclick=function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"☽":"☀";try{localStorage.setItem("bad360_theme",nt)}catch(e){}}}})})()</script>
+
+<div class="w">
+  <div class="hd"><div><h1>💍 Event / Wedding Coordinator</h1><p>Eventi e matrimoni: budget, fornitori, timeline AI. Si aggancia a Esperienze, events CRM e Barman Match per lo staff.</p></div><span class="badge" id="badge">⚡ Demo</span></div>
+  <div class="kpis" id="kpis"></div>
+  <div class="grid">
+    <div>
+      <div class="sec">📅 Eventi</div>
+      <div class="card">
+        <div class="row"><input id="eNome" class="in" placeholder="Nome evento (es. Matrimonio Rossi)"></div>
+        <div class="row"><select id="eTipo" class="in" style="width:130px"><option value="matrimonio">Matrimonio</option><option value="aziendale">Aziendale</option><option value="privato">Privato</option><option value="gala">Gala</option></select><input id="eData" class="in" type="date" style="width:150px"><input id="eInv" class="in" type="number" placeholder="Invitati" style="width:100px"></div>
+        <div class="row"><input id="eBudget" class="in" type="number" placeholder="Budget €" style="width:130px"><input id="eLoc" class="in" placeholder="Location" style="flex:1;min-width:120px"><button class="btn btn-gold" onclick="evAdd()">＋</button></div>
+      </div>
+      <div id="evList"></div>
+    </div>
+    <div>
+      <div class="sec">🧾 Dettaglio evento</div>
+      <div id="detail"><div class="empty">Seleziona un evento per gestire fornitori, budget e timeline AI.</div></div>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+<script>
+function logged(){return (typeof B360!=='undefined')&&!!B360.getToken();}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show')},2400);}
+function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function eur(n){return '€'+(Math.round((+n||0)*100)/100).toLocaleString('it-IT');}
+function setDemo(v){document.getElementById('badge').style.display=v?'inline-flex':'none';}
+var DEMO=[{id:'v1',nome:'Matrimonio Rossi',tipo:'matrimonio',data:'2026-09-12',n_invitati:120,budget:30000,location:'Villa Sardegna',stato:'pianificazione'}];
+var DEMO_F={v1:[{id:'f1',categoria:'Catering',nome:'BAD Catering',costo:9000,stato:'confermato'},{id:'f2',categoria:'Fiori',nome:'FloraSarda',costo:1500,stato:'contattato'}]};
+var sel=null;
+async function jget(p){var r=await B360.authFetch(p);return r.json();}
+async function load(){
+  var ev=DEMO,k=null,demo=true;
+  if(logged()){try{var d=await jget('/api/eventipro/eventi');if(d&&d.ok){ev=d.eventi;demo=false;}var dk=await jget('/api/eventipro/dashboard');if(dk&&dk.ok)k=dk.kpi;}catch(e){}}
+  setDemo(demo);
+  if(!k){k={totale:ev.length,confermati:ev.filter(function(e){return e.stato==='confermato'}).length,budget_pipeline:ev.reduce(function(a,e){return a+(+e.budget||0)},0),invitati_totali:ev.reduce(function(a,e){return a+(+e.n_invitati||0)},0)};}
+  document.getElementById('kpis').innerHTML=[['Eventi',k.totale],['Confermati',k.confermati],['Budget pipeline',eur(k.budget_pipeline)],['Invitati',k.invitati_totali]].map(function(x){return '<div class="kpi"><div class="v" style="color:var(--g)">'+x[1]+'</div><div class="l">'+x[0]+'</div></div>'}).join('');
+  var box=document.getElementById('evList');
+  box.innerHTML=ev.length?ev.map(function(e){return '<div class="item'+(sel===e.id?' sel':'')+'" onclick="openEv(\''+e.id+'\')"><div style="font-weight:700">'+esc(e.nome)+' <span class="pill" style="color:var(--g);border-color:rgba(201,168,76,.3)">'+esc(e.stato)+'</span></div><div style="font-size:12px;color:var(--txt2);margin-top:2px">'+esc(e.tipo)+' · '+(e.data||'')+' · '+(e.n_invitati||0)+' px · '+eur(e.budget)+'</div></div>'}).join(''):'<div class="empty">Nessun evento.</div>';
+  window._EV=ev;
+}
+async function evAdd(){
+  var nome=(document.getElementById('eNome').value||'').trim();if(!nome){toast('Nome evento?');return;}
+  var body={nome:nome,tipo:document.getElementById('eTipo').value,data:document.getElementById('eData').value||null,n_invitati:parseInt(document.getElementById('eInv').value)||0,budget:parseFloat(document.getElementById('eBudget').value)||0,location:document.getElementById('eLoc').value};
+  if(!logged()){DEMO.unshift(Object.assign({id:'v'+Date.now(),stato:'lead'},body));}
+  else{try{await B360.authFetch('/api/eventipro/eventi',{method:'POST',body:JSON.stringify(body)});toast('✓ Creato');}catch(e){toast('Errore');return;}}
+  document.getElementById('eNome').value='';load();
+}
+async function openEv(id){
+  sel=id;load();
+  var e=(window._EV||[]).find(function(x){return x.id===id})||{};
+  var forn=[],budget=e.budget||0,speso=0;
+  if(logged()){try{var d=await jget('/api/eventipro/eventi/'+id+'/fornitori');if(d&&d.ok){forn=d.fornitori;budget=d.budget;speso=d.speso;}}catch(e2){}}
+  else{forn=DEMO_F[id]||[];speso=forn.reduce(function(a,f){return a+(+f.costo||0)},0);}
+  var perc=budget?Math.min(100,Math.round(speso/budget*100)):0;
+  var html='<div class="card"><div style="font-weight:700">'+esc(e.nome||'')+'</div>'
+    +'<div style="font-size:12px;color:var(--txt2);margin:4px 0">Budget '+eur(budget)+' · speso '+eur(speso)+' · residuo '+eur(budget-speso)+'</div>'
+    +'<div class="bar"><i style="width:'+perc+'%"></i></div></div>'
+    +'<div class="card"><div style="font-weight:700;margin-bottom:8px">Fornitori</div>'
+    +'<div class="row"><input id="fCat" class="in" placeholder="Categoria" style="width:110px"><input id="fNome" class="in" placeholder="Nome" style="flex:1;min-width:100px"><input id="fCosto" class="in" type="number" placeholder="€" style="width:90px"><button class="btn-sm" onclick="fAdd(\''+id+'\')">＋</button></div>'
+    +(forn.length?forn.map(function(f){return '<div style="display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0;border-bottom:1px solid var(--line)"><span>'+esc(f.categoria)+' · '+esc(f.nome||'')+'</span><b>'+eur(f.costo)+'</b></div>'}).join(''):'<div class="empty">Nessun fornitore.</div>')
+    +'</div>'
+    +'<div class="card"><button class="btn btn-gold" onclick="aiTimeline(\''+id+'\')">✨ Genera timeline AI</button><div id="tl" class="md" style="margin-top:10px"></div>'
+    +'<div style="margin-top:8px;font-size:11px;color:var(--txt3)">Ponte ecosistema: <a href="esperienze.html" style="color:var(--g)">Esperienze</a> · <a href="events.html" style="color:var(--g)">events CRM</a> · <a href="barmanmatch.html" style="color:var(--g)">Barman Match</a> (staff)</div></div>';
+  document.getElementById('detail').innerHTML=html;
+}
+async function fAdd(eid){
+  var cat=(document.getElementById('fCat').value||'Fornitore').trim(),nome=(document.getElementById('fNome').value||'').trim(),costo=parseFloat(document.getElementById('fCosto').value)||0;
+  if(!nome){toast('Nome fornitore?');return;}
+  if(!logged()){(DEMO_F[eid]=DEMO_F[eid]||[]).push({id:'f'+Date.now(),categoria:cat,nome:nome,costo:costo});}
+  else{try{await B360.authFetch('/api/eventipro/fornitori',{method:'POST',body:JSON.stringify({evento_id:eid,categoria:cat,nome:nome,costo:costo})});}catch(e){toast('Errore');return;}}
+  openEv(eid);
+}
+async function aiTimeline(eid){
+  var t=document.getElementById('tl');t.textContent='⏳ Genero la timeline…';
+  if(!logged()){t.textContent='(Demo) Accedi per generare la timeline AI reale.';return;}
+  try{var d=await (await B360.authFetch('/api/eventipro/eventi/'+eid+'/ai-timeline',{method:'POST'})).json();t.textContent=d.ok?d.timeline_markdown:'⚠️ '+(d.error||'Errore');}catch(e){t.textContent='⚠️ Errore.';}
+}
+document.addEventListener('DOMContentLoaded',load);
+</script></body></html>
