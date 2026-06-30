@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BAD360.ai — Upsell Esperienze</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;background:var(--bg);color:var(--txt);font-family:var(--font,system-ui);font-size:14px}
+.ex-wrap{max-width:1140px;margin:0 auto;padding:26px 24px 80px}
+.ex-hdr{display:flex;align-items:center;gap:16px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin-bottom:18px;position:relative;overflow:hidden}
+.ex-hdr::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--g),var(--gd))}
+.ex-hdr h1{font-family:var(--heading,inherit);font-size:20px;font-weight:800}
+.ex-hdr p{font-size:11.5px;color:var(--txt2);margin-top:3px}
+.demo-badge{display:none;align-items:center;gap:5px;padding:3px 9px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:99px;font-size:10px;font-weight:700;color:var(--g);margin-left:auto}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-bottom:18px}
+.kpi{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:15px;text-align:center}
+.kpi .v{font-size:1.55rem;font-weight:800;font-family:var(--heading,inherit);line-height:1}
+.kpi .l{font-size:10px;color:var(--txt3);margin-top:5px;text-transform:uppercase;letter-spacing:.6px}
+.ex-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:18px}
+@media(max-width:880px){.ex-grid{grid-template-columns:1fr}}
+.ex-sec{font-family:var(--heading,inherit);font-weight:700;font-size:1.02rem;margin:0 0 12px}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+.in{background:var(--bg3,#13100b);border:1px solid var(--line2,#2a2620);border-radius:8px;padding:9px 12px;color:var(--txt);font-size:13px;font-family:inherit;width:100%}
+.in:focus{outline:none;border-color:rgba(201,168,76,.5)}
+textarea.in{min-height:52px;resize:vertical}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;border:none;font-family:inherit}
+.btn-gold{background:linear-gradient(135deg,var(--gd),var(--g));color:#06060A}
+.btn-x{background:none;border:1px solid var(--line2,#2a2620);color:var(--txt3);border-radius:6px;padding:4px 9px;font-size:11px;cursor:pointer}
+.btn-sm{font-size:11px;padding:4px 9px;border-radius:6px;border:1px solid var(--line2,#2a2620);background:none;color:var(--txt2);cursor:pointer}
+.item{border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin-bottom:8px;background:var(--bg2)}
+.cat{display:inline-block;font-size:9.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--g);background:var(--gold-bg,rgba(201,168,76,.1));border:1px solid rgba(201,168,76,.25);border-radius:99px;padding:2px 8px}
+.tag{display:inline-block;font-size:9.5px;padding:2px 7px;border-radius:99px;border:1px solid;margin-left:5px}
+.t-bad{color:var(--g);border-color:rgba(201,168,76,.35)}
+.t-staff{color:var(--teal,#5bb) ;border-color:rgba(90,190,190,.35)}
+.pill{display:inline-flex;align-items:center;padding:2px 9px;border-radius:99px;font-size:10px;font-weight:700}
+.p-req{background:rgba(212,128,58,.12);color:var(--orange,#d4803a);border:1px solid rgba(212,128,58,.3)}
+.p-conf{background:rgba(201,168,76,.12);color:var(--g);border:1px solid rgba(201,168,76,.3)}
+.p-erog{background:rgba(106,171,118,.12);color:var(--green,#6aab76);border:1px solid rgba(106,171,118,.3)}
+.p-ann{background:rgba(255,255,255,.05);color:var(--txt3);border:1px solid var(--line)}
+.empty{color:var(--txt3);padding:18px;text-align:center;font-size:12.5px}
+#toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid rgba(201,168,76,.3);color:var(--g);padding:11px 18px;border-radius:10px;font-weight:600;z-index:9999;opacity:0;transform:translateY(8px);transition:all .3s}
+#toast.show{opacity:1;transform:none}
+</style>
+<link rel="stylesheet" href="bad360-ds.css">
+<script src="bad360-sdk.js"></script>
+</head>
+<body class="b360-module">
+
+<header class="b360-topbar" id="b360-topbar">
+  <div class="b360-tb-l">
+    <a href="index.html" class="b360-tb-back" title="Suite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a>
+    <a href="index.html" class="b360-tb-brand" tabindex="-1"><div class="b360-tb-logo">B360</div><span class="b360-tb-name">BAD<strong>360</strong>.ai</span></a>
+    <span class="b360-tb-sep"></span><span class="b360-tb-module">Upsell Esperienze</span>
+  </div>
+  <div class="b360-tb-r">
+    <a href="../../SKILLSOLUTIONS.COM/index.html" class="b360-tb-hub" title="Hub" style="display:inline-flex;align-items:center;gap:4px;text-decoration:none;color:inherit;opacity:.6;font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 10px;border:1px solid currentColor;border-radius:99px;margin-right:8px">&#10022; Hub</a>
+    <span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.1</span>
+    <button class="b360-tb-theme" id="b360-theme-btn" title="Tema">☽</button>
+  </div>
+</header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"☽":"☀";b.addEventListener("click",function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"☽":"☀";try{localStorage.setItem("bad360_theme",nt)}catch(e){}});}});})()</script>
+
+<div class="ex-wrap">
+  <div class="ex-hdr"><div><h1>🥂 Upsell Esperienze</h1><p>Vendi esperienze ai tuoi ospiti (aperitivi, masterclass, tour…). Ricavo ancillare + il ponte all'ecosistema: esperienza → evento BAD → staff via Barman Match.</p></div><span class="demo-badge" id="demoBadge">⚡ Demo</span></div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="ex-grid">
+    <!-- CATALOGO -->
+    <div>
+      <div class="ex-sec">📋 Catalogo esperienze</div>
+      <div class="card">
+        <div class="row"><input id="cTit" class="in" placeholder="Titolo (es. Aperitivo in spiaggia col barman)"></div>
+        <div class="row">
+          <input id="cCat" class="in" placeholder="Categoria" style="flex:1;min-width:120px">
+          <input id="cPrice" class="in" type="number" placeholder="Prezzo €" style="width:110px">
+          <select id="cForn" class="in" style="width:120px"><option value="BAD">BAD</option><option value="interno">Interno</option><option value="esterno">Esterno</option></select>
+        </div>
+        <div class="row"><textarea id="cDesc" class="in" placeholder="Descrizione breve"></textarea></div>
+        <div class="row" style="align-items:center"><label style="font-size:12px;color:var(--txt2);display:flex;gap:6px;align-items:center"><input type="checkbox" id="cStaff"> Richiede staff (Barman Match)</label><button class="btn btn-gold" style="margin-left:auto" onclick="cAdd()">＋ Aggiungi</button></div>
+      </div>
+      <div id="catList"></div>
+    </div>
+
+    <!-- PRENOTAZIONI -->
+    <div>
+      <div class="ex-sec">🎟️ Prenotazioni</div>
+      <div id="prenList"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px;font-size:11.5px;color:var(--txt2)">
+    🌐 <b>Vetrina ospite (pubblica)</b>: <code>/api/esperienze/&lt;hotel_id&gt;/vetrina</code> + <code>/richiesta</code> — collegabile al
+    <b>Guest Assistant</b> e al widget. Le richieste degli ospiti arrivano qui come <span class="pill p-req">richiesta</span>.
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+function logged(){return (typeof B360!=='undefined')&&!!B360.getToken();}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},2600);}
+function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function setDemo(v){var b=document.getElementById('demoBadge');if(b)b.style.display=v?'inline-flex':'none';}
+function eur(n){return '€'+(Math.round((+n||0)*100)/100).toLocaleString('it-IT');}
+
+var DEMO_CAT=[
+ {id:'e1',titolo:'Aperitivo in spiaggia col barman',categoria:'Aperitivo',prezzo:35,fornitore:'BAD',richiede_staff:true,descrizione:'Cocktail di benvenuto al tramonto, in spiaggia.',attivo:true},
+ {id:'e2',titolo:'Cocktail masterclass',categoria:'Masterclass',prezzo:60,fornitore:'BAD',richiede_staff:true,descrizione:'Impara 3 signature cocktail con il nostro bar manager.',attivo:true},
+ {id:'e3',titolo:'Degustazione vini sardi',categoria:'Degustazione',prezzo:45,fornitore:'interno',richiede_staff:false,descrizione:'5 calici + abbinamenti del territorio.',attivo:true},
+];
+var DEMO_PREN=[
+ {id:'p1',esperienza_titolo:'Aperitivo in spiaggia col barman',ospite_nome:'Mario R.',n_persone:4,data:'2026-08-10',stato:'richiesta',ricavo:140},
+ {id:'p2',esperienza_titolo:'Cocktail masterclass',ospite_nome:'Anna L.',n_persone:2,data:'2026-08-12',stato:'confermata',ricavo:120},
+];
+
+async function load(){
+  var cat=DEMO_CAT, pren=DEMO_PREN, kpi=null, demo=true;
+  if(logged()){
+    try{
+      var rc=await B360.authFetch('/api/esperienze/catalog'); var dc=await rc.json(); if(dc&&dc.ok){cat=dc.esperienze;demo=false;}
+      var rp=await B360.authFetch('/api/esperienze/prenotazioni'); var dp=await rp.json(); if(dp&&dp.ok)pren=dp.prenotazioni;
+      var rk=await B360.authFetch('/api/esperienze/dashboard'); var dk=await rk.json(); if(dk&&dk.ok)kpi=dk.kpi;
+    }catch(e){}
+  }
+  setDemo(demo);
+  renderKpis(kpi,pren);
+  renderCat(cat);
+  renderPren(pren);
+}
+function renderKpis(k,pren){
+  if(!k){ var c=function(s){return pren.filter(function(p){return p.stato===s}).length};
+    k={richieste:c('richiesta'),confermate:c('confermata'),erogate:c('erogata'),
+       ricavo_erogato:pren.filter(function(p){return p.stato==='erogata'}).reduce(function(a,p){return a+(+p.ricavo||0)},0),
+       pipeline_potenziale:pren.filter(function(p){return p.stato==='richiesta'||p.stato==='confermata'}).reduce(function(a,p){return a+(+p.ricavo||0)},0)}; }
+  var box=document.getElementById('kpis');
+  box.innerHTML=[['Richieste',k.richieste,'var(--orange,#d4803a)'],['Confermate',k.confermate,'var(--g)'],['Erogate',k.erogate,'var(--green,#6aab76)'],['Ricavo erogato',eur(k.ricavo_erogato),'var(--green,#6aab76)'],['Pipeline',eur(k.pipeline_potenziale),'var(--txt)']]
+    .map(function(x){return '<div class="kpi"><div class="v" style="color:'+x[2]+'">'+x[1]+'</div><div class="l">'+x[0]+'</div></div>';}).join('');
+}
+function renderCat(cat){
+  var box=document.getElementById('catList');
+  if(!cat.length){box.innerHTML='<div class="empty">Nessuna esperienza. Aggiungi la prima.</div>';return;}
+  box.innerHTML=cat.map(function(e){
+    return '<div class="item"><div style="display:flex;justify-content:space-between;gap:10px"><div><span class="cat">'+esc(e.categoria||'Esperienza')+'</span>'
+      +(e.fornitore==='BAD'?'<span class="tag t-bad">BAD</span>':'')+(e.richiede_staff?'<span class="tag t-staff">staff</span>':'')
+      +'<div style="font-weight:700;margin-top:5px">'+esc(e.titolo)+' · '+eur(e.prezzo)+'</div>'
+      +'<div style="font-size:12px;color:var(--txt2);margin-top:2px">'+esc(e.descrizione||'')+'</div></div>'
+      +'<button class="btn-x" onclick="cDel(\''+e.id+'\')">elimina</button></div></div>';
+  }).join('');
+}
+function pillFor(s){return s==='richiesta'?'<span class="pill p-req">richiesta</span>':s==='confermata'?'<span class="pill p-conf">confermata</span>':s==='erogata'?'<span class="pill p-erog">erogata</span>':'<span class="pill p-ann">annullata</span>';}
+function renderPren(pren){
+  var box=document.getElementById('prenList');
+  if(!pren.length){box.innerHTML='<div class="empty">Nessuna prenotazione. Le richieste degli ospiti arriveranno qui.</div>';return;}
+  box.innerHTML=pren.map(function(p){
+    var act='';
+    if(p.stato==='richiesta')act+='<button class="btn-sm" onclick="setStato(\''+p.id+'\',\'confermata\')">✓ Conferma</button>';
+    if(p.stato==='confermata')act+='<button class="btn-sm" onclick="erogaPrompt(\''+p.id+'\')">✓ Erogata</button>';
+    if(p.stato!=='annullata'&&p.stato!=='erogata')act+=' <button class="btn-sm" onclick="setStato(\''+p.id+'\',\'annullata\')">✕</button>';
+    // ponte ecosistema
+    act+=' <a class="btn-sm" href="events.html" title="Gestisci come evento BAD nel CRM">→ Evento BAD</a>';
+    act+=' <a class="btn-sm" href="barmanmatch.html" title="Trova lo staff">→ Barman Match</a>';
+    return '<div class="item"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><div>'
+      +'<div style="font-weight:700">'+esc(p.esperienza_titolo||'Esperienza')+' '+pillFor(p.stato)+'</div>'
+      +'<div style="font-size:12px;color:var(--txt2);margin-top:2px">👤 '+esc(p.ospite_nome||'')+' · '+(p.n_persone||1)+' px'+(p.data?' · '+esc(p.data):'')+(p.ricavo?' · '+eur(p.ricavo):'')+'</div></div></div>'
+      +'<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">'+act+'</div></div>';
+  }).join('');
+}
+
+async function cAdd(){
+  var tit=(document.getElementById('cTit').value||'').trim();
+  if(!tit){toast('Inserisci il titolo');return;}
+  var body={titolo:tit,categoria:(document.getElementById('cCat').value||'Esperienza').trim(),prezzo:parseFloat(document.getElementById('cPrice').value)||0,fornitore:document.getElementById('cForn').value,richiede_staff:document.getElementById('cStaff').checked,descrizione:(document.getElementById('cDesc').value||'').trim()};
+  if(!logged()){DEMO_CAT.unshift(Object.assign({id:'e'+Date.now(),attivo:true},body));toast('✓ Aggiunta (demo)');}
+  else{try{var r=await B360.authFetch('/api/esperienze/catalog',{method:'POST',body:JSON.stringify(body)});var d=await r.json();if(!(d&&d.ok)){toast('Errore');return;}toast('✓ Aggiunta');}catch(e){toast('Errore di rete');return;}}
+  ['cTit','cCat','cPrice','cDesc'].forEach(function(id){document.getElementById(id).value='';});document.getElementById('cStaff').checked=false;
+  load();
+}
+async function cDel(id){ if(!confirm('Eliminare?'))return; if(!logged()){DEMO_CAT=DEMO_CAT.filter(function(e){return e.id!==id});}else{try{await B360.authFetch('/api/esperienze/catalog/'+encodeURIComponent(id),{method:'DELETE'});}catch(e){}} load(); }
+async function setStato(id,stato){
+  if(!logged()){DEMO_PREN=DEMO_PREN.map(function(p){return p.id===id?Object.assign({},p,{stato:stato}):p});load();return;}
+  try{await B360.authFetch('/api/esperienze/prenotazioni/'+encodeURIComponent(id)+'/stato?stato='+stato,{method:'PUT'});toast('Aggiornata');}catch(e){toast('Errore');}
+  load();
+}
+function erogaPrompt(id){
+  var r=prompt('Ricavo incassato (€) per questa esperienza?','');
+  if(r===null)return; var v=parseFloat(r)||0;
+  if(!logged()){DEMO_PREN=DEMO_PREN.map(function(p){return p.id===id?Object.assign({},p,{stato:'erogata',ricavo:v}):p});load();return;}
+  B360.authFetch('/api/esperienze/prenotazioni/'+encodeURIComponent(id)+'/stato?stato=erogata&ricavo='+v,{method:'PUT'}).then(function(){toast('✓ Erogata');load();}).catch(function(){toast('Errore');});
+}
+
+document.addEventListener('DOMContentLoaded',load);
+</script>
+</body>
+</html>

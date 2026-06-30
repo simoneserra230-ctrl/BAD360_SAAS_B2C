@@ -36,6 +36,7 @@ Nel progetto **Supabase di BAD360** → SQL Editor → esegui:
 - `supabase/qm_schema.sql` (crea `qm_portfolio` — Quality Manager multi-cliente).
 - `supabase/nc_schema.sql` (crea `non_conformita`, `nc_log`, `nc_azioni_5why` — modulo NC messo in sicurezza).
 - `supabase/guest_assistant_schema.sql` (crea `guest_kb` — AI Guest Assistant, KB ospiti).
+- `supabase/esperienze_schema.sql` (crea `esperienze` + `esperienze_prenotazioni` — Upsell Esperienze).
 Senza queste tabelle, i moduli Housekeeping / Certificazioni / Menu Engineering / Hotellerie / Academy / Quality Manager / Non Conformità vanno in errore.
 > NB: `academy_schema.sql` + `qm_schema.sql` APPLICATE (29 giu 2026). `nc_schema.sql` DA APPLICARE prima/insieme a questo deploy.
 
