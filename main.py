@@ -70,6 +70,7 @@ from backend.hotellerie import router as hotellerie_router
 from backend.academy import router as academy_router
 from backend.qm import router as qm_router
 from backend.roles import router as roles_router
+from backend.guest_assistant import router as guest_router
 
 load_dotenv()
 
@@ -121,6 +122,7 @@ app.include_router(hotellerie_router)     # Hotellerie F&B / Carta Vini (hotel_i
 app.include_router(academy_router)        # Academy LMS (hotel_id dal token)
 app.include_router(qm_router)             # Quality Manager / multi-cliente (grant dalla struttura)
 app.include_router(roles_router)          # RBAC: ruoli/permessi + /api/auth/permissions per la suite
+app.include_router(guest_router)          # AI Guest Assistant (KB ospiti + /ask pubblico multilingua)
 
 # ── SaaS layer: paywall + quota + admin settings + Stripe + account ──
 from backend.saas import register_saas

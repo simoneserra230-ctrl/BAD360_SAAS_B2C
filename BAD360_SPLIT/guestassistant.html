@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BAD360.ai — AI Guest Assistant</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;background:var(--bg);color:var(--txt);font-family:var(--font,system-ui);font-size:14px}
+.ga-wrap{max-width:1100px;margin:0 auto;padding:26px 24px 80px}
+.ga-hdr{display:flex;align-items:center;gap:16px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin-bottom:20px;position:relative;overflow:hidden}
+.ga-hdr::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--g),var(--gd))}
+.ga-hdr h1{font-family:var(--heading,inherit);font-size:20px;font-weight:800}
+.ga-hdr p{font-size:11.5px;color:var(--txt2);margin-top:3px}
+.ga-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:18px}
+@media(max-width:860px){.ga-grid{grid-template-columns:1fr}}
+.ga-sec-title{font-family:var(--heading,inherit);font-weight:700;font-size:1.02rem;margin:0 0 12px;display:flex;align-items:center;gap:8px}
+.ga-card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+.kb-item{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin-bottom:8px;background:var(--bg2)}
+.kb-cat{display:inline-block;font-size:9.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--g);background:var(--gold-bg,rgba(201,168,76,.1));border:1px solid rgba(201,168,76,.25);border-radius:99px;padding:2px 8px;margin-bottom:5px}
+.kb-t{font-weight:700;font-size:13px}
+.kb-c{font-size:12px;color:var(--txt2);margin-top:3px;line-height:1.5}
+.ga-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.ga-in{background:var(--bg3,#13100b);border:1px solid var(--line2,#2a2620);border-radius:8px;padding:9px 12px;color:var(--txt);font-size:13px;font-family:inherit;width:100%}
+.ga-in:focus{outline:none;border-color:rgba(201,168,76,.5)}
+textarea.ga-in{min-height:64px;resize:vertical}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 15px;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;border:none;font-family:inherit}
+.btn-gold{background:linear-gradient(135deg,var(--gd),var(--g));color:#06060A}
+.btn-x{background:none;border:1px solid var(--line2,#2a2620);color:var(--txt3);border-radius:6px;padding:4px 9px;font-size:11px;cursor:pointer}
+.ga-empty{color:var(--txt3);padding:18px;text-align:center;font-size:12.5px}
+/* preview chat */
+.chat{display:flex;flex-direction:column;height:380px}
+.chat-log{flex:1;overflow-y:auto;padding:6px;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:85%;padding:9px 12px;border-radius:12px;font-size:12.5px;line-height:1.5;white-space:pre-wrap}
+.msg.u{align-self:flex-end;background:linear-gradient(135deg,var(--gd),var(--g));color:#06060A}
+.msg.a{align-self:flex-start;background:var(--bg3,#13100b);border:1px solid var(--line)}
+.msg .src{display:block;margin-top:5px;font-size:10px;color:var(--txt3)}
+.chat-in{display:flex;gap:6px;margin-top:8px}
+.demo-badge{display:none;align-items:center;gap:5px;padding:3px 9px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:99px;font-size:10px;font-weight:700;color:var(--g);margin-left:auto}
+#toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid rgba(201,168,76,.3);color:var(--g);padding:11px 18px;border-radius:10px;font-weight:600;z-index:9999;opacity:0;transform:translateY(8px);transition:all .3s}
+#toast.show{opacity:1;transform:none}
+</style>
+<link rel="stylesheet" href="bad360-ds.css">
+<script src="bad360-sdk.js"></script>
+</head>
+<body class="b360-module">
+
+<header class="b360-topbar" id="b360-topbar">
+  <div class="b360-tb-l">
+    <a href="index.html" class="b360-tb-back" title="Suite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a>
+    <a href="index.html" class="b360-tb-brand" tabindex="-1"><div class="b360-tb-logo">B360</div><span class="b360-tb-name">BAD<strong>360</strong>.ai</span></a>
+    <span class="b360-tb-sep"></span>
+    <span class="b360-tb-module" id="b360-page-label">AI Guest Assistant</span>
+  </div>
+  <div class="b360-tb-r">
+    <a href="../../SKILLSOLUTIONS.COM/index.html" class="b360-tb-hub" title="Torna all'ecosistema SkillSolutions" style="display:inline-flex;align-items:center;gap:4px;text-decoration:none;color:inherit;opacity:.6;font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 10px;border:1px solid currentColor;border-radius:99px;margin-right:8px">&#10022; Hub</a>
+    <span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.1</span>
+    <button class="b360-tb-theme" id="b360-theme-btn" title="Tema">☽</button>
+  </div>
+</header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"☽":"☀";b.addEventListener("click",function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"☽":"☀";try{localStorage.setItem("bad360_theme",nt)}catch(e){}});}});})()</script>
+
+<div class="ga-wrap">
+  <div class="ga-hdr"><div><h1>🛎️ AI Guest Assistant</h1><p>Carica le info per i tuoi ospiti: l'AI risponde alle loro domande (multilingua) usando SOLO la tua knowledge base.</p></div><span class="demo-badge" id="demoBadge">⚡ Demo</span></div>
+
+  <div class="ga-grid">
+    <!-- LEFT: gestione KB -->
+    <div>
+      <div class="ga-sec-title">📚 Knowledge base ospiti</div>
+      <div class="ga-card">
+        <div class="ga-row"><input id="kbCat" class="ga-in" placeholder="Categoria (es. Wifi, Check-in, Colazione, Esperienze)" style="flex:1;min-width:160px"></div>
+        <div class="ga-row"><input id="kbTit" class="ga-in" placeholder="Titolo (es. Password Wi-Fi)"></div>
+        <div class="ga-row"><textarea id="kbCon" class="ga-in" placeholder="Contenuto (la risposta che vuoi dare all'ospite)"></textarea></div>
+        <button class="btn btn-gold" onclick="kbAdd()">＋ Aggiungi voce</button>
+      </div>
+      <div id="kbList"></div>
+    </div>
+
+    <!-- RIGHT: anteprima ospite -->
+    <div>
+      <div class="ga-sec-title">💬 Anteprima ospite</div>
+      <div class="ga-card chat">
+        <div class="chat-log" id="chatLog"><div class="ga-empty">Scrivi una domanda come farebbe un ospite…</div></div>
+        <div class="chat-in">
+          <input id="chatQ" class="ga-in" placeholder="Es. A che ora è la colazione?" onkeydown="if(event.key==='Enter')chatAsk()">
+          <button class="btn btn-gold" onclick="chatAsk()">Invia</button>
+        </div>
+      </div>
+      <div class="ga-card" style="font-size:11.5px;color:var(--txt2)">
+        🌐 <b>Widget pubblico</b>: l'ospite chiede via WhatsApp/sito; l'endpoint è
+        <code>/api/guest/&lt;hotel_id&gt;/ask</code> (pubblico, legge solo questa KB). Embed sul sito = prossimo step.
+      </div>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+function logged(){return (typeof B360!=='undefined')&&!!B360.getToken();}
+function hotelId(){try{return (B360.getUser()||{}).hotel_id||'hotel-demo-001';}catch(e){return 'hotel-demo-001';}}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},2600);}
+function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function setDemo(v){var b=document.getElementById('demoBadge');if(b)b.style.display=v?'inline-flex':'none';}
+
+var DEMO_KB=[
+ {id:'d1',categoria:'Wifi',titolo:'Password Wi-Fi',contenuto:'Rete: BAIA_GUEST · Password: ospite2026'},
+ {id:'d2',categoria:'Check-in',titolo:'Orari check-in / check-out',contenuto:'Check-in dalle 15:00, check-out entro le 11:00.'},
+ {id:'d3',categoria:'Colazione',titolo:'Colazione',contenuto:'Servita 7:30–10:30 in sala vista mare.'},
+ {id:'d4',categoria:'Esperienze',titolo:'Aperitivo in spiaggia',contenuto:'Su richiesta organizziamo un aperitivo col barman in spiaggia. Chiedi alla reception.'},
+];
+
+async function kbLoad(){
+  var box=document.getElementById('kbList');
+  var entries=DEMO_KB, demo=true;
+  if(logged()){ try{ var r=await B360.authFetch('/api/guest/kb'); var d=await r.json(); if(d&&d.ok){ entries=d.entries; demo=false; } }catch(e){} }
+  setDemo(demo);
+  if(!entries.length){ box.innerHTML='<div class="ga-empty">Nessuna voce. Aggiungi le info che gli ospiti chiedono più spesso.</div>'; return; }
+  box.innerHTML=entries.map(function(e){
+    return '<div class="kb-item"><div><span class="kb-cat">'+esc(e.categoria||'Info')+'</span><div class="kb-t">'+esc(e.titolo||'')+'</div><div class="kb-c">'+esc(e.contenuto||'')+'</div></div>'
+      +'<button class="btn-x" onclick="kbDel(\''+e.id+'\')">elimina</button></div>';
+  }).join('');
+}
+async function kbAdd(){
+  var cat=(document.getElementById('kbCat').value||'Info').trim();
+  var tit=(document.getElementById('kbTit').value||'').trim();
+  var con=(document.getElementById('kbCon').value||'').trim();
+  if(!tit||!con){ toast('Inserisci titolo e contenuto'); return; }
+  if(!logged()){ DEMO_KB.unshift({id:'d'+Date.now(),categoria:cat,titolo:tit,contenuto:con}); toast('✓ Aggiunta (demo)'); }
+  else{ try{ var r=await B360.authFetch('/api/guest/kb',{method:'POST',body:JSON.stringify({categoria:cat,titolo:tit,contenuto:con})}); var d=await r.json(); if(!(d&&d.ok)){toast('Errore');return;} toast('✓ Aggiunta'); }catch(e){toast('Errore di rete');return;} }
+  document.getElementById('kbTit').value='';document.getElementById('kbCon').value='';
+  kbLoad();
+}
+async function kbDel(id){
+  if(!confirm('Eliminare questa voce?'))return;
+  if(!logged()){ DEMO_KB=DEMO_KB.filter(function(e){return e.id!==id}); }
+  else{ try{ await B360.authFetch('/api/guest/kb/'+encodeURIComponent(id),{method:'DELETE'}); }catch(e){} }
+  kbLoad();
+}
+
+function addMsg(cls,text,src){
+  var log=document.getElementById('chatLog');
+  if(log.querySelector('.ga-empty'))log.innerHTML='';
+  var m=document.createElement('div'); m.className='msg '+cls; m.textContent=text;
+  if(src&&src.length){ var s=document.createElement('span'); s.className='src'; s.textContent='📚 '+src.join(' · '); m.appendChild(s); }
+  log.appendChild(m); log.scrollTop=log.scrollHeight;
+}
+async function chatAsk(){
+  var inp=document.getElementById('chatQ'); var q=(inp.value||'').trim(); if(!q)return;
+  addMsg('u',q); inp.value='';
+  if(!logged()){ addMsg('a','(Demo) Accedi a BAD360 per far rispondere l\'AI sulla knowledge base reale. In demo: vedi le voci a sinistra.'); return; }
+  addMsg('a','…');
+  var log=document.getElementById('chatLog'); var pend=log.lastChild;
+  try{
+    var r=await fetch((window.location.origin)+'/api/guest/'+encodeURIComponent(hotelId())+'/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q})});
+    var d=await r.json();
+    pend.remove();
+    if(d&&d.ok){ addMsg('a',d.answer||'(nessuna risposta)', d.usate||[]); }
+    else addMsg('a','⚠️ '+(d.error||'Errore'));
+  }catch(e){ if(pend)pend.remove(); addMsg('a','⚠️ Connessione non riuscita.'); }
+}
+
+document.addEventListener('DOMContentLoaded',kbLoad);
+</script>
+</body>
+</html>
