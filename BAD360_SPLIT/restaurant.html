@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BAD360.ai — Restaurant Intelligence</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html,body{min-height:100vh;background:var(--bg);color:var(--txt);font-family:var(--font,system-ui);font-size:14px}
+.w{max-width:1140px;margin:0 auto;padding:26px 24px 80px}
+.hd{display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:16px;position:relative;overflow:hidden}.hd::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--g),var(--gd))}.hd h1{font-family:var(--heading,inherit);font-size:19px;font-weight:800}.hd p{font-size:11.5px;color:var(--txt2);margin-top:3px}
+.badge{display:none;align-items:center;gap:5px;padding:3px 9px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:99px;font-size:10px;font-weight:700;color:var(--g);margin-left:auto}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:16px}.kpi{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:13px;text-align:center}.kpi .v{font-size:1.4rem;font-weight:800;font-family:var(--heading,inherit)}.kpi .l{font-size:9.5px;color:var(--txt3);margin-top:4px;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:880px){.grid{grid-template-columns:1fr}}
+.sec{font-family:var(--heading,inherit);font-weight:700;font-size:1rem;margin:0 0 10px}.card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-bottom:10px}
+.in{background:var(--bg3,#13100b);border:1px solid var(--line2,#2a2620);border-radius:8px;padding:8px 11px;color:var(--txt);font-size:13px;font-family:inherit;width:100%}.in:focus{outline:none;border-color:rgba(201,168,76,.5)}.row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:7px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 13px;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;border:none;font-family:inherit}.btn-gold{background:linear-gradient(135deg,var(--gd),var(--g));color:#06060A}.btn-x{background:none;border:1px solid var(--line2,#2a2620);color:var(--txt3);border-radius:6px;padding:4px 9px;font-size:11px;cursor:pointer}
+.line{display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0;border-bottom:1px solid var(--line)}
+.empty{color:var(--txt3);padding:14px;text-align:center;font-size:12.5px}.md{font-size:12.5px;line-height:1.6;color:var(--txt2);white-space:pre-wrap}
+#toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid rgba(201,168,76,.3);color:var(--g);padding:11px 18px;border-radius:10px;font-weight:600;z-index:9999;opacity:0;transition:.3s}#toast.show{opacity:1}
+</style><link rel="stylesheet" href="bad360-ds.css"><script src="bad360-sdk.js"></script></head><body class="b360-module">
+<header class="b360-topbar"><div class="b360-tb-l"><a href="index.html" class="b360-tb-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a><a href="index.html" class="b360-tb-brand" tabindex="-1"><div class="b360-tb-logo">B360</div><span class="b360-tb-name">BAD<strong>360</strong>.ai</span></a><span class="b360-tb-sep"></span><span class="b360-tb-module">Restaurant Intelligence</span></div><div class="b360-tb-r"><a href="../../SKILLSOLUTIONS.COM/index.html" class="b360-tb-hub" style="display:inline-flex;gap:4px;text-decoration:none;color:inherit;opacity:.6;font-size:11px;font-weight:700;padding:4px 10px;border:1px solid currentColor;border-radius:99px;margin-right:8px">&#10022; Hub</a><span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.1</span><button class="b360-tb-theme" id="b360-theme-btn">☽</button></div></header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"☽":"☀";b.onclick=function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"☽":"☀";try{localStorage.setItem("bad360_theme",nt)}catch(e){}}}})})()</script>
+<div class="w">
+  <div class="hd"><div><h1>🍽️ Restaurant Intelligence</h1><p>Coperti, no-show e sprechi: registra i dati e lascia che l'AI preveda la domanda e suggerisca come ridurre gli sprechi.</p></div><span class="badge" id="badge">⚡ Demo</span></div>
+  <div class="kpis" id="kpis"></div>
+  <div class="grid">
+    <div>
+      <div class="sec">📅 Coperti & no-show</div>
+      <div class="card"><div class="row"><input id="cData" class="in" type="date" style="width:150px"><input id="cPrev" class="in" type="number" placeholder="Previsti" style="width:90px"><input id="cEff" class="in" type="number" placeholder="Effettivi" style="width:90px"></div><div class="row"><input id="cNs" class="in" type="number" placeholder="No-show" style="width:90px"><input id="cInc" class="in" type="number" placeholder="Incasso €" style="flex:1;min-width:90px"><button class="btn btn-gold" onclick="cAdd()">＋</button></div></div>
+      <div id="copList" class="card"></div>
+      <div class="card"><button class="btn btn-gold" onclick="aiForecast()">✨ Previsione domanda (AI)</button><div id="fc" class="md" style="margin-top:8px"></div></div>
+    </div>
+    <div>
+      <div class="sec">🗑️ Sprechi (food waste)</div>
+      <div class="card"><div class="row"><input id="sData" class="in" type="date" style="width:150px"><select id="sCat" class="in" style="width:110px"><option>cucina</option><option>bar</option><option>sala</option><option>magazzino</option></select></div><div class="row"><input id="sKg" class="in" type="number" placeholder="kg" style="width:80px"><input id="sVal" class="in" type="number" placeholder="€" style="width:80px"><input id="sCau" class="in" placeholder="Causa" style="flex:1;min-width:90px"><button class="btn btn-gold" onclick="sAdd()">＋</button></div></div>
+      <div id="sprList" class="card"></div>
+      <div class="card"><button class="btn btn-gold" onclick="aiSprechi()">✨ Come ridurre gli sprechi (AI)</button><div id="si" class="md" style="margin-top:8px"></div></div>
+    </div>
+  </div>
+</div><div id="toast"></div>
+<script>
+function logged(){return (typeof B360!=='undefined')&&!!B360.getToken();}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show')},2300);}
+function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function setDemo(v){document.getElementById('badge').style.display=v?'inline-flex':'none';}
+var DC=[{id:'c1',data:'2026-07-04',coperti_previsti:70,coperti_effettivi:68,no_show:1,incasso:3400},{id:'c2',data:'2026-07-03',coperti_previsti:45,coperti_effettivi:40,no_show:5,incasso:2000}];
+var DS=[{id:'s1',data:'2026-07-03',categoria:'cucina',quantita_kg:8,valore:60,causa:'sovrapproduzione'}];
+async function jget(p){return (await B360.authFetch(p)).json();}
+async function load(){
+  var cop=DC,spr=DS,k=null,demo=true;
+  if(logged()){try{var dc=await jget('/api/restaurant/coperti');if(dc&&dc.ok){cop=dc.coperti;demo=false;}var ds=await jget('/api/restaurant/sprechi');if(ds&&ds.ok)spr=ds.sprechi;var dk=await jget('/api/restaurant/dashboard');if(dk&&dk.ok)k=dk.kpi;}catch(e){}}
+  setDemo(demo);
+  if(!k){var eff=cop.reduce(function(a,x){return a+(+x.coperti_effettivi||0)},0),ns=cop.reduce(function(a,x){return a+(+x.no_show||0)},0);k={coperti_medi:cop.length?Math.round(eff/cop.length):0,no_show_rate_pct:(eff+ns)?Math.round(ns/(eff+ns)*1000)/10:0,incasso_totale:cop.reduce(function(a,x){return a+(+x.incasso||0)},0),spreco_euro:spr.reduce(function(a,x){return a+(+x.valore||0)},0)};}
+  document.getElementById('kpis').innerHTML=[['Coperti medi',k.coperti_medi],['No-show %',k.no_show_rate_pct+'%'],['Incasso',Math.round(k.incasso_totale)+'€'],['Spreco €',Math.round(k.spreco_euro)+'€']].map(function(x){return '<div class="kpi"><div class="v" style="color:var(--g)">'+x[1]+'</div><div class="l">'+x[0]+'</div></div>'}).join('');
+  document.getElementById('copList').innerHTML=cop.length?cop.map(function(x){return '<div class="line"><span>'+esc(x.data)+' · '+(x.coperti_effettivi||0)+' cop · '+(x.no_show||0)+' no-show</span><button class="btn-x" onclick="cDel(\''+x.id+'\')">×</button></div>'}).join(''):'<div class="empty">Nessun dato coperti.</div>';
+  document.getElementById('sprList').innerHTML=spr.length?spr.map(function(x){return '<div class="line"><span>'+esc(x.data||'')+' · '+esc(x.categoria)+' · '+(x.quantita_kg||0)+'kg · '+(x.valore||0)+'€</span><button class="btn-x" onclick="sDel(\''+x.id+'\')">×</button></div>'}).join(''):'<div class="empty">Nessuno spreco registrato.</div>';
+}
+async function cAdd(){var d=document.getElementById('cData').value;if(!d){toast('Data?');return;}var b={data:d,coperti_previsti:parseInt(document.getElementById('cPrev').value)||0,coperti_effettivi:parseInt(document.getElementById('cEff').value)||0,no_show:parseInt(document.getElementById('cNs').value)||0,incasso:parseFloat(document.getElementById('cInc').value)||0};if(!logged()){DC.unshift(Object.assign({id:'c'+Date.now()},b));}else{try{await B360.authFetch('/api/restaurant/coperti',{method:'POST',body:JSON.stringify(b)});}catch(e){toast('Errore');return;}}load();}
+async function cDel(id){if(!logged()){DC=DC.filter(function(x){return x.id!==id});}else{try{await B360.authFetch('/api/restaurant/coperti/'+id,{method:'DELETE'});}catch(e){}}load();}
+async function sAdd(){var b={data:document.getElementById('sData').value||null,categoria:document.getElementById('sCat').value,quantita_kg:parseFloat(document.getElementById('sKg').value)||0,valore:parseFloat(document.getElementById('sVal').value)||0,causa:document.getElementById('sCau').value};if(!logged()){DS.unshift(Object.assign({id:'s'+Date.now()},b));}else{try{await B360.authFetch('/api/restaurant/sprechi',{method:'POST',body:JSON.stringify(b)});}catch(e){toast('Errore');return;}}load();}
+async function sDel(id){if(!logged()){DS=DS.filter(function(x){return x.id!==id});}else{try{await B360.authFetch('/api/restaurant/sprechi/'+id,{method:'DELETE'});}catch(e){}}load();}
+async function aiForecast(){var o=document.getElementById('fc');o.textContent='⏳…';if(!logged()){o.textContent='(Demo) Accedi per la previsione AI.';return;}try{var d=await (await B360.authFetch('/api/restaurant/ai/forecast',{method:'POST'})).json();o.textContent=d.previsione||('⚠️ '+(d.error||''));}catch(e){o.textContent='⚠️ Errore.';}}
+async function aiSprechi(){var o=document.getElementById('si');o.textContent='⏳…';if(!logged()){o.textContent='(Demo) Accedi per i suggerimenti AI.';return;}try{var d=await (await B360.authFetch('/api/restaurant/ai/sprechi-insight',{method:'POST'})).json();o.textContent=d.insight||('⚠️ '+(d.error||''));}catch(e){o.textContent='⚠️ Errore.';}}
+document.addEventListener('DOMContentLoaded',load);
+</script></body></html>

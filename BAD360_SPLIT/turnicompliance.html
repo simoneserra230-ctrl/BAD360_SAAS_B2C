@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BAD360.ai — Scheduling CCNL</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html,body{min-height:100vh;background:var(--bg);color:var(--txt);font-family:var(--font,system-ui);font-size:14px}
+.w{max-width:980px;margin:0 auto;padding:26px 24px 80px}
+.hd{display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:16px;position:relative;overflow:hidden}.hd::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--g),var(--gd))}.hd h1{font-family:var(--heading,inherit);font-size:19px;font-weight:800}.hd p{font-size:11.5px;color:var(--txt2);margin-top:3px}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-bottom:12px}
+.in{background:var(--bg3,#13100b);border:1px solid var(--line2,#2a2620);border-radius:8px;padding:8px 11px;color:var(--txt);font-size:13px;font-family:inherit}.in:focus{outline:none;border-color:rgba(201,168,76,.5)}.row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:7px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;border:none;font-family:inherit}.btn-gold{background:linear-gradient(135deg,var(--gd),var(--g));color:#06060A}.btn-x{background:none;border:1px solid var(--line2,#2a2620);color:var(--txt3);border-radius:6px;padding:4px 9px;font-size:11px;cursor:pointer}
+.sh{display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0;border-bottom:1px solid var(--line)}
+.score{font-size:2.4rem;font-weight:800;font-family:var(--heading,inherit);line-height:1}
+.viol{border:1px solid rgba(201,74,74,.3);background:rgba(201,74,74,.05);border-radius:9px;padding:9px 12px;margin-bottom:7px;font-size:12.5px}
+.viol.media{border-color:rgba(212,128,58,.3);background:rgba(212,128,58,.05)}
+.vt{font-weight:700;color:var(--red,#c94a4a)}.viol.media .vt{color:var(--orange,#d4803a)}
+.ok-box{border:1px solid rgba(106,171,118,.3);background:rgba(106,171,118,.06);border-radius:9px;padding:12px;color:var(--green,#6aab76);font-weight:600}
+.dsc{background:rgba(234,179,8,.07);border:1px solid rgba(234,179,8,.25);border-radius:8px;padding:8px 11px;font-size:11px;color:#e8c25a;margin-top:8px}
+.md{font-size:12.5px;line-height:1.6;color:var(--txt2);white-space:pre-wrap;margin-top:8px}.empty{color:var(--txt3);font-size:12.5px}
+#toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid rgba(201,168,76,.3);color:var(--g);padding:11px 18px;border-radius:10px;font-weight:600;z-index:9999;opacity:0;transition:.3s}#toast.show{opacity:1}
+</style><link rel="stylesheet" href="bad360-ds.css"><script src="bad360-sdk.js"></script></head><body class="b360-module">
+<header class="b360-topbar"><div class="b360-tb-l"><a href="index.html" class="b360-tb-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a><a href="index.html" class="b360-tb-brand" tabindex="-1"><div class="b360-tb-logo">B360</div><span class="b360-tb-name">BAD<strong>360</strong>.ai</span></a><span class="b360-tb-sep"></span><span class="b360-tb-module">Scheduling CCNL</span></div><div class="b360-tb-r"><a href="../../SKILLSOLUTIONS.COM/index.html" class="b360-tb-hub" style="display:inline-flex;gap:4px;text-decoration:none;color:inherit;opacity:.6;font-size:11px;font-weight:700;padding:4px 10px;border:1px solid currentColor;border-radius:99px;margin-right:8px">&#10022; Hub</a><span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.1</span><button class="b360-tb-theme" id="b360-theme-btn">☽</button></div></header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"☽":"☀";b.onclick=function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"☽":"☀";try{localStorage.setItem("bad360_theme",nt)}catch(e){}}}})})()</script>
+<div class="w">
+  <div class="hd"><div><h1>⏱️ Scheduling labor-compliant (CCNL)</h1><p>Inserisci i turni: il sistema verifica riposo 11h, durata, ore settimanali e riposo settimanale (D.Lgs 66/2003 / vincoli tipo CCNL).</p></div></div>
+  <div class="card">
+    <div class="row"><input id="tDip" class="in" placeholder="Dipendente" style="width:150px"><input id="tGio" class="in" type="date" style="width:150px"><input id="tIn" class="in" type="time" style="width:110px"><input id="tFi" class="in" type="time" style="width:110px"><button class="btn-x" onclick="addShift()" style="padding:8px 12px">＋ Turno</button></div>
+    <div id="shifts"></div>
+    <div style="margin-top:10px"><button class="btn btn-gold" onclick="verify()">✓ Verifica conformità</button> <button class="btn" style="background:none;border:1px solid var(--line2,#2a2620);color:var(--txt2)" onclick="aiExplain()">✨ Spiega (AI)</button></div>
+  </div>
+  <div id="result"></div>
+</div><div id="toast"></div>
+<script>
+function logged(){return (typeof B360!=='undefined')&&!!B360.getToken();}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show')},2300);}
+function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+var TURNI=[{dipendente:'Mario',giorno:'2026-08-01',inizio:'14:00',fine:'23:00'},{dipendente:'Mario',giorno:'2026-08-02',inizio:'06:00',fine:'14:00'}];
+function renderShifts(){document.getElementById('shifts').innerHTML=TURNI.length?TURNI.map(function(t,i){return '<div class="sh"><span><b>'+esc(t.dipendente)+'</b> · '+esc(t.giorno)+' · '+esc(t.inizio)+'–'+esc(t.fine)+'</span><button class="btn-x" onclick="rmShift('+i+')">×</button></div>'}).join(''):'<div class="empty">Aggiungi qualche turno per verificarli.</div>';}
+function addShift(){var d=document.getElementById('tDip').value.trim(),g=document.getElementById('tGio').value,i=document.getElementById('tIn').value,f=document.getElementById('tFi').value;if(!d||!g||!i||!f){toast('Compila dipendente, giorno, inizio, fine');return;}TURNI.push({dipendente:d,giorno:g,inizio:i,fine:f});document.getElementById('tDip').value='';renderShifts();}
+function rmShift(i){TURNI.splice(i,1);renderShifts();}
+function checkLocal(){ // fallback demo deterministico minimo
+  function dt(g,o){return new Date(g+'T'+o+':00');}
+  var viol=[];var byd={};TURNI.forEach(function(t){var s=dt(t.giorno,t.inizio),e=dt(t.giorno,t.fine);if(e<=s)e=new Date(e.getTime()+864e5);var ore=(e-s)/36e5;if(ore>13)viol.push({dipendente:t.dipendente,giorno:t.giorno,tipo:'durata_turno',dettaglio:'Turno di '+ore.toFixed(1)+'h >13h',gravita:'alta'});(byd[t.dipendente]=byd[t.dipendente]||[]).push({s:s,e:e});});
+  Object.keys(byd).forEach(function(d){var a=byd[d].sort(function(x,y){return x.s-y.s});for(var i=1;i<a.length;i++){var r=(a[i].s-a[i-1].e)/36e5;if(r>=0&&r<11)viol.push({dipendente:d,giorno:'',tipo:'riposo_giornaliero',dettaglio:'Solo '+r.toFixed(1)+'h di riposo (min 11h)',gravita:'alta'});}});
+  return {conforme:viol.length===0,score:Math.max(0,100-12*viol.length),violazioni:viol,note:[],disclaimer:'Verifica indicativa — confronta col CCNL applicabile.'};
+}
+async function verify(){
+  var r;
+  if(logged()){try{r=await (await B360.authFetch('/api/turnicompliance/check',{method:'POST',body:JSON.stringify({turni:TURNI})})).json();}catch(e){r=checkLocal();}}
+  else r=checkLocal();
+  render(r);
+}
+function render(r){
+  var box=document.getElementById('result');
+  var col=r.score>=90?'var(--green,#6aab76)':r.score>=60?'var(--orange,#d4803a)':'var(--red,#c94a4a)';
+  var h='<div class="card" style="display:flex;align-items:center;gap:18px"><div><div class="score" style="color:'+col+'">'+r.score+'</div><div style="font-size:10px;color:var(--txt3);text-transform:uppercase">Score conformità</div></div><div style="flex:1">'+(r.conforme?'<div class="ok-box">✅ Rota conforme ai controlli indicativi.</div>':'<b style="color:var(--red,#c94a4a)">'+r.violazioni.length+' criticità da sistemare</b>')+'</div></div>';
+  if(r.violazioni&&r.violazioni.length)h+='<div class="card">'+r.violazioni.map(function(v){return '<div class="viol '+(v.gravita==='media'?'media':'')+'"><span class="vt">'+esc(v.tipo.replace(/_/g," "))+'</span> — '+esc(v.dipendente)+(v.giorno&&v.giorno!=='—'?' ('+esc(v.giorno)+')':'')+': '+esc(v.dettaglio)+'</div>'}).join('')+'</div>';
+  if(r.note&&r.note.length)h+='<div class="card" style="font-size:12px;color:var(--txt2)">📌 '+r.note.map(function(n){return esc(n.dettaglio)}).join(' · ')+'</div>';
+  h+='<div class="dsc">'+esc(r.disclaimer||'')+'</div><div id="aiOut" class="md"></div>';
+  box.innerHTML=h;
+}
+async function aiExplain(){
+  if(!logged()){toast('Accedi per la spiegazione AI');verify();return;}
+  verify();var o=document.getElementById('aiOut');if(o)o.textContent='⏳ Spiego…';
+  try{var d=await (await B360.authFetch('/api/turnicompliance/ai/spiega',{method:'POST',body:JSON.stringify({turni:TURNI})})).json();o=document.getElementById('aiOut');if(o)o.textContent=d.spiegazione||('⚠️ '+(d.error||''));}catch(e){var o2=document.getElementById('aiOut');if(o2)o2.textContent='⚠️ Errore.';}
+}
+document.addEventListener('DOMContentLoaded',function(){renderShifts();verify();});
+</script></body></html>

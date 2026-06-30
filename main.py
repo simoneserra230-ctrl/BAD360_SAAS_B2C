@@ -75,6 +75,9 @@ from backend.esperienze import router as esperienze_router
 from backend.eventi_pro import router as eventipro_router
 from backend.beverage_program import router as beverage_router
 from backend.esg_sostenibilita import router as esg_router
+from backend.str_management import router as str_router
+from backend.restaurant_intel import router as restaurant_router
+from backend.turni_compliance import router as turnicompliance_router
 
 load_dotenv()
 
@@ -131,6 +134,9 @@ app.include_router(esperienze_router)     # Upsell Esperienze (catalogo + prenot
 app.include_router(eventipro_router)      # AI Event/Wedding Coordinator (eventi + fornitori/budget + timeline AI)
 app.include_router(beverage_router)       # AI Beverage Program (carta + menu engineering + AI menu/pairing)
 app.include_router(esg_router)            # ESG/Sostenibilità CSRD (indicatori + report AI + ponte BA.IA)
+app.include_router(str_router)            # STR / Case Vacanza (unità + prenotazioni + turnover pulizie)
+app.include_router(restaurant_router)     # Restaurant Intelligence (coperti/no-show + sprechi + AI forecast)
+app.include_router(turnicompliance_router) # Scheduling CCNL (check conformità rota + AI)
 
 # ── SaaS layer: paywall + quota + admin settings + Stripe + account ──
 from backend.saas import register_saas

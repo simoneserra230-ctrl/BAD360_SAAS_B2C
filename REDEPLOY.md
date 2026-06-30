@@ -40,6 +40,9 @@ Nel progetto **Supabase di BAD360** → SQL Editor → esegui:
 - `supabase/eventi_pro_schema.sql` (crea `eventi_pro` + `evento_fornitori` — Event/Wedding Coordinator).
 - `supabase/beverage_program_schema.sql` (crea `beverage_items` — AI Beverage Program).
 - `supabase/esg_schema.sql` (crea `esg_indicatori` — ESG/Sostenibilità CSRD).
+- `supabase/str_schema.sql` (crea `str_unita` + `str_prenotazioni` — STR/Case Vacanza).
+- `supabase/restaurant_schema.sql` (crea `rest_coperti` + `rest_sprechi` — Restaurant Intelligence).
+  (Scheduling CCNL `turnicompliance` è stateless, nessuna tabella.)
 Senza queste tabelle, i moduli Housekeeping / Certificazioni / Menu Engineering / Hotellerie / Academy / Quality Manager / Non Conformità vanno in errore.
 > NB: `academy_schema.sql` + `qm_schema.sql` APPLICATE (29 giu 2026). `nc_schema.sql` DA APPLICARE prima/insieme a questo deploy.
 
