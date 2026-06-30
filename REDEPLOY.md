@@ -19,8 +19,10 @@
   moduli), endpoint `/api/auth/permissions` + `/api/auth/roles`, dependency `require_module(key)`
   per blindare endpoint sensibili (403). `auth.py`: 5 account demo (uno per ruolo, password
   `Demo2024!`). `BAD360_SPLIT/index.html`: la suite mostra a ogni ruolo SOLO i suoi moduli
-  (chip ruolo + card nascoste). Nessuna migration. *(Enforcement server-side da estendere ai
-  singoli router sensibili usando `require_module`.)*
+  (chip ruolo + card nascoste). Nessuna migration. **Enforcement server-side APPLICATO** ai 5
+  router finance (menu_engineering/drinks/hotellerie/scm/events) via
+  `dependencies=[Depends(require_module("<key>"))]` → 403 per dipendente/consulente esterno;
+  manager/direttore/owner passano. Test 14/14. (`fb_cost.py` legacy lasciato fuori.)
 - **Link "✦ Hub"** nel topbar di 23 pagine/moduli `BAD360_SPLIT/` (ritorno all'ecosistema).
 - Footer README → SkillSolutions; privacy `barman.html` → barmanadomiciliosardegna@gmail.com.
 

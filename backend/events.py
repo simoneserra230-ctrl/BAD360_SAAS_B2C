@@ -17,8 +17,10 @@ from pydantic import BaseModel
 
 from backend.database import get_supabase
 from backend.auth import require_user, UserProfile
+from backend.roles import require_module
 
-router = APIRouter(prefix="/api/events", tags=["Events CRM"])
+router = APIRouter(prefix="/api/events", tags=["Events CRM"],
+                   dependencies=[Depends(require_module("events"))])  # RBAC: solo manager+direttore+owner
 
 
 def _sb():

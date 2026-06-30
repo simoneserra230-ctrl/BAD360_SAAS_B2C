@@ -16,9 +16,11 @@ from pydantic import BaseModel, Field
 
 from backend.database import get_supabase
 from backend.auth import require_user, UserProfile
+from backend.roles import require_module
 from fastapi import Depends
 
-router = APIRouter(prefix="/api/menu-engineering", tags=["Menu Engineering"])
+router = APIRouter(prefix="/api/menu-engineering", tags=["Menu Engineering"],
+                   dependencies=[Depends(require_module("menueng"))])  # RBAC: solo manager+direttore+owner
 
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 

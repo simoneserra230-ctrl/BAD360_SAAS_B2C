@@ -18,8 +18,10 @@ from pydantic import BaseModel
 
 from backend.database import get_supabase
 from backend.auth import require_user, UserProfile
+from backend.roles import require_module
 
-router = APIRouter(prefix="/api/hotellerie", tags=["Hotellerie F&B"])
+router = APIRouter(prefix="/api/hotellerie", tags=["Hotellerie F&B"],
+                   dependencies=[Depends(require_module("hotellerie"))])  # RBAC: solo manager+direttore+owner
 
 GLASSES_PER_BOTTLE = 6  # calici/bottiglia per stimare il beverage cost al calice
 
