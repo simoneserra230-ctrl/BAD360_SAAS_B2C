@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BAD360.ai — Sistema di Gestione ISO</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html,body{min-height:100vh;background:var(--bg);color:var(--txt);font-family:var(--font,system-ui);font-size:14px}
+.w{max-width:1080px;margin:0 auto;padding:26px 24px 80px}
+.hd{display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:16px;position:relative;overflow:hidden}.hd::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--g),var(--gd))}.hd h1{font-family:var(--heading,inherit);font-size:19px;font-weight:800}.hd p{font-size:11.5px;color:var(--txt2);margin-top:3px}
+.badge{display:none;align-items:center;gap:5px;padding:3px 9px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:99px;font-size:10px;font-weight:700;color:var(--g);margin-left:auto}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:14px}.kpi{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:12px;text-align:center}.kpi .v{font-size:1.35rem;font-weight:800;font-family:var(--heading,inherit);color:var(--g)}.kpi .l{font-size:9px;color:var(--txt3);margin-top:4px;text-transform:uppercase}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin-bottom:12px}.card h3{font-size:13px;font-weight:700;margin-bottom:9px}
+.norme{display:flex;gap:14px;flex-wrap:wrap}.norme label{font-size:12.5px;color:var(--txt2);display:flex;gap:6px;align-items:center}
+.cat{font-size:11px;color:var(--g);text-transform:uppercase;font-weight:700;margin:14px 0 6px}
+.proc{border:1px solid var(--line);border-left:3px solid var(--line2,#2a2620);border-radius:10px;padding:10px 13px;margin-bottom:7px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+.proc.attivo{border-left-color:var(--green,#6aab76)}.proc.in_corso{border-left-color:var(--orange,#d4803a)}.proc.da_riesaminare{border-left-color:var(--red,#c94a4a)}
+.proc .n{font-weight:700}.proc .h{font-size:11.5px;color:var(--txt3);margin-top:2px}
+.tag{font-size:8.5px;padding:1px 6px;border-radius:99px;border:1px solid rgba(201,168,76,.3);color:var(--g);margin-right:3px}
+.in{background:var(--bg3,#13100b);border:1px solid var(--line2,#2a2620);border-radius:8px;padding:6px 9px;color:var(--txt);font-size:12px;font-family:inherit}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;border:none;font-family:inherit}.btn-gold{background:linear-gradient(135deg,var(--gd),var(--g));color:#06060A}.btn-sm{font-size:10.5px;padding:4px 9px;border-radius:6px;border:1px solid var(--line2,#2a2620);background:none;color:var(--txt2);cursor:pointer}
+.ai{background:linear-gradient(135deg,rgba(201,168,76,.08),transparent);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px 14px;font-size:12.5px;line-height:1.55;white-space:pre-wrap;margin-top:8px;display:none}
+.disc{font-size:10px;color:var(--txt3);margin-top:6px;font-style:italic}
+#toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid rgba(201,168,76,.3);color:var(--g);padding:11px 18px;border-radius:10px;font-weight:600;z-index:9999;opacity:0;transition:.3s}#toast.show{opacity:1}
+</style><link rel="stylesheet" href="bad360-ds.css"><script src="bad360-sdk.js"></script></head><body class="b360-module">
+<header class="b360-topbar"><div class="b360-tb-l"><a href="index.html" class="b360-tb-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a><a href="index.html" class="b360-tb-brand" tabindex="-1"><div class="b360-tb-logo">B360</div><span class="b360-tb-name">BAD<strong>360</strong>.ai</span></a><span class="b360-tb-sep"></span><span class="b360-tb-module">Sistema di Gestione ISO</span></div><div class="b360-tb-r"><a href="../../SKILLSOLUTIONS.COM/index.html" class="b360-tb-hub" style="display:inline-flex;gap:4px;text-decoration:none;color:inherit;opacity:.6;font-size:11px;font-weight:700;padding:4px 10px;border:1px solid currentColor;border-radius:99px;margin-right:8px">&#10022; Hub</a><span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.1</span><button class="b360-tb-theme" id="b360-theme-btn">☽</button></div></header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"☽":"☀";b.onclick=function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"☽":"☀";try{localStorage.setItem("bad360_theme",nt)}catch(e){}}}})})()</script>
+<div class="w">
+  <div class="hd"><div><h1>🧭 Sistema di Gestione ISO</h1><p>La mappa dei processi (HLS) di un sistema di gestione integrato: 9001·14001·45001·37001·HACCP. Stato di adozione, readiness verso la certificazione, bozza AI di procedura. <b>Da validare con un consulente qualità.</b></p></div><span class="badge" id="badge">⚡ Demo</span></div>
+  <div class="card"><h3>📐 Norme perseguite</h3><div class="norme" id="norme"></div></div>
+  <div class="kpis" id="kpis"></div>
+  <div id="mappa"></div>
+</div><div id="toast"></div>
+<script>
+function logged(){return (typeof B360!=='undefined')&&!!B360.getToken();}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show')},2300);}
+function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function setDemo(v){document.getElementById('badge').style.display=v?'inline-flex':'none';}
+var NL={"9001":"ISO 9001 Qualità","14001":"ISO 14001 Ambiente","45001":"ISO 45001 Sicurezza","37001":"ISO 37001 Anticorruzione","haccp":"HACCP Alimentare"};
+var NORME=["9001"];
+var DEMO=[
+ {codice:"400",nome:"Contesto dell'organizzazione",categoria:"4. Contesto",norme:["9001"],hint:"SWOT, parti interessate, Canvas",stato:"attivo"},
+ {codice:"830",nome:"Progettazione e sviluppo",categoria:"8. Operatività",norme:["9001"],hint:"Piano, input, riesame, verifica, validazione",stato:"in_corso"},
+ {codice:"920",nome:"Audit interni",categoria:"9. Valutazione prestazioni",norme:["9001"],hint:"Programma audit + rapporti",stato:"da_avviare"},
+ {codice:"1020",nome:"Non conformità e azioni correttive",categoria:"10. Miglioramento",norme:["9001"],hint:"NC/AC (vedi modulo NC)",stato:"attivo"},
+];
+function renderNorme(){
+  document.getElementById('norme').innerHTML=Object.keys(NL).map(function(k){return '<label><input type="checkbox" value="'+k+'"'+(NORME.indexOf(k)>=0?' checked':'')+' onchange="toggleNorma(this)">'+esc(NL[k])+'</label>'}).join('');
+}
+async function toggleNorma(cb){
+  if(cb.checked){if(NORME.indexOf(cb.value)<0)NORME.push(cb.value);}else{NORME=NORME.filter(function(x){return x!==cb.value});}
+  if(!NORME.length){NORME=["9001"];renderNorme();}
+  if(logged()){try{await B360.authFetch('/api/sgi/config',{method:'PUT',body:JSON.stringify({norme:NORME})});toast('✓ Norme aggiornate');}catch(e){toast('Errore');}}
+  load();
+}
+async function load(){
+  var proc=DEMO,kpi=null,demo=true;
+  if(logged()){try{
+    var cf=await (await B360.authFetch('/api/sgi/config')).json();if(cf&&cf.norme){NORME=cf.norme;renderNorme();}
+    var m=await (await B360.authFetch('/api/sgi/mappa')).json();if(m&&m.ok){proc=m.processi;demo=false;}
+    var d=await (await B360.authFetch('/api/sgi/dashboard')).json();if(d&&d.ok)kpi=d.kpi;
+  }catch(e){}}
+  setDemo(demo);
+  if(!kpi){var a=proc.filter(function(p){return p.stato==='attivo'}).length;kpi={applicabili:proc.length,attivi:a,in_corso:proc.filter(function(p){return p.stato==='in_corso'}).length,da_avviare:proc.filter(function(p){return p.stato==='da_avviare'}).length,readiness_pct:proc.length?Math.round(a/proc.length*100):0};}
+  document.getElementById('kpis').innerHTML=[['Readiness',kpi.readiness_pct+'%'],['Applicabili',kpi.applicabili],['Attivi',kpi.attivi],['In corso',kpi.in_corso],['Da avviare',kpi.da_avviare]].map(function(x){return '<div class="kpi"><div class="v">'+x[1]+'</div><div class="l">'+x[0]+'</div></div>'}).join('');
+  // raggruppa per categoria HLS
+  var cats={},order=[];
+  proc.forEach(function(p){if(!cats[p.categoria]){cats[p.categoria]=[];order.push(p.categoria);}cats[p.categoria].push(p);});
+  var opt=function(st){return ['da_avviare','in_corso','attivo','da_riesaminare'].map(function(o){return '<option value="'+o+'"'+(st===o?' selected':'')+'>'+o.replace(/_/g," ")+'</option>'}).join('');};
+  document.getElementById('mappa').innerHTML=order.map(function(cat){
+    return '<div class="cat">'+esc(cat)+'</div>'+cats[cat].map(function(p){
+      var norme=(p.norme||[]).map(function(n){return '<span class="tag">'+esc((NL[n]||n).split(' ')[0]+' '+((NL[n]||n).split(' ')[1]||''))+'</span>'}).join('');
+      var isNC=p.codice==='1020', isHaccp=p.codice==='HACCP';
+      var ln=isNC?'<a class="btn-sm" href="nc.html">apri NC</a>':isHaccp?'<a class="btn-sm" href="haccp.html">apri HACCP</a>':'<button class="btn-sm" onclick="proc_ai(\''+p.codice+'\',this)">✨ bozza</button>';
+      return '<div class="proc '+p.stato+'"><div><div class="n">'+esc(p.codice)+' · '+esc(p.nome)+'</div><div class="h">'+esc(p.hint||'')+' '+norme+'</div><div class="ai" id="ai_'+p.codice+'"></div></div>'
+        +'<div style="display:flex;gap:6px;align-items:center"><select class="in" onchange="setStato(\''+p.codice+'\',this.value)">'+opt(p.stato)+'</select>'+ln+'</div></div>';
+    }).join('');
+  }).join('');
+}
+async function setStato(cod,val){
+  if(!logged()){var p=DEMO.find(function(x){return x.codice===cod});if(p)p.stato=val;load();return;}
+  try{await B360.authFetch('/api/sgi/stato',{method:'PUT',body:JSON.stringify({processo_codice:cod,stato:val})});toast('✓');}catch(e){toast('Errore');}
+  load();
+}
+async function proc_ai(cod,btn){
+  var box=document.getElementById('ai_'+cod);btn.textContent='…';btn.disabled=true;
+  if(!logged()){box.style.display='block';box.textContent='(Demo) Accedi e configura ANTHROPIC_API_KEY per la bozza di procedura AI.';btn.textContent='✨ bozza';btn.disabled=false;return;}
+  try{var d=await (await B360.authFetch('/api/sgi/ai/procedura',{method:'POST',body:JSON.stringify({processo_codice:cod})})).json();box.style.display='block';box.textContent=(d.bozza||'—')+'\n\n'+(d.disclaimer||'');}catch(e){toast('Errore AI');}
+  btn.textContent='✨ bozza';btn.disabled=false;
+}
+document.addEventListener('DOMContentLoaded',function(){renderNorme();load();});
+</script></body></html>

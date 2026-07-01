@@ -61,6 +61,7 @@ Nel progetto **Supabase di BAD360** → SQL Editor → esegui:
 - `supabase/eaa_schema.sql` (crea `eaa_checklist` — Accessibilità EAA).
   (Compliance Radar legge il profilo struttura; EAA `audit-url` è stateless a parte la checklist.)
 - `supabase/privacy_schema.sql` (crea `privacy_trattamenti` + `privacy_breach` + `whistleblowing_segnalazioni` — Privacy GDPR & Whistleblowing).
+- `supabase/sgi_schema.sql` (crea `sgi_config` + `sgi_stato` — Sistema di Gestione ISO / Quality Manager).
 Senza queste tabelle, i moduli Housekeeping / Certificazioni / Menu Engineering / Hotellerie / Academy / Quality Manager / Non Conformità vanno in errore.
 > NB: `academy_schema.sql` + `qm_schema.sql` APPLICATE (29 giu 2026). `nc_schema.sql` DA APPLICARE prima/insieme a questo deploy.
 

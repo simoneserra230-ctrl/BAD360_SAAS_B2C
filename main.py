@@ -82,6 +82,7 @@ from backend.compliance_radar import router as compliance_router
 from backend.adempimenti_ricettivi import router as adempimenti_router
 from backend.compliance_eaa import router as eaa_router
 from backend.privacy_whistleblowing import router as privacy_router
+from backend.sistema_gestione import router as sgi_router
 
 load_dotenv()
 
@@ -145,6 +146,7 @@ app.include_router(compliance_router)     # Compliance Radar (profilo -> obbligh
 app.include_router(adempimenti_router)    # Adempimenti ricettivi (CIN/Alloggiati/imposta soggiorno)
 app.include_router(eaa_router)            # Accessibilità EAA (checklist + audit URL euristico)
 app.include_router(privacy_router)        # Privacy GDPR + Whistleblowing (registro trattamenti/breach/segnalazioni)
+app.include_router(sgi_router)            # Sistema di Gestione ISO (mappa processi HLS + readiness + AI procedura)
 
 # ── SaaS layer: paywall + quota + admin settings + Stripe + account ──
 from backend.saas import register_saas
