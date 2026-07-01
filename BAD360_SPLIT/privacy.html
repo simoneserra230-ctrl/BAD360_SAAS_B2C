@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BAD360.ai — Privacy (GDPR) & Whistleblowing</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html,body{min-height:100vh;background:var(--bg);color:var(--txt);font-family:var(--font,system-ui);font-size:14px}
+.w{max-width:1080px;margin:0 auto;padding:26px 24px 80px}
+.hd{display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:16px;position:relative;overflow:hidden}.hd::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--g),var(--gd))}.hd h1{font-family:var(--heading,inherit);font-size:19px;font-weight:800}.hd p{font-size:11.5px;color:var(--txt2);margin-top:3px}
+.badge{display:none;align-items:center;gap:5px;padding:3px 9px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:99px;font-size:10px;font-weight:700;color:var(--g);margin-left:auto}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:14px}.kpi{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:12px;text-align:center}.kpi .v{font-size:1.35rem;font-weight:800;font-family:var(--heading,inherit);color:var(--g)}.kpi .l{font-size:9px;color:var(--txt3);margin-top:4px;text-transform:uppercase}
+.tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}.tab{padding:8px 15px;border-radius:8px;font-size:12.5px;font-weight:700;cursor:pointer;border:1px solid var(--line);background:var(--bg2);color:var(--txt2)}.tab.on{background:linear-gradient(135deg,var(--gd),var(--g));color:#06060A;border-color:transparent}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px}.card h3{font-size:13px;font-weight:700;margin-bottom:10px}
+.in{background:var(--bg3,#13100b);border:1px solid var(--line2,#2a2620);border-radius:8px;padding:8px 11px;color:var(--txt);font-size:13px;font-family:inherit;width:100%}.in:focus{outline:none;border-color:rgba(201,168,76,.5)}textarea.in{min-height:58px;resize:vertical}.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;align-items:center}.lbl{font-size:10px;color:var(--txt3);text-transform:uppercase;display:block;margin-bottom:3px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;border:none;font-family:inherit}.btn-gold{background:linear-gradient(135deg,var(--gd),var(--g));color:#06060A}.btn-ghost{background:none;border:1px solid var(--line2,#2a2620);color:var(--txt2)}.btn-sm{font-size:11px;padding:4px 9px;border-radius:6px;border:1px solid var(--line2,#2a2620);background:none;color:var(--txt2);cursor:pointer}
+.item{border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin-bottom:8px}
+.pill{display:inline-flex;padding:2px 8px;border-radius:99px;font-size:9.5px;font-weight:700;border:1px solid}
+.g-alta{color:var(--red,#c94a4a);border-color:rgba(201,74,74,.35)}.g-media{color:var(--orange,#d4803a);border-color:rgba(212,128,58,.35)}.g-bassa{color:var(--green,#6aab76);border-color:rgba(106,171,118,.35)}
+.st{color:var(--g);border-color:rgba(201,168,76,.35)}
+.ck{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:12.5px}.dot{width:9px;height:9px;border-radius:50%;flex:none}.dot.y{background:var(--green,#6aab76)}.dot.n{background:var(--red,#c94a4a)}
+.ai{background:linear-gradient(135deg,rgba(201,168,76,.08),transparent);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px 14px;font-size:12.5px;line-height:1.55;white-space:pre-wrap;margin-top:10px;display:none}
+.disc{font-size:10.5px;color:var(--txt3);margin-top:8px;font-style:italic}
+.empty{color:var(--txt3);padding:12px;text-align:center;font-size:12px}
+.hide{display:none}
+#toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid rgba(201,168,76,.3);color:var(--g);padding:11px 18px;border-radius:10px;font-weight:600;z-index:9999;opacity:0;transition:.3s}#toast.show{opacity:1}
+</style><link rel="stylesheet" href="bad360-ds.css"><script src="bad360-sdk.js"></script></head><body class="b360-module">
+<header class="b360-topbar"><div class="b360-tb-l"><a href="index.html" class="b360-tb-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a><a href="index.html" class="b360-tb-brand" tabindex="-1"><div class="b360-tb-logo">B360</div><span class="b360-tb-name">BAD<strong>360</strong>.ai</span></a><span class="b360-tb-sep"></span><span class="b360-tb-module">Privacy & Whistleblowing</span></div><div class="b360-tb-r"><a href="../../SKILLSOLUTIONS.COM/index.html" class="b360-tb-hub" style="display:inline-flex;gap:4px;text-decoration:none;color:inherit;opacity:.6;font-size:11px;font-weight:700;padding:4px 10px;border:1px solid currentColor;border-radius:99px;margin-right:8px">&#10022; Hub</a><span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.1</span><button class="b360-tb-theme" id="b360-theme-btn">☽</button></div></header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"☽":"☀";b.onclick=function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"☽":"☀";try{localStorage.setItem("bad360_theme",nt)}catch(e){}}}})})()</script>
+<div class="w">
+  <div class="hd"><div><h1>🔐 Privacy (GDPR) & Whistleblowing</h1><p>Registro dei trattamenti (Art. 30), registro violazioni (notifica 72h) e canale segnalazioni (D.Lgs. 24/2023). <b>Bozze AI da validare con un DPO. Le segnalazioni sono riservate.</b></p></div><span class="badge" id="badge">⚡ Demo</span></div>
+  <div class="kpis" id="kpis"></div>
+  <div class="card" style="padding:11px 14px"><h3 style="margin-bottom:7px">✅ Readiness privacy</h3><div id="checklist"></div></div>
+  <div class="tabs"><div class="tab on" data-t="tr" onclick="tab('tr')">📋 Trattamenti</div><div class="tab" data-t="br" onclick="tab('br')">🚨 Data breach</div><div class="tab" data-t="wb" onclick="tab('wb')">📢 Whistleblowing</div><div class="tab" data-t="ai" onclick="tab('ai')">✨ Strumenti AI</div></div>
+
+  <!-- TRATTAMENTI -->
+  <div id="pane-tr">
+    <div class="card"><h3>Nuovo trattamento</h3>
+      <div class="row"><div style="flex:1;min-width:160px"><span class="lbl">Nome</span><input id="tNome" class="in" placeholder="Gestione prenotazioni"></div><div style="width:180px"><span class="lbl">Base giuridica</span><select id="tBase" class="in"><option value="contratto">Contratto</option><option value="consenso">Consenso</option><option value="obbligo_legale">Obbligo legale</option><option value="legittimo_interesse">Legittimo interesse</option><option value="interesse_vitale">Interesse vitale</option><option value="interesse_pubblico">Interesse pubblico</option></select></div></div>
+      <div class="row"><div style="flex:1;min-width:160px"><span class="lbl">Finalità</span><input id="tFin" class="in" placeholder="Gestione soggiorno"></div><div style="flex:1;min-width:160px"><span class="lbl">Categorie interessati</span><input id="tInt" class="in" placeholder="ospiti, dipendenti"></div></div>
+      <div class="row"><div style="flex:1;min-width:160px"><span class="lbl">Conservazione</span><input id="tCons" class="in" placeholder="10 anni (fiscale)"></div><label style="font-size:12px;color:var(--txt2);display:flex;gap:5px;align-items:center;margin-top:14px"><input type="checkbox" id="tExtra"> trasferim. extra-UE</label></div>
+      <button class="btn btn-gold" onclick="saveTratt()">+ Aggiungi al registro</button>
+    </div>
+    <div id="listTr"></div>
+  </div>
+
+  <!-- BREACH -->
+  <div id="pane-br" class="hide">
+    <div class="card"><h3>Registra violazione (Art. 33)</h3>
+      <div class="row"><div style="width:150px"><span class="lbl">Data evento</span><input id="bData" class="in" type="date"></div><div style="width:130px"><span class="lbl">Gravità</span><select id="bGrav" class="in"><option value="bassa">Bassa</option><option value="media" selected>Media</option><option value="alta">Alta</option></select></div><label style="font-size:12px;color:var(--txt2);display:flex;gap:5px;align-items:center;margin-top:14px"><input type="checkbox" id="bNot"> notificato al Garante</label></div>
+      <div class="row"><div style="flex:1;min-width:200px"><span class="lbl">Descrizione</span><input id="bDesc" class="in" placeholder="Furto laptop reception"></div><div style="flex:1;min-width:160px"><span class="lbl">Dati coinvolti</span><input id="bDati" class="in" placeholder="anagrafiche ospiti"></div></div>
+      <button class="btn btn-gold" onclick="saveBreach()">+ Registra</button>
+    </div>
+    <div id="listBr"></div>
+  </div>
+
+  <!-- WHISTLEBLOWING -->
+  <div id="pane-wb" class="hide">
+    <div class="card"><h3>Nuova segnalazione (canale riservato)</h3>
+      <div class="row"><div style="flex:1;min-width:180px"><span class="lbl">Oggetto</span><input id="wOgg" class="in" placeholder="Sicurezza sul lavoro"></div><div style="width:160px"><span class="lbl">Categoria</span><select id="wCat" class="in"><option value="illecito">Illecito</option><option value="sicurezza">Sicurezza</option><option value="molestie">Molestie</option><option value="frode">Frode</option><option value="ambiente">Ambiente</option><option value="altro" selected>Altro</option></select></div></div>
+      <div class="row"><div style="flex:1;min-width:200px"><span class="lbl">Descrizione</span><textarea id="wDesc" class="in" placeholder="Descrivi l'accaduto…"></textarea></div></div>
+      <div class="row"><label style="font-size:12px;color:var(--txt2);display:flex;gap:5px;align-items:center"><input type="checkbox" id="wAnon" checked> segnalazione anonima</label><button class="btn btn-gold" style="margin-left:auto" onclick="saveWb()">Invia segnalazione</button></div>
+      <div id="wbCode" style="display:none;font-size:12px;margin-top:6px;color:var(--g)"></div>
+    </div>
+    <div class="card"><h3>Segnalazioni ricevute (gestore)</h3><div id="listWb"></div></div>
+  </div>
+
+  <!-- AI -->
+  <div id="pane-ai" class="hide">
+    <div class="card"><h3>✨ Bozza informativa privacy</h3>
+      <div class="row"><select id="aiTipo" class="in" style="width:150px"><option value="hotel">Hotel</option><option value="b&b">B&B</option><option value="casa_vacanza">Casa vacanza</option><option value="agriturismo">Agriturismo</option></select><input id="aiCanali" class="in" placeholder="canali: sito, booking, reception" style="flex:1;min-width:180px"><button class="btn btn-gold" id="aiBtn1" onclick="aiInformativa()">Genera bozza</button></div>
+      <div class="ai" id="aiOut1"></div><div class="disc" id="aiDisc1"></div>
+    </div>
+    <div class="card"><h3>✨ Trattamenti tipici (per il registro)</h3>
+      <button class="btn btn-ghost" id="aiBtn2" onclick="aiRegistro()">Suggerisci trattamenti</button>
+      <div class="ai" id="aiOut2"></div><div class="disc" id="aiDisc2"></div>
+    </div>
+  </div>
+</div><div id="toast"></div>
+<script>
+function logged(){return (typeof B360!=='undefined')&&!!B360.getToken();}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show')},2300);}
+function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function setDemo(v){document.getElementById('badge').style.display=v?'inline-flex':'none';}
+function tab(t){['tr','br','wb','ai'].forEach(function(x){document.getElementById('pane-'+x).classList.toggle('hide',x!==t);});document.querySelectorAll('.tab').forEach(function(el){el.classList.toggle('on',el.dataset.t===t);});}
+var D={tr:[{id:'d1',nome:'Gestione prenotazioni',finalita:'soggiorno',base_giuridica:'contratto',categorie_interessati:'ospiti',conservazione:'10 anni',trasferimento_extra_ue:false}],br:[{id:'b1',data_evento:'2026-06-20',descrizione:'Email inviata a destinatario errato',gravita:'bassa',notificato_garante:true,stato:'chiuso'}],wb:[{id:'w1',codice:'WB-1A2B3C4D',oggetto:'Estintore scaduto',categoria:'sicurezza',stato:'in_esame',anonima:true}]};
+async function loadAll(){
+  var kpi=null,checklist=null,demo=true;
+  if(logged()){try{var d=await (await B360.authFetch('/api/privacy/dashboard')).json();if(d&&d.ok){kpi=d.kpi;checklist=d.checklist;demo=false;}
+    var t=await (await B360.authFetch('/api/privacy/trattamenti')).json();if(t&&t.ok)D.tr=t.trattamenti;
+    var b=await (await B360.authFetch('/api/privacy/breach')).json();if(b&&b.ok)D.br=b.breach;
+    var w=await (await B360.authFetch('/api/privacy/whistleblowing')).json();if(w&&w.ok)D.wb=w.segnalazioni;
+  }catch(e){}}
+  setDemo(demo);
+  if(!kpi){var ba=D.br.filter(function(x){return x.stato==='aperto'}).length,sa=D.wb.filter(function(x){return x.stato==='ricevuta'||x.stato==='in_esame'}).length;kpi={trattamenti:D.tr.length,breach_totali:D.br.length,breach_aperti:ba,breach_oltre_72h:0,segnalazioni:D.wb.length,segnalazioni_aperte:sa,readiness_pct:D.tr.length?60:20};checklist=[{voce:'Registro trattamenti compilato',ok:D.tr.length>0},{voce:'Nessuna violazione aperta',ok:ba===0},{voce:'Notifiche entro 72h',ok:true},{voce:'Canale whistleblowing attivo',ok:true},{voce:'Segnalazioni prese in carico',ok:sa===0}];}
+  document.getElementById('kpis').innerHTML=[['Trattamenti',kpi.trattamenti],['Breach aperti',kpi.breach_aperti],['Oltre 72h',kpi.breach_oltre_72h],['Segnalazioni',kpi.segnalazioni],['Da gestire',kpi.segnalazioni_aperte],['Readiness',kpi.readiness_pct+'%']].map(function(x){return '<div class="kpi"><div class="v">'+x[1]+'</div><div class="l">'+x[0]+'</div></div>'}).join('');
+  document.getElementById('checklist').innerHTML=(checklist||[]).map(function(c){return '<div class="ck"><span class="dot '+(c.ok?'y':'n')+'"></span>'+esc(c.voce)+'</div>'}).join('');
+  renderTr();renderBr();renderWb();
+}
+function renderTr(){document.getElementById('listTr').innerHTML=D.tr.map(function(t){return '<div class="item"><div style="display:flex;justify-content:space-between;gap:8px"><b>'+esc(t.nome)+'</b><button class="btn-sm" onclick="delTratt(\''+t.id+'\')">🗑</button></div><div style="font-size:12px;color:var(--txt2);margin-top:3px">'+esc(t.finalita||'')+' · <span class="pill st">'+esc((t.base_giuridica||'').replace(/_/g," "))+'</span> '+(t.trasferimento_extra_ue?'<span class="pill g-alta">extra-UE</span>':'')+'</div><div style="font-size:11px;color:var(--txt3);margin-top:3px">Interessati: '+esc(t.categorie_interessati||'—')+' · Conservazione: '+esc(t.conservazione||'—')+'</div></div>'}).join('')||'<div class="empty">Nessun trattamento. Usa "Suggerisci trattamenti" (AI) per partire.</div>';}
+function renderBr(){document.getElementById('listBr').innerHTML=D.br.map(function(b){return '<div class="item"><div style="display:flex;justify-content:space-between;gap:8px"><b>'+esc(b.descrizione)+'</b><button class="btn-sm" onclick="delBreach(\''+b.id+'\')">🗑</button></div><div style="font-size:12px;margin-top:4px"><span class="pill g-'+esc(b.gravita)+'">'+esc(b.gravita)+'</span> <span class="pill st">'+esc(b.stato)+'</span> '+(b.notificato_garante?'<span class="pill g-bassa">Garante notificato</span>':'<span class="pill g-alta">non notificato</span>')+'</div><div style="font-size:11px;color:var(--txt3);margin-top:3px">'+esc(b.data_evento||'')+' · '+esc(b.dati_coinvolti||'')+'</div></div>'}).join('')||'<div class="empty">Nessuna violazione registrata.</div>';}
+function renderWb(){document.getElementById('listWb').innerHTML=D.wb.map(function(s){var opts=['ricevuta','in_esame','gestita','archiviata'].map(function(o){return '<option value="'+o+'"'+(s.stato===o?' selected':'')+'>'+o.replace(/_/g," ")+'</option>'}).join('');return '<div class="item"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><b>'+esc(s.oggetto)+'</b><span style="font-size:10px;color:var(--txt3)">'+esc(s.codice||'')+'</span></div><div style="font-size:12px;color:var(--txt2);margin-top:3px"><span class="pill st">'+esc(s.categoria)+'</span> '+(s.anonima?'<span class="pill st">anonima</span>':'')+'</div><div class="row" style="margin-top:6px;margin-bottom:0"><select class="in" style="width:150px" onchange="setWbStato(\''+s.id+'\',this.value)">'+opts+'</select></div></div>'}).join('')||'<div class="empty">Nessuna segnalazione.</div>';}
+async function saveTratt(){
+  var nome=document.getElementById('tNome').value.trim();if(!nome){toast('Inserisci il nome');return;}
+  var body={nome:nome,base_giuridica:document.getElementById('tBase').value,finalita:document.getElementById('tFin').value,categorie_interessati:document.getElementById('tInt').value,conservazione:document.getElementById('tCons').value,trasferimento_extra_ue:document.getElementById('tExtra').checked};
+  if(!logged()){D.tr.unshift(Object.assign({id:'d'+Date.now()},body));toast('(Demo) Aggiunto');document.getElementById('tNome').value='';renderTr();return;}
+  try{await B360.authFetch('/api/privacy/trattamenti',{method:'POST',body:JSON.stringify(body)});toast('✓ Aggiunto al registro');document.getElementById('tNome').value='';}catch(e){toast('Errore');}
+  loadAll();
+}
+async function delTratt(id){if(!confirm('Eliminare il trattamento?'))return;if(!logged()){D.tr=D.tr.filter(function(x){return x.id!==id});renderTr();return;}try{await B360.authFetch('/api/privacy/trattamenti/'+id,{method:'DELETE'});}catch(e){}loadAll();}
+async function saveBreach(){
+  var desc=document.getElementById('bDesc').value.trim(),data=document.getElementById('bData').value;if(!desc||!data){toast('Inserisci data e descrizione');return;}
+  var body={data_evento:data,descrizione:desc,dati_coinvolti:document.getElementById('bDati').value,gravita:document.getElementById('bGrav').value,notificato_garante:document.getElementById('bNot').checked,stato:'aperto'};
+  if(!logged()){D.br.unshift(Object.assign({id:'b'+Date.now()},body));toast('(Demo) Registrato');document.getElementById('bDesc').value='';renderBr();return;}
+  try{await B360.authFetch('/api/privacy/breach',{method:'POST',body:JSON.stringify(body)});toast('✓ Violazione registrata');document.getElementById('bDesc').value='';}catch(e){toast('Errore');}
+  loadAll();
+}
+async function delBreach(id){if(!confirm('Eliminare la violazione?'))return;if(!logged()){D.br=D.br.filter(function(x){return x.id!==id});renderBr();return;}try{await B360.authFetch('/api/privacy/breach/'+id,{method:'DELETE'});}catch(e){}loadAll();}
+async function saveWb(){
+  var ogg=document.getElementById('wOgg').value.trim(),desc=document.getElementById('wDesc').value.trim();if(!ogg||!desc){toast('Inserisci oggetto e descrizione');return;}
+  var body={oggetto:ogg,categoria:document.getElementById('wCat').value,descrizione:desc,anonima:document.getElementById('wAnon').checked};
+  var codice='WB-DEMO'+Math.floor(Math.random()*9999);
+  if(logged()){try{var r=await (await B360.authFetch('/api/privacy/whistleblowing',{method:'POST',body:JSON.stringify(body)})).json();if(r&&r.codice)codice=r.codice;}catch(e){toast('Errore');return;}}
+  else{D.wb.unshift(Object.assign({id:'w'+Date.now(),codice:codice,stato:'ricevuta'},body));}
+  var cb=document.getElementById('wbCode');cb.style.display='block';cb.textContent='✓ Segnalazione inviata. Codice di tracciamento: '+codice+' (conservalo per seguire la pratica).';
+  document.getElementById('wOgg').value='';document.getElementById('wDesc').value='';
+  if(logged())loadAll();else renderWb();
+}
+async function setWbStato(id,val){if(!logged()){var s=D.wb.find(function(x){return x.id===id});if(s)s.stato=val;return;}try{await B360.authFetch('/api/privacy/whistleblowing/'+id+'/stato',{method:'PUT',body:JSON.stringify({stato:val})});toast('✓ Stato aggiornato');}catch(e){toast('Errore');}loadAll();}
+async function aiInformativa(){
+  var btn=document.getElementById('aiBtn1');btn.textContent='Genero…';btn.disabled=true;
+  var out=document.getElementById('aiOut1'),disc=document.getElementById('aiDisc1');
+  var body={tipo_struttura:document.getElementById('aiTipo').value,canali:document.getElementById('aiCanali').value};
+  if(!logged()){out.style.display='block';out.textContent='(Demo) Accedi e configura ANTHROPIC_API_KEY per generare la bozza di informativa privacy sui dati reali della struttura.';btn.textContent='Genera bozza';btn.disabled=false;return;}
+  try{var d=await (await B360.authFetch('/api/privacy/ai/informativa',{method:'POST',body:JSON.stringify(body)})).json();out.style.display='block';out.textContent=d.bozza||'—';disc.textContent=d.disclaimer||'';}catch(e){toast('Errore AI');}
+  btn.textContent='Genera bozza';btn.disabled=false;
+}
+async function aiRegistro(){
+  var btn=document.getElementById('aiBtn2');btn.textContent='Genero…';btn.disabled=true;
+  var out=document.getElementById('aiOut2'),disc=document.getElementById('aiDisc2');
+  if(!logged()){out.style.display='block';out.textContent='(Demo) Accedi per l\'elenco AI dei trattamenti tipici dell\'ospitalità.';btn.textContent='Suggerisci trattamenti';btn.disabled=false;return;}
+  try{var d=await (await B360.authFetch('/api/privacy/ai/registro-suggerito',{method:'POST',body:JSON.stringify({})})).json();out.style.display='block';out.textContent=d.suggerimenti||'—';disc.textContent=d.disclaimer||'';}catch(e){toast('Errore AI');}
+  btn.textContent='Suggerisci trattamenti';btn.disabled=false;
+}
+document.addEventListener('DOMContentLoaded',loadAll);
+</script></body></html>

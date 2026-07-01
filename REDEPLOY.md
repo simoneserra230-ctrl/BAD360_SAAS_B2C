@@ -32,7 +32,9 @@
   stateless), **Compliance Radar** (`compliance_radar.py`, obblighi per profilo struttura →
   bandi/formazione), **Adempimenti ricettivi** (`adempimenti_ricettivi.py`, CIN/Alloggiati/
   imposta soggiorno), **Accessibilità EAA** (`compliance_eaa.py`, audit euristico URL + checklist
-  WCAG). Ogni modulo: `hotel_id` SEMPRE dal token, AI human-in-the-loop (€/% marcati [DA VERIFICARE]),
+  WCAG), **Privacy GDPR & Whistleblowing** (`privacy_whistleblowing.py`, registro trattamenti
+  Art. 30 + data breach 72h + canale segnalazioni D.Lgs. 24/2023 + bozza informativa AI).
+  Ogni modulo: `hotel_id` SEMPRE dal token, AI human-in-the-loop (€/% marcati [DA VERIFICARE]),
   card nella suite `BAD360_SPLIT/index.html`. Tabelle nuove: vedi migration sotto.
 - **Link "✦ Hub"** nel topbar di 23 pagine/moduli `BAD360_SPLIT/` (ritorno all'ecosistema).
 - Footer README → SkillSolutions; privacy `barman.html` → barmanadomiciliosardegna@gmail.com.
@@ -58,6 +60,7 @@ Nel progetto **Supabase di BAD360** → SQL Editor → esegui:
 - `supabase/adempimenti_schema.sql` (crea `cin_config` + `alloggiati_log` — Adempimenti ricettivi CIN/Imposta soggiorno).
 - `supabase/eaa_schema.sql` (crea `eaa_checklist` — Accessibilità EAA).
   (Compliance Radar legge il profilo struttura; EAA `audit-url` è stateless a parte la checklist.)
+- `supabase/privacy_schema.sql` (crea `privacy_trattamenti` + `privacy_breach` + `whistleblowing_segnalazioni` — Privacy GDPR & Whistleblowing).
 Senza queste tabelle, i moduli Housekeeping / Certificazioni / Menu Engineering / Hotellerie / Academy / Quality Manager / Non Conformità vanno in errore.
 > NB: `academy_schema.sql` + `qm_schema.sql` APPLICATE (29 giu 2026). `nc_schema.sql` DA APPLICARE prima/insieme a questo deploy.
 

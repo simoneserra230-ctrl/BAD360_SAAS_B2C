@@ -81,6 +81,7 @@ from backend.turni_compliance import router as turnicompliance_router
 from backend.compliance_radar import router as compliance_router
 from backend.adempimenti_ricettivi import router as adempimenti_router
 from backend.compliance_eaa import router as eaa_router
+from backend.privacy_whistleblowing import router as privacy_router
 
 load_dotenv()
 
@@ -143,6 +144,7 @@ app.include_router(turnicompliance_router) # Scheduling CCNL (check conformità 
 app.include_router(compliance_router)     # Compliance Radar (profilo -> obblighi + scadenze + hint BA.IA/Academy)
 app.include_router(adempimenti_router)    # Adempimenti ricettivi (CIN/Alloggiati/imposta soggiorno)
 app.include_router(eaa_router)            # Accessibilità EAA (checklist + audit URL euristico)
+app.include_router(privacy_router)        # Privacy GDPR + Whistleblowing (registro trattamenti/breach/segnalazioni)
 
 # ── SaaS layer: paywall + quota + admin settings + Stripe + account ──
 from backend.saas import register_saas
