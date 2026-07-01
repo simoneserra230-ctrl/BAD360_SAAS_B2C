@@ -158,8 +158,8 @@ function renderPren(pren){
     if(p.stato==='richiesta')act+='<button class="btn-sm" onclick="setStato(\''+p.id+'\',\'confermata\')">✓ Conferma</button>';
     if(p.stato==='confermata')act+='<button class="btn-sm" onclick="erogaPrompt(\''+p.id+'\')">✓ Erogata</button>';
     if(p.stato!=='annullata'&&p.stato!=='erogata')act+=' <button class="btn-sm" onclick="setStato(\''+p.id+'\',\'annullata\')">✕</button>';
-    // ponte ecosistema
-    act+=' <a class="btn-sm" href="events.html" title="Gestisci come evento BAD nel CRM">→ Evento BAD</a>';
+    // ponte ecosistema: handoff reale esperienza → evento CRM → staffing
+    if(p.stato!=='annullata')act+=' <button class="btn-sm" onclick="toEvento(\''+p.id+'\')" title="Crea un evento nel CRM da questa prenotazione (poi assegni lo staff)">→ Crea evento BAD</button>';
     act+=' <a class="btn-sm" href="barmanmatch.html" title="Trova lo staff">→ Barman Match</a>';
     return '<div class="item"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><div>'
       +'<div style="font-weight:700">'+esc(p.esperienza_titolo||'Esperienza')+' '+pillFor(p.stato)+'</div>'
@@ -181,6 +181,17 @@ async function cDel(id){ if(!confirm('Eliminare?'))return; if(!logged()){DEMO_CA
 async function setStato(id,stato){
   if(!logged()){DEMO_PREN=DEMO_PREN.map(function(p){return p.id===id?Object.assign({},p,{stato:stato}):p});load();return;}
   try{await B360.authFetch('/api/esperienze/prenotazioni/'+encodeURIComponent(id)+'/stato?stato='+stato,{method:'PUT'});toast('Aggiornata');}catch(e){toast('Errore');}
+  load();
+}
+async function toEvento(id){
+  if(!logged()){toast('(Demo) In reale: crea un evento nel CRM e apre Events');setTimeout(function(){location.href='events.html';},900);return;}
+  if(!confirm('Creare un evento nel CRM da questa prenotazione? Potrai assegnare lo staff (Barman Match) da lì.'))return;
+  try{
+    var r=await B360.authFetch('/api/esperienze/prenotazioni/'+encodeURIComponent(id)+'/to-evento',{method:'POST'});
+    var d=await r.json();
+    if(d&&d.ok){toast('✓ Evento creato nel CRM');setTimeout(function(){location.href='events.html';},900);}
+    else{toast((d&&d.detail)||'Errore');}
+  }catch(e){toast('Errore di rete');}
   load();
 }
 function erogaPrompt(id){

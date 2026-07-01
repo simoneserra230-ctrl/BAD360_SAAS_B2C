@@ -165,6 +165,58 @@ async def set_stato(pid: str, user: UserProfile = Depends(require_user),
     return {"ok": True, "prenotazione": res.data[0]}
 
 
+# ══ PONTE: esperienza → evento BAD (events CRM) → staffing Barman Match ══
+@router.post("/prenotazioni/{pid}/to-evento",
+             summary="Trasforma una prenotazione esperienza in un evento (events CRM)")
+async def prenotazione_to_evento(pid: str, user: UserProfile = Depends(require_user)):
+    """Handoff diretto: una prenotazione confermata (tipicamente con richiede_staff) diventa un
+    lead nella pipeline eventi. Da lì l'evento alimenta lo staffing via Barman Match.
+    hotel_id SEMPRE dal token su entrambe le tabelle."""
+    sb = _sb()
+    rows = (sb.table("esperienze_prenotazioni").select("*")
+            .eq("id", pid).eq("hotel_id", user.hotel_id).execute().data) or []
+    if not rows:
+        raise HTTPException(404, "Prenotazione non trovata")
+    pren = rows[0]
+
+    titolo = (pren.get("esperienza_titolo") or "Esperienza").strip()
+    ospite = (pren.get("ospite_nome") or "").strip()
+    nome_evt = f"{titolo}" + (f" — {ospite}" if ospite else "")
+    note = f"Da prenotazione esperienza #{pid}"
+    if pren.get("ospite_contatto"):
+        note += f" · contatto: {pren['ospite_contatto']}"
+    if pren.get("note"):
+        note += f" · {pren['note']}"
+
+    rec = {
+        "hotel_id": user.hotel_id,                 # blindato dal token
+        "nome": nome_evt, "tipo": "Esperienza",
+        "data": pren.get("data") or None,
+        "pax": int(pren.get("n_persone") or 1),
+        "budget": float(pren.get("ricavo") or 0),
+        "stato": "lead", "follow_up": None, "note": note,
+        "updated_at": _now(),
+    }
+    try:
+        res = sb.table("eventi").insert(rec).execute()
+    except Exception as e:
+        raise HTTPException(500, f"Errore creazione evento: {e}")
+    evento = (res.data or [rec])[0]
+
+    # marca la prenotazione come confermata + traccia l'origine (evita doppie conversioni lato UI)
+    marker = "→ evento CRM"
+    nuovo_note = (pren.get("note") or "")
+    if marker not in nuovo_note:
+        nuovo_note = (nuovo_note + " " + marker).strip()
+    sb.table("esperienze_prenotazioni").update(
+        {"stato": "confermata", "note": nuovo_note}
+    ).eq("id", pid).eq("hotel_id", user.hotel_id).execute()
+
+    return {"ok": True, "evento": evento,
+            "messaggio": "Esperienza trasferita alla pipeline eventi. "
+                         "Apri il modulo Events per assegnare lo staff (Barman Match)."}
+
+
 @router.get("/dashboard", summary="KPI esperienze (admin)")
 async def dashboard(user: UserProfile = Depends(require_user)):
     sb = _sb()

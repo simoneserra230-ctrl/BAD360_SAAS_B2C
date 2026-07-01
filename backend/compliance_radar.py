@@ -86,6 +86,26 @@ COMPLIANCE_RULES = [
 ]
 
 
+# Ponte verso il modulo operativo che gestisce CONCRETAMENTE l'obbligo (deep-link interno alla
+# suite). Rende il Radar l'hub del cluster compliance: da qui si "atterra" dove si opera davvero.
+MODULO_MAP = {
+    "cin":               ("adempimenti.html", "Adempimenti ricettivi"),
+    "alloggiati":        ("adempimenti.html", "Adempimenti ricettivi"),
+    "istat":             ("adempimenti.html", "Adempimenti ricettivi"),
+    "imposta_soggiorno": ("adempimenti.html", "Adempimenti ricettivi"),
+    "haccp":             ("haccp.html",       "Modulo HACCP"),
+    "gdpr":              ("privacy.html",     "Privacy & Whistleblowing"),
+    "whistleblowing":    ("privacy.html",     "Privacy & Whistleblowing"),
+    "eaa":               ("eaa.html",         "Accessibilità EAA"),
+    "iso14001_emas":     ("esg.html",         "ESG / Sostenibilità"),
+    "metering_energia":  ("esg.html",         "ESG / Sostenibilità"),
+    "formazione_sicurezza": ("academy.html",  "Academy / Formazione"),
+    "rinnovo_formazione":   ("academy.html",  "Academy / Formazione"),
+    "scia_antincendio":  ("cert.html",        "Certificazioni & Licenze"),
+    "cpi_adeguamento":   ("cert.html",        "Certificazioni & Licenze"),
+}
+
+
 def _sb():
     sb = get_supabase()
     if not sb:
@@ -199,8 +219,10 @@ async def radar(user: UserProfile = Depends(require_user)):
             continue
         s = smap.get(r["key"], {})
         stato, giorni = _stato(s.get("fatto", False), s.get("data_scadenza"))
+        mod = MODULO_MAP.get(r["key"], (None, None))
         out.append({**{k: r[k] for k in ("key", "titolo", "categoria", "norma", "periodicita", "scadenza_nota", "fonte")},
                     "bando_hint": r.get("bando_hint"), "formazione_hint": r.get("formazione_hint"),
+                    "modulo_href": mod[0], "modulo_label": mod[1],
                     "fatto": s.get("fatto", False), "data_scadenza": s.get("data_scadenza"),
                     "note": s.get("note"), "stato": stato, "giorni_alla_scadenza": giorni})
     ordine = {"scaduto": 0, "in_scadenza": 1, "da_fare": 2, "ok": 3}

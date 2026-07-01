@@ -13,7 +13,8 @@
 .ob{border:1px solid var(--line);border-left:3px solid var(--line2,#2a2620);border-radius:10px;padding:11px 13px;margin-bottom:8px}
 .ob.scaduto{border-left-color:var(--red,#c94a4a)}.ob.in_scadenza{border-left-color:var(--orange,#d4803a)}.ob.da_fare{border-left-color:var(--g)}.ob.ok{border-left-color:var(--green,#6aab76)}
 .pill{display:inline-flex;padding:2px 8px;border-radius:99px;font-size:9.5px;font-weight:700;border:1px solid}.p-scaduto{color:var(--red,#c94a4a);border-color:rgba(201,74,74,.35)}.p-in_scadenza{color:var(--orange,#d4803a);border-color:rgba(212,128,58,.35)}.p-da_fare{color:var(--g);border-color:rgba(201,168,76,.35)}.p-ok{color:var(--green,#6aab76);border-color:rgba(106,171,118,.35)}
-.chip{display:inline-block;font-size:9.5px;padding:2px 7px;border-radius:99px;border:1px solid rgba(201,168,76,.3);color:var(--g);text-decoration:none;margin-right:4px}
+.chip{display:inline-block;font-size:9.5px;padding:2px 7px;border-radius:99px;border:1px solid rgba(201,168,76,.3);color:var(--g);text-decoration:none;margin-right:4px;margin-top:3px}
+.chip-mod{background:rgba(201,168,76,.15);border-color:rgba(201,168,76,.55);font-weight:700}
 .empty{color:var(--txt3);padding:14px;text-align:center;font-size:12.5px}
 #toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid rgba(201,168,76,.3);color:var(--g);padding:11px 18px;border-radius:10px;font-weight:600;z-index:9999;opacity:0;transition:.3s}#toast.show{opacity:1}
 </style><link rel="stylesheet" href="bad360-ds.css"><script src="bad360-sdk.js"></script></head><body class="b360-module">
@@ -35,10 +36,10 @@ function toast(m){var t=document.getElementById('toast');t.textContent=m;t.class
 function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function setDemo(v){document.getElementById('badge').style.display=v?'inline-flex':'none';}
 var DEMO={profilo_impostato:true,obblighi:[
- {key:'scia_antincendio',titolo:'SCIA antincendio',categoria:'antincendio',norma:'DPR 151/2011',scadenza_nota:'Struttura >25 p.l.; verifica scadenze',stato:'da_fare',formazione_hint:'Corso antincendio',bando_hint:'Bandi sicurezza'},
- {key:'cin',titolo:'CIN — Codice Identificativo Nazionale',categoria:'turismo',norma:'L.191/2024',scadenza_nota:'Obbligatorio dal nov 2024',stato:'ok'},
- {key:'gdpr',titolo:'Privacy dati ospiti (GDPR)',categoria:'privacy',norma:'Reg. UE 2016/679',scadenza_nota:'Informativa + registro trattamenti',stato:'da_fare'},
- {key:'eaa',titolo:'Accessibilità sito (EAA)',categoria:'digitale',norma:'Dir. UE 2019/882',scadenza_nota:'Dal giu 2025 WCAG 2.1 AA',stato:'da_fare'},
+ {key:'scia_antincendio',titolo:'SCIA antincendio',categoria:'antincendio',norma:'DPR 151/2011',scadenza_nota:'Struttura >25 p.l.; verifica scadenze',stato:'da_fare',formazione_hint:'Corso antincendio',bando_hint:'Bandi sicurezza',modulo_href:'cert.html',modulo_label:'Certificazioni & Licenze'},
+ {key:'cin',titolo:'CIN — Codice Identificativo Nazionale',categoria:'turismo',norma:'L.191/2024',scadenza_nota:'Obbligatorio dal nov 2024',stato:'ok',modulo_href:'adempimenti.html',modulo_label:'Adempimenti ricettivi'},
+ {key:'gdpr',titolo:'Privacy dati ospiti (GDPR)',categoria:'privacy',norma:'Reg. UE 2016/679',scadenza_nota:'Informativa + registro trattamenti',stato:'da_fare',modulo_href:'privacy.html',modulo_label:'Privacy & Whistleblowing'},
+ {key:'eaa',titolo:'Accessibilità sito (EAA)',categoria:'digitale',norma:'Dir. UE 2019/882',scadenza_nota:'Dal giu 2025 WCAG 2.1 AA',stato:'da_fare',modulo_href:'eaa.html',modulo_label:'Accessibilità EAA'},
 ]};
 async function loadP(){
   if(!logged())return;
@@ -53,6 +54,7 @@ async function load(){
   var box=document.getElementById('radar');
   box.innerHTML=(data.obblighi||[]).map(function(o){
     var hints='';
+    if(o.modulo_href)hints+='<a class="chip chip-mod" href="'+esc(o.modulo_href)+'" title="Gestisci l\'obbligo in '+esc(o.modulo_label)+'">🔧 Gestisci in '+esc(o.modulo_label)+'</a>';
     if(o.bando_hint)hints+='<a class="chip" href="../../BA.IA.SKILLSOLUTIONS.COM/index.html" title="Trova il bando su BA.IA">🏛️ '+esc(o.bando_hint)+'</a>';
     if(o.formazione_hint)hints+='<a class="chip" href="academy.html" title="Formazione">🎓 '+esc(o.formazione_hint)+'</a>';
     return '<div class="ob '+o.stato+'"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><div><b>'+esc(o.titolo)+'</b> <span class="pill p-'+o.stato+'">'+o.stato.replace(/_/g," ")+'</span><div style="font-size:12px;color:var(--txt2);margin-top:3px">'+esc(o.scadenza_nota||'')+' · <span style="color:var(--txt3)">'+esc(o.norma||'')+'</span></div><div style="margin-top:5px">'+hints+'</div></div>'
