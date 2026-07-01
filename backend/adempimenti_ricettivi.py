@@ -17,8 +17,9 @@ from pydantic import BaseModel
 
 from backend.database import get_supabase
 from backend.auth import require_user, UserProfile
+from backend.roles import require_module
 
-router = APIRouter(prefix="/api/adempimenti", tags=["Adempimenti ricettivi"])
+router = APIRouter(prefix="/api/adempimenti", tags=["Adempimenti ricettivi"], dependencies=[Depends(require_module("adempimenti"))])
 
 
 def _sb():

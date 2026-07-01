@@ -17,8 +17,9 @@ from pydantic import BaseModel
 
 from backend.database import get_supabase
 from backend.auth import require_user, UserProfile
+from backend.roles import require_module
 
-router = APIRouter(prefix="/api/str", tags=["STR / Case Vacanza"])
+router = APIRouter(prefix="/api/str", tags=["STR / Case Vacanza"], dependencies=[Depends(require_module("str"))])
 STATI = {"confermata", "in_corso", "conclusa", "annullata"}
 
 

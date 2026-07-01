@@ -20,8 +20,9 @@ from pydantic import BaseModel
 
 from backend.database import get_supabase
 from backend.auth import require_user, UserProfile
+from backend.roles import require_module
 
-router = APIRouter(prefix="/api/sgi", tags=["Sistema di Gestione ISO"])
+router = APIRouter(prefix="/api/sgi", tags=["Sistema di Gestione ISO"], dependencies=[Depends(require_module("sgi"))])
 DISCLAIMER = "⚠️ Bozza generata dall'AI — il sistema di gestione va adattato e validato da un consulente qualità sulla realtà della struttura."
 
 # Mappa HLS (High Level Structure) dei processi di un sistema di gestione integrato.

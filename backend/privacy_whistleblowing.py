@@ -24,8 +24,9 @@ from pydantic import BaseModel
 
 from backend.database import get_supabase
 from backend.auth import require_user, UserProfile
+from backend.roles import require_module
 
-router = APIRouter(prefix="/api/privacy", tags=["Privacy & Whistleblowing"])
+router = APIRouter(prefix="/api/privacy", tags=["Privacy & Whistleblowing"], dependencies=[Depends(require_module("privacy"))])
 DISCLAIMER = "⚠️ Bozza generata dall'AI — la conformità GDPR va validata da un DPO/consulente sui dati reali della struttura."
 
 BASI_GIURIDICHE = {"contratto", "consenso", "obbligo_legale", "legittimo_interesse", "interesse_vitale", "interesse_pubblico"}

@@ -19,8 +19,9 @@ from pydantic import BaseModel
 
 from backend.database import get_supabase
 from backend.auth import require_user, UserProfile
+from backend.roles import require_module
 
-router = APIRouter(prefix="/api/beverage", tags=["AI Beverage Program"])
+router = APIRouter(prefix="/api/beverage", tags=["AI Beverage Program"], dependencies=[Depends(require_module("beverage"))])
 DISCLAIMER = "⚠️ Bozza AI — verifica dosi, costi, disponibilità e prezzi prima di metterla in carta."
 
 

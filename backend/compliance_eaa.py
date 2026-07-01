@@ -19,8 +19,9 @@ from pydantic import BaseModel
 
 from backend.database import get_supabase
 from backend.auth import require_user, UserProfile
+from backend.roles import require_module
 
-router = APIRouter(prefix="/api/eaa", tags=["Accessibilità (EAA)"])
+router = APIRouter(prefix="/api/eaa", tags=["Accessibilità (EAA)"], dependencies=[Depends(require_module("eaa"))])
 DISCLAIMER = "⚠️ Audit EURISTICO automatico — non sostituisce una verifica WCAG completa con strumenti dedicati e test manuali."
 
 EAA_CRITERI = [

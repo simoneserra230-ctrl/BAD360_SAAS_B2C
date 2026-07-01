@@ -110,6 +110,21 @@ MODULE_CATALOG = [
     {"key": "reviews",        "label": "Recensioni",           "icon": "⭐", "page": "recensioni.html",     "category": "reputation"},
     # ── training ──
     {"key": "academy",        "label": "Academy",              "icon": "🎓", "page": "academy.html",        "category": "training"},
+    # ── Layer Ospite & Ricavi (front/ricavi) ──
+    {"key": "guest",          "label": "AI Guest Assistant",   "icon": "💬", "page": "guestassistant.html", "category": "ops"},
+    {"key": "esperienze",     "label": "Upsell Esperienze",    "icon": "✨", "page": "esperienze.html",     "category": "finance"},
+    {"key": "eventipro",      "label": "Wedding Coordinator",  "icon": "💍", "page": "eventipro.html",      "category": "finance"},
+    {"key": "beverage",       "label": "Beverage Program",     "icon": "🍹", "page": "beverage.html",       "category": "finance"},
+    {"key": "restaurant",     "label": "Restaurant Intelligence","icon": "🍽️","page": "restaurant.html",    "category": "finance"},
+    {"key": "str",            "label": "STR / Case Vacanza",   "icon": "🏝️", "page": "str.html",            "category": "ops"},
+    {"key": "turnicompliance","label": "Scheduling CCNL",      "icon": "⏱️", "page": "turnicompliance.html","category": "ops"},
+    # ── Compliance cluster (nicchia normativa) ──
+    {"key": "esg",            "label": "ESG / Sostenibilità",  "icon": "🌱", "page": "esg.html",            "category": "compliance"},
+    {"key": "compliance",     "label": "Compliance Radar",     "icon": "🛡️", "page": "compliance.html",     "category": "compliance"},
+    {"key": "adempimenti",    "label": "Adempimenti ricettivi","icon": "🧾", "page": "adempimenti.html",    "category": "compliance"},
+    {"key": "eaa",            "label": "Accessibilità EAA",    "icon": "♿", "page": "eaa.html",            "category": "compliance"},
+    {"key": "privacy",        "label": "Privacy & Whistleblowing","icon": "🔐","page": "privacy.html",      "category": "compliance"},
+    {"key": "sgi",            "label": "Sistema di Gestione ISO","icon": "🧭", "page": "sistemagestione.html","category": "compliance"},
     # ── admin ──
     {"key": "settings",       "label": "Impostazioni & Billing","icon": "⚙️", "page": "hub.html",           "category": "admin"},
 ]

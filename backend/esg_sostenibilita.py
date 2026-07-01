@@ -18,8 +18,9 @@ from pydantic import BaseModel
 
 from backend.database import get_supabase
 from backend.auth import require_user, UserProfile
+from backend.roles import require_module
 
-router = APIRouter(prefix="/api/esg", tags=["ESG / Sostenibilità"])
+router = APIRouter(prefix="/api/esg", tags=["ESG / Sostenibilità"], dependencies=[Depends(require_module("esg"))])
 DISCLAIMER = ("⚠️ BOZZA AI — i dati ESG ai fini CSRD vanno VERIFICATI e CERTIFICATI/AUDIT. "
               "Non usare questi numeri come rendicontazione ufficiale senza controllo.")
 

@@ -17,8 +17,9 @@ from pydantic import BaseModel
 
 from backend.database import get_supabase
 from backend.auth import require_user, UserProfile
+from backend.roles import require_module
 
-router = APIRouter(prefix="/api/compliance", tags=["Compliance Radar"])
+router = APIRouter(prefix="/api/compliance", tags=["Compliance Radar"], dependencies=[Depends(require_module("compliance"))])
 ALERT_DAYS = 90
 
 # Knowledge base obblighi (curata, INDICATIVA — verifica su fonte ufficiale).

@@ -16,8 +16,9 @@ from pydantic import BaseModel
 
 from backend.database import get_supabase
 from backend.auth import require_user, UserProfile
+from backend.roles import require_module
 
-router = APIRouter(prefix="/api/restaurant", tags=["Restaurant Intelligence"])
+router = APIRouter(prefix="/api/restaurant", tags=["Restaurant Intelligence"], dependencies=[Depends(require_module("restaurant"))])
 DISCLAIMER = "⚠️ Stima AI — usala come supporto decisionale, non come dato certo."
 
 

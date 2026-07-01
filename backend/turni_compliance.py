@@ -20,8 +20,9 @@ from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 
 from backend.auth import require_user, UserProfile
+from backend.roles import require_module
 
-router = APIRouter(prefix="/api/turnicompliance", tags=["Scheduling CCNL"])
+router = APIRouter(prefix="/api/turnicompliance", tags=["Scheduling CCNL"], dependencies=[Depends(require_module("turnicompliance"))])
 
 RIPOSO_MIN_H = 11
 MAX_GIORNALIERO_H = 13
