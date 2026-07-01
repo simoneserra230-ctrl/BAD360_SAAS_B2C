@@ -78,6 +78,9 @@ from backend.esg_sostenibilita import router as esg_router
 from backend.str_management import router as str_router
 from backend.restaurant_intel import router as restaurant_router
 from backend.turni_compliance import router as turnicompliance_router
+from backend.compliance_radar import router as compliance_router
+from backend.adempimenti_ricettivi import router as adempimenti_router
+from backend.compliance_eaa import router as eaa_router
 
 load_dotenv()
 
@@ -137,6 +140,9 @@ app.include_router(esg_router)            # ESG/Sostenibilità CSRD (indicatori 
 app.include_router(str_router)            # STR / Case Vacanza (unità + prenotazioni + turnover pulizie)
 app.include_router(restaurant_router)     # Restaurant Intelligence (coperti/no-show + sprechi + AI forecast)
 app.include_router(turnicompliance_router) # Scheduling CCNL (check conformità rota + AI)
+app.include_router(compliance_router)     # Compliance Radar (profilo -> obblighi + scadenze + hint BA.IA/Academy)
+app.include_router(adempimenti_router)    # Adempimenti ricettivi (CIN/Alloggiati/imposta soggiorno)
+app.include_router(eaa_router)            # Accessibilità EAA (checklist + audit URL euristico)
 
 # ── SaaS layer: paywall + quota + admin settings + Stripe + account ──
 from backend.saas import register_saas

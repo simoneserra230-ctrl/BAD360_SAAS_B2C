@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BAD360.ai — Adempimenti ricettivi</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html,body{min-height:100vh;background:var(--bg);color:var(--txt);font-family:var(--font,system-ui);font-size:14px}
+.w{max-width:1100px;margin:0 auto;padding:26px 24px 80px}
+.hd{display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:16px;position:relative;overflow:hidden}.hd::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--g),var(--gd))}.hd h1{font-family:var(--heading,inherit);font-size:19px;font-weight:800}.hd p{font-size:11.5px;color:var(--txt2);margin-top:3px}
+.badge{display:none;align-items:center;gap:5px;padding:3px 9px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:99px;font-size:10px;font-weight:700;color:var(--g);margin-left:auto}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:16px}.kpi{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:13px;text-align:center}.kpi .v{font-size:1.4rem;font-weight:800;font-family:var(--heading,inherit);color:var(--g)}.kpi .l{font-size:9.5px;color:var(--txt3);margin-top:4px;text-transform:uppercase}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:820px){.grid2{grid-template-columns:1fr}}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px}.card h3{font-size:13px;font-weight:700;margin-bottom:10px}
+.in{background:var(--bg3,#13100b);border:1px solid var(--line2,#2a2620);border-radius:8px;padding:8px 11px;color:var(--txt);font-size:13px;font-family:inherit;width:100%}.in:focus{outline:none;border-color:rgba(201,168,76,.5)}.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;align-items:center}.lbl{font-size:10px;color:var(--txt3);text-transform:uppercase;display:block;margin-bottom:3px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;border:none;font-family:inherit}.btn-gold{background:linear-gradient(135deg,var(--gd),var(--g));color:#06060A}.btn-sm{font-size:11px;padding:4px 9px;border-radius:6px;border:1px solid var(--line2,#2a2620);background:none;color:var(--txt2);cursor:pointer}
+table{width:100%;border-collapse:collapse;font-size:12.5px}th{text-align:left;font-size:9.5px;color:var(--txt3);text-transform:uppercase;padding:6px 8px;border-bottom:1px solid var(--line)}td{padding:7px 8px;border-bottom:1px solid var(--line)}
+.ck{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:12.5px}.dot{width:9px;height:9px;border-radius:50%;flex:none}.dot.y{background:var(--green,#6aab76)}.dot.n{background:var(--red,#c94a4a)}
+.tag{font-size:9px;padding:2px 7px;border-radius:99px;font-weight:700}.tag.s{background:rgba(106,171,118,.15);color:var(--green,#6aab76)}.tag.d{background:rgba(212,128,58,.15);color:var(--orange,#d4803a)}
+.empty{color:var(--txt3);padding:12px;text-align:center;font-size:12px}
+#toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid rgba(201,168,76,.3);color:var(--g);padding:11px 18px;border-radius:10px;font-weight:600;z-index:9999;opacity:0;transition:.3s}#toast.show{opacity:1}
+</style><link rel="stylesheet" href="bad360-ds.css"><script src="bad360-sdk.js"></script></head><body class="b360-module">
+<header class="b360-topbar"><div class="b360-tb-l"><a href="index.html" class="b360-tb-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a><a href="index.html" class="b360-tb-brand" tabindex="-1"><div class="b360-tb-logo">B360</div><span class="b360-tb-name">BAD<strong>360</strong>.ai</span></a><span class="b360-tb-sep"></span><span class="b360-tb-module">Adempimenti ricettivi</span></div><div class="b360-tb-r"><a href="../../SKILLSOLUTIONS.COM/index.html" class="b360-tb-hub" style="display:inline-flex;gap:4px;text-decoration:none;color:inherit;opacity:.6;font-size:11px;font-weight:700;padding:4px 10px;border:1px solid currentColor;border-radius:99px;margin-right:8px">&#10022; Hub</a><span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.1</span><button class="b360-tb-theme" id="b360-theme-btn">☽</button></div></header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"☽":"☀";b.onclick=function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"☽":"☀";try{localStorage.setItem("bad360_theme",nt)}catch(e){}}}})})()</script>
+<div class="w">
+  <div class="hd"><div><h1>🧾 Adempimenti ricettivi</h1><p>CIN, Alloggiati Web, imposta di soggiorno: il grind ricorrente, sotto controllo. Gli invii ufficiali (Questura/ISTAT) restano sui portali preposti. <b>Importi indicativi — verifica con il regolamento comunale.</b></p></div><span class="badge" id="badge">⚡ Demo</span></div>
+  <div class="kpis" id="kpis"></div>
+  <div class="grid2">
+    <div class="card"><h3>⚙️ Identificativi & tariffa</h3>
+      <div class="row"><div style="flex:1"><span class="lbl">CIN</span><input id="cCin" class="in" placeholder="IT0200..."></div><div style="flex:1"><span class="lbl">CIR</span><input id="cCir" class="in" placeholder="codice regionale"></div></div>
+      <div class="row"><div style="flex:1"><span class="lbl">Comune</span><input id="cComune" class="in" placeholder="Olbia"></div><div style="width:130px"><span class="lbl">Tariffa €/p/notte</span><input id="cTar" class="in" type="number" step="0.5" placeholder="2"></div><div style="width:110px"><span class="lbl">Max notti</span><input id="cMax" class="in" type="number" placeholder="7"></div></div>
+      <button class="btn btn-gold" onclick="saveCfg()">Salva config</button>
+    </div>
+    <div class="card"><h3>✅ Checklist adempimenti</h3><div id="checklist"></div></div>
+  </div>
+  <div class="card"><h3>🛏️ Registro arrivi (alloggiati)</h3>
+    <div class="row"><input id="aData" class="in" type="date" style="width:150px"><input id="aNome" class="in" placeholder="Ospite / capogruppo" style="flex:1;min-width:150px"><input id="aOsp" class="in" type="number" placeholder="N° ospiti" style="width:100px" value="1"><input id="aNotti" class="in" type="number" placeholder="Notti" style="width:90px" value="1"><label style="font-size:12px;color:var(--txt2);display:flex;gap:5px;align-items:center"><input type="checkbox" id="aEs"> esente</label><button class="btn btn-gold" onclick="addAllog()">+ Registra</button></div>
+    <div style="overflow-x:auto"><table id="tbl"><thead><tr><th>Arrivo</th><th>Ospite</th><th>Ospiti</th><th>Notti</th><th>Imposta</th><th>Alloggiati</th><th></th></tr></thead><tbody id="rows"></tbody></table></div>
+  </div>
+</div><div id="toast"></div>
+<script>
+function logged(){return (typeof B360!=='undefined')&&!!B360.getToken();}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show')},2300);}
+function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function setDemo(v){document.getElementById('badge').style.display=v?'inline-flex':'none';}
+var CFG={tariffa_soggiorno:2,max_notti_tassabili:7};
+var DEMO_A=[{id:'d1',data_arrivo:'2026-08-01',ospite_nome:'Rossi',n_ospiti:3,n_notti:10,esente:false,inviato_alloggiati:true},{id:'d2',data_arrivo:'2026-08-02',ospite_nome:'Famiglia Bimbo',n_ospiti:1,n_notti:3,esente:true,inviato_alloggiati:false}];
+function impostaRiga(l){if(l.esente)return 0;var notti=l.n_notti;if(CFG.max_notti_tassabili>0)notti=Math.min(notti,CFG.max_notti_tassabili);return l.n_ospiti*notti*(CFG.tariffa_soggiorno||0);}
+async function loadCfg(){
+  if(!logged())return;
+  try{var d=await (await B360.authFetch('/api/adempimenti/config')).json();var c=d.config;if(c){CFG=c;document.getElementById('cCin').value=c.cin_code||'';document.getElementById('cCir').value=c.cir_code||'';document.getElementById('cComune').value=c.comune||'';document.getElementById('cTar').value=c.tariffa_soggiorno||'';document.getElementById('cMax').value=c.max_notti_tassabili||'';}}catch(e){}
+}
+async function load(){
+  var allog=DEMO_A,kpi=null,checklist=null,demo=true;
+  if(logged()){try{var da=await (await B360.authFetch('/api/adempimenti/alloggiati')).json();if(da&&da.ok){allog=da.alloggiati;demo=false;}var dd=await (await B360.authFetch('/api/adempimenti/dashboard')).json();if(dd&&dd.ok){kpi=dd.kpi;checklist=dd.checklist;}}catch(e){}}
+  setDemo(demo);
+  if(!kpi){var imp=0,da=0;allog.forEach(function(l){imp+=impostaRiga(l);if(!l.inviato_alloggiati)da++;});kpi={imposta_soggiorno_dovuta:imp,arrivi_registrati:allog.length,alloggiati_da_inviare:da,cin:CFG.cin_code||'—',comune:CFG.comune||'—'};}
+  document.getElementById('kpis').innerHTML=[['Imposta dovuta','€ '+(kpi.imposta_soggiorno_dovuta||0)],['Arrivi registrati',kpi.arrivi_registrati||0],['Da inviare (Questura)',kpi.alloggiati_da_inviare||0],['CIN',esc(kpi.cin||'—')],['Comune',esc(kpi.comune||'—')]].map(function(x){return '<div class="kpi"><div class="v">'+x[1]+'</div><div class="l">'+x[0]+'</div></div>'}).join('');
+  if(!checklist){checklist=[{voce:'CIN registrato',ok:!!CFG.cin_code},{voce:'CIR (codice regionale)',ok:!!CFG.cir_code},{voce:'Tariffa imposta impostata',ok:(CFG.tariffa_soggiorno||0)>0},{voce:'Alloggiati inviati',ok:kpi.alloggiati_da_inviare===0&&allog.length>0}];}
+  document.getElementById('checklist').innerHTML=checklist.map(function(c){return '<div class="ck"><span class="dot '+(c.ok?'y':'n')+'"></span>'+esc(c.voce)+'</div>'}).join('');
+  document.getElementById('rows').innerHTML=allog.map(function(l){return '<tr><td>'+esc(l.data_arrivo||'')+'</td><td>'+esc(l.ospite_nome||'')+'</td><td>'+(l.n_ospiti||0)+'</td><td>'+(l.n_notti||0)+'</td><td>'+(l.esente?'<span style="color:var(--txt3)">esente</span>':'€ '+impostaRiga(l))+'</td><td>'+(l.inviato_alloggiati?'<span class="tag s">inviato</span>':'<span class="tag d">da inviare</span> <button class="btn-sm" onclick="segna(\''+l.id+'\')">✓</button>')+'</td><td><button class="btn-sm" onclick="delA(\''+l.id+'\')">🗑</button></td></tr>'}).join('')||'<tr><td colspan="7" class="empty">Nessun arrivo registrato.</td></tr>';
+}
+async function saveCfg(){
+  var body={cin_code:document.getElementById('cCin').value,cir_code:document.getElementById('cCir').value,comune:document.getElementById('cComune').value,tariffa_soggiorno:parseFloat(document.getElementById('cTar').value)||0,max_notti_tassabili:parseInt(document.getElementById('cMax').value)||0};
+  CFG=Object.assign(CFG,body);
+  if(!logged()){toast('(Demo) Accedi per salvare');load();return;}
+  try{await B360.authFetch('/api/adempimenti/config',{method:'PUT',body:JSON.stringify(body)});toast('✓ Config salvata');}catch(e){toast('Errore');}
+  load();
+}
+async function addAllog(){
+  var body={data_arrivo:document.getElementById('aData').value,ospite_nome:document.getElementById('aNome').value.trim(),n_ospiti:parseInt(document.getElementById('aOsp').value)||1,n_notti:parseInt(document.getElementById('aNotti').value)||1,esente:document.getElementById('aEs').checked};
+  if(!body.data_arrivo||!body.ospite_nome){toast('Inserisci data e nome');return;}
+  if(!logged()){DEMO_A.unshift(Object.assign({id:'d'+Date.now(),inviato_alloggiati:false},body));toast('(Demo) Aggiunto');document.getElementById('aNome').value='';load();return;}
+  try{await B360.authFetch('/api/adempimenti/alloggiati',{method:'POST',body:JSON.stringify(body)});toast('✓ Registrato');document.getElementById('aNome').value='';}catch(e){toast('Errore');}
+  load();
+}
+async function segna(id){if(!logged()){var r=DEMO_A.find(function(x){return x.id===id});if(r)r.inviato_alloggiati=true;load();return;}try{await B360.authFetch('/api/adempimenti/alloggiati/'+id+'/inviato?inviato=true',{method:'PUT'});toast('✓ Segnato inviato');}catch(e){toast('Errore');}load();}
+async function delA(id){if(!confirm('Eliminare il record?'))return;if(!logged()){DEMO_A=DEMO_A.filter(function(x){return x.id!==id});load();return;}try{await B360.authFetch('/api/adempimenti/alloggiati/'+id,{method:'DELETE'});toast('Eliminato');}catch(e){toast('Errore');}load();}
+document.addEventListener('DOMContentLoaded',function(){loadCfg().then(load);});
+</script></body></html>

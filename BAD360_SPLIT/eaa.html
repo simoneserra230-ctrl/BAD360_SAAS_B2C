@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BAD360.ai — Accessibilità sito (EAA)</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html,body{min-height:100vh;background:var(--bg);color:var(--txt);font-family:var(--font,system-ui);font-size:14px}
+.w{max-width:1000px;margin:0 auto;padding:26px 24px 80px}
+.hd{display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:16px;position:relative;overflow:hidden}.hd::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--g),var(--gd))}.hd h1{font-family:var(--heading,inherit);font-size:19px;font-weight:800}.hd p{font-size:11.5px;color:var(--txt2);margin-top:3px}
+.badge{display:none;align-items:center;gap:5px;padding:3px 9px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:99px;font-size:10px;font-weight:700;color:var(--g);margin-left:auto}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px}.card h3{font-size:13px;font-weight:700;margin-bottom:10px}
+.in{background:var(--bg3,#13100b);border:1px solid var(--line2,#2a2620);border-radius:8px;padding:9px 11px;color:var(--txt);font-size:13px;font-family:inherit}.in:focus{outline:none;border-color:rgba(201,168,76,.5)}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 15px;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;border:none;font-family:inherit}.btn-gold{background:linear-gradient(135deg,var(--gd),var(--g));color:#06060A}
+.ring{display:flex;align-items:center;gap:18px;flex-wrap:wrap}.score{--p:0;width:90px;height:90px;border-radius:50%;background:conic-gradient(var(--g) calc(var(--p)*1%),var(--line2,#2a2620) 0);display:flex;align-items:center;justify-content:center;flex:none}.score b{width:68px;height:68px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:800;font-family:var(--heading,inherit)}
+.crit{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px}.crit .t{flex:1}.crit .wc{font-size:9px;color:var(--txt3);background:var(--bg3,#13100b);padding:1px 6px;border-radius:99px}
+.fnd{display:flex;gap:9px;padding:7px 0;font-size:12px;align-items:flex-start}.dot{width:9px;height:9px;border-radius:50%;flex:none;margin-top:4px}.dot.y{background:var(--green,#6aab76)}.dot.n{background:var(--red,#c94a4a)}
+select.in{padding:5px 8px;font-size:12px}
+.ai{background:linear-gradient(135deg,rgba(201,168,76,.08),transparent);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px 14px;font-size:12.5px;line-height:1.55;white-space:pre-wrap;margin-top:10px}
+.disc{font-size:10.5px;color:var(--txt3);margin-top:8px;font-style:italic}
+#toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid rgba(201,168,76,.3);color:var(--g);padding:11px 18px;border-radius:10px;font-weight:600;z-index:9999;opacity:0;transition:.3s}#toast.show{opacity:1}
+</style><link rel="stylesheet" href="bad360-ds.css"><script src="bad360-sdk.js"></script></head><body class="b360-module">
+<header class="b360-topbar"><div class="b360-tb-l"><a href="index.html" class="b360-tb-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a><a href="index.html" class="b360-tb-brand" tabindex="-1"><div class="b360-tb-logo">B360</div><span class="b360-tb-name">BAD<strong>360</strong>.ai</span></a><span class="b360-tb-sep"></span><span class="b360-tb-module">Accessibilità (EAA)</span></div><div class="b360-tb-r"><a href="../../SKILLSOLUTIONS.COM/index.html" class="b360-tb-hub" style="display:inline-flex;gap:4px;text-decoration:none;color:inherit;opacity:.6;font-size:11px;font-weight:700;padding:4px 10px;border:1px solid currentColor;border-radius:99px;margin-right:8px">&#10022; Hub</a><span class="b360-tb-pill"><span class="b360-tb-dot"></span>v4.1</span><button class="b360-tb-theme" id="b360-theme-btn">☽</button></div></header>
+<script>(function(){var t="dark";try{var s=localStorage.getItem("bad360_theme");if(s)t=s}catch(e){}document.documentElement.setAttribute("data-theme",t);document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("b360-theme-btn");if(b){b.textContent=t==="dark"?"☽":"☀";b.onclick=function(){var nt=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",nt);b.textContent=nt==="dark"?"☽":"☀";try{localStorage.setItem("bad360_theme",nt)}catch(e){}}}})})()</script>
+<div class="w">
+  <div class="hd"><div><h1>♿ Accessibilità sito (EAA)</h1><p>Dal giugno 2025 i siti di prenotazione devono essere accessibili (WCAG 2.1 AA / European Accessibility Act). Audit euristico dell'URL + checklist di auto-valutazione. <b>Non sostituisce un test di accessibilità completo.</b></p></div><span class="badge" id="badge">⚡ Demo</span></div>
+  <div class="card"><h3>🔎 Audit rapido di un URL</h3>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><input id="url" class="in" placeholder="www.tuostruttura.it" style="flex:1;min-width:200px"><button class="btn btn-gold" id="goBtn" onclick="audit()">Analizza</button></div>
+    <div id="auditOut" style="margin-top:14px;display:none">
+      <div class="ring"><div class="score" id="ring"><b id="scoreN">0</b></div><div style="flex:1;min-width:200px"><div style="font-size:11px;color:var(--txt3);margin-bottom:6px">Esiti euristici (<span id="aUrl"></span>)</div><div id="findings"></div></div></div>
+      <div class="ai" id="aiBox" style="display:none"></div><div class="disc" id="disc"></div>
+    </div>
+  </div>
+  <div class="card"><h3>📋 Checklist conformità — <span id="rdN" style="color:var(--g)">0%</span> pronto</h3><div id="checklist"></div></div>
+</div><div id="toast"></div>
+<script>
+function logged(){return (typeof B360!=='undefined')&&!!B360.getToken();}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show')},2300);}
+function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function setDemo(v){document.getElementById('badge').style.display=v?'inline-flex':'none';}
+var CRIT=[{key:'testo_alternativo',titolo:'Testo alternativo immagini (alt)',wcag:'1.1.1'},{key:'contrasto',titolo:'Contrasto colori sufficiente (4.5:1)',wcag:'1.4.3'},{key:'ridimensionamento',titolo:'Testo ridimensionabile fino al 200%',wcag:'1.4.4'},{key:'tastiera',titolo:'Navigazione completa da tastiera',wcag:'2.1.1'},{key:'focus_visibile',titolo:'Indicatore di focus visibile',wcag:'2.4.7'},{key:'titolo_pagina',titolo:'Titolo di pagina descrittivo',wcag:'2.4.2'},{key:'lingua',titolo:'Lingua della pagina dichiarata (html lang)',wcag:'3.1.1'},{key:'label_form',titolo:'Etichette nei campi del form',wcag:'3.3.2'},{key:'struttura_heading',titolo:'Struttura titoli corretta (H1/H2)',wcag:'1.3.1'},{key:'video_sottotitoli',titolo:'Sottotitoli/alternative per audio-video',wcag:'1.2.x'}];
+var STATI={};
+function setRing(p){var r=document.getElementById('ring');r.style.setProperty('--p',p);document.getElementById('scoreN').textContent=p;}
+async function loadChecklist(){
+  var demo=true;
+  if(logged()){try{var d=await (await B360.authFetch('/api/eaa/checklist')).json();if(d&&d.ok){CRIT=d.criteri;demo=false;CRIT.forEach(function(c){STATI[c.key]=c.stato;});}}catch(e){}}
+  setDemo(demo);
+  if(demo)CRIT.forEach(function(c){STATI[c.key]=STATI[c.key]||'da_verificare';});
+  document.getElementById('checklist').innerHTML=CRIT.map(function(c){var st=STATI[c.key]||'da_verificare';return '<div class="crit"><span class="t">'+esc(c.titolo)+'</span><span class="wc">WCAG '+esc(c.wcag)+'</span><select class="in" onchange="setCrit(\''+c.key+'\',this.value)"><option value="da_verificare"'+(st==='da_verificare'?' selected':'')+'>da verificare</option><option value="ok"'+(st==='ok'?' selected':'')+'>conforme</option><option value="no"'+(st==='no'?' selected':'')+'>non conforme</option><option value="na"'+(st==='na'?' selected':'')+'>N/A</option></select></div>'}).join('');
+  updateReadiness();
+}
+function updateReadiness(){var ok=0,tot=CRIT.length;CRIT.forEach(function(c){if(STATI[c.key]==='ok')ok++;});document.getElementById('rdN').textContent=(tot?Math.round(ok/tot*100):0)+'%';}
+async function setCrit(key,val){STATI[key]=val;updateReadiness();if(!logged()){return;}try{await B360.authFetch('/api/eaa/criterio',{method:'PUT',body:JSON.stringify({criterio_key:key,stato:val})});}catch(e){toast('Errore');}}
+async function audit(){
+  var url=document.getElementById('url').value.trim();if(!url){toast('Inserisci un URL');return;}
+  var btn=document.getElementById('goBtn');btn.textContent='Analizzo…';btn.disabled=true;
+  if(!logged()){
+    btn.textContent='Analizza';btn.disabled=false;
+    var demoF=[{ok:true,titolo:'Lingua dichiarata (html lang)',dettaglio:'Presente'},{ok:false,titolo:'Testo alternativo immagini',dettaglio:'4 immagini su 12 senza alt (WCAG 1.1.1)'},{ok:true,titolo:'Titolo pagina',dettaglio:'Presente'},{ok:false,titolo:'Etichette campi form',dettaglio:'2/5 campi senza aria-label'}];
+    render({url:url,score:62,findings:demoF,priorita_ai:'(Demo) Accedi e configura ANTHROPIC_API_KEY per la sintesi AI delle correzioni prioritarie.',disclaimer:'⚠️ Audit EURISTICO automatico — non sostituisce una verifica WCAG completa.'});
+    toast('(Demo) Esempio di audit');return;
+  }
+  try{var d=await (await B360.authFetch('/api/eaa/audit-url',{method:'POST',body:JSON.stringify({url:url})})).json();if(d&&d.ok){render(d);}else{toast((d&&d.detail)||'Errore audit');}}catch(e){toast('Sito irraggiungibile');}
+  btn.textContent='Analizza';btn.disabled=false;
+}
+function render(d){
+  document.getElementById('auditOut').style.display='block';
+  document.getElementById('aUrl').textContent=esc(d.url||'');
+  setRing(d.score||0);
+  document.getElementById('findings').innerHTML=(d.findings||[]).map(function(f){return '<div class="fnd"><span class="dot '+(f.ok?'y':'n')+'"></span><div><b>'+esc(f.titolo)+'</b><div style="color:var(--txt2)">'+esc(f.dettaglio)+'</div></div></div>'}).join('');
+  var ab=document.getElementById('aiBox');if(d.priorita_ai){ab.style.display='block';ab.textContent=d.priorita_ai;}else{ab.style.display='none';}
+  document.getElementById('disc').textContent=d.disclaimer||'';
+}
+document.addEventListener('DOMContentLoaded',loadChecklist);
+</script></body></html>

@@ -23,6 +23,17 @@
   router finance (menu_engineering/drinks/hotellerie/scm/events) via
   `dependencies=[Depends(require_module("<key>"))]` → 403 per dipendente/consulente esterno;
   manager/direttore/owner passano. Test 14/14. (`fb_cost.py` legacy lasciato fuori.)
+- **Layer "Ospite & Ricavi" + moduli di nicchia (nuovi, multi-tenant)**: Guest Assistant
+  (`guest_assistant.py`, RAG multilingua, endpoint ospite pubblico `/api/guest/{hotel_id}/ask`),
+  Upsell Esperienze (`esperienze.py`, ponte events/BarmanMatch), Event/Wedding Coordinator
+  (`eventi_pro.py`), Beverage Program (`beverage_program.py`), ESG/Sostenibilità
+  (`esg_sostenibilita.py`, ponte bandi green BA.IA), STR/Case Vacanza (`str_management.py`),
+  Restaurant Intelligence (`restaurant_intel.py`), Scheduling CCNL (`turni_compliance.py`,
+  stateless), **Compliance Radar** (`compliance_radar.py`, obblighi per profilo struttura →
+  bandi/formazione), **Adempimenti ricettivi** (`adempimenti_ricettivi.py`, CIN/Alloggiati/
+  imposta soggiorno), **Accessibilità EAA** (`compliance_eaa.py`, audit euristico URL + checklist
+  WCAG). Ogni modulo: `hotel_id` SEMPRE dal token, AI human-in-the-loop (€/% marcati [DA VERIFICARE]),
+  card nella suite `BAD360_SPLIT/index.html`. Tabelle nuove: vedi migration sotto.
 - **Link "✦ Hub"** nel topbar di 23 pagine/moduli `BAD360_SPLIT/` (ritorno all'ecosistema).
 - Footer README → SkillSolutions; privacy `barman.html` → barmanadomiciliosardegna@gmail.com.
 
@@ -43,6 +54,10 @@ Nel progetto **Supabase di BAD360** → SQL Editor → esegui:
 - `supabase/str_schema.sql` (crea `str_unita` + `str_prenotazioni` — STR/Case Vacanza).
 - `supabase/restaurant_schema.sql` (crea `rest_coperti` + `rest_sprechi` — Restaurant Intelligence).
   (Scheduling CCNL `turnicompliance` è stateless, nessuna tabella.)
+- `supabase/compliance_radar_schema.sql` (crea `compliance_profile` + `compliance_status` — Compliance Radar).
+- `supabase/adempimenti_schema.sql` (crea `cin_config` + `alloggiati_log` — Adempimenti ricettivi CIN/Imposta soggiorno).
+- `supabase/eaa_schema.sql` (crea `eaa_checklist` — Accessibilità EAA).
+  (Compliance Radar legge il profilo struttura; EAA `audit-url` è stateless a parte la checklist.)
 Senza queste tabelle, i moduli Housekeeping / Certificazioni / Menu Engineering / Hotellerie / Academy / Quality Manager / Non Conformità vanno in errore.
 > NB: `academy_schema.sql` + `qm_schema.sql` APPLICATE (29 giu 2026). `nc_schema.sql` DA APPLICARE prima/insieme a questo deploy.
 
